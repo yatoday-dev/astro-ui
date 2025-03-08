@@ -1,5 +1,7 @@
 # build output
-dist/
+dist
+build
+astro.config.mjs.timestamp*
 
 # generated types
 .astro/
@@ -19,6 +21,3 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
-
-# jetbrains setting folder
-.idea/

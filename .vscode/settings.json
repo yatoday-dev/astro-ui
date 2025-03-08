@@ -1,0 +1,8 @@
+{
+  "svelte.plugin.svelte.compilerWarnings": {},
+  "eslint.validate": ["svelte"],
+  "search.exclude": {
+    "**/dist": true,
+    "**/build": true
+  }
+}

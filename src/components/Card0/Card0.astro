@@ -1,0 +1,23 @@
+---
+import type { Card0Props as Props } from './card0';
+import { twMerge } from 'tailwind-merge';
+
+const { as = 'article', classes = {} } = Astro.props;
+
+const WrapperTag = as;
+
+const { container: containerClass = '', badge: badgeClass = '' } = classes;
+---
+
+<WrapperTag
+  class={twMerge(
+    'relative flex flex-col justify-between gap-6 overflow-hidden rounded-lg border border-input bg-card text-card-foreground py-6 group',
+    containerClass
+  )}
+>
+  <div class={twMerge('absolute', badgeClass)}>
+    <slot name="badge" />
+  </div>
+  <slot name="image" />
+  <slot />
+</WrapperTag>

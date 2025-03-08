@@ -1,14 +1,95 @@
 {
-  "name": "astro-ui",
+  "name": "@yatoday/astro-ui",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "prepare": "husky",
+    "pre-commit": "lint-staged",
     "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "build": "astro check && astro build",
+    "build:package": "node scripts/build.js",
+    "build:local": "node scripts/build.js --local",
+    "test": "vitest run",
+    "test:dev": "vitest",
+    "test:run": "vitest run",
+    "lint": "eslint src/**/* --fix",
+    "check": "npm run check:astro && npm run check:eslint && npm run check:prettier",
+    "check:astro": "astro check",
+    "check:eslint": "eslint .",
+    "check:prettier": "prettier --check .",
+    "fix": "npm run fix:eslint && npm run fix:prettier",
+    "fix:eslint": "eslint --fix .",
+    "fix:prettier": "prettier -w ."
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.4",
+    "@astrojs/node": "9.0.2",
+    "@astrojs/partytown": "^2.1.3",
+    "@astrojs/svelte": "7.0.4",
+    "@eslint/js": "9.18.0",
+    "@typescript-eslint/parser": "8.21.0",
+    "astro": "5.1.10",
+    "astro-compress": "2.3.6",
+    "astro-eslint-parser": "1.1.0",
+    "astro-icon": "^1.1.5",
+    "clsx": "^2.1.1",
+    "eslint": "9.18.0",
+    "eslint-plugin-astro": "1.3.1",
+    "eslint-plugin-simple-import-sort": "12.1.1",
+    "eslint-plugin-svelte": "2.46.1",
+    "husky": "9.1.7",
+    "jsdom": "26.0.0",
+    "lint-staged": "15.4.2",
+    "prettier": "^3.4.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "svelte": "5.20.1",
+    "svelte-eslint-parser": "0.43.0",
+    "tailwind-merge": "^3.0.0",
+    "tailwindcss": "^4.0.12",
+    "typescript": "5.7.3",
+    "typescript-eslint": "8.21.0",
+    "vite-tsconfig-paths": "5.1.4"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./astro": "./astro.js",
+    "./svelte": "./svelte.js",
+    "./styles": "./scss/index.scss",
+    "./icons": "./icons.js",
+    "./config": "./scss/config.scss"
+  },
+  "files": [
+    "components",
+    "icons",
+    "scss",
+    "utils",
+    "astro.d.ts",
+    "astro.js",
+    "icons.d.ts",
+    "icons.js",
+    "svelte.d.ts",
+    "svelte.js",
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "description": "A component library built for Astro and Svelte",
+  "keywords": [],
+  "homepage": "https://astro-ui.dev.yatoday.es",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qwert2001qwert-alex/yt-astro-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/qwert2001qwert-alex/yt-astro-ui/issues"
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx,svelte,astro}": "eslint src/**/*"
   },
   "dependencies": {
-    "astro": "^5.4.2"
+    "@astrojs/mdx": "^4.1.0",
+    "@tailwindcss/vite": "^4.0.12"
   }
 }
