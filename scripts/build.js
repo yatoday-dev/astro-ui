@@ -38,7 +38,7 @@ Object.keys(files).forEach((key) => {
     // Replace package name, remove dependency, update tests path
     if (key.includes('package.json')) {
       const packageJson = fs.readFileSync(key, 'utf-8');
-      const modifiedPackageJson = packageJson.replace(/,\s+"yt-astro-ui":\s"[0-9.]+"/g, '');
+      const modifiedPackageJson = packageJson.replace(/,\s+"@yatoday\/astro-ui":\s"[0-9.]+"/g, '');
 
       fs.writeFileSync(files[key], modifiedPackageJson);
     }
