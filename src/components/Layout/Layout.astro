@@ -1,0 +1,35 @@
+---
+import {getAsset} from '../../playground/utils/permalinks';
+import SeoMetadata from '../Metadata/Metadata.astro';
+import SeoSiteVerification from '../SiteVerification/SiteVerification.astro';
+import SeoAnalytics from '../Analytics/Analytics.astro';
+import type {LayoutProps as Props} from './types';
+
+import {I18N} from 'vendor:config';
+
+const {metadata = {}} = Astro.props;
+const {language, textDirection} = I18N;
+---
+
+<!doctype html>
+<html lang={language} dir={textDirection}>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <link rel="sitemap" href={getAsset('/sitemap-index.xml')}/>
+  <SeoMetadata {...metadata}/>
+
+  <slot name="favicons"/>
+  <slot name="styles"/>
+
+  <SeoSiteVerification/>
+  <SeoAnalytics/>
+</head>
+
+<body class="antialiased bg-background text-foreground tracking-tight">
+<slot/>
+
+<slot name="scripts"/>
+</body>
+</html>

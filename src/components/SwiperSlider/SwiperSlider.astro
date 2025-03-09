@@ -1,0 +1,113 @@
+---
+import type { SwiperSliderProps as Props } from './types';
+import { cn } from '../../utils'
+import { Icon } from 'astro-icon/components';
+
+const {
+  id = (Math.random() + 1).toString(36).substring(7),
+  withNavigation = true,
+  classes = {},
+  ...rest
+} = Astro.props;
+---
+
+<div class="relative">
+  <swiper-container
+    data-id={id}
+    class={cn('opacity-100', classes?.swiper)}
+    centered-slides="true"
+    space-between="10"
+    slides-per-view="1.2"
+    navigation={withNavigation
+      ? JSON.stringify({
+        nextEl: `#btn-next-${id}`,
+        prevEl: `#btn-prev-${id}`
+      })
+      : false}
+    breakpoints={JSON.stringify({
+      // 640: sm
+      // 768: sm
+      // 1024: sm
+      // 1280 xl
+      // 1536 2xl
+      640: {
+        slidesPerView: 2,
+        centeredSlides: false,
+        spaceBetween: 20
+      },
+      768: {
+        slidesPerView: 3,
+        centeredSlides: false,
+        spaceBetween: 20
+      },
+      1024: {
+        slidesPerView: 4,
+        centeredSlides: false,
+        spaceBetween: 20
+      }
+    })}
+    {...rest}
+  >
+    <slot />
+  </swiper-container>
+
+  {
+    withNavigation && (
+      <Fragment>
+        <button
+          type="button"
+          id={`btn-prev-${id}`}
+          class="btn-shadow hidden md:flex items-center justify-center cursor-pointer absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white text-black rounded-full transition-opacity opacity-0"
+        >
+          <Icon name="tabler:chevron-left" class="w-7 h-7" />
+        </button>
+        <button
+          type="button"
+          id={`btn-next-${id}`}
+          class="btn-shadow hidden md:flex items-center justify-center cursor-pointer absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white text-black rounded-full transition-opacity "
+        >
+          <Icon name="tabler:chevron-right" class="w-7 h-7" />
+        </button>
+      </Fragment>
+    )
+  }
+</div>
+
+<script>
+  import { addClass, removeClass } from '../../utils';
+
+  import { register } from 'swiper/element/bundle';
+
+  register()
+
+  const matches = document.querySelectorAll('swiper-container')
+  if (matches && matches.length) {
+    matches.forEach((elem) => {
+      const id = elem.dataset.id
+
+      elem.addEventListener(
+        'swiperreachend',
+        () => {
+          removeClass(`#btn-next-${id}`, 'opacity-100')
+          addClass(`#btn-next-${id}`, 'opacity-0')
+        },
+        false
+      )
+      elem.addEventListener(
+        'swiperreachbeginning',
+        () => {
+          addClass(`#btn-prev-${id}`, 'opacity-0')
+        },
+        false
+      )
+      elem.addEventListener(
+        'swiperfromedge',
+        () => {
+          removeClass(`#btn-prev-${id}`, 'opacity-0')
+          addClass(`#btn-next-${id}`, 'opacity-100')
+        },
+        false
+      )
+    })
+  }
+</script>

@@ -31,11 +31,11 @@ const buildTypes = (type) => {
     return format(`
     ${components
       .map((component) => {
-        return `import type { ${component}Props as Yt${component}Props } from './components/${component}/${component.toLowerCase()}'`;
+        return `import type { ${component}Props as Yt${component}Props } from './components/${component}/types'`;
       })
       .join('\n')}
 
-declare module 'yt-astro-ui/${type}' {
+declare module '@yatoday/astro-ui/${type}' {
   ${components
     .map((component) => {
       return `export function ${component}(_props: Yt${component}Props): any`;
@@ -56,11 +56,11 @@ declare module 'yt-astro-ui/${type}' {
 import type { Component } from 'svelte'
 ${components
   .map((component) => {
-    return `import type { ${getTypeName(component, 'Svelte')} as Yt${getTypeName(component, 'Svelte')} } from './components/${component}/${component.toLowerCase()}'`;
+    return `import type { ${getTypeName(component, 'Svelte')} as Yt${getTypeName(component, 'Svelte')} } from './components/${component}/types'`;
   })
   .join('\n')}
 
-declare module 'yt-astro-ui/${type}' {
+declare module '@yatoday/astro-ui/${type}' {
   ${components
     .map((component) => {
       return `export const ${component}: Component<Yt${getTypeName(component, 'Svelte')}>`;

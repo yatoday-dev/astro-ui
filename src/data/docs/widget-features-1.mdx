@@ -1,0 +1,237 @@
+---
+title: Features 1
+category: Widget
+---
+
+import Demo from '~/playground/components/Demo.astro';
+import WidgetFeaturesCard from '~/components/WidgetFeaturesCard/WidgetFeaturesCard.astro';
+import Card2 from '~/components/Card2/Card2.astro';
+
+# Features1
+
+<div className="space-y-12">
+  <Demo title="Full of content">
+    <WidgetFeaturesCard
+      title="Lorem Ipsum"
+      subtitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+      tagline="Features"
+      columns={3}
+      items={[
+        {
+          title: 'Features 1',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+          image: { src: '~/assets/images/local_placeholder.jpeg', alt: 'Lorem Ipsum' },
+          callToAction: { href: '/', text: 'Read more' },
+          links: [
+            { href: '/', text: 'Additional link 1' },
+            { href: '/', text: 'Additional link 2' },
+            { href: '/', text: 'Additional link 3' },
+          ],
+        },
+        {
+          title: 'Features 2',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+          image: { src: '~/assets/images/local_placeholder.jpeg', alt: 'Lorem Ipsum' },
+          callToAction: { href: '/', text: 'Read more' },
+          data: [
+            { name: 'Param name', value: 'Param value' },
+            { name: 'Param name', value: 'Param value' },
+            { name: 'Param name', value: 'Param value' },
+          ],
+        },
+        {
+          title: 'Features 3',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+          image: { src: '~/assets/images/local_placeholder.jpeg', alt: 'Lorem Ipsum' },
+          callToAction: { href: '/', text: 'Read more' },
+          links: [
+            { href: '/', text: 'Additional link 1' },
+            { href: '/', text: 'Additional link 2' },
+            { href: '/', text: 'Additional link 3' },
+          ],
+        },
+      ]}
+    />
+  </Demo>
+</div>
+
+```astro
+---
+import { WidgetFeaturesCard } from 'yt-astro-ui';
+---
+
+<WidgetFeaturesCard
+  title="Lorem Ipsum"
+  subtitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+  tagline="Features"
+  columns={3}
+  items={[
+    {
+      title: 'Features 1',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+      image: { src: '~/assets/images/local_placeholder.jpeg', alt: 'Lorem Ipsum' },
+      callToAction: { href: '/', text: 'Read more' },
+      links: [
+        { href: '/', text: 'Additional link 1' },
+        { href: '/', text: 'Additional link 2' },
+        { href: '/', text: 'Additional link 3' },
+      ],
+    },
+    {
+      title: 'Features 2',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+      image: { src: '~/assets/images/local_placeholder.jpeg', alt: 'Lorem Ipsum' },
+      callToAction: { href: '/', text: 'Read more' },
+      data: [
+        { name: 'Param name', value: 'Param value' },
+        { name: 'Param name', value: 'Param value' },
+        { name: 'Param name', value: 'Param value' },
+      ],
+    },
+    {
+      title: 'Features 3',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+      image: { src: '~/assets/images/local_placeholder.jpeg', alt: 'Lorem Ipsum' },
+      callToAction: { href: '/', text: 'Read more' },
+      links: [
+        { href: '/', text: 'Additional link 1' },
+        { href: '/', text: 'Additional link 2' },
+        { href: '/', text: 'Additional link 3' },
+      ],
+    },
+  ]}
+/>
+```
+
+<Demo title="With icons & Card2 for render">
+  <WidgetFeaturesCard
+    via={Card2}
+    title="Lorem Ipsum"
+    subtitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    columns={3}
+    items={[
+      {
+        icon: 'tabler:home',
+        title: 'Lorem Ipsum',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+        url: '/',
+      },
+      {
+        icon: 'tabler:tractor',
+        title: 'Lorem Ipsum',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+        url: '/',
+      },
+      {
+        icon: 'tabler:circle-chevrons-down',
+        title: 'Lorem Ipsum',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+        url: '/',
+      },
+    ]}
+  />
+</Demo>
+
+```astro
+---
+import { WidgetFeaturesCard } from 'yt-astro-ui';
+---
+
+<WidgetFeaturesCard
+  via={Card2}
+  title="Lorem Ipsum"
+  subtitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+  columns={3}
+  items={[
+    {
+      icon: 'tabler:home',
+      title: 'Lorem Ipsum',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+      url: '/',
+    },
+    {
+      icon: 'tabler:tractor',
+      title: 'Lorem Ipsum',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+      url: '/',
+    },
+    {
+      icon: 'tabler:circle-chevrons-down',
+      title: 'Lorem Ipsum',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+      url: '/',
+    },
+  ]}
+/>
+```
+
+<Demo title="With background">
+  <WidgetFeaturesCard
+    title="Lorem Ipsum"
+    subtitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    columns={3}
+    items={[
+      {
+        icon: 'tabler:home',
+        title: 'Lorem Ipsum',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+        callToAction: { href: '/', text: 'Read more' },
+      },
+      {
+        icon: 'tabler:tractor',
+        title: 'Lorem Ipsum',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+        callToAction: { href: '/', text: 'Read more' },
+      },
+      {
+        icon: 'tabler:circle-chevrons-down',
+        title: 'Lorem Ipsum',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.',
+      },
+    ]}
+  >
+    <Fragment slot="bg">
+      <div className="absolute inset-0 bg-primary/20"></div>
+    </Fragment>
+  </WidgetFeaturesCard>
+</Demo>
+
+```astro
+---
+import { FeaturesWidget } from 'yt-astro-ui';
+---
+
+<WidgetFeaturesCard
+  title="Lorem Ipsum"
+  subtitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+  columns={3}
+  items={[]}
+>
+  <Fragment slot="bg">
+    <div className="absolute inset-0 bg-primary/20"></div>
+  </Fragment>
+</Features1Widget>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |-----------|------------|------------|------------|
+    | `items` | Array< [Card1](/docs/feature-card-1) > | `[]` | Array of [Card1](/docs/feature-card-1) components |
+    | `via` | `Component` | `Card1` | Which component should be used for rendering - [Card1](/docs/feature-card-1) or [Card2](/docs/feature-card-2) |
+    | `title` | `string` | - | `Title` in [Headline](/docs/feature-card-1) component |
+    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/feature-card-1) component |
+    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/feature-card-1) component |
+    | `columns` | `number` | `1` | Number of columns in the grid. From 1 to 4 |
+    | `id` | `string` | - | Specify a unique id for the section |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the wrapper |
+    | `bg` | `string` | - | Set background element |
+    | `classes.container` | `string` | - | CSS classes for the root container |
+    | `classes.headline.container` | `string` | - | CSS classes for the `container` in the [Headline](/docs/feature-card-1) component |
+    | `classes.headline.title` | `string` | - | CSS classes for the `title` in the [Headline](/docs/feature-card-1) component |
+    | `classes.headline.subtitle` | `string` | - | CSS classes for the `subtitle` in the [Headline](/docs/feature-card-1) component |
+    | `classes.headline.tagline` | `string` | - | CSS classes for the `tagline` in the [Headline](/docs/feature-card-1) component |
+  </div>
+</div>

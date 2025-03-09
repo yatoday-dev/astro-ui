@@ -1,0 +1,40 @@
+---
+import type { AstroSeoProps as Props } from './types';
+import { buildTags } from './utils/buildTags';
+
+const {
+  title,
+  titleTemplate,
+  noindex,
+  nofollow,
+  robotsProps,
+  description,
+  canonical,
+  mobileAlternate,
+  languageAlternates,
+  openGraph,
+  facebook,
+  twitter,
+  additionalMetaTags,
+  additionalLinkTags,
+} = Astro.props;
+---
+
+<Fragment
+  set:html={buildTags({
+    title,
+    titleTemplate,
+    noindex,
+    nofollow,
+    robotsProps,
+    description,
+    canonical,
+    mobileAlternate,
+    languageAlternates,
+    openGraph,
+    facebook,
+    twitter,
+    additionalMetaTags,
+    additionalLinkTags,
+  })}
+/>

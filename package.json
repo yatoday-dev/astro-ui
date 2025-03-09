@@ -1,7 +1,7 @@
 {
   "name": "@yatoday/astro-ui",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "scripts": {
     "prepare": "husky",
     "pre-commit": "lint-staged",
@@ -9,26 +9,34 @@
     "build": "astro check && astro build",
     "build:package": "node scripts/build.js",
     "build:local": "node scripts/build.js --local",
-    "test": "vitest run",
-    "test:dev": "vitest",
-    "test:run": "vitest run",
-    "lint": "eslint src/**/* --fix",
+    "pub": "npm run build:package && cd dist && npm publish --access public",
     "check": "npm run check:astro && npm run check:eslint && npm run check:prettier",
     "check:astro": "astro check",
     "check:eslint": "eslint .",
     "check:prettier": "prettier --check .",
     "fix": "npm run fix:eslint && npm run fix:prettier",
     "fix:eslint": "eslint --fix .",
-    "fix:prettier": "prettier -w ."
+    "fix:prettier": "prettier -w .",
+    "create-component": "node scripts/createComponent.js"
+  },
+  "dependencies": {
+    "lodash.merge": "^4.6.2",
+    "limax": "4.1.0",
+    "unpic": "^3.22.0",
+    "photoswipe": "^5.4.4",
+    "swiper": "^11.2.5"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.4",
-    "@astrojs/node": "9.0.2",
-    "@astrojs/partytown": "^2.1.3",
-    "@astrojs/svelte": "7.0.4",
+    "@astrojs/mdx": "^4.1.0",
+    "@astrojs/node": "^9.1.2",
+    "@astrojs/partytown": "^2.1.4",
+    "@astrojs/svelte": "^7.0.5",
     "@eslint/js": "9.18.0",
+    "@tailwindcss/vite": "^4.0.12",
+    "@types/js-yaml": "^4.0.9",
     "@typescript-eslint/parser": "8.21.0",
-    "astro": "5.1.10",
+    "astro": "^5.4.2",
     "astro-compress": "2.3.6",
     "astro-eslint-parser": "1.1.0",
     "astro-icon": "^1.1.5",
@@ -38,35 +46,37 @@
     "eslint-plugin-simple-import-sort": "12.1.1",
     "eslint-plugin-svelte": "2.46.1",
     "husky": "9.1.7",
+    "js-yaml": "^4.1.0",
     "jsdom": "26.0.0",
     "lint-staged": "15.4.2",
     "prettier": "^3.4.2",
     "prettier-plugin-astro": "^0.14.1",
     "svelte": "5.20.1",
     "svelte-eslint-parser": "0.43.0",
-    "tailwind-merge": "^3.0.0",
     "tailwindcss": "^4.0.12",
+    "tailwind-merge": "^3.0.0",
+    "@tailwindcss/typography": "^0.5.16",
     "typescript": "5.7.3",
     "typescript-eslint": "8.21.0",
-    "vite-tsconfig-paths": "5.1.4"
+    "vite-tsconfig-paths": "5.1.4",
+    "@types/html-escaper": "^3.0.4",
+    "@types/lodash.merge": "^4.6.9",
+    "@iconify-json/tabler": "^1.2.10",
+    "tailwind-variants": "^0.3.1",
+    "bits-ui": "^1.1.0"
   },
   "exports": {
     ".": "./index.js",
     "./astro": "./astro.js",
     "./svelte": "./svelte.js",
-    "./styles": "./scss/index.scss",
-    "./icons": "./icons.js",
-    "./config": "./scss/config.scss"
+    "./vendor-config": "./vendor-config/index.ts"
   },
   "files": [
     "components",
-    "icons",
-    "scss",
+    "vendor-config",
     "utils",
     "astro.d.ts",
     "astro.js",
-    "icons.d.ts",
-    "icons.js",
     "svelte.d.ts",
     "svelte.js",
     "index.js",
@@ -80,16 +90,12 @@
   "homepage": "https://astro-ui.dev.yatoday.es",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/qwert2001qwert-alex/yt-astro-ui.git"
+    "url": "git+https://github.com/yatoday-dev/astro-ui.git"
   },
   "bugs": {
-    "url": "https://github.com/qwert2001qwert-alex/yt-astro-ui/issues"
+    "url": "https://github.com/yatoday-dev/astro-ui/issues"
   },
   "lint-staged": {
     "*.{js,ts,jsx,tsx,svelte,astro}": "eslint src/**/*"
-  },
-  "dependencies": {
-    "@astrojs/mdx": "^4.1.0",
-    "@tailwindcss/vite": "^4.0.12"
   }
 }

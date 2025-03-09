@@ -1,11 +1,12 @@
 import { astroAsseetsOptimizer, isUnpicCompatible, unpicOptimizer } from './images-optimization';
 
-import type { OpenGraph } from '@astrolib/seo';
+import type { OpenGraph } from '../components/Metadata/types';
 import type { ImageMetadata } from 'astro';
 
 const load = async function () {
   let images: Record<string, () => Promise<unknown>> | undefined;
   try {
+    // @ts-ignore
     images = import.meta.glob(
       '/src/assets/images/**/*.{jpeg,jpg,png,tiff,webp,gif,svg,JPEG,JPG,PNG,TIFF,WEBP,GIF,SVG}'
     );

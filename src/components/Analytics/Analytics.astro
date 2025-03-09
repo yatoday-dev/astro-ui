@@ -1,0 +1,15 @@
+---
+//import type { AnalyticsProps as Props } from './types';
+import AnalyticsGoogleProvider from './AnalyticsGoogle.astro';
+
+import { ANALYTICS } from 'vendor:config';
+---
+
+{
+  ANALYTICS?.vendors?.googleAnalytics?.id ? (
+    <AnalyticsGoogleProvider
+      id={String(ANALYTICS.vendors.googleAnalytics.id)}
+      partytown={ANALYTICS?.vendors?.googleAnalytics?.partytown}
+    />
+  ) : null
+}

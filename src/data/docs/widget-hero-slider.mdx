@@ -1,0 +1,267 @@
+---
+title: Carousel - Hero Slider
+category: Widget
+---
+
+import Demo from '~/playground/components/Demo.astro';
+import WidgetHeroSlider from '~/components/WidgetHeroSlider/WidgetHeroSlider.astro';
+import HeroSection from "~/components/HeroSection/HeroSection.astro";
+import ICallToAction from '../types/ICallToAction.md';
+
+# Carousel - Hero Slider
+
+This component uses [Swiper Element (WebComponent)](https://swiperjs.com/element)
+
+<Demo title="">
+  <WidgetHeroSlider
+    items={[
+      {
+        title: 'Default Slide',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit dolor sit amet, consectetur adipisicing elit.',
+        image: {
+          src: '~/assets/images/local_placeholder.jpeg',
+          alt: 'Lorem Ipsum',
+        },
+        callToAction: {
+          variant: 'primary',
+          text: 'Read Detail',
+          href: '#',
+        },
+      },
+      {
+        title: 'Custom CSS classes',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit dolor sit amet, consectetur adipisicing elit',
+        image: '~/assets/images/local_placeholder.jpeg',
+        callToAction: {
+          variant: 'primary',
+          text: 'Next',
+          href: '#',
+        },
+      },
+      {
+        title: 'Without Action Button',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit dolor sit amet, consectetur adipisicing elit.',
+        image: {
+          src: '~/assets/images/local_placeholder.jpeg',
+          alt: 'Lorem Ipsum',
+        },
+      },
+    ]}
+  />
+</Demo>
+
+```astro
+---
+import { HeroSliderWidget } from 'yt-astro-ui';
+---
+
+<HeroSliderWidget
+  items={[
+    {
+      title: 'Default Slide',
+      description: 'Lorem ipsum dolor sit amet, consectetur...',
+      image: {
+        src: '~/assets/images/local_placeholder.jpeg',
+        alt: 'Lorem Ipsum',
+      },
+      callToAction: {
+        variant: 'primary',
+        text: 'Read Detail',
+        href: '#',
+      },
+    },
+    {
+      title: 'Custom CSS classes',
+      description: 'Lorem ipsum dolor sit amet, consectetur ...',
+      image: 'https://placehold.co/800x600?text=Slide+2',
+      classes: {
+        container: 'rounded-3xl h-72 bg-linear-to-r/srgb from-gray-900 to-gray-600',
+        image: '',
+        title: 'font-bold uppercase bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent',
+        description: 'text-zinc-300',
+      },
+      callToAction: {
+        variant: 'primary',
+        text: 'Next',
+        href: '#',
+      },
+      class: 'bg-purple-800',
+    },
+    {
+      title: 'Without Action Button',
+      description: 'Lorem ipsum dolor sit amet, consectetur...',
+      image: {
+        src: 'https://placehold.co/800x600?text=Slide+3',
+        alt: 'Lorem Ipsum',
+      },
+    },
+  ]}
+/>
+```
+
+<Demo title="With Background" class="bg-stripe [&>*]:text-white">
+  Content before
+  <WidgetHeroSlider
+    items={[
+      {
+        title: 'Default Slide',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit dolor sit amet, consectetur adipisicing elit.',
+        image: '~/assets/images/local_placeholder.jpeg',
+        callToAction: {
+          variant: 'primary',
+          text: 'Read Detail',
+          href: '#',
+        },
+      },
+      {
+        title: 'Default Slide',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit dolor sit amet, consectetur adipisicing elit.',
+        image: '~/assets/images/local_placeholder.jpeg',
+        callToAction: {
+          variant: 'primary',
+          text: 'Read Detail',
+          href: '#',
+        },
+      },
+    ]}
+  >
+    <Fragment slot="bg">
+      <div className="absolute inset-0 bg-primary"></div>
+    </Fragment>
+  </WidgetHeroSlider>
+  Content After
+</Demo>
+
+```astro
+<!-- With background -->
+<HeroSliderWidget items={[]}>
+  <!-- Background container -->
+  <Fragment slot="bg">
+    <div class="absolute inset-0 bg-primary/10 dark:bg-card"></div>
+  </Fragment>
+</HeroSliderWidget>
+```
+
+<div className="space-y-12">
+  <Demo title="Single slide">
+    <HeroSection
+      title="With Action"
+      description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
+      image={{
+        src: '~/assets/images/local_placeholder.jpeg',
+        alt: 'Lorem Ipsum',
+      }}
+      callToAction={{ href: '#', variant: 'primary', text: 'Read Detail' }}
+    />
+  </Demo>
+
+<Demo title="Single slide: without action">
+  <HeroSection
+    title="Without action"
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
+    image={{
+      src: '~/assets/images/local_placeholder.jpeg',
+      alt: 'Lorem Ipsum',
+    }}
+  />
+</Demo>
+
+  <Demo title="Single slide: custom CSS">
+    <HeroSection
+      title="custom CSS"
+      description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
+      image="~/assets/images/local_placeholder.jpeg"
+      classes={{
+        container: 'rounded-3xl h-72 bg-linear-to-r/srgb from-gray-900 to-gray-600',
+        image: '',
+        title: 'font-bold uppercase bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent',
+        description: 'text-zinc-300',
+      }}
+    />
+  </Demo>
+</div>
+
+```astro
+---
+import { HeroSection } from 'yt-astro-ui';
+---
+
+<!-- Single slide: With Action -->
+<HeroSection
+  class="rounded-xl h-96"
+  title="With Action"
+  description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
+  image={{
+    src: '~/assets/images/local_placeholder.jpeg',
+    alt: 'Lorem Ipsum',
+  }}
+  callToAction={{ href: '#', variant: 'primary', text: 'Read Detail' }}
+/>
+
+<!-- Single slide: Without Action -->
+<HeroSection
+  class="rounded-xl h-96"
+  title="Without action"
+  description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
+  image={{
+    src: '~/assets/images/local_placeholder.jpeg',
+    alt: 'Lorem Ipsum',
+  }}
+/>
+
+<!-- Single slide: With CSS -->
+<HeroSection
+  title="custom CSS"
+  description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
+  image="~/assets/images/local_placeholder.jpeg"
+  classes={{
+    container: 'rounded-3xl h-72 bg-linear-to-r/srgb from-gray-900 to-gray-600',
+    image: '',
+    title: 'font-bold uppercase bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent',
+    description: 'text-zinc-300',
+  }}
+/>
+```
+
+## Props
+
+### HeroSlider
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description | |------------|------------|------------|------------| | `height` | `string`
+    | `h-[28rem]` | Set the height of the slider and its layers | | `id` | `string` | js random | By default, the `id`
+    is generated automatically. If you decide to specify this parameter yourself, make sure that it is unique on the
+    page | | `classes.swiper` | `string` | - | CSS classes for the `swiper-container` container | | `classes.container`
+    | `string` | - | CSS classes for the `WidgetWrapper` container | | `classes.loading` | `string` | - | CSS classes
+    for loading layout | | `withPagination` | `boolean` | `true` | Pagination visibility | | `withNavigation` |
+    `boolean` | `true` | Navigation visibility | | `autoplay` | boolean | `true` | | | `isDark` | boolean | `false` | |
+    | `items` | `HeroSlide[]` | `[]` | Array of `HeroSlide` components | | `autoplay` + etc. | `boolean` | `false` | +
+    other params from [Swiperjs](https://swiperjs.com/element#parameters-as-attributes) |
+  </div>
+</div>
+
+### HeroSection
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description | |------------|------------|------------|------------| | `title` | `string` |
+    - | Title text for the card | | `description` | `string` | - | Content for the card | | `image` | `string` \|
+    [Image](/docs/image) | - | Path to the card's image | | `callToAction` | `ICallToAction` | - | | |
+    `classes.container` | `string` | `h-96` | | | `classes.image` | `string` | - | | | `classes.title` | `string` | - |
+    | | `classes.description` | `string` | - | |
+  </div>
+</div>
+
+### ICallToAction
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    <ICallToAction />
+  </div>
+</div>

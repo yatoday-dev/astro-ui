@@ -1,225 +1,56 @@
-import svelteParser from 'svelte-eslint-parser';
-import svelteConfig from './svelte.config.js';
-
-import js from '@eslint/js';
-import tsParser from '@typescript-eslint/parser';
-import astroParser from 'astro-eslint-parser';
+import astroEslintParser from 'astro-eslint-parser';
 import eslintPluginAstro from 'eslint-plugin-astro';
-import eslintPluginSimpleImportSort from 'eslint-plugin-simple-import-sort';
-import eslintPluginSvelte from 'eslint-plugin-svelte';
-import eslintPluginTypeScript from 'typescript-eslint';
+import globals from 'globals';
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import typescriptParser from '@typescript-eslint/parser';
 
 export default [
   js.configs.recommended,
-  ...eslintPluginSvelte.configs['flat/recommended'],
-  ...eslintPluginAstro.configs.recommended,
-  ...eslintPluginTypeScript.configs.recommended,
+  ...eslintPluginAstro.configs['flat/recommended'],
+  ...tseslint.configs.recommended,
   {
-    plugins: {
-      'simple-import-sort': eslintPluginSimpleImportSort,
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
     },
-    rules: {
-      'array-bracket-spacing': ['error', 'never'],
-      'array-callback-return': 'error',
-      'arrow-spacing': 'error',
-      'block-scoped-var': 'error',
-      'block-spacing': 'error',
-      'brace-style': 'error',
-      'comma-dangle': 'error',
-      'comma-style': 'error',
-      complexity: 'error',
-      curly: 'error',
-      'dot-location': ['error', 'property'],
-      'dot-notation': 'error',
-      'eol-last': 'error',
-      eqeqeq: 'error',
-      'for-direction': 'error',
-      'func-call-spacing': 'error',
-      indent: ['error', 4],
-      'jsx-quotes': 'error',
-      'key-spacing': 'error',
-      'keyword-spacing': 'error',
-      'max-depth': 'error',
-      'max-len': ['error', { code: 120, tabWidth: 4 }],
-      'max-lines': ['error'],
-      'max-nested-callbacks': 'error',
-      'max-params': ['error', 4],
-      'max-statements-per-line': 'error',
-      'no-alert': 'error',
-      'no-bitwise': 'error',
-      'no-console': 'error',
-      'no-duplicate-imports': 'error',
-      'no-else-return': 'error',
-      'no-eq-null': 'error',
-      'no-eval': 'error',
-      'no-extend-native': 'error',
-      'no-floating-decimal': 'error',
-      'no-implicit-coercion': ['error', { allow: ['!!'] }],
-      'no-implicit-globals': 'error',
-      'no-implied-eval': 'error',
-      'no-lone-blocks': 'error',
-      'no-lonely-if': 'error',
-      'no-mixed-operators': 'error',
-      'no-multi-spaces': 'error',
-      'no-native-reassign': 'error',
-      'no-param-reassign': 'error',
-      'no-script-url': 'error',
-      'no-self-compare': 'error',
-      'no-template-curly-in-string': 'error',
-      'no-sequences': 'error',
-      'no-spaced-func': 'error',
-      'no-trailing-spaces': 'error',
-      'no-undef-init': 'error',
-      'no-unreachable-loop': 'error',
-      'no-unneeded-ternary': 'error',
-      'no-useless-concat': 'error',
-      'no-useless-escape': 'error',
-      'no-useless-return': 'error',
-      'no-void': 'error',
-      'no-warning-comments': 'error',
-      'no-with': 'error',
-      'object-curly-spacing': ['error', 'always'],
-      'object-shorthand': 'error',
-      'one-var': ['error', 'never'],
-      'operator-linebreak': [
-        'error',
-        'before',
-        {
-          overrides: { '=': 'after' },
-        },
-      ],
-      'prefer-const': 'error',
-      'prefer-template': 'error',
-      quotes: ['error', 'single', { avoidEscape: true }],
-      'quote-props': ['error', 'consistent'],
-      radix: 'error',
-      semi: ['error', 'never'],
-      'simple-import-sort/imports': [
-        'error',
-        {
-          groups: [
-            ['^svelte', '^\\./'],
-            ['@static'],
-            ['@components'],
-            ['^.+\\.astro', '^.+\\.svelte', '^.+\\.tsx'],
-            ['utils'],
-            ['^.+\\.svg'],
-            ['^.+\\.scss'],
-          ],
-        },
-      ],
-      'space-infix-ops': 'error',
-      'space-before-blocks': 'error',
-      'space-before-function-paren': [
-        'error',
-        {
-          anonymous: 'never',
-          named: 'never',
-          asyncArrow: 'always',
-        },
-      ],
-      'spaced-comment': 'error',
-      'vars-on-top': 'error',
-      'wrap-iife': 'error',
-      yoda: 'error',
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-unused-expressions': [
-        'error',
-        {
-          allowTernary: true,
-        },
-      ],
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        {
-          args: 'all',
-          argsIgnorePattern: '^_',
-          caughtErrors: 'all',
-          caughtErrorsIgnorePattern: '^_',
-          destructuredArrayIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-          ignoreRestSiblings: true,
-        },
-      ],
-    },
-    ignores: ['dist/**/*', 'src/env.d.ts'],
   },
   {
     files: ['**/*.astro'],
     languageOptions: {
-      parser: astroParser,
+      parser: astroEslintParser,
       parserOptions: {
-        parser: tsParser,
+        parser: '@typescript-eslint/parser',
+        extraFileExtensions: ['.astro'],
       },
     },
+  },
+  {
+    files: ['**/*.{js,jsx,astro}'],
     rules: {
-      '@typescript-eslint/no-empty-object-type': 'off',
+      'no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
     },
   },
   {
-    files: ['src/static/*.astro', 'src/pages/**/*.astro'],
-    rules: {
-      'max-len': 'off',
-      'max-lines': 'off',
-      'simple-import-sort/imports': [
-        'error',
-        {
-          groups: [['@static'], ['@components'], ['@blocks'], ['^.+\\.svg'], ['@helpers', '@data']],
-        },
-      ],
-    },
-  },
-  {
-    files: ['src/blocks/**/*'],
-    rules: {
-      'simple-import-sort/imports': [
-        'error',
-        {
-          groups: [['^svelte'], ['^.+\\.astro', '^.+\\.svelte', '^.+\\.tsx'], ['^\\./', '^.+\\.svg', '^.+\\.scss']],
-        },
-      ],
-    },
-  },
-  {
-    files: ['**/*.svelte'],
+    // Define the configuration for `<script>` tag.
+    // Script in `<script>` is assigned a virtual file name with the `.js` extension.
+    files: ['**/*.{ts,tsx}', '**/*.astro/*.js'],
     languageOptions: {
-      parser: svelteParser,
-      parserOptions: {
-        parser: tsParser,
-        svelteConfig,
-      },
+      parser: typescriptParser,
     },
     rules: {
-      'svelte/no-at-html-tags': 'off',
-      'no-undef': 'off',
-      'prefer-const': [
-        'error',
-        {
-          destructuring: 'all', // Revert after https://github.com/sveltejs/eslint-plugin-svelte/issues/889
-        },
-      ],
+      // Note: you must disable the base rule as it can report incorrect errors
+      'prefer-rest-params': 'off',
+      'no-unused-vars': 'off',
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      '@typescript-eslint/no-non-null-assertion': 'off',
     },
   },
   {
-    files: ['scripts/**/*'],
-    rules: {
-      'no-console': 'off',
-      'no-undef': 'off',
-      'prefer-template': 'off',
-      'max-len': 'off',
-      indent: 'off',
-    },
-  },
-  {
-    files: ['dist/**/*'],
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-    },
-  },
-  {
-    files: ['src/env.d.ts'],
-    rules: {
-      '@typescript-eslint/triple-slash-reference': 'off',
-    },
+    ignores: ['dist', 'node_modules', '.github', 'types.generated.d.ts', '.astro', './src/assets', 'scripts'],
   },
 ];

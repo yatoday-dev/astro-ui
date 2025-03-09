@@ -1,0 +1,71 @@
+---
+title: Card 0
+category: W.Feature
+---
+
+import Demo from '~/playground/components/Demo.astro';
+import Card0 from '~/components/Card0/Card0.astro';
+import ItemGrid0 from '~/components/ItemGrid0/ItemGrid0.astro';
+
+# Card 0
+
+The Card component provides a versatile container for displaying related content. It uses semantic HTML and ensures proper heading structure and content organization.
+
+<div className="space-y-12">
+  <Demo title="">
+    <ItemGrid0 columns={3} class="bg-stripe">
+      <Card0>
+        <div slot="image">Image Slot</div>
+        <div slot="content">Content Slot</div>
+      </Card0>
+
+      <Card0
+        classes={{badge: 'right-4 top-4 px-4  bg-stripe [&>div]:text-white'}}
+      >
+        <div slot="badge">Badge Slot</div>
+        <div slot="image">Image Slot</div>
+        <div slot="content">Content Slot</div>
+      </Card0>
+
+      <Card0 classes={{badge: 'right-4 top-4 px-4  bg-stripe [&>div]:text-white'}}>
+        <div>Content</div>
+      </Card0>
+    </ItemGrid0>
+
+  </Demo>
+</div>
+
+```astro
+---
+import { Card0, ItemGrid0 } from '@yatoday/astro-ui/astro';
+---
+
+<ItemGrid0 columns={3}>
+  <Card0>
+    <div slot="image">Image Slot</div>
+    <div slot="content">Content Slot</div>
+  </Card0>
+
+  <Card0
+    classes={{badge: 'right-4 top-4 border px-4'}}
+  >
+    <div slot="badge">Badge Slot</div>
+    <div slot="image">Image Slot</div>
+    <div slot="content">Content Slot</div>
+  </Card0>
+</ItemGrid0>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description | 
+    |------|------|---------|-------------| 
+    | `as` | `string` | `article` | HTML tag name for the wrapper | 
+    | `classes.container` | `string` | - | Additional CSS classes to apply to the card wrapper |
+    | `classes.content` | `string` | - | Additional CSS classes to apply to the content container | 
+    | `classes.image` | `string` | - | Additional CSS classes to apply to the image container |
+    | `classes.badge` | `string` | - | Additional CSS classes to apply to the badge container |
+  </div>
+</div>

@@ -5,6 +5,7 @@ import fs from 'fs';
 
 const folders = {
   'src/components': 'dist/components',
+  'src/vendor-config': 'dist/vendor-config',
   'src/utils': 'dist/utils',
 };
 

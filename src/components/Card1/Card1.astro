@@ -1,0 +1,146 @@
+---
+import type { Card1Props as Props } from './types';
+import Card0 from '../Card0/Card0.astro';
+import Image from '../Image/Image.astro';
+import Button from '../Button/Button.svelte';
+import { Icon } from 'astro-icon/components'
+import { twMerge } from 'tailwind-merge'
+
+const {
+  title = await Astro.slots.render('title'),
+  description,
+  icon,
+  image,
+  data = [],
+  links = [],
+  callToAction,
+  classes = {},
+  as = 'article',
+  asHeader = 'h3'
+} = Astro.props;
+
+const WrapperHeaderTag = asHeader
+
+const {
+  title: titleClass = '',
+  description: descriptionClass = 'text-muted-foreground',
+  image: imageClass = '',
+  icon: iconClass = '',
+  quickLink: quickLinkClass = 'font-semibold underline text-primary hover:text-primary/80',
+  action: actionClass = ''
+} = classes
+
+const img = {
+  src: typeof image === 'string' ? image : image?.src,
+  alt: typeof image === 'string' ? title : image?.alt,
+  aspectRatio: typeof image === 'string' ? '4:3' : image?.aspectRatio || '4:3'
+};
+---
+
+<Card0
+  as={as}
+  classes={{
+    content: 'space-y-6'
+  }}
+>
+  <Fragment slot="image">
+    {
+      image && (
+        <div class={twMerge('w-full overflow-hidden -mt-6 h-60 bg-gray-400 dark:bg-zinc-700', imageClass)}>
+          {callToAction && callToAction.href ? (
+            <a href={callToAction.href} class="group">
+              <Image
+                src={img.src}
+                class={twMerge('w-full h-full  hover:scale-105 transition duration-300')}
+                widths={[400, 900]}
+                width={400}
+                height={400}
+                sizes="(max-width: 900px) 400px, 900px"
+                alt={img.alt}
+                aspectRatio={img.aspectRatio}
+                layout="cover"
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+          ) : (
+            <Image
+              src={img.src || String(image)}
+              class={twMerge('w-full h-full')}
+              widths={[400, 900]}
+              width={400}
+              height={400}
+              sizes="(max-width: 900px) 400px, 900px"
+              alt={img.alt || title}
+              aspectRatio={img.aspectRatio}
+              layout="cover"
+              loading="lazy"
+              decoding="async"
+            />
+          )}
+        </div>
+      )
+    }
+
+    {
+      icon && (
+        <div class="px-6">
+          <Icon name={icon} class={twMerge('w-12 h-12 text-primary', image ? 'mt-6' : '', iconClass)} />
+        </div>
+      )
+    }
+  </Fragment>
+
+  <div class={twMerge('px-6 space-y-6')}>
+    <!-- Title & Description -->
+    <div>
+      <WrapperHeaderTag class={twMerge('text-xl font-bold', titleClass)}>
+        {title}
+      </WrapperHeaderTag>
+
+      <div class={twMerge('mt-2', descriptionClass)}>
+        <slot />
+        {description}
+      </div>
+    </div>
+
+    {
+      links && links.length > 0 && (
+        <div class="flex flex-col">
+          {links.map((link) => (
+            <a href={link.href} class={twMerge('transition-colors', quickLinkClass)}>
+              {link.text}
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </div>
+
+  {
+    data && data.length > 0 && (
+      <div class="text-sm">
+        {data.map((item) => (
+          <div class="flex items-center justify-between py-2 px-6 odd:bg-white even:bg-slate-50 dark:odd:bg-transparent dark:even:bg-zinc-800">
+            <div class="text-muted-foreground">{item.name}</div>
+            <div>{item.value}</div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  {
+    callToAction && (
+      <div class={twMerge('w-full px-6')}>
+        <slot name="footer" />
+
+        {callToAction && (
+          <div class={twMerge('', actionClass)}>
+            <Button {...callToAction} />
+          </div>
+        )}
+      </div>
+    )
+  }
+</Card0>

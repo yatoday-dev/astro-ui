@@ -1,0 +1,31 @@
+---
+import type { WidgetFeaturesCardProps as Props } from './types';
+import Card1 from '../Card1/Card1.astro';
+import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
+import Headline from '../Headline/Headline.astro';
+import ItemGrid0 from '../ItemGrid0/ItemGrid0.astro';
+
+const {
+  via = Card1,
+
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline = await Astro.slots.render('tagline'),
+  items = [],
+  columns = 4,
+
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg')
+} = Astro.props
+
+const Component = via;
+---
+
+<WidgetWrapper id={id} isDark={isDark} containerClass={`${classes?.container ?? ''}`} bg={bg}>
+  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
+  <ItemGrid0 columns={columns}>
+    {items && items.map((item) => <Component {...item} />)}
+  </ItemGrid0>
+</WidgetWrapper>

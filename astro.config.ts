@@ -5,6 +5,7 @@ import icon from 'astro-icon';
 import compress from 'astro-compress';
 import tailwindcss from '@tailwindcss/vite';
 import type { AstroIntegration } from 'astro';
+import vendor from './src/vendor-config/index';
 
 import svelte from '@astrojs/svelte';
 
@@ -40,6 +41,9 @@ export default defineConfig({
       Logger: 1,
     }),
     svelte(),
+    vendor({
+      config: './src/playground/config.yaml',
+    }),
   ],
   vite: {
     plugins: [tailwindcss()],

@@ -1,0 +1,189 @@
+---
+title: Card 1
+category: W.Feature
+---
+
+import Demo from '~/playground/components/Demo.astro';
+import Card1 from '~/components/Card1/Card1.astro';
+import ItemGrid0 from '~/components/ItemGrid0/ItemGrid0.astro';
+import INameValue from '../types/INameValue.md';
+import ILink from '../types/ILink.md';
+import ICallToAction from '../types/ICallToAction.md';
+
+# Card 1
+
+The Card component provides a versatile container for displaying related content. It uses semantic HTML and ensures proper heading structure and content organization.
+
+<div className="space-y-12">
+  <Demo title="">
+    <ItemGrid0 columns={4} class="bg-stripe">
+      <Card1
+        title="Card 2.1"
+        description='Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+        image={{ src: '~/assets/images/local_placeholder.jpeg', alt: 'Lorem Test' }}
+        callToAction={{ href: '/', text: 'Read more' }}
+        links={[
+          { href: '/', text: 'Additional link 1' },
+          { href: '/', text: 'Additional link 2' },
+          { href: '/', text: 'Additional link 3' },
+        ]}
+      />
+
+      <Card1
+        title="Card 2.2"
+        description='Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+        image={{ src: '~/assets/images/local_placeholder.jpeg', alt: 'Lorem Ipsum' }}
+        callToAction={{ href: '/', text: 'Read more' }}
+        data={[
+          {name: 'Param name', value: 'Param value'},
+          {name: 'Param name', value: 'Param value'},
+          {name: 'Param name', value: 'Param value'},
+        ]}
+      />
+
+      <Card1
+        title="Card 2.3"
+        description='Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+        icon="tabler:home"
+        callToAction={{ href: '/', text: 'Read more' }}
+        data={[
+          {name: 'Param name', value: 'Param value'},
+          {name: 'Param name', value: 'Param value'},
+          {name: 'Param name', value: 'Param value'},
+          {name: 'Param name', value: 'Param value'},
+          {name: 'Param name', value: 'Param value'},
+        ]}
+      />
+
+      <Card1
+        title="Card 2.4"
+        description='Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+        image={{ src: '~/assets/images/local_placeholder.jpeg', alt: 'Lorem Ipsum' }}
+        callToAction={{ href: '/', text: 'Read more' }}
+        classes={{image: 'h-40'}}
+      />
+
+      <Card1
+        title="Card 2.5"
+        description='Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+        image={{ src: '~/assets/images/local_placeholder.jpeg', alt: 'Lorem Ipsum' }}
+        icon="tabler:home"
+        classes={{image: 'h-40'}}
+      />
+
+      <Card1
+        title="Card 2.6"
+        description='Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
+        icon="tabler:home"
+      />
+    </ItemGrid0>
+
+  </Demo>
+</div>
+
+## Usage
+
+```astro
+---
+import { Card1, ItemGrid0 } from 'yt-astro-ui';
+---
+
+<ItemGrid0 columns={3}>
+  <Card1
+    title="Card 2.1"
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    image={{ src: '~/assets/images/local_placeholder.jpeg', alt: 'Lorem Ipsum' }}
+    callToAction={{ href: '/', text: 'Read more' }}
+    links={[
+      { href: '/', text: 'Additional link 1' },
+      { href: '/', text: 'Additional link 2' },
+      { href: '/', text: 'Additional link 3' },
+    ]}
+  />
+  <Card1
+    title="Card 2.2"
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    image={{ src: '~/assets/images/local_placeholder.jpeg', alt: 'Lorem Ipsum' }}
+    callToAction={{ href: '/', text: 'Read more' }}
+    data={[
+      { name: 'Param name', value: 'Param value' },
+      { name: 'Param name', value: 'Param value' },
+      { name: 'Param name', value: 'Param value' },
+    ]}
+  />
+  <Card1
+    title="Card 2.3"
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    icon="tabler:home"
+    callToAction={{ href: '/', text: 'Read more' }}
+    data={[
+      { name: 'Param name', value: 'Param value' },
+      { name: 'Param name', value: 'Param value' },
+      { name: 'Param name', value: 'Param value' },
+      { name: 'Param name', value: 'Param value' },
+      { name: 'Param name', value: 'Param value' },
+    ]}
+  />
+
+  <Card1
+    title="Card 2.4"
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    image={{ src: '~/assets/images/local_placeholder.jpeg', alt: 'Lorem Ipsum' }}
+    callToAction={{ href: '/', text: 'Read more' }}
+  />
+  <Card1
+    title="Card 2.5"
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    image={{ src: '~/assets/images/local_placeholder.jpeg', alt: 'Lorem Ipsum' }}
+    icon="tabler:home"
+  />
+  <Card1 title="Card 2.6" description="Lorem ipsum dolor sit amet, consectetur adipisicing elit." icon="tabler:home" />
+</ItemGrid0>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description | 
+    |------|------|---------|-------------| 
+    | `title` | `string` | - | Title text for the card | 
+    | `description` | `string` | - | Content for the card |
+    | `image` | `string` \| [Image](/docs/image) | - | Path to the card's image | 
+    | `icon` | `string` | - | Name icon from set | | `as` | `string` | `article` | HTML tag name for the wrapper | 
+    | `asHeader` | `string` | `h3` | HTML tag name for the title | 
+    | `data` | `INameValue[]` | - | - |
+    | `links` | `ILink[]` | - | - |
+    | `badge` | `string` | - | - |
+    | `classes.title` | `string` | - | Additional CSS classes to apply to the title | 
+    | `classes.description` | `string` | - | Additional CSS classes to apply to the description | 
+    | `classes.image` | `string` | - | Additional CSS classes to apply to the image | 
+    | `classes.icon` | `string` | - | Additional CSS classes to apply to the icon | 
+    | `classes.quickLink` | `string` | - | Additional CSS classes to apply to each quickLink | 
+    | `classes.action` | `string` | - | Additional CSS classes to apply to the action |
+  </div>
+</div>
+
+### INameValue
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    <INameValue />
+  </div>
+</div>
+
+### ILink
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    <ILink />
+  </div>
+</div>
+
+### ICallToAction
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    <ICallToAction />
+  </div>
+</div>

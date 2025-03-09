@@ -1,0 +1,34 @@
+---
+import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
+import merge from 'lodash.merge';
+
+import type { MetaData } from '@yatoday/astro-ui';
+
+import {createPath, getCanonical, trimSlash} from '../../utils';
+import { getStaticPathsBlogPost } from '../../playground/utils/content';
+import PageLayout from '../../playground/layouts/PageLayout.astro';
+
+export const prerender = true;
+
+export const getStaticPaths = (async () => {
+  return await getStaticPathsBlogPost();
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { post } = Astro.props as Props;
+
+const url = getCanonical(createPath(trimSlash(post.permalink)));
+
+const metadata = merge(
+  {
+    title: post.title,
+    description: post.excerpt,
+  },
+  { ...(post?.metadata ? { ...post.metadata, canonical: post.metadata?.canonical || url } : {}) }
+) as MetaData;
+---
+
+<PageLayout metadata={metadata} title={post?.category?.title}>
+  {post.Content ? <post.Content /> : <Fragment set:html={post.content || ''} />}
+</PageLayout>

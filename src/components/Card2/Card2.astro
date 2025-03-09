@@ -1,0 +1,103 @@
+---
+import type {Card2Props as Props} from './types';
+import Card0 from '../Card0/Card0.astro';
+import Image from '../Image/Image.astro';
+import { Icon } from 'astro-icon/components';
+import { twMerge } from 'tailwind-merge';
+
+const {
+  title = await Astro.slots.render('title'),
+  description,
+  icon,
+  image,
+  url = '/',
+  classes = {},
+  as = 'article',
+  asHeader = 'h3'
+} = Astro.props
+
+const WrapperHeaderTag = asHeader
+
+const {
+  container: containerClass = '',
+  title: titleClass = '',
+  description: descriptionClass = 'text-muted-foreground',
+  icon: iconClass = '',
+  image: imageClass = ''
+} = classes
+
+const img = {
+  src: typeof image === 'string' ? image : image?.src,
+  alt: typeof image === 'string' ? title : image?.alt,
+  aspectRatio: typeof image === 'string' ? '4:3' : image?.aspectRatio || '4:3'
+};
+---
+
+<Card0
+  as={as}
+  classes={{
+    content: 'space-y-6',
+    container: containerClass
+  }}
+>
+  <!-- Image -->
+  <Fragment slot="image">
+    {
+      image && (
+        <div class={twMerge('w-full overflow-hidden -mt-6 h-40 bg-gray-400 dark:bg-zinc-700', imageClass)}>
+          <Image
+            src={img.src || String(image)}
+            class={twMerge('w-full md:h-full group-hover:scale-105 transition duration-300', imageClass)}
+            widths={[400, 900]}
+            width={400}
+            height={400}
+            sizes="(max-width: 900px) 400px, 900px"
+            alt={img.alt || title}
+            aspectRatio={img.aspectRatio}
+            layout="cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      )
+    }
+
+    <!-- Icon -->
+    {
+      icon && (
+        <div class="h-12 px-6">
+          <Icon
+            name={icon}
+            class={twMerge(
+              'w-12 h-12 text-primary group-hover:scale-105 transition duration-300',
+              image ? 'mt-6' : '',
+              iconClass
+            )}
+          />
+        </div>
+      )
+    }
+  </Fragment>
+
+  <!-- Content -->
+  <div class={twMerge('px-6 space-y-6')}>
+    <div>
+      <WrapperHeaderTag class={twMerge('text-xl font-bold', titleClass)}>
+        {
+          url ? (
+            <a href={url} class="after:content-[''] after:inset-0 after:absolute">
+              {title}
+            </a>
+          ) : (
+            title
+          )
+        }
+      </WrapperHeaderTag>
+
+      <div class={twMerge('mt-2', descriptionClass)}>
+        <slot />
+        {description}
+      </div>
+    </div>
+  </div>
+</Card0>

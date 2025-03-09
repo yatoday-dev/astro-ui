@@ -1,6 +1,13 @@
 ---
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import PageLayout from '../playground/layouts/PageLayout.astro';
+import * as post from '../data/index.mdx';
+
+const metadata = {
+  title: 'Astro UI — Free template for creating websites with Astro + Tailwind CSS',
+  ignoreTitleTemplate: true,
+};
 ---
 
-hello world!
+<PageLayout metadata={metadata} title="Index">
+  {post.Content ? <post.Content /> : <Fragment set:html={post?.content || ''} />}
+</PageLayout>

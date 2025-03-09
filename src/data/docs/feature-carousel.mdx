@@ -1,0 +1,38 @@
+---
+title: Carousel - 0
+category: W.Feature
+---
+
+import Demo from '~/playground/components/Demo.astro';
+import SwiperSlider from '~/components/SwiperSlider/SwiperSlider.astro';
+
+# Carousel - 0
+
+This component uses [Swiper Element (WebComponent)](https://swiperjs.com/element)
+
+<Demo title="">
+  <SwiperSlider>
+    <swiper-slide>Slide 1</swiper-slide>
+    <swiper-slide>Slide 2</swiper-slide>
+    <swiper-slide>Slide 3</swiper-slide>
+    <swiper-slide>Slide 1</swiper-slide>
+    <swiper-slide>Slide 2</swiper-slide>
+    <swiper-slide>Slide 3</swiper-slide>
+    <swiper-slide>Slide 3</swiper-slide>
+  </SwiperSlider>
+</Demo>
+
+```astro
+---
+import { SwiperSlider } from 'yt-astro-ui';
+---
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  | Prop | Type | Default | Description | 
+  |------------|------------|------------|------------| 
+  | `id` | `string` | js random | By default, the `id` is generated automatically. If you decide to specify this parameter yourself, make sure that it is unique on the page | 
+  | `autoplay` + etc. | `boolean` | `false` | + other params from [Swiperjs](https://swiperjs.com/element#parameters-as-attributes) |
+</div>

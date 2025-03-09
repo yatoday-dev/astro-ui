@@ -1,0 +1,23 @@
+---
+import type {BreadcrumbsProps as Props} from './types';
+
+
+import {Icon} from 'astro-icon/components';
+
+const {class: classNames = 'text-gray-600 dark:text-gray-400', ariaLabel = 'Breadcrumbs', items = []} = Astro.props;
+---
+<nav class:list={['breadcrumbs', classNames]} aria-label={ariaLabel}>
+  <ol class="list flex flex-wrap gap-2 m-0 p-0 list-none" itemscope itemtype="https://schema.org/BreadcrumbList">
+    {items.length === 0 &&
+      <slot/>}
+
+    <!--{
+      items.length > 0 &&
+        items.map((item) => (
+          <BreadcrumbsItem href={item.href} label={item?.label} hasIcon={!!(item?.icon || false)} {...item}>
+            {item?.icon && <Icon name={item?.icon} slot="icon" />}
+          </BreadcrumbsItem>
+        ))
+    }-->
+  </ol>
+</nav>

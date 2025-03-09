@@ -1,0 +1,44 @@
+# About
+
+Everything you need to rapidly build content-driven websites. Components, blocks, layouts and complete page generation.
+
+### Why we built it
+
+After repeatedly encountering the same challenges in our company’s client projects, we decided to build this library. After successfully using it in production websites, we decided to open-source it to help others facing similar problems.
+
+<hr />
+
+## Installation
+
+```shell
+npm install @yatoday/astro-ui
+```
+
+or
+
+```shell
+pnpm i @yatoday/astro-ui
+# or
+yarn add @yatoday/astro-ui
+# or
+bun add @yatoday/astro-ui
+```
+
+<hr />
+
+## Usage
+
+```astro
+---
+// Import components & widgets
+import { HeroSlider, Button } from 'yt-astro-ui';
+
+// Import types
+import type { MetaData } from 'yt-astro-ui/types';
+
+// Import utilities
+import { cn } from 'yt-astro-ui/utils';
+---
+
+<Button variant="primary">Send</Button>
+```

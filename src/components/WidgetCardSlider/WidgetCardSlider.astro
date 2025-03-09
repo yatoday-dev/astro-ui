@@ -1,0 +1,50 @@
+---
+import type { WidgetCardSliderProps as Props } from './types';
+import type {Card1Props} from "../Card1/types";
+import type {Card2Props} from "../Card2/types";
+import Card1 from "../Card1/Card1.astro";
+import Headline from "../Headline/Headline.astro";
+import WidgetWrapper from "../WidgetWrapper/WidgetWrapper.astro";
+import SwiperSlider from "../SwiperSlider/SwiperSlider.astro";
+
+const {
+  via = Card1,
+
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline = await Astro.slots.render('tagline'),
+
+  items = [] as Card1Props[] | Card2Props[],
+  isAfterContent = false,
+
+  id = (Math.random() + 1).toString(36).substring(7),
+  withNavigation = true,
+  isDark = false,
+  bg = await Astro.slots.render('bg'),
+  classes = {},
+  ...rest
+} = Astro.props
+
+const Component = via;
+---
+
+<WidgetWrapper
+  id={id}
+  isDark={isDark}
+  bg={bg}
+  containerClass={`${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : 'px-0 md:px-6 py-6 md:py-8 lg:py-8'} ${classes?.container}`}
+>
+  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
+
+  {
+    items && (
+      <SwiperSlider id={id} withNavigation={withNavigation} {...rest}>
+        {items.map((item) => (
+          <swiper-slide>
+            <Component {...item} />
+          </swiper-slide>
+        ))}
+      </SwiperSlider>
+    )
+  }
+</WidgetWrapper>
