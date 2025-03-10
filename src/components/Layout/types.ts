@@ -1,4 +1,4 @@
-import type { MetaData, MetaDataOpenGraph, MetaDataRobots, MetaDataTwitter } from '~/components/SeoMetadata/types';
+import type { MetaData, MetaDataOpenGraph, MetaDataRobots, MetaDataTwitter } from '../../components/Metadata/types';
 
 export type LayoutProps = {
   title?: string;

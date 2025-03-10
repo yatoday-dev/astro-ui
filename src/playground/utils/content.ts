@@ -1,10 +1,18 @@
-import { getCollection, render } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
-
+// @ts-ignore
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import {cleanSlug, trimSlash} from '../../utils';
 
 const BLOG_BASE = 'docs';
 const POST_PERMALINK_PATTERN = trimSlash(`${BLOG_BASE}/%slug%`);
+
+interface Category {
+  slug: string;
+  title: string;
+}
+
+interface Categories {
+  [key: string]: Category;
+}
 
 import type { Post } from '../types';
 
@@ -117,13 +125,12 @@ export const fetchPosts = async (): Promise<Array<Post>> => {
 
 export const getCategories = async () => {
   const posts = await fetchPosts();
-  const categories = {};
+  const categories: Categories = {};
   posts.map((post) => {
     if (post.category?.slug) {
       categories[post.category?.slug] = post.category;
     }
   });
-
   return categories;
 };
 

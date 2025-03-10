@@ -1,12 +1,14 @@
 {
   "name": "@yatoday/astro-ui",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "scripts": {
     "prepare": "husky",
     "pre-commit": "lint-staged",
     "dev": "astro dev",
     "build": "astro check && astro build",
+    "build:doc": "astro build",
+    "preview": "astro preview",
     "build:package": "node scripts/build.js",
     "build:local": "node scripts/build.js --local",
     "pub": "npm run build:package && cd dist && npm publish --access public",

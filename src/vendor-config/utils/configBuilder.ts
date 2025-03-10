@@ -1,5 +1,5 @@
 import merge from 'lodash.merge';
-import type { MetaData } from '~/components/SeoMetadata/types';
+import type { MetaData } from '../../components/Metadata/types';
 
 export type Config = {
   site?: SiteConfig;

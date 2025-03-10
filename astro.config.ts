@@ -15,6 +15,7 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
 
 // https://astro.build/config
 export default defineConfig({
+  outDir: 'dist-doc',
   integrations: [
     mdx(),
     icon({
