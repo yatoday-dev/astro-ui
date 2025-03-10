@@ -6,11 +6,12 @@ export type ClassArray = ClassValue[];
 declare module '@yatoday/astro-ui' {
   // DOMUtils.ts
   export const cn: (...inputs: ClassValue[]) => string
-  export const toggleClass: (el: string, className: string) => void
-  export const addClass: (el: string, className: string) => void
-  export const removeClass: (el: string, className: string) => void
   export const get: (selector: string, all?: boolean) => Element | NodeListOf<Element> | null
   export const on: (selector: string | HTMLElement | Document, event: string, callback: any, all?: boolean) => void
+  export const attachEvent: (selector: string | NodeListOf<Element>, event: string, callback: any) => void
+  export const toggleClasses: (el: HTMLElement | string, ...cls: string[]) => void
+  export const removeClasses: (el: HTMLElement | string, ...cls: string[]) => void
+  export const addClasses: (el: HTMLElement | string, ...cls: string[]) => void
   
   // utils.ts
   export const getFormattedDate = (date: Date) => string

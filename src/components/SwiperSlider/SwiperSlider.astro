@@ -1,6 +1,6 @@
 ---
 import type { SwiperSliderProps as Props } from './types';
-import { cn } from '../../utils'
+import { cn } from '../../utils';
 import { Icon } from 'astro-icon/components';
 
 const {
@@ -20,9 +20,9 @@ const {
     slides-per-view="1.2"
     navigation={withNavigation
       ? JSON.stringify({
-        nextEl: `#btn-next-${id}`,
-        prevEl: `#btn-prev-${id}`
-      })
+          nextEl: `#btn-next-${id}`,
+          prevEl: `#btn-prev-${id}`,
+        })
       : false}
     breakpoints={JSON.stringify({
       // 640: sm
@@ -33,18 +33,18 @@ const {
       640: {
         slidesPerView: 2,
         centeredSlides: false,
-        spaceBetween: 20
+        spaceBetween: 20,
       },
       768: {
         slidesPerView: 3,
         centeredSlides: false,
-        spaceBetween: 20
+        spaceBetween: 20,
       },
       1024: {
         slidesPerView: 4,
         centeredSlides: false,
-        spaceBetween: 20
-      }
+        spaceBetween: 20,
+      },
     })}
     {...rest}
   >
@@ -74,40 +74,40 @@ const {
 </div>
 
 <script>
-  import { addClass, removeClass } from '../../utils';
+  import { addClasses, removeClasses } from '../../utils';
 
   import { register } from 'swiper/element/bundle';
 
-  register()
+  register();
 
-  const matches = document.querySelectorAll('swiper-container')
+  const matches = document.querySelectorAll('swiper-container');
   if (matches && matches.length) {
     matches.forEach((elem) => {
-      const id = elem.dataset.id
+      const id = elem.dataset.id;
 
       elem.addEventListener(
         'swiperreachend',
         () => {
-          removeClass(`#btn-next-${id}`, 'opacity-100')
-          addClass(`#btn-next-${id}`, 'opacity-0')
+          removeClasses(`#btn-next-${id}`, 'opacity-100');
+          addClasses(`#btn-next-${id}`, 'opacity-0');
         },
         false
-      )
+      );
       elem.addEventListener(
         'swiperreachbeginning',
         () => {
-          addClass(`#btn-prev-${id}`, 'opacity-0')
+          addClasses(`#btn-prev-${id}`, 'opacity-0');
         },
         false
-      )
+      );
       elem.addEventListener(
         'swiperfromedge',
         () => {
-          removeClass(`#btn-prev-${id}`, 'opacity-0')
-          addClass(`#btn-next-${id}`, 'opacity-100')
+          removeClasses(`#btn-prev-${id}`, 'opacity-0');
+          addClasses(`#btn-next-${id}`, 'opacity-100');
         },
         false
-      )
-    })
+      );
+    });
   }
 </script>
