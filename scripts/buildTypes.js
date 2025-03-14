@@ -1,5 +1,3 @@
-import { utilityTypes } from './utilityTypes.js';
-
 import fs from 'fs';
 
 const getTypeName = (component, framework) => {
@@ -73,10 +71,6 @@ declare module '@yatoday/astro-ui/${type}' {
     })
     .join('\n\t')}
 }`);
-  }
-
-  if (type === 'utils') {
-    return utilityTypes;
   }
 };
 

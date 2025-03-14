@@ -10,6 +10,7 @@ const folders = {
 };
 
 const files = {
+  'src/types.d.ts': 'dist/index.d.ts',
   'README.md': 'dist/README.md',
   LICENSE: 'dist/LICENSE',
   'package.json': 'dist/package.json',
@@ -50,6 +51,6 @@ fs.writeFileSync('dist/svelte.js', buildImports('svelte'));
 fs.writeFileSync('dist/index.js', buildUtilImports());
 fs.writeFileSync('dist/astro.d.ts', buildTypes('astro'));
 fs.writeFileSync('dist/svelte.d.ts', buildTypes('svelte'));
-fs.writeFileSync('dist/index.d.ts', buildTypes('utils'));
+//fs.writeFileSync('dist/index.d.ts', buildTypes('utils'));
 
 console.log('✅ Package built');
