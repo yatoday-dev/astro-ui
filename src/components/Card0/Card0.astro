@@ -18,6 +18,8 @@ const { container: containerClass = '', badge: badgeClass = '' } = classes;
   <div class={twMerge('absolute', badgeClass)}>
     <slot name="badge" />
   </div>
+
   <slot name="image" />
+
   <slot />
 </WrapperTag>

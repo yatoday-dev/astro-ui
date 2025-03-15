@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import "../../../assets/styles/themes/default.css";
+@import '../../../assets/styles/themes/default.css';
 
 @plugin "@tailwindcss/typography";
 
@@ -10,7 +10,6 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-
 }
 
 /* 

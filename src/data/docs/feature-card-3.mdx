@@ -1,55 +1,72 @@
 ---
-title: Card 2
+title: Card 3
 category: W.Feature
 ---
 
 import Demo from '~/playground/components/Demo.astro';
-import Card2 from '~/components/Card1/Card1.astro';
+import Card3 from '~/components/Card3/Card3.astro';
 import ItemGrid0 from '~/components/ItemGrid0/ItemGrid0.astro';
 
-# Card 2
+# Card 3
 
 The Card component provides a versatile container for displaying related content. It uses semantic HTML and ensures proper heading structure and content organization.
 
 <div className="space-y-12">
   <Demo title="">
     <ItemGrid0 columns={3} class="bg-stripe">
-      <Card2
+      <Card3
         title="Card 2.1"
         description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
         image="~/assets/images/800x800.svg"
-        url="/"
+        callToAction={{ href: '/', text: 'Read more', size: 'sm', variant: 'primary' }}
       />
-      <Card2
+      <Card3
         title="Card 2.2"
+        image="~/assets/images/800x800.svg"
         description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
         icon="tabler:home"
-        url="/"
+        callToAction={{ href: '/', text: 'Read more', size: 'sm', variant: 'outline' }}
       />
-      <Card2 title="Card 2.3" description="Lorem ipsum dolor sit amet, consectetur adipisicing elit." />
+      <Card3 
+        title="Card 2.3" 
+        image={{
+          src: '~/assets/images/800x800.svg',
+          alt: 'Image name'
+        }}
+        description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+        callToAction={{ href: '/', text: 'Read more', size: 'sm', variant: 'outline' }}
+      />
     </ItemGrid0>
   </Demo>
 </div>
 
 ```astro
 ---
-import { Card1, ItemGrid0 } from '@yatoday/astro-ui/astro';
+import { Card3, ItemGrid0 } from '@yatoday/astro-ui/astro';
 ---
 
-<ItemGrid0 columns={3}>
-  <Card2
+<ItemGrid0 columns={3} class="bg-stripe">
+  <Card3
     title="Card 2.1"
     description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
     image="~/assets/images/800x800.svg"
-    url="/"
+    callToAction={{ href: '/', text: 'Read more', size: 'sm', variant: 'primary' }}
   />
-  <Card2
+  <Card3
     title="Card 2.2"
+    image="~/assets/images/800x800.svg"
     description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
-    icon="tabler:home"
-    url="/"
+    callToAction={{ href: '/', text: 'Read more', size: 'sm', variant: 'outline' }}
   />
-  <Card2 title="Card 2.3" description="Lorem ipsum dolor sit amet, consectetur adipisicing elit." />
+  <Card3 
+    title="Card 2.3" 
+    image={{
+      src: '~/assets/images/800x800.svg',
+      alt: 'Image name'
+    }}
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    callToAction={{ href: '/', text: 'Read more', size: 'sm', variant: 'outline' }}
+  />
 </ItemGrid0>
 ```
 
@@ -61,7 +78,7 @@ import { Card1, ItemGrid0 } from '@yatoday/astro-ui/astro';
     |------|------|---------|-------------| 
     | `title` | `string` | - | Title text for the card | | `description` | `string` | - | Content for the card |
     | `image` | `string` \| [Image](/docs/image) | - | Path to the card's image |
-    | `icon` | `string` | - | Name icon from set |
+    | `callToAction` | [ICallToAction](/docs/types#icalltoaction) | - | Action button or link. See the [button](/docs/button) component for details.  |
     | `class` | `string` | - | Additional CSS classes to apply to the card |
     | `asHeader` | `string` | `h3` | HTML tag name for the title | 
     | `url` | `string` | - | URL for the card’s link wrapper |

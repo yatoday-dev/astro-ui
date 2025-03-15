@@ -23,4 +23,4 @@ type CallToAction = {
   icon?: string;
   classes?: Record<string, string>;
   type?: 'button' | 'submit' | 'reset';
-} & Omit<HTMLAttributes<'a'>, 'slot'>
+} & Omit<HTMLAttributes<'a'>, 'slot'>;

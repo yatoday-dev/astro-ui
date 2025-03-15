@@ -35,7 +35,7 @@ export const on = (selector: string | HTMLElement | Document, event: string, cal
   }
 
   if (typeof selector === 'string') {
-    const element = (get(selector) as HTMLElement);
+    const element = get(selector) as HTMLElement;
     element?.addEventListener(event, callback(event, element));
 
     return;
@@ -52,7 +52,11 @@ export const on = (selector: string | HTMLElement | Document, event: string, cal
  * @param {Function} callback - A callback function to execute when the event is triggered. It receives the event object and the element as arguments.
  * @return {void}
  */
-export function attachEvent(selector: string | NodeListOf<Element> | MediaQueryList[] | Document[], event: string, callback: any) {
+export function attachEvent(
+  selector: string | NodeListOf<Element> | MediaQueryList[] | Document[],
+  event: string,
+  callback: any
+) {
   const matches = typeof selector === 'string' ? document.querySelectorAll(selector) : selector;
   if (matches && matches.length) {
     matches.forEach((elem) => {
@@ -74,10 +78,10 @@ export const toggleClasses = (el: Element | string | null, ...cls: string[]): vo
   if (!element) {
     return;
   }
-  
-  cls.map(cl => cl && element.classList.toggle(cl));
+
+  cls.map((cl) => cl && element.classList.toggle(cl));
   return;
-}
+};
 
 /**
  * Removes one or more CSS classes from a specified HTML element.
@@ -92,10 +96,9 @@ export const removeClasses = (el: Element | string | null, ...cls: string[]): vo
     return;
   }
 
-  cls.map(cl => cl && element.classList.remove(cl));
+  cls.map((cl) => cl && element.classList.remove(cl));
   return;
-}
-  
+};
 
 /**
  * Adds one or more CSS class names to a specified HTML element.
@@ -111,6 +114,6 @@ export const addClasses = (el: Element | string | null, ...cls: string[]): void 
     return;
   }
 
-  cls.map(cl => cl && element.classList.add(cl));
+  cls.map((cl) => cl && element.classList.add(cl));
   return;
-}
+};

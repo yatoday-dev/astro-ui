@@ -5,7 +5,7 @@ import { SITE } from 'vendor:config';
 import { Icon } from 'astro-icon/components';
 import DarkMode from '../DarkMode/DarkMode.astro';
 import ToggleMenu from './ToggleMenu.astro';
-import Button from '../Button/Button.svelte';
+import Button from '../Button/Button.astro';
 import { cn, trimSlash } from '../../utils';
 
 const {
@@ -25,7 +25,7 @@ const {
   links: linksClass = 'hover:text-link dark:hover:text-white',
   dropdownLinks: dropdownLinksClass = 'hover:bg-black/10 hover:text-link dark:hover:text-white dark:hover:bg-white/10',
   darkModeIcon: darkModeIconClass = '',
-  pinned: pinnedClasses = 'bg-background md:bg-background/90 md:backdrop-blur-md'
+  pinned: pinnedClasses = 'bg-background md:bg-background/90 md:backdrop-blur-md',
 } = classes;
 
 const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
@@ -70,9 +70,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       class="items-center w-full md:w-auto hidden md:flex md:mx-5 text-default overflow-y-auto overflow-x-hidden md:overflow-y-visible md:overflow-x-auto md:justify-self-center"
       aria-label="Main navigation"
     >
-      <ul
-        class="flex flex-col md:flex-row md:self-center w-full md:w-auto font-medium md:justify-center"
-      >
+      <ul class="flex flex-col md:flex-row md:self-center w-full md:w-auto font-medium md:justify-center">
         {
           links.map(({ text, href, links }) => (
             <li class={links?.length ? 'dropdown' : ''}>
@@ -85,7 +83,12 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
                     {text}{' '}
                     <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden md:inline" />
                   </button>
-                  <ul class={cn("dropdown-menu rounded-sm md:absolute pl-4 md:pl-0 pb-1 md:hidden font-medium md:min-w-60", pinnedClasses)}>
+                  <ul
+                    class={cn(
+                      'dropdown-menu rounded-sm md:absolute pl-4 md:pl-0 pb-1 md:hidden font-medium md:min-w-60',
+                      pinnedClasses
+                    )}
+                  >
                     {links.map(({ text: text2, href: href2 }) => (
                       <li class="px-1">
                         <a
@@ -172,13 +175,13 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
   const addEventListeners = () => {
     const header = document.querySelector('#header[data-ya-sticky-header]') as HTMLElement;
     if (!header) return;
-    
+
     const scrollOffset = Number(header.dataset.scrollOffset) || 0;
     const pinnedClasses = header.dataset.pinnedClasses || '';
-    
+
     let lastKnownScrollPosition = window.scrollY;
     let ticking = true;
-    
+
     attachEvent('[data-aw-toggle-menu]', 'click', (_: Event, elem: HTMLElement) => {
       toggleClasses(elem, 'expanded');
       toggleClasses(document.body, 'overflow-hidden');
@@ -187,10 +190,10 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       toggleClasses('#header > div > div:last-child', 'hidden');
     });
 
-    attachEvent('#header nav', 'click',  ()  => {
+    attachEvent('#header nav', 'click', () => {
       hiddenNav();
     });
-    
+
     attachEvent([window.matchMedia('(max-width: 767px)')], 'change', () => {
       hiddenNav();
     });
@@ -202,7 +205,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       addClasses('#header nav', 'hidden');
       addClasses('#header > div > div:last-child', 'hidden');
     }
-    
+
     function applyHeaderStylesOnScroll() {
       if (lastKnownScrollPosition > scrollOffset && !header.classList.contains('scroll')) {
         addClasses(header, 'scroll', ...pinnedClasses.split(' '));
@@ -223,7 +226,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
         ticking = true;
       }
     });
-  }
-  
+  };
+
   addEventListeners();
 </script>

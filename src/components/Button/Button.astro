@@ -1,9 +1,9 @@
 ---
-import type {ButtonProps as Props} from './types';
+import type { ButtonProps as Props } from './types';
 
-import {Icon} from 'astro-icon/components';
-import {buttonVariants} from "./button-variants";
-import {cn} from "../../utils";
+import { Icon } from 'astro-icon/components';
+import { buttonVariants } from './button-variants';
+import { cn } from '../../utils';
 
 const {
   variant = 'default',
@@ -15,23 +15,22 @@ const {
   type = 'button',
   ...rest
 } = Astro.props;
-
 ---
 
-{rest?.href ? (
-  <a
-    class={cn(buttonVariants({size, variant}), className)}
-    {...(target ? { target: target, rel: 'noopener noreferrer' } : {})}
-    {...rest}
-  >
-    <Fragment set:html={text}/>
-    {icon &&
-      <Icon name={icon} class="w-5 h-5 ml-1 -mr-1.5 rtl:mr-1 rtl:-ml-1.5 inline-block"/>}
-  </a>
-) : (
-  <button type={type} class={cn(buttonVariants({size, variant}), className)} {...rest}>
-    <Fragment set:html={text}/>
-    {icon &&
-      <Icon name={icon} class="w-5 h-5 ml-1 -mr-1.5 rtl:mr-1 rtl:-ml-1.5 inline-block"/>}
-  </button>
-)}
+{
+  rest?.href ? (
+    <a
+      class={cn(buttonVariants({ size, variant }), className)}
+      {...(target ? { target: target, rel: 'noopener noreferrer' } : {})}
+      {...rest}
+    >
+      <Fragment set:html={text} />
+      {icon && <Icon name={icon} class="w-5 h-5 ml-1 -mr-1.5 rtl:mr-1 rtl:-ml-1.5 inline-block" />}
+    </a>
+  ) : (
+    <button type={type} class={cn(buttonVariants({ size, variant }), className)} {...rest}>
+      <Fragment set:html={text} />
+      {icon && <Icon name={icon} class="w-5 h-5 ml-1 -mr-1.5 rtl:mr-1 rtl:-ml-1.5 inline-block" />}
+    </button>
+  )
+}
