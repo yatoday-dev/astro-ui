@@ -6,29 +6,29 @@ category: UI
 # Button
 
 import Demo from '~/playground/components/Demo.astro';
-import Button from '~/components/Button/Button.svelte';
+import Button from '~/components/Button/Button.astro';
 
 <div className="space-y-12">
   <Demo title="Default">
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2 p-2">
       {['default', 'primary', 'accent', 'destructive', 'outline', 'ghost', 'link'].map(item => (
         <Button variant={item} class="capitalize">{item}</Button>
       ))}
     </div>
   </Demo>
 
-<Demo title="Size: sm">
-  <div className="flex flex-wrap gap-2">
-    {['default', 'primary', 'accent', 'destructive', 'outline', 'ghost', 'link'].map((item) => (
-      <Button size="sm" variant={item} class="capitalize">
-        {item}
-      </Button>
-    ))}
-  </div>
-</Demo>
+  <Demo title="Size: sm">
+    <div className="flex flex-wrap gap-2 p-2">
+      {['default', 'primary', 'accent', 'destructive', 'outline', 'ghost', 'link'].map((item) => (
+        <Button size="sm" variant={item} class="capitalize">
+          {item}
+        </Button>
+      ))}
+    </div>
+  </Demo>
 
   <Demo title="Size: lg">
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2 p-2">
       {['default', 'primary', 'accent', 'destructive', 'outline', 'ghost', 'link'].map(item => (
         <Button size="lg" variant={item} class="capitalize">{item}</Button>
       ))}
