@@ -52,7 +52,7 @@ export const on = (selector: string | HTMLElement | Document, event: string, cal
  * @param {Function} callback - A callback function to execute when the event is triggered. It receives the event object and the element as arguments.
  * @return {void}
  */
-export function attachEvent(selector: string | NodeListOf<Element>, event: string, callback: any) {
+export function attachEvent(selector: string | NodeListOf<Element> | MediaQueryList[] | Document[], event: string, callback: any) {
   const matches = typeof selector === 'string' ? document.querySelectorAll(selector) : selector;
   if (matches && matches.length) {
     matches.forEach((elem) => {
@@ -65,17 +65,17 @@ export function attachEvent(selector: string | NodeListOf<Element>, event: strin
  * Toggles one or more CSS classes on a given HTML element.
  * toggleClasses(elem, "class1", "class2", "...");
  *
- * @param {HTMLElement} el - The target HTML element on which the CSS classes will be toggled.
+ * @param {Element} el - The target HTML element on which the CSS classes will be toggled.
  * @param {...string} cls - One or more CSS class names to be toggled on the target element.
  * @returns {void}
  */
-export const toggleClasses = (el: HTMLElement | string, ...cls: string[]): void => {
-  const element = typeof el === 'string' ? (get(el) as HTMLElement) : el;
+export const toggleClasses = (el: Element | string | null, ...cls: string[]): void => {
+  const element = typeof el === 'string' ? (get(el) as Element) : el;
   if (!element) {
     return;
   }
   
-  cls.map(cl => element.classList.toggle(cl));
+  cls.map(cl => cl && element.classList.toggle(cl));
   return;
 }
 
@@ -83,16 +83,16 @@ export const toggleClasses = (el: HTMLElement | string, ...cls: string[]): void 
  * Removes one or more CSS classes from a specified HTML element.
  * removeClasses(elem, "class1", "class2", "...");
  *
- * @param {HTMLElement} el - The HTML element from which the classes will be removed.
+ * @param {Element} el - The HTML element from which the classes will be removed.
  * @param {...string} cls - One or more class names to be removed from the element.
  */
-export const removeClasses = (el: HTMLElement | string, ...cls: string[]): void => {
-  const element = typeof el === 'string' ? (get(el) as HTMLElement) : el;
+export const removeClasses = (el: Element | string | null, ...cls: string[]): void => {
+  const element = typeof el === 'string' ? (get(el) as Element) : el;
   if (!element) {
     return;
   }
 
-  cls.map(cl => element.classList.remove(cl));
+  cls.map(cl => cl && element.classList.remove(cl));
   return;
 }
   
@@ -101,16 +101,16 @@ export const removeClasses = (el: HTMLElement | string, ...cls: string[]): void 
  * Adds one or more CSS class names to a specified HTML element.
  * addClasses(elem, "class1", "class2", "...");
  *
- * @param {HTMLElement} el - The HTML element to which the CSS class names will be added.
+ * @param {Element} el - The HTML element to which the CSS class names will be added.
  * @param {...string} cls - One or more CSS class names to add to the element.
  * @returns {void[]} An array of undefined values, corresponding to the operations performed for each class name.
  */
-export const addClasses = (el: HTMLElement | string, ...cls: string[]): void => {
-  const element = typeof el === 'string' ? (get(el) as HTMLElement) : el;
+export const addClasses = (el: Element | string | null, ...cls: string[]): void => {
+  const element = typeof el === 'string' ? (get(el) as Element) : el;
   if (!element) {
     return;
   }
 
-  cls.map(cl => element.classList.add(cl));
+  cls.map(cl => cl && element.classList.add(cl));
   return;
 }
