@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import "../../../assets/styles/themes/default.css";
+
 @plugin "@tailwindcss/typography";
 
 /*
@@ -7,14 +9,18 @@
  */
 @custom-variant dark (&:where(.dark, .dark *));
 
+:root {
+
+}
+
 /* 
  * Define theme variables
  * Read more: https://tailwindcss.com/docs/colors#referencing-other-variables
  */
-:root {
-  /* Colors */
+/*:root {
   --yt-color-background: #f3f3f6;
   --yt-color-foreground: #2f3133;
+  
   --yt-color-card: hsl(0 0% 100%);
   --yt-color-card-foreground: hsl(0 0% 3.9%);
   --yt-color-popover: hsl(0 2% 21%);
@@ -45,9 +51,9 @@
 }
 
 .dark {
-  /* Colors */
   --yt-color-background: #0c0e11;
   --yt-color-foreground: #c6c6c9;
+  
   --yt-color-card: hsl(220 6% 10%);
   --yt-color-card-foreground: hsl(0 0% 98%);
   --yt-color-popover: hsl(0 0% 3.9%);
@@ -105,9 +111,10 @@
   --color-popover: var(--yt-color-popover);
   --color-popover-foreground: var(--yt-color-popover-foreground);
 }
+*/
 
 @theme {
-  --radius-btn: 9999px;
+  /*--radius-btn: 9999px;*/
 }
 
 @utility bg-stripe {
