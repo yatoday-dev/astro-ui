@@ -1,0 +1,96 @@
+---
+import type { Card3Props as Props } from './types';
+import Card0 from '../Card0/Card0.astro';
+import Image from '../Image/Image.astro';
+import Button from '../Button/Button.astro';
+import { twMerge } from 'tailwind-merge';
+
+const {
+  title = await Astro.slots.render('title'),
+  description,
+  callToAction,
+  image,
+  classes = {},
+  as = 'article',
+  asHeader = 'h3',
+} = Astro.props;
+
+const WrapperHeaderTag = asHeader;
+
+const {
+  container: containerClass = 'bg-transparent border-transparent',
+  title: titleClass = '',
+  description: descriptionClass = 'text-muted-foreground',
+  image: imageClass = '',
+} = classes;
+
+const img = {
+  src: typeof image === 'string' ? image : image?.src,
+  alt: typeof image === 'string' ? title : image?.alt,
+  aspectRatio: typeof image === 'string' ? '4:3' : image?.aspectRatio || '4:3',
+};
+---
+
+<Card0
+  as={as}
+  classes={{
+    container: twMerge(containerClass, 'justify-start py-0'),
+  }}
+>
+  <Fragment slot="image">
+    {
+      image && (
+        <div
+          class={twMerge('w-full aspect-square overflow-hidden rounded-lg bg-gray-400 dark:bg-zinc-700', imageClass)}
+        >
+          {callToAction && callToAction.href ? (
+            <a href={callToAction.href} class="group">
+              <Image
+                src={img.src}
+                class={twMerge('w-full h-full  hover:scale-105 transition duration-300')}
+                widths={[400, 900]}
+                width={400}
+                height={400}
+                sizes="(max-width: 900px) 400px, 900px"
+                alt={img.alt}
+                aspectRatio={img.aspectRatio}
+                layout="cover"
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+          ) : (
+            <Image
+              src={img.src || String(image)}
+              class={twMerge('w-full h-full')}
+              widths={[400, 900]}
+              width={400}
+              height={400}
+              sizes="(max-width: 900px) 400px, 900px"
+              alt={img.alt || title}
+              aspectRatio={img.aspectRatio}
+              layout="cover"
+              loading="lazy"
+              decoding="async"
+            />
+          )}
+        </div>
+      )
+    }
+  </Fragment>
+
+  <div class="flex items-start gap-2">
+    <div>
+      <WrapperHeaderTag class={twMerge('text-lg md:text-xl font-bold', titleClass)}>
+        {title}
+      </WrapperHeaderTag>
+
+      <div class={twMerge('mt-2 text-sm md:text-base leading-5 md:leading-6', descriptionClass)}>
+        <slot />
+        {description}
+      </div>
+    </div>
+
+    {callToAction && <Button {...callToAction} />}
+  </div>
+</Card0>
