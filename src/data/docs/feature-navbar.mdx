@@ -1,0 +1,219 @@
+---
+title: Navbar
+category: W.Feature
+---
+
+import Demo from '~/playground/components/Demo.astro';
+import Navbar from '~/components/Navbar/Navbar.astro';
+import Button from '~/components/Button/Button.svelte';
+
+export const demoActions = [{ text: 'Action', href: '/', variant: 'outline' }];
+export const demoLinks = [
+  {
+    text: "Getting started",
+    links: [
+      {text: "Styling & Theme variables", href: "/docs/styling"}, 
+      {text: "Components", href: "/docs/breadcrumbs"}, 
+      {text: "Features", href: "/docs/feature-back-to-top"}, 
+      {text: "Widgets", href: "/docs/widget-card-slider"}
+    ]
+  }, 
+  {
+    text: "Accessibility",
+    links: [
+      {text: "Accessibility", href: "/docs/accessibility"}, 
+      {text: "Accessibility testing", href: "/docs/accessibility-testing"}
+    ]
+  }, 
+  {text: "About Us", href: "/"}, 
+  {text: "Contact", href: "/"}
+];
+
+# Navbar
+
+<Demo title="">
+  <Navbar 
+    links={demoLinks} 
+    position="right"
+  />
+</Demo>
+
+```astro
+---
+import { Navbar } from '@yatoday/astro-ui/astro';
+---
+
+<Navbar
+  position="right"
+  links={[
+    {
+      text: "Getting started",
+      links: [
+        {text: "Styling & Theme variables", href: "/docs/styling"}, 
+        {text: "Components", href: "/docs/breadcrumbs"}, 
+        {text: "Features", href: "/docs/feature-back-to-top"}, 
+        {text: "Widgets", href: "/docs/widget-card-slider"}
+      ]
+    }, 
+    {
+      text: "Accessibility",
+      links: [
+        {text: "Accessibility", href: "/docs/accessibility"}, 
+        {text: "Accessibility testing", href: "/docs/accessibility-testing"}
+      ]
+    }, 
+    {text: "About Us", href: "/"}, 
+    {text: "Contact", href: "/"}
+  ]}
+/>
+```
+
+<Demo title="Sticky & ToggleTheme" class="bg-stripe h-[900px]">
+  <Navbar
+    isSticky={true}
+    showToggleTheme={true}
+    scrollOffset={1200}
+    classes={{
+      container: "mx-auto max-w-6xl text-foreground",
+      pinned: "bg-background",
+    }}
+    links={demoLinks}
+    actions={demoActions}
+  >
+    <Fragment slot="logo">LOGO</Fragment>
+    <Fragment slot="actions">
+      <Button variant="outline" class="ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto">
+        Create Account
+      </Button>
+    </Fragment>
+  </Navbar>
+</Demo>
+
+```astro
+---
+import { Navbar } from '@yatoday/astro-ui/astro';
+---
+
+<Navbar
+  isSticky={true}
+  showToggleTheme={true}
+  classes={{
+    container: "mx-auto max-w-6xl bg-background text-foreground",
+  }}
+  links={[
+    {
+      text: "Getting started",
+      links: [
+        {text: "Styling & Theme variables", href: "/docs/styling"}, 
+        {text: "Components", href: "/docs/breadcrumbs"}, 
+        {text: "Features", href: "/docs/feature-back-to-top"}, 
+        {text: "Widgets", href: "/docs/widget-card-slider"}
+      ]
+    }, 
+    {
+      text: "Accessibility",
+      links: [
+        {text: "Accessibility", href: "/docs/accessibility"}, 
+        {text: "Accessibility testing", href: "/docs/accessibility-testing"}
+      ]
+    }, 
+    {text: "About Us", href: "/"}, 
+    {text: "Contact", href: "/"}
+  ]}
+  actions={demoActions}
+>
+  <Fragment slot="logo">LOGO</Fragment>
+  <Fragment slot="actions">
+    <Button variant="outline" class="ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto">
+      Create Account
+    </Button>
+  </Fragment>
+</Navbar>
+```
+
+
+<Demo title="With actions" class="">
+  <Navbar
+    classes={{
+      container: "mx-auto max-w-6xl bg-background text-foreground",
+    }}
+    links={demoLinks}
+  >
+    <Fragment slot="actions">
+      <Button variant="outline" class="ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto">
+        Custom Action
+      </Button>
+    </Fragment>
+  </Navbar>
+</Demo>
+
+```astro
+---
+import { Navbar } from '@yatoday/astro-ui/astro';
+---
+
+<Navbar
+  isSticky={true}
+  classes={{
+    container: "mx-auto max-w-6xl bg-background text-foreground",
+  }}
+  links={[
+    {
+      text: "Getting started",
+      links: [
+        {text: "Styling & Theme variables", href: "/docs/styling"}, 
+        {text: "Components", href: "/docs/breadcrumbs"}, 
+        {text: "Features", href: "/docs/feature-back-to-top"}, 
+        {text: "Widgets", href: "/docs/widget-card-slider"}
+      ]
+    }, 
+    {
+      text: "Accessibility",
+      links: [
+        {text: "Accessibility", href: "/docs/accessibility"}, 
+        {text: "Accessibility testing", href: "/docs/accessibility-testing"}
+      ]
+    }, 
+    {text: "About Us", href: "/"}, 
+    {text: "Contact", href: "/"}
+  ]}
+  actions={demoActions}
+>
+  <Fragment slot="logo">LOGO</Fragment>
+  <Fragment slot="actions">
+    <Button variant="outline" class="ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto">
+      Custom Action
+    </Button>
+  </Fragment>
+</Navbar>
+
+<!-- Actions as props -->
+<Navbar
+  actions={[
+    { text: 'Action 1',  href: '/', variant: 'outline' },
+    { text: 'Action 2',  href: '/', variant: 'primary' },
+  ]}
+/>
+```
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------|------|---------|---------|
+    | `position` | `center` \| `left` \| `right` | `center` | - |
+    | `links` | [ILink](/docs/types#ILink)[] | `[]` | - |
+    | `actions` | [ICallToAction](/docs/types#ICallToAction)[] | `[]` | - |
+    | `isSticky` | `boolean` | `false` | - |
+    | `isDark` | `boolean` | `false` | - |
+    | `showToggleTheme` | `boolean` | `false` | - |
+    | `scrollOffset` | `number` | `60` | How much do you need to scroll the page to apply `pinnedClasses` classes |
+    | `classes` | `{}` | - | - |
+    | `classes.container` | `string` | `max-w-7xl md:mx-auto` | - |
+    | `classes.links` | `string` | `hover:text-link dark:hover:text-white` | - |
+    | `classes.dropdownLinks` | `string` | `md:hover:bg-gray-200 hover:text-link dark:hover:text-white dark:hover:bg-zinc-800` | - |
+    | `classes.darkModeIcon` | `string` | - | - |
+    | `classes.pinned` | `string` | `bg-background md:bg-background/90 md:backdrop-blur-md` | Classes that will be applied when scrolling the page |
+  </div>
+</div>
+
