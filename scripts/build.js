@@ -7,6 +7,7 @@ const folders = {
   'src/components': 'dist/components',
   'src/vendor-config': 'dist/vendor-config',
   'src/utils': 'dist/utils',
+  'src/assets/styles/themes': 'dist/styles/themes',
 };
 
 const files = {
@@ -51,6 +52,5 @@ fs.writeFileSync('dist/svelte.js', buildImports('svelte'));
 fs.writeFileSync('dist/index.js', buildUtilImports());
 fs.writeFileSync('dist/astro.d.ts', buildTypes('astro'));
 fs.writeFileSync('dist/svelte.d.ts', buildTypes('svelte'));
-//fs.writeFileSync('dist/index.d.ts', buildTypes('utils'));
 
 console.log('✅ Package built');
