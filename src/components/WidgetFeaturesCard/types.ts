@@ -1,4 +1,4 @@
-import type {WidgetFeatures0Props} from "../WidgetFeatures0/types";
+import type { WidgetFeatures0Props } from '../WidgetFeatures0/types';
 
 export type WidgetFeaturesCardProps = {
   via?: any;

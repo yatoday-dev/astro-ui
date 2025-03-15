@@ -3,4 +3,4 @@ export type HeadlineProps = {
   subtitle?: string;
   tagline?: string;
   classes?: Record<string, string>;
-}
+};

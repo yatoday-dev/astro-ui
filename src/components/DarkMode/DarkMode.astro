@@ -56,7 +56,6 @@ const {
         applyTheme('light');
       }
     };
-    initialize();
 
     // Add click handlers to all toggles
     document.addEventListener('click', (e) => {
@@ -73,5 +72,6 @@ const {
     document.addEventListener('astro:after-swap', () => {
       initialize();
     });
+    initialize();
   }
 </script>

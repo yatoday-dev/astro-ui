@@ -1,5 +1,5 @@
 import slugify from 'limax';
-import {trim} from './utils';
+import { trim } from './utils';
 
 /**
  * Removes leading and trailing slashes from the given string.

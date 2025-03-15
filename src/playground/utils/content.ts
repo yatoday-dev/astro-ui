@@ -1,6 +1,6 @@
 // @ts-ignore
 import { getCollection, render, type CollectionEntry } from 'astro:content';
-import {cleanSlug, trimSlash} from '../../utils';
+import { cleanSlug, trimSlash } from '../../utils';
 
 const BLOG_BASE = 'docs';
 const POST_PERMALINK_PATTERN = trimSlash(`${BLOG_BASE}/%slug%`);

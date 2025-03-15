@@ -1,9 +1,9 @@
 ---
 import type { WidgetHeroSliderProps as Props } from './types';
-import type {HeroSectionProps} from "../HeroSection/types";
-import {cn} from "../../utils";
-import WidgetWrapper from "../WidgetWrapper/WidgetWrapper.astro";
-import HeroSection from "../HeroSection/HeroSection.astro";
+import type { HeroSectionProps } from '../HeroSection/types';
+import { cn } from '../../utils';
+import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
+import HeroSection from '../HeroSection/HeroSection.astro';
 
 const {
   items = [] as HeroSectionProps[],
@@ -126,21 +126,21 @@ const {
       slides-per-view="1.2"
       navigation={withNavigation
         ? JSON.stringify({
-          nextEl: `#btn-next-${id}`,
-          prevEl: `#btn-prev-${id}`
-        })
+            nextEl: `#btn-next-${id}`,
+            prevEl: `#btn-prev-${id}`,
+          })
         : false}
       breakpoints={JSON.stringify({
         // 640: sm
-                // 768: sm
-                // 1024: sm
-                // 1280 xl
-                // 1536 2xl
-                640: {
+        // 768: sm
+        // 1024: sm
+        // 1280 xl
+        // 1536 2xl
+        640: {
           centeredSlides: false,
           spaceBetween: 20,
-          slidesPerView: 1
-        }
+          slidesPerView: 1,
+        },
       })}
       {...rest}
     >
@@ -189,6 +189,6 @@ const {
 </WidgetWrapper>
 
 <script>
-  import { register } from 'swiper/element/bundle'
-  register()
+  import { register } from 'swiper/element/bundle';
+  register();
 </script>

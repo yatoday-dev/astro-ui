@@ -1,5 +1,5 @@
 ---
-import type {Card2Props as Props} from './types';
+import type { Card2Props as Props } from './types';
 import Card0 from '../Card0/Card0.astro';
 import Image from '../Image/Image.astro';
 import { Icon } from 'astro-icon/components';
@@ -13,23 +13,23 @@ const {
   url = '/',
   classes = {},
   as = 'article',
-  asHeader = 'h3'
-} = Astro.props
+  asHeader = 'h3',
+} = Astro.props;
 
-const WrapperHeaderTag = asHeader
+const WrapperHeaderTag = asHeader;
 
 const {
   container: containerClass = '',
   title: titleClass = '',
   description: descriptionClass = 'text-muted-foreground',
   icon: iconClass = '',
-  image: imageClass = ''
-} = classes
+  image: imageClass = '',
+} = classes;
 
 const img = {
   src: typeof image === 'string' ? image : image?.src,
   alt: typeof image === 'string' ? title : image?.alt,
-  aspectRatio: typeof image === 'string' ? '4:3' : image?.aspectRatio || '4:3'
+  aspectRatio: typeof image === 'string' ? '4:3' : image?.aspectRatio || '4:3',
 };
 ---
 
@@ -37,7 +37,7 @@ const img = {
   as={as}
   classes={{
     content: 'space-y-6',
-    container: containerClass
+    container: containerClass,
   }}
 >
   <!-- Image -->

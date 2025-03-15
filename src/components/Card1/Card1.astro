@@ -3,8 +3,8 @@ import type { Card1Props as Props } from './types';
 import Card0 from '../Card0/Card0.astro';
 import Image from '../Image/Image.astro';
 import Button from '../Button/Button.svelte';
-import { Icon } from 'astro-icon/components'
-import { twMerge } from 'tailwind-merge'
+import { Icon } from 'astro-icon/components';
+import { twMerge } from 'tailwind-merge';
 
 const {
   title = await Astro.slots.render('title'),
@@ -16,10 +16,10 @@ const {
   callToAction,
   classes = {},
   as = 'article',
-  asHeader = 'h3'
+  asHeader = 'h3',
 } = Astro.props;
 
-const WrapperHeaderTag = asHeader
+const WrapperHeaderTag = asHeader;
 
 const {
   title: titleClass = '',
@@ -27,20 +27,20 @@ const {
   image: imageClass = '',
   icon: iconClass = '',
   quickLink: quickLinkClass = 'font-semibold underline text-primary hover:text-primary/80',
-  action: actionClass = ''
-} = classes
+  action: actionClass = '',
+} = classes;
 
 const img = {
   src: typeof image === 'string' ? image : image?.src,
   alt: typeof image === 'string' ? title : image?.alt,
-  aspectRatio: typeof image === 'string' ? '4:3' : image?.aspectRatio || '4:3'
+  aspectRatio: typeof image === 'string' ? '4:3' : image?.aspectRatio || '4:3',
 };
 ---
 
 <Card0
   as={as}
   classes={{
-    content: 'space-y-6'
+    content: 'space-y-6',
   }}
 >
   <Fragment slot="image">

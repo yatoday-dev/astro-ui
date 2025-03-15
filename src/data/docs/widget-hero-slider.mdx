@@ -234,15 +234,19 @@ import { HeroSection } from '@yatoday/astro-ui/astro';
 
 <div className="overflow-x-auto">
   <div className="min-w-xl">
-    | Prop | Type | Default | Description | |------------|------------|------------|------------| | `height` | `string`
-    | `h-[28rem]` | Set the height of the slider and its layers | | `id` | `string` | js random | By default, the `id`
-    is generated automatically. If you decide to specify this parameter yourself, make sure that it is unique on the
-    page | | `classes.swiper` | `string` | - | CSS classes for the `swiper-container` container | | `classes.container`
-    | `string` | - | CSS classes for the `WidgetWrapper` container | | `classes.loading` | `string` | - | CSS classes
-    for loading layout | | `withPagination` | `boolean` | `true` | Pagination visibility | | `withNavigation` |
-    `boolean` | `true` | Navigation visibility | | `autoplay` | boolean | `true` | | | `isDark` | boolean | `false` | |
-    | `items` | `HeroSlide[]` | `[]` | Array of `HeroSlide` components | | `autoplay` + etc. | `boolean` | `false` | +
-    other params from [Swiperjs](https://swiperjs.com/element#parameters-as-attributes) |
+    | Prop | Type | Default | Description | 
+    |------------|------------|------------|------------| 
+    | `height` | `string` | `h-[28rem]` | Set the height of the slider and its layers |
+    | `id` | `string` | js random | By default, the `id` is generated automatically. If you decide to specify this parameter yourself, make sure that it is unique on the page | 
+    | `classes.swiper` | `string` | - | CSS classes for the `swiper-container` container | 
+    | `classes.container` | `string` | - | CSS classes for the `WidgetWrapper` container | 
+    | `classes.loading` | `string` | - | CSS classes for loading layout | 
+    | `withPagination` | `boolean` | `true` | Pagination visibility | 
+    | `withNavigation` | `boolean` | `true` | Navigation visibility |
+    | `autoplay` | boolean | `true` | - | 
+    | `isDark` | boolean | `false` | - | 
+    | `items` | `HeroSlide[]` | `[]` | Array of `HeroSlide` components | 
+    | `autoplay` + etc. | `boolean` | `false` | + other params from [Swiperjs](https://swiperjs.com/element#parameters-as-attributes) |
   </div>
 </div>
 
@@ -250,11 +254,16 @@ import { HeroSection } from '@yatoday/astro-ui/astro';
 
 <div className="overflow-x-auto">
   <div className="min-w-xl">
-    | Prop | Type | Default | Description | |------------|------------|------------|------------| | `title` | `string` |
-    - | Title text for the card | | `description` | `string` | - | Content for the card | | `image` | `string` \|
-    [Image](/docs/image) | - | Path to the card's image | | `callToAction` | `ICallToAction` | - | | |
-    `classes.container` | `string` | `h-96` | | | `classes.image` | `string` | - | | | `classes.title` | `string` | - |
-    | | `classes.description` | `string` | - | |
+    | Prop | Type | Default | Description | 
+    |------------|------------|------------|------------| 
+    | `title` | `string` | - | Title text for the card | 
+    | `description` | `string` | - | Content for the card | 
+    | `image` | `string` \| [Image](/docs/image) | - | Path to the card's image | 
+    | `callToAction` | `ICallToAction` | - | - | 
+    | `classes.container` | `string` | `h-96` | - | 
+    | `classes.image` | `string` | - | - | 
+    | `classes.title` | `string` | - | - | 
+    | `classes.description` | `string` | - | - |
   </div>
 </div>
 

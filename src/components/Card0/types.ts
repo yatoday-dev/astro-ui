@@ -1,5 +1,5 @@
-import type {HTMLTag} from 'astro/types';
-import type {ImageProps} from "../../utils/images-optimization.ts";
+import type { HTMLTag } from 'astro/types';
+import type { ImageProps } from '../../utils/images-optimization.ts';
 
 export type Card0Props = {
   image?: ImageProps | string;

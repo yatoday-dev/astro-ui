@@ -1,5 +1,5 @@
 site:
-  name: 'Example'
+  name: 'Name Site'
   site: 'https://example.com'
   base: '/' # Change this if you need to deploy to Github Pages, for example
   trailingSlash: false # Generate permalinks with or without "/" at the end

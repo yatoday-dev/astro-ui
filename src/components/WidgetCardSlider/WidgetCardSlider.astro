@@ -1,11 +1,11 @@
 ---
 import type { WidgetCardSliderProps as Props } from './types';
-import type {Card1Props} from "../Card1/types";
-import type {Card2Props} from "../Card2/types";
-import Card1 from "../Card1/Card1.astro";
-import Headline from "../Headline/Headline.astro";
-import WidgetWrapper from "../WidgetWrapper/WidgetWrapper.astro";
-import SwiperSlider from "../SwiperSlider/SwiperSlider.astro";
+import type { Card1Props } from '../Card1/types';
+import type { Card2Props } from '../Card2/types';
+import Card1 from '../Card1/Card1.astro';
+import Headline from '../Headline/Headline.astro';
+import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
+import SwiperSlider from '../SwiperSlider/SwiperSlider.astro';
 
 const {
   via = Card1,
@@ -23,7 +23,7 @@ const {
   bg = await Astro.slots.render('bg'),
   classes = {},
   ...rest
-} = Astro.props
+} = Astro.props;
 
 const Component = via;
 ---

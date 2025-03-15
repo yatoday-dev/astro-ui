@@ -1,5 +1,5 @@
-import type { WidgetWrapperProps } from "../WidgetWrapper/types";
-import type {HeroSectionProps} from "../HeroSection/types";
+import type { WidgetWrapperProps } from '../WidgetWrapper/types';
+import type { HeroSectionProps } from '../HeroSection/types';
 
 export type WidgetHeroSliderProps = {
   items?: HeroSectionProps[];
