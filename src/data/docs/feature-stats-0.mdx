@@ -1,0 +1,51 @@
+---
+title: Stats 0
+category: W.Feature
+---
+
+import Demo from '~/playground/components/Demo.astro';
+import Stats0 from '~/components/Stats0/Stats0.astro';
+
+# Stats 0
+
+The Card component provides a versatile container for displaying related content. It uses semantic HTML and ensures proper heading structure and content organization.
+
+<div className="space-y-12">
+  <Demo title="">
+    <Stats0
+      stats={[
+        { title: '132K', description: 'Downloads' },
+        { title: '24.8K', description: 'Stars' },
+        { title: '10.3K', description: 'Forks' },
+        { title: '48.4K', description: 'Users' },
+      ]}
+    />
+  </Demo>
+</div>
+
+```astro
+---
+import { Stats0 } from '@yatoday/astro-ui/astro';
+---
+
+<Stats0
+  stats={[
+    { title: 'Downloads', amount: '132K' },
+    { title: 'Stars', amount: '24.8K' },
+    { title: 'Forks', amount: '10.3K' },
+    { title: 'Users', amount: '48.4K' },
+  ]}
+/>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description | 
+    |------|------|---------|-------------| 
+    | `as` | `string` | `article` | HTML tag name for the wrapper | 
+    | `classes.container` | `string` | - | Additional CSS classes to apply to the card wrapper |
+    | `classes.badge` | `string` | - | Additional CSS classes to apply to the badge container |
+  </div>
+</div>
