@@ -75,7 +75,7 @@ export function attachEvent(
  */
 export const toggleClasses = (el: Element | string | null, ...cls: string[]): void => {
   const element = typeof el === 'string' ? (get(el) as Element) : el;
-  if (!element) {
+  if (!element || !cls.length) {
     return;
   }
 
@@ -92,7 +92,7 @@ export const toggleClasses = (el: Element | string | null, ...cls: string[]): vo
  */
 export const removeClasses = (el: Element | string | null, ...cls: string[]): void => {
   const element = typeof el === 'string' ? (get(el) as Element) : el;
-  if (!element) {
+  if (!element || !cls.length) {
     return;
   }
 
@@ -110,7 +110,7 @@ export const removeClasses = (el: Element | string | null, ...cls: string[]): vo
  */
 export const addClasses = (el: Element | string | null, ...cls: string[]): void => {
   const element = typeof el === 'string' ? (get(el) as Element) : el;
-  if (!element) {
+  if (!element || !cls.length) {
     return;
   }
 
