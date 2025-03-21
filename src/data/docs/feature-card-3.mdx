@@ -15,20 +15,25 @@ The Card component provides a versatile container for displaying related content
   <Demo title="">
     <ItemGrid0 columns={3} class="bg-stripe">
       <Card3
-        title="Card 2.1"
+        title="Card 3.1"
         description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
         image="~/assets/images/800x800.svg"
         callToAction={{ href: '/', text: 'Read more', size: 'sm', variant: 'primary' }}
-      />
+        badge="QWERT"
+      >
+        <Fragment slot="badge">
+          <div className="text-green-700 font-semibold">NEW</div>
+        </Fragment>
+      </Card3>
       <Card3
-        title="Card 2.2"
+        title="Card 3.2"
         image="~/assets/images/800x800.svg"
         description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
         icon="tabler:home"
         callToAction={{ href: '/', text: 'Read more', size: 'sm', variant: 'outline' }}
       />
       <Card3 
-        title="Card 2.3" 
+        title="Card 3.3" 
         image={{
           src: '~/assets/images/800x800.svg',
           alt: 'Image name'
@@ -47,19 +52,19 @@ import { Card3, ItemGrid0 } from '@yatoday/astro-ui/astro';
 
 <ItemGrid0 columns={3} class="bg-stripe">
   <Card3
-    title="Card 2.1"
+    title="Card 3.1"
     description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
     image="~/assets/images/800x800.svg"
     callToAction={{ href: '/', text: 'Read more', size: 'sm', variant: 'primary' }}
   />
   <Card3
-    title="Card 2.2"
+    title="Card 3.2"
     image="~/assets/images/800x800.svg"
     description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
     callToAction={{ href: '/', text: 'Read more', size: 'sm', variant: 'outline' }}
   />
   <Card3 
-    title="Card 2.3" 
+    title="Card 3.3" 
     image={{
       src: '~/assets/images/800x800.svg',
       alt: 'Image name'
@@ -78,9 +83,14 @@ import { Card3, ItemGrid0 } from '@yatoday/astro-ui/astro';
     |------|------|---------|-------------| 
     | `title` | `string` | - | Title text for the card | | `description` | `string` | - | Content for the card |
     | `image` | `string` \| [Image](/docs/image) | - | Path to the card's image |
+    | `badge` | `string` | - | `badge` slot contents |
     | `callToAction` | [ICallToAction](/docs/types#icalltoaction) | - | Action button or link. See the [button](/docs/button) component for details.  |
-    | `class` | `string` | - | Additional CSS classes to apply to the card |
-    | `asHeader` | `string` | `h3` | HTML tag name for the title | 
-    | `url` | `string` | - | URL for the card’s link wrapper |
+    | `as` | `string` | `article` | HTML tag name for the wrapper |
+    | `asHeader` | `string` | `h3` | HTML tag name for the title |
+    | `classes.container` | `string` | `bg-transparent border-transparent` | Additional CSS classes to apply to the card wrapper |
+    | `classes.title` | `string` | - | Additional CSS classes to apply to the title |
+    | `classes.content` | `string` | `text-muted-foreground` | Additional CSS classes to apply to the content container |
+    | `classes.image` | `string` | - | Additional CSS classes to apply to the image |
+    | `classes.badge` | `string` | `top-2 left-2` | Additional CSS classes to apply to the badge |
   </div>
 </div>

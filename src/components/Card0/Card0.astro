@@ -2,11 +2,11 @@
 import type { Card0Props as Props } from './types';
 import { twMerge } from 'tailwind-merge';
 
-const { as = 'article', classes = {} } = Astro.props;
+const { badge, as = 'article', classes = {} } = Astro.props;
 
 const WrapperTag = as;
 
-const { container: containerClass = '', badge: badgeClass = '' } = classes;
+const { container: containerClass = '', badge: badgeClass = 'top-2 left-2' } = classes;
 ---
 
 <WrapperTag
@@ -15,8 +15,10 @@ const { container: containerClass = '', badge: badgeClass = '' } = classes;
     containerClass
   )}
 >
-  <div class={twMerge('absolute', badgeClass)}>
-    <slot name="badge" />
+  <div class={twMerge('absolute z-10', badgeClass)}>
+    <slot name="badge">
+      {badge && <Fragment set:html={badge} />}
+    </slot>
   </div>
 
   <slot name="image" />

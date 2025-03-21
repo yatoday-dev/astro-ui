@@ -17,6 +17,7 @@ const {
   classes = {},
   as = 'article',
   asHeader = 'h3',
+  badge = await Astro.slots.render('badge'),
 } = Astro.props;
 
 const WrapperHeaderTag = asHeader;
@@ -39,6 +40,7 @@ const img = {
 
 <Card0
   as={as}
+  badge={badge}
   classes={{
     content: 'space-y-6',
   }}

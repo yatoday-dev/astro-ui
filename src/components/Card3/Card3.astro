@@ -13,6 +13,7 @@ const {
   classes = {},
   as = 'article',
   asHeader = 'h3',
+  badge = await Astro.slots.render('badge'),
 } = Astro.props;
 
 const WrapperHeaderTag = asHeader;
@@ -22,6 +23,7 @@ const {
   title: titleClass = '',
   description: descriptionClass = 'text-muted-foreground',
   image: imageClass = '',
+  badge: badgeClass = 'top-2 left-2',
 } = classes;
 
 const img = {
@@ -33,8 +35,10 @@ const img = {
 
 <Card0
   as={as}
+  badge={badge}
   classes={{
     container: twMerge(containerClass, 'justify-start py-0'),
+    badge: badgeClass,
   }}
 >
   <Fragment slot="image">
