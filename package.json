@@ -1,7 +1,7 @@
 {
   "name": "@yatoday/astro-ui",
   "type": "module",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "scripts": {
     "prepare": "husky",
     "pre-commit": "lint-staged",
@@ -78,6 +78,7 @@
     "./vendor-config": "./vendor-config/index.ts"
   },
   "files": [
+    "styles",
     "components",
     "vendor-config",
     "utils",
@@ -87,7 +88,6 @@
     "svelte.js",
     "index.js",
     "index.d.ts",
-    "styles.css",
     "README.md",
     "LICENSE"
   ],
