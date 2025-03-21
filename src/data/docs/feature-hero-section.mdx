@@ -1,0 +1,115 @@
+---
+title: Hero Section
+category: W.Feature
+---
+
+import Demo from '~/playground/components/Demo.astro';
+import HeroSection from "~/components/HeroSection/HeroSection.astro";
+
+# HeroSection
+
+Can be used as part of a [HeroSlider](/docs/widget-hero-slider) or as a standalone element
+
+<Demo title="">
+  <HeroSection
+    title="With Action"
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
+    image={{
+      src: '~/assets/images/800x800.svg',
+      alt: 'Lorem Ipsum',
+    }}
+    callToAction={{ href: '#', variant: 'primary', text: 'Read Detail' }}
+  />
+</Demo>
+
+```astro
+---
+import { HeroSection } from '@yatoday/astro-ui/astro';
+---
+
+<HeroSection
+  title="With Action"
+  description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
+  image={{
+    src: '~/assets/images/800x800.svg',
+    alt: 'Lorem Ipsum',
+  }}
+  callToAction={{ href: '#', variant: 'primary', text: 'Read Detail' }}
+/>
+```
+
+<Demo title="Without action">
+  <HeroSection
+    title="Without action"
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
+    image={{
+      src: '~/assets/images/800x800.svg',
+      alt: 'Lorem Ipsum',
+    }}
+  />
+</Demo>
+
+```astro
+---
+import { HeroSection } from '@yatoday/astro-ui/astro';
+---
+
+<HeroSection
+  title="Without action"
+  description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
+  image={{
+    src: '~/assets/images/800x800.svg',
+    alt: 'Lorem Ipsum',
+  }}
+/>
+```
+
+<Demo title="Custom CSS">
+  <HeroSection
+    title="custom CSS"
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
+    image="~/assets/images/800x800.svg"
+    classes={{
+      container: 'rounded-3xl h-72 bg-linear-to-r/srgb from-gray-900 to-gray-600',
+      image: '',
+      title: 'font-bold uppercase bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent',
+      description: 'text-zinc-300',
+    }}
+  />
+</Demo>
+
+
+```astro
+---
+import { HeroSection } from '@yatoday/astro-ui/astro';
+---
+
+<HeroSection
+  title="custom CSS"
+  description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
+  image="~/assets/images/800x800.svg"
+  classes={{
+    container: 'rounded-3xl h-72 bg-linear-to-r/srgb from-gray-900 to-gray-600',
+    image: '',
+    title: 'font-bold uppercase bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent',
+    description: 'text-zinc-300',
+  }}
+/>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------------|------------|------------|------------|
+    | `title` | `string` | - | Title text for the card |
+    | `description` | `string` | - | Content for the card |
+    | `image` | `string` \| [Image](/docs/image) | - | Path to the card's image |
+    | `callToAction` | `ICallToAction` | - | - |
+    | `classes.container` | `string` | `h-96` | CSS classes for the wrapper container |
+    | `classes.image` | `string` | - | - |
+    | `classes.title` | `string` | - | - |
+    | `classes.description` | `string` | - | - |
+  </div>
+</div>

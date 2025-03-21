@@ -6,6 +6,6 @@ export type Card3Props = {
   title?: string;
   description?: string;
   asHeader?: HTMLTag;
-  badge?: any;
+  badge?: string;
   callToAction?: ICallToAction;
 } & Card0Props;

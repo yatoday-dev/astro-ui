@@ -11,14 +11,10 @@ import SwiperSlider from '~/components/SwiperSlider/SwiperSlider.astro';
 This component uses [Swiper Element (WebComponent)](https://swiperjs.com/element)
 
 <Demo title="">
-  <SwiperSlider>
-    <swiper-slide>Slide 1</swiper-slide>
-    <swiper-slide>Slide 2</swiper-slide>
-    <swiper-slide>Slide 3</swiper-slide>
-    <swiper-slide>Slide 1</swiper-slide>
-    <swiper-slide>Slide 2</swiper-slide>
-    <swiper-slide>Slide 3</swiper-slide>
-    <swiper-slide>Slide 3</swiper-slide>
+  <SwiperSlider class="bg-stripe">
+    {[...Array(12).keys()].map((item) => (
+    <swiper-slide class="bg-orange-300 text-black text-center">Slide {item +1}</swiper-slide>
+  ))}
   </SwiperSlider>
 </Demo>
 
@@ -26,6 +22,13 @@ This component uses [Swiper Element (WebComponent)](https://swiperjs.com/element
 ---
 import { SwiperSlider } from '@yatoday/astro-ui/astro';
 ---
+
+<SwiperSlider>
+  <swiper-slide>Slide 1</swiper-slide>
+  <swiper-slide>Slide 2</swiper-slide>
+  <swiper-slide>Slide 3</swiper-slide>
+))}
+</SwiperSlider>
 ```
 
 ## Props
@@ -33,6 +36,8 @@ import { SwiperSlider } from '@yatoday/astro-ui/astro';
 <div className="overflow-x-auto">
   | Prop | Type | Default | Description | 
   |------------|------------|------------|------------| 
-  | `id` | `string` | js random | By default, the `id` is generated automatically. If you decide to specify this parameter yourself, make sure that it is unique on the page | 
-  | `autoplay` + etc. | `boolean` | `false` | + other params from [Swiperjs](https://swiperjs.com/element#parameters-as-attributes) |
+  | `id` | `string` | random | By default, the `id` is generated automatically. If you decide to specify this parameter yourself, make sure that it is unique on the page | 
+  | `withNavigation` | `boolean` | `true` | Navigation visibility |
+  | `autoplay` | `boolean` | `false` | `Object` with autoplay parameters or `boolean` true to enable with default settings |
+  | `...rest` | `any` | - | ...rest params from Swiper js [parameters](https://swiperjs.com/swiper-api#parameters) |
 </div>

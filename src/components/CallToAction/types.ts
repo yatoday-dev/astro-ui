@@ -1,26 +1,10 @@
-import type { HTMLAttributes } from 'astro/types';
 import type { WidgetWrapperProps } from '../WidgetWrapper/types';
+import type { ToAction } from '../../types';
 
 export type CallToActionProps = {
   title?: string;
   subtitle?: string;
   tagline?: string;
-  callToAction?: ICallToAction;
-  actions?: string | ICallToAction[];
+  callToAction?: ToAction;
+  actions?: string | ToAction[];
 } & WidgetWrapperProps;
-
-export interface ICallToAction extends Omit<HTMLAttributes<'a'>, 'slot'> {
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'link' | 'icon';
-  text?: string;
-  icon?: string;
-  classes?: Record<string, string>;
-  type?: 'button' | 'submit' | 'reset';
-}
-
-type CallToAction = {
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'link' | 'icon';
-  text?: string;
-  icon?: string;
-  classes?: Record<string, string>;
-  type?: 'button' | 'submit' | 'reset';
-} & Omit<HTMLAttributes<'a'>, 'slot'>;

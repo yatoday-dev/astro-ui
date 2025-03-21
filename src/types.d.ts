@@ -11,6 +11,22 @@ export type ToAction = {
   type?: 'button' | 'submit' | 'reset';
 } & Omit<HTMLAttributes<'a'>, 'slot'>;
 
+export type Link = {
+  href?: string;
+  text?: string;
+};
+
+export type NameValue = {
+  name?: string;
+  value?: string;
+};
+
+export type Stat = {
+  description?: number | string;
+  title?: string;
+  icon?: string;
+};
+
 declare module '@yatoday/astro-ui' {
   // DOMUtils.ts
   export const cn: (...inputs: ClassValue[]) => string;

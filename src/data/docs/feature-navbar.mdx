@@ -76,6 +76,7 @@ import { Navbar } from '@yatoday/astro-ui/astro';
     classes={{
       container: "mx-auto max-w-6xl text-foreground",
       pinned: "bg-background",
+      unpinned: "",
     }}
     links={demoLinks}
     actions={demoActions}
@@ -205,11 +206,10 @@ import { Navbar } from '@yatoday/astro-ui/astro';
     | `links` | [ILink](/docs/types#ILink)[] | `[]` | - |
     | `actions` | [ICallToAction](/docs/types#ICallToAction)[] | `[]` | - |
     | `isSticky` | `boolean` | `false` | - |
-    | `isDark` | `boolean` | `false` | - |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the wrapper |
     | `showToggleTheme` | `boolean` | `false` | - |
-    | `scrollOffset` | `number` | `60` | How much do you need to scroll the page to apply `pinnedClasses` classes |
-    | `classes` | `{}` | - | - |
-    | `classes.container` | `string` | `max-w-7xl md:mx-auto` | - |
+    | `scrollOffset` | `number` | `60` | How much do you need to scroll the page to apply `pinned` classes |
+    | `classes.container` | `string` | `max-w-7xl md:mx-auto` | CSS classes for the wrapper container |
     | `classes.links` | `string` | `hover:text-link dark:hover:text-white` | - |
     | `classes.dropdownLinks` | `string` | `md:hover:bg-gray-200 hover:text-link dark:hover:text-white dark:hover:bg-zinc-800` | - |
     | `classes.darkModeIcon` | `string` | - | - |

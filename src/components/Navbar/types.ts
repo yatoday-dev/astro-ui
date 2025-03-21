@@ -1,4 +1,3 @@
-import type { ICallToAction } from '../CallToAction/types.ts';
 import type { ToAction } from '../../types';
 
 export type NavbarProps = {

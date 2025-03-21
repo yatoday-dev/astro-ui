@@ -132,22 +132,23 @@ import { CardSliderWidget } from '@yatoday/astro-ui/astro';
 <div className="overflow-x-auto">
   | Prop | Type | Default | Description |
   |------------|------------|------------|------------|
-  | `useToRender` | `string` | `Card1` | Which component should be used for rendering - [Card1](/docs/feature-card-1) or [Card2](/docs/feature-card-2) |
+  | `useToRender` | `string` | `Card1` | Which component should be used for rendering - [Card1](/docs/feature-card-1) or [Card2](/docs/feature-card-2) or [Card3](/docs/feature-card-3) |
   | `id` | `string` | js random | By default, the `id` is generated automatically. If you decide to specify this parameter yourself, make sure that it is unique on the page |
-  | `title` | `string` | - | `Title` in [Headline](/docs/feature-card-1) component |
-  | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/feature-card-1) component |
-  | `tagline` | `string` | - | `Tagline` in [Headline](/docs/feature-card-1) component |
+  | `title` | `string` | - | `Title` prop in [Headline](/docs/headline) component |
+  | `subtitle` | `string` | - | `Subtitle` prop in [Headline](/docs/headline) component |
+  | `tagline` | `string` | - | `Tagline` prop in [Headline](/docs/headline) component |
   | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the wrapper |
   | `bg` | `string` | - | Set background element |
   | `isAfterContent` | `boolean` | `false` |  |
-  | `items` | Array< [Card1](/docs/feature-card-1) > | `[]` | Array of [Card1](/docs/feature-card-1) or [Card2](/docs/feature-card-2) components |
+  | `items` | [Card1](/docs/feature-card-1) [] | `[]` | Array of [Card1](/docs/feature-card-1) or [Card2](/docs/feature-card-2) or [Card3](/docs/feature-card-3) components |
   | `withNavigation` | `boolean` | `true` | Navigation visibility |
   | `classes.swiper` | `string` | - | CSS classes for the `swiper-container` container |
-  | `classes.container` | `string` | - | CSS classes for the `WidgetWrapper` container |
+  | `classes.container` | `string` | - | CSS classes for the [WidgetWrapper](/docs/feature-widget-wrapper) container |
   | `classes.loading` | `string` | - | CSS classes for loading layout |
   | `classes.headline.container` | `string` | - | CSS classes for the `container` in the [Headline](/docs/feature-card-1) component |
   | `classes.headline.title` | `string` | - | CSS classes for the `title` in the [Headline](/docs/feature-card-1) component |
   | `classes.headline.subtitle` | `string` | - | CSS classes for the `subtitle` in the [Headline](/docs/feature-card-1) component |
   | `classes.headline.tagline` | `string` | - | CSS classes for the `tagline` in the [Headline](/docs/feature-card-1) component |
-  | `autoplay` + etc. | `boolean` | `false` | + other params from [Swiperjs](https://swiperjs.com/element#parameters-as-attributes) |
+  | `autoplay` | `boolean` | `false` | `Object` with autoplay parameters or `boolean` true to enable with default settings |
+  | `...rest` | `any` | - | ...rest params from Swiper js [parameters](https://swiperjs.com/swiper-api#parameters) |
 </div>

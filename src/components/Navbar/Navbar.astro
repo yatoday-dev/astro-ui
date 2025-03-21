@@ -23,9 +23,11 @@ const {
   header: headerClass = '',
   container: containerClass = 'max-w-7xl md:mx-auto',
   links: linksClass = 'hover:text-link dark:hover:text-white',
+  dropdown: dropdownClass = 'bg-background text-foreground shadow-lg',
   dropdownLinks: dropdownLinksClass = 'hover:bg-black/10 hover:text-link dark:hover:text-white dark:hover:bg-white/10',
   darkModeIcon: darkModeIconClass = '',
   pinned: pinnedClasses = 'bg-background md:bg-background/90 md:backdrop-blur-md',
+  unpinned: unpinnedClasses = '',
 } = classes;
 
 const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
@@ -36,22 +38,20 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
   class={cn(
     { sticky: isSticky, relative: !isSticky, dark: isDark },
     '-top-[1px] z-40 flex-none w-full transition-[opacity] ease-in-out',
-    headerClass
+    headerClass,
+    unpinnedClasses
   )}
   {...isSticky ? { 'data-ya-sticky-header': true } : {}}
   data-scroll-offset={scrollOffset}
   data-pinned-classes={pinnedClasses}
+  data-unpinned-classes={unpinnedClasses}
 >
   <!--<div class="absolute inset-0 w-full"></div>-->
   <div
     class={cn(
       'relative text-default py-3 px-3 md:px-6 mx-auto w-full',
-      {
-        'md:flex md:justify-between': position !== 'center',
-      },
-      {
-        'md:grid md:grid-cols-3 md:items-center': position === 'center',
-      },
+      { 'md:flex md:justify-between': position !== 'center' },
+      { 'md:grid md:grid-cols-3 md:items-center': position === 'center' },
       containerClass
     )}
   >
@@ -86,7 +86,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
                   <ul
                     class={cn(
                       'dropdown-menu rounded-sm md:absolute pl-4 md:pl-0 pb-1 md:hidden font-medium md:min-w-60',
-                      pinnedClasses
+                      dropdownClass
                     )}
                   >
                     {links.map(({ text: text2, href: href2 }) => (
@@ -94,7 +94,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
                         <a
                           class={cn(
                             'first:rounded-t last:rounded-b py-2 px-5 block whitespace-no-wrap',
-                            { 'aw-link-active': href2 === currentPath },
+                            { 'link-active': href2 === currentPath },
                             dropdownLinksClass
                           )}
                           href={href2}
@@ -109,7 +109,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
                 <a
                   class={cn([
                     'px-4 py-3 flex items-center whitespace-nowrap',
-                    { 'aw-link-active': href === currentPath },
+                    { 'link-active': href === currentPath },
                     linksClass,
                   ])}
                   href={href}
@@ -178,6 +178,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 
     const scrollOffset = Number(header.dataset.scrollOffset) || 0;
     const pinnedClasses = header.dataset.pinnedClasses || '';
+    const unpinnedClasses = header.dataset.unpinnedClasses || '';
 
     let lastKnownScrollPosition = window.scrollY;
     let ticking = true;
@@ -209,8 +210,10 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     function applyHeaderStylesOnScroll() {
       if (lastKnownScrollPosition > scrollOffset && !header.classList.contains('scroll')) {
         addClasses(header, 'scroll', ...pinnedClasses.split(' '));
+        removeClasses(header, ...unpinnedClasses.split(' '));
       } else if (lastKnownScrollPosition <= scrollOffset && header.classList.contains('scroll')) {
         removeClasses(header, 'scroll', ...pinnedClasses.split(' '));
+        addClasses(header, ...unpinnedClasses.split(' '));
       }
       ticking = false;
     }

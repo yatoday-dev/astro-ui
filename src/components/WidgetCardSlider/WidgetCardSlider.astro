@@ -2,6 +2,7 @@
 import type { WidgetCardSliderProps as Props } from './types';
 import type { Card1Props } from '../Card1/types';
 import type { Card2Props } from '../Card2/types';
+import type { Card3Props } from '../Card3/types';
 import Card1 from '../Card1/Card1.astro';
 import Headline from '../Headline/Headline.astro';
 import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
@@ -14,7 +15,7 @@ const {
   subtitle = await Astro.slots.render('subtitle'),
   tagline = await Astro.slots.render('tagline'),
 
-  items = [] as Card1Props[] | Card2Props[],
+  items = [] as Card1Props[] | Card2Props[] | Card3Props[],
   isAfterContent = false,
 
   id = (Math.random() + 1).toString(36).substring(7),

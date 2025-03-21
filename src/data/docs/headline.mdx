@@ -9,7 +9,7 @@ import Headline from '~/components/Headline/Headline.astro';
 # Headline
 
 <div className="space-y-12">
-  <Demo title="Default">
+  <Demo title="Default" class="bg-stripe">
     <Headline
       title="Why choose Astro"
       subtitle="Each of the following features enhances Astro's value proposition."
@@ -28,6 +28,7 @@ import { Headline } from '@yatoday/astro-ui/astro';
 <!-- Default -->
 <Headline title="Why choose Astro" />
 
+<!-- With all props -->
 <Headline
   title="Why choose Astro"
   subtitle="Each of the following features enhances Astro's value proposition."
@@ -39,9 +40,6 @@ import { Headline } from '@yatoday/astro-ui/astro';
     tagline: 'text-sm',
   }}
 />
-
-<!-- Props -->
-<Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
 ```
 
 ## Props
@@ -53,7 +51,6 @@ import { Headline } from '@yatoday/astro-ui/astro';
     | `title` | `string` | - |
     | `subtitle` | `string` | - |
     | `tagline` | `string` | - |
-    | `classes` | `Record<string, string>` | - |
     | `classes.container` | `string` | - |
     | `classes.title` | `string` | - |
     | `classes.subtitle` | `string` | - |

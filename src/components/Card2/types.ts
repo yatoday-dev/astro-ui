@@ -6,6 +6,6 @@ export type Card2Props = {
   description?: string;
   icon?: string;
   asHeader?: HTMLTag;
-  badge?: any;
+  badge?: string;
   url?: string;
 } & Card0Props;

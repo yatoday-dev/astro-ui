@@ -6,7 +6,6 @@ category: Widget
 import Demo from '~/playground/components/Demo.astro';
 import WidgetHeroSlider from '~/components/WidgetHeroSlider/WidgetHeroSlider.astro';
 import HeroSection from "~/components/HeroSection/HeroSection.astro";
-import ICallToAction from '../types/ICallToAction.md';
 
 # Carousel - Hero Slider
 
@@ -147,90 +146,7 @@ import { HeroSliderWidget } from '@yatoday/astro-ui/astro';
 </HeroSliderWidget>
 ```
 
-<div className="space-y-12">
-  <Demo title="Single slide">
-    <HeroSection
-      title="With Action"
-      description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
-      image={{
-        src: '~/assets/images/800x800.svg',
-        alt: 'Lorem Ipsum',
-      }}
-      callToAction={{ href: '#', variant: 'primary', text: 'Read Detail' }}
-    />
-  </Demo>
-
-<Demo title="Single slide: without action">
-  <HeroSection
-    title="Without action"
-    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
-    image={{
-      src: '~/assets/images/800x800.svg',
-      alt: 'Lorem Ipsum',
-    }}
-  />
-</Demo>
-
-  <Demo title="Single slide: custom CSS">
-    <HeroSection
-      title="custom CSS"
-      description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
-      image="~/assets/images/800x800.svg"
-      classes={{
-        container: 'rounded-3xl h-72 bg-linear-to-r/srgb from-gray-900 to-gray-600',
-        image: '',
-        title: 'font-bold uppercase bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent',
-        description: 'text-zinc-300',
-      }}
-    />
-  </Demo>
-</div>
-
-```astro
----
-import { HeroSection } from '@yatoday/astro-ui/astro';
----
-
-<!-- Single slide: With Action -->
-<HeroSection
-  class="rounded-xl h-96"
-  title="With Action"
-  description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
-  image={{
-    src: '~/assets/images/800x800.svg',
-    alt: 'Lorem Ipsum',
-  }}
-  callToAction={{ href: '#', variant: 'primary', text: 'Read Detail' }}
-/>
-
-<!-- Single slide: Without Action -->
-<HeroSection
-  class="rounded-xl h-96"
-  title="Without action"
-  description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
-  image={{
-    src: '~/assets/images/800x800.svg',
-    alt: 'Lorem Ipsum',
-  }}
-/>
-
-<!-- Single slide: With CSS -->
-<HeroSection
-  title="custom CSS"
-  description="Lorem ipsum dolor sit amet, consectetur adipisicing elit..."
-  image="~/assets/images/800x800.svg"
-  classes={{
-    container: 'rounded-3xl h-72 bg-linear-to-r/srgb from-gray-900 to-gray-600',
-    image: '',
-    title: 'font-bold uppercase bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent',
-    description: 'text-zinc-300',
-  }}
-/>
-```
-
 ## Props
-
-### HeroSlider
 
 <div className="overflow-x-auto">
   <div className="min-w-xl">
@@ -239,38 +155,13 @@ import { HeroSection } from '@yatoday/astro-ui/astro';
     | `height` | `string` | `h-[28rem]` | Set the height of the slider and its layers |
     | `id` | `string` | js random | By default, the `id` is generated automatically. If you decide to specify this parameter yourself, make sure that it is unique on the page | 
     | `classes.swiper` | `string` | - | CSS classes for the `swiper-container` container | 
-    | `classes.container` | `string` | - | CSS classes for the `WidgetWrapper` container | 
+    | `classes.container` | `string` | - | CSS classes for the [WidgetWrapper](/docs/feature-widget-wrapper) container | 
     | `classes.loading` | `string` | - | CSS classes for loading layout | 
     | `withPagination` | `boolean` | `true` | Pagination visibility | 
     | `withNavigation` | `boolean` | `true` | Navigation visibility |
-    | `autoplay` | boolean | `true` | - | 
-    | `isDark` | boolean | `false` | - | 
-    | `items` | `HeroSlide[]` | `[]` | Array of `HeroSlide` components | 
-    | `autoplay` + etc. | `boolean` | `false` | + other params from [Swiperjs](https://swiperjs.com/element#parameters-as-attributes) |
-  </div>
-</div>
-
-### HeroSection
-
-<div className="overflow-x-auto">
-  <div className="min-w-xl">
-    | Prop | Type | Default | Description | 
-    |------------|------------|------------|------------| 
-    | `title` | `string` | - | Title text for the card | 
-    | `description` | `string` | - | Content for the card | 
-    | `image` | `string` \| [Image](/docs/image) | - | Path to the card's image | 
-    | `callToAction` | `ICallToAction` | - | - | 
-    | `classes.container` | `string` | `h-96` | - | 
-    | `classes.image` | `string` | - | - | 
-    | `classes.title` | `string` | - | - | 
-    | `classes.description` | `string` | - | - |
-  </div>
-</div>
-
-### ICallToAction
-
-<div className="overflow-x-auto">
-  <div className="min-w-xl">
-    <ICallToAction />
+    | `isDark` | boolean | `false` | Adds the `dark` CSS class to the wrapper | 
+    | `items` | `HeroSlide[]` | `[]` | Array of `HeroSlide` components |
+    | `autoplay` | `boolean` | `false` | `Object` with autoplay parameters or `boolean` true to enable with default settings |
+    | `...rest` | `any` | - | ...rest params from Swiper js [parameters](https://swiperjs.com/swiper-api#parameters) |
   </div>
 </div>
