@@ -3,12 +3,20 @@ import { twMerge } from 'tailwind-merge';
 import type { WidgetWrapperProps as Props } from './types';
 import Background from '../Background/Background.astro';
 
-const { id, isDark = false, containerClass = '', bg, as = 'section' } = Astro.props;
+const { 
+  id, 
+  isDark = false, 
+  class: className = '', 
+  containerClass = '', 
+  bg, 
+  as = 'section',
+  ...rest
+} = Astro.props;
 
 const WrapperTag = as;
 ---
 
-<WrapperTag class="relative" {...id ? { id } : {}}>
+<WrapperTag class={twMerge("relative", className)} {...id ? { id } : {}} {...rest}>
   <!-- WrapperTag: bg -z-[1] -->
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
     <slot name="bg">

@@ -6,7 +6,9 @@ import { Icon } from 'astro-icon/components';
 import DarkMode from '../DarkMode/DarkMode.astro';
 import ToggleMenu from './ToggleMenu.astro';
 import Button from '../Button/Button.astro';
+import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
 import { cn, trimSlash } from '../../utils';
+import {twMerge} from "tailwind-merge";
 
 const {
   links = [],
@@ -17,11 +19,13 @@ const {
   position = 'center',
   classes = {},
   scrollOffset = 60,
+  as = 'header',
+  bg = await Astro.slots.render('bg'),
 } = Astro.props;
 
 const {
   header: headerClass = '',
-  container: containerClass = 'max-w-7xl md:mx-auto',
+  container: containerClass = 'max-w-7xl 2xl:max-w-[96rem] md:mx-auto',
   links: linksClass = 'hover:text-link dark:hover:text-white',
   dropdown: dropdownClass = 'bg-background text-foreground shadow-lg',
   dropdownLinks: dropdownLinksClass = 'hover:bg-black/10 hover:text-link dark:hover:text-white dark:hover:bg-white/10',
@@ -33,26 +37,28 @@ const {
 const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 ---
 
-<header
+<WidgetWrapper
   id="header"
+  isDark={isDark}
+  bg={bg}
+  as={as}
   class={cn(
     { sticky: isSticky, relative: !isSticky, dark: isDark },
     '-top-[1px] z-40 flex-none w-full transition-[opacity] ease-in-out',
     headerClass,
     unpinnedClasses
   )}
-  {...isSticky ? { 'data-ya-sticky-header': true } : {}}
+  containerClass={twMerge("py-0 md:py-0 lg:py-0", containerClass)}
+  {...isSticky ? { 'data-yt-sticky-header': true } : {}}
   data-scroll-offset={scrollOffset}
   data-pinned-classes={pinnedClasses}
   data-unpinned-classes={unpinnedClasses}
 >
-  <!--<div class="absolute inset-0 w-full"></div>-->
   <div
     class={cn(
-      'relative text-default py-3 px-3 md:px-6 mx-auto w-full',
+      'relative text-default py-3 mx-auto w-full',
       { 'md:flex md:justify-between': position !== 'center' },
       { 'md:grid md:grid-cols-3 md:items-center': position === 'center' },
-      containerClass
     )}
   >
     <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between items-center']}>
@@ -150,7 +156,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       </div>
     </div>
   </div>
-</header>
+</WidgetWrapper>
 
 <style>
   #header.expanded nav {
@@ -173,7 +179,8 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
   import { attachEvent, toggleClasses, addClasses, removeClasses } from '../../utils/DOMUtils';
 
   const addEventListeners = () => {
-    const header = document.querySelector('#header[data-ya-sticky-header]') as HTMLElement;
+    const header = document.querySelector('[data-yt-sticky-header]') as HTMLElement;
+    console.log(header)
     if (!header) return;
 
     const scrollOffset = Number(header.dataset.scrollOffset) || 0;
@@ -183,7 +190,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     let lastKnownScrollPosition = window.scrollY;
     let ticking = true;
 
-    attachEvent('[data-aw-toggle-menu]', 'click', (_: Event, elem: HTMLElement) => {
+    attachEvent('[data-yt-toggle-menu]', 'click', (_: Event, elem: HTMLElement) => {
       toggleClasses(elem, 'expanded');
       toggleClasses(document.body, 'overflow-hidden');
       toggleClasses(document.getElementById('header'), 'h-screen', 'expanded');
@@ -200,7 +207,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     });
 
     function hiddenNav() {
-      removeClasses('[data-aw-toggle-menu]', 'expanded');
+      removeClasses('[data-yt-toggle-menu]', 'expanded');
       removeClasses(document.body, 'overflow-hidden');
       removeClasses(document.getElementById('header'), 'h-screen', 'expanded');
       addClasses('#header nav', 'hidden');
