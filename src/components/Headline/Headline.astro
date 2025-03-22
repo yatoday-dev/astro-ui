@@ -7,6 +7,7 @@ const {
   subtitle = await Astro.slots.render('subtitle'),
   tagline,
   classes = {},
+  as = 'h2'
 } = Astro.props;
 
 const {
@@ -15,6 +16,8 @@ const {
   subtitle: subtitleClass = '',
   tagline: taglineClass = '',
 } = classes;
+
+const WrapperTag = as;
 ---
 
 {
@@ -27,7 +30,7 @@ const {
         />
       )}
       {title && (
-        <h2
+        <WrapperTag
           class={cn(
             'font-bold leading-tighter tracking-tighter font-heading text-heading text-3xl md:text-4xl',
             titleClass

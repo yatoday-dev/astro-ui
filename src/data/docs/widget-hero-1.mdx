@@ -1,0 +1,198 @@
+---
+title: Hero 1
+category: Widget
+---
+
+import Demo from '~/playground/components/Demo.astro';
+import WidgetHero1 from '~/components/WidgetHero1/WidgetHero1.astro';
+import Image from "~/components/Image/Image.astro";
+
+export const img = {
+  src: '~/assets/images/pexels-helenalopesph-1015568.jpg',
+  alt: 'Hero Image',
+  aspectRatio: '16:9',
+};
+
+# Widget Hero 1
+
+<Demo title="">
+  <WidgetHero1
+    title="Work with us"
+    subtitle="Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat."
+    actions={[
+      { variant: 'primary', href: '/', text: 'Read more' },
+      { variant: 'outline', href: '/', text: 'Read more' },
+    ]}
+  >
+  </WidgetHero1>
+</Demo>
+
+```astro
+---
+import { WidgetHero1 } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetHero1
+  title="Work with us"
+  subtitle="Anim aute id magna aliqua ad ad non deserunt sunt..."
+  actions={[
+    { variant: 'primary', href: '/', text: 'Read more' },
+    { variant: 'outline', href: '/', text: 'Read more' },
+  ]}
+>
+</WidgetHero1>
+```
+
+<Demo title="">
+  <WidgetHero1
+    position="left"
+    title="Work with us"
+    subtitle="Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat."
+    classes={{
+      bg: 'bg-linear-65 from-pink-500 to-purple-500',
+      headline: {
+        title: 'text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-bold tracking-tighter mb-4 font-heading text-white',
+        subtitle: 'text-xl text-white',
+      },
+    }}
+    links={[
+      { href: '#', text: 'Open roles'},
+      { href: '#', text: 'Internship program'},
+    ]}
+  >
+  </WidgetHero1>
+</Demo>
+
+```astro
+---
+import { WidgetHero1 } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetHero1
+  position="left"
+  title="Work with us"
+  subtitle="Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat."
+  classes={{
+    bg: 'bg-linear-65 from-pink-500 to-purple-500',
+    headline: {
+      title: 'text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-bold tracking-tighter mb-4 font-heading text-white',
+      subtitle: 'text-xl text-white',
+    },
+  }}
+  links={[
+    { href: '#', text: 'Open roles'},
+    { href: '#', text: 'Internship program'},
+  ]}
+>
+</WidgetHero1>
+```
+
+<Demo title="">
+  <WidgetHero1
+    position="left"
+    title="Work with us"
+    subtitle="Anim aute id magna aliqua ad ad non deserunt sunt..."
+    image="~/assets/images/pexels-helenalopesph-1015568.jpg"
+    classes={{
+      bg: 'bg-gray-900/80',
+      headline: {
+        title: 'text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-bold tracking-tighter mb-4 font-heading text-white',
+        subtitle: 'text-xl text-white',
+      },
+    }}
+    actions={[
+      { variant: 'primary', href: '/', text: 'Read more' },
+      { variant: 'outline', href: '/', text: 'Read more' },
+    ]}
+  >
+  </WidgetHero1>
+</Demo>
+
+```astro
+---
+import { WidgetHero1 } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetHero1
+  position="left"
+  title="Work with us"
+  subtitle="Anim aute id magna aliqua ad ad non deserunt sunt..."
+  image="~/assets/images/pexels-helenalopesph-1015568.jpg"
+  classes={{
+    bg: 'bg-gray-900/80',
+    headline: {
+      title: 'text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-bold tracking-tighter mb-4 font-heading text-white',
+      subtitle: 'text-xl text-white',
+    },
+  }}
+  actions={[
+    { variant: 'primary', href: '/', text: 'Read more' },
+    { variant: 'outline', href: '/', text: 'Read more' },
+  ]}
+>
+</WidgetHero1>
+```
+
+<Demo title="">
+  <WidgetHero1
+    position="left"
+    title="Work with us"
+    subtitle="Anim aute id magna aliqua ad ad non deserunt sunt..."
+    image="~/assets/images/pexels-helenalopesph-1015568.jpg"
+    classes={{
+      bg: 'bg-gray-900/80',
+      headline: {
+        title: 'text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-bold tracking-tighter mb-4 font-heading text-white',
+        subtitle: 'text-xl text-white',
+      },
+    }}
+  >
+    <div className="bg-stripe text-gray-500 p-6">
+      <div className="text-white">Content</div>
+    </div>
+  </WidgetHero1>
+</Demo>
+
+```astro
+---
+import { WidgetHero1 } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetHero1
+  position="left"
+  title="Work with us"
+  subtitle="Anim aute id magna aliqua ad ad non deserunt sunt..."
+  image="~/assets/images/pexels-helenalopesph-1015568.jpg"
+  classes={{
+    bg: 'bg-gray-900/80',
+    headline: {
+      title: 'text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-bold tracking-tighter mb-4 font-heading text-white',
+      subtitle: 'text-xl text-white',
+    },
+  }}
+>
+  Content
+</WidgetHero1>
+```
+
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description | 
+    |-----------|------------|------------|------------| 
+    | `title` | `string` | - | `Title` in [Headline](/docs/feature-card-1) component | 
+    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/feature-card-1) component | 
+    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/feature-card-1) component | 
+    | `columns` | `number` | `1` | Number of columns in the grid. From 1 to 4 | 
+    | `id` | `string` | - | Specify a unique id for the section | 
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the wrapper |
+    | `bg` | `string` | - | Set background element |
+    | `classes.container` | `string` | - | CSS classes for the root container | 
+    | `classes.headline.container` | `string` | - | CSS classes for the `container` in the [Headline](/docs/feature-card-1) component |
+    | `classes.headline.title` | `string` | - | CSS classes for the `title` in the [Headline](/docs/feature-card-1) component | 
+    | `classes.headline.subtitle` | `string` | - | CSS classes for the `subtitle` in the [Headline](/docs/feature-card-1) component | 
+    | `classes.headline.tagline` | `string` | - | CSS classes for the `tagline` in the [Headline](/docs/feature-card-1) component |
+  </div>
+</div>

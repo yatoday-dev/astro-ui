@@ -1,7 +1,8 @@
 ---
-import type { WidgetHero0Props as Props } from './types';
+import type { WidgetHero1Props as Props } from './types';
 import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
 import Headline from '../Headline/Headline.astro';
+import Image from '../Image/Image.astro';
 import Stats0 from '../Stats0/Stats0.astro';
 import Button from '../Button/Button.astro';
 import { cn } from '../../utils';
@@ -18,7 +19,6 @@ const {
   id,
   isDark = false,
   classes = {},
-  bg = await Astro.slots.render('bg'),
 } = Astro.props;
 
 const { container: containerClass = '', bg: bgClass = '' } = classes;
@@ -32,10 +32,33 @@ const img = image
   : undefined;
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={containerClass as string} bg={bg}>
+<WidgetWrapper id={id} isDark={isDark} containerClass={containerClass as string}>
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true" slot="bg">
+    <div class="relative isolate overflow-hidden h-full">
+      <div class={cn(' absolute top-0 left-0 w-full h-full z-20', bgClass)}></div>
+      {
+        img && (
+          <Image
+            src={img.src}
+            class="absolute inset-0 z-10 size-full object-cover object-right md:object-center"
+            alt={img.alt}
+            aspectRatio={img.aspectRatio}
+            widths={[400, 768, 1024, 2040]}
+            sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
+            loading="eager"
+            width={1024}
+            height={576}
+            layout="fullWidth"
+          />
+        )
+      }
+    </div>
+  </div>
+
   <div class={cn('relative z-30', Astro.slots.has('default') && 'grid grid-cols-3 gap-6')}>
     <div class={cn(Astro.slots.has('default') && 'col-span-2')}>
       <Headline
+        as='h1'
         title={title}
         subtitle={subtitle}
         tagline={tagline}
