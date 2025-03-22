@@ -4,7 +4,8 @@ export type ClassDictionary = Record<string, any>;
 export type ClassArray = ClassValue[];
 
 export type ToAction = {
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'link' | 'icon';
+  variant?: 'default' | 'primary' | 'accent' | 'destructive' | 'outline' | 'ghost' | 'link';
+  size?: 'default' | 'sm' | 'lg' | 'icon';
   text?: string;
   icon?: string;
   classes?: Record<string, string>;
