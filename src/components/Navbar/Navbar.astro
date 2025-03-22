@@ -180,7 +180,6 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 
   const addEventListeners = () => {
     const header = document.querySelector('[data-yt-sticky-header]') as HTMLElement;
-    console.log(header)
     if (!header) return;
 
     const scrollOffset = Number(header.dataset.scrollOffset) || 0;

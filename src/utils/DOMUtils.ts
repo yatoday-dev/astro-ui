@@ -53,7 +53,7 @@ export const on = (selector: string | HTMLElement | Document, event: string, cal
  * @return {void}
  */
 export function attachEvent(
-  selector: string | NodeListOf<Element> | MediaQueryList[] | Document[],
+  selector: string | NodeListOf<Element> | MediaQueryList[] | Document[] | HTMLElement[],
   event: string,
   callback: any
 ) {
