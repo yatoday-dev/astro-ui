@@ -26,6 +26,6 @@ const Component = via;
 <WidgetWrapper id={id} isDark={isDark} containerClass={`${classes?.container ?? ''}`} bg={bg}>
   <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
   <ItemGrid0 columns={columns}>
-    {items && items.map((item) => <Component {...item} />)}
+    {items && items.map((item) => <Component {...item} classes={classes?.card as Record<string, string>} />)}
   </ItemGrid0>
 </WidgetWrapper>
