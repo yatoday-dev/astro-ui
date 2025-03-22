@@ -12,6 +12,7 @@ export interface ImageProps extends Omit<HTMLAttributes<'img'>, 'src'> {
   alt?: string | null;
   loading?: 'eager' | 'lazy' | null;
   decoding?: 'sync' | 'async' | 'auto' | null;
+  class?: string;
   style?: string;
   srcset?: string | null;
   sizes?: string | null;
