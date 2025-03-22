@@ -1,4 +1,5 @@
 import type { ToAction } from '../../types';
+import type {WidgetWrapperProps} from "../WidgetWrapper/types.ts";
 
 export type NavbarProps = {
   links?: IMenuLink[];
@@ -10,7 +11,7 @@ export type NavbarProps = {
   classes?: Record<string, string>;
   scrollOffset?: number;
   pinnedClasses?: string;
-};
+} & WidgetWrapperProps;
 
 export interface ILink {
   text?: string;

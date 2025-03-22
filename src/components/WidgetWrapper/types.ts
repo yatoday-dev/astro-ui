@@ -1,6 +1,7 @@
 import type { HTMLTag } from 'astro/types';
 
 export type WidgetWrapperProps = {
+  class?: string;
   containerClass?: string;
   ['as']?: HTMLTag;
   id?: string;

@@ -3,8 +3,8 @@
  * Read more: https://tailwindcss.com/docs/colors#referencing-other-variables
  */
 :root {
-  --ya-color-background: hsl(0 0% 100%);
-  --ya-color-foreground: hsl(0 0% 3.9%);
+  --yt-color-background: hsl(0 0% 100%);
+  --yt-color-foreground: hsl(0 0% 3.9%);
   --yt-color-card: hsl(0 0% 100%);
   --yt-color-card-foreground: hsl(0 0% 3.9%);
   --yt-color-popover: hsl(0 2% 21%);
@@ -29,8 +29,8 @@
 }
 
 .dark {
-  --ya-color-background: hsl(0 0% 3.9%);
-  --ya-color-foreground: hsl(0 0% 98%);
+  --yt-color-background: hsl(0 0% 3.9%);
+  --yt-color-foreground: hsl(0 0% 98%);
   --yt-color-card: hsl(220 6% 10%);
   --yt-color-card-foreground: hsl(0 0% 98%);
   --yt-color-popover: hsl(0 0% 3.9%);
@@ -58,8 +58,8 @@
 }
 
 @theme inline {
-  --color-background: var(--ya-color-background);
-  --color-foreground: var(--ya-color-foreground);
+  --color-background: var(--yt-color-background);
+  --color-foreground: var(--yt-color-foreground);
   --color-card: var(--yt-color-card);
   --color-card-foreground: var(--yt-color-card-foreground);
   --color-primary: var(--yt-color-primary);

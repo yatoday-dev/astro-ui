@@ -20,7 +20,7 @@ const {
       type="button"
       class={twMerge('cursor-pointer inline-flex items-center', className)}
       aria-label={label}
-      data-aw-toggle-color-scheme
+      data-yt-toggle-color-scheme
     >
       <slot>
         <Icon name={iconName} class={iconClass} />
@@ -59,7 +59,7 @@ const {
 
     // Add click handlers to all toggles
     document.addEventListener('click', (e) => {
-      if (e.target.closest('[data-aw-toggle-color-scheme]')) {
+      if (e.target.closest('[data-yt-toggle-color-scheme]')) {
         if (mode.endsWith(':only')) {
           return;
         }

@@ -41,8 +41,8 @@
 
   --yt-radius: 0.5rem;
 
-  --aw-color-bg-page: rgb(255 255 255);
-  --aw-color-bg-page-dark: hsl(0 0% 10%);
+  --yt-color-bg-page: rgb(255 255 255);
+  --yt-color-bg-page-dark: hsl(0 0% 10%);
 
   ::selection {
     background-color: lavender;
@@ -71,7 +71,7 @@
   --yt-color-input: hsl(0 0% 25%);
   --yt-color-ring: hsl(0 0% 83.1%);
 
-  --aw-color-bg-page: rgb(3 6 32);
+  --yt-color-bg-page: rgb(3 6 32);
 
   ::selection {
     background-color: black;
