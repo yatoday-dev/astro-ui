@@ -1,0 +1,48 @@
+---
+title: Quantity Switch
+category: UI
+---
+
+# Quantity Switch
+
+import Demo from '~/playground/components/Demo.astro';
+import QuantitySwitch from '~/components/QuantitySwitch/QuantitySwitch.svelte';
+
+<Demo title="Default" class="flex flex-wrap gap-2 p-2">
+  <QuantitySwitch client:only="svelte" readonly size="lg" label="" step={1} max={100} value={10} variant="default"  />
+  <QuantitySwitch client:only="svelte" readonly size="lg" label="" step={1} max={100} value={10} variant="primary" />
+  <QuantitySwitch client:only="svelte" readonly size="lg" label="" step={1} max={100} value={10} variant="accent" />
+  <QuantitySwitch client:only="svelte" readonly size="lg" label="" step={1} max={100} value={10} variant="destructive" />
+  <QuantitySwitch client:only="svelte" readonly size="lg" label="" step={1} max={100} value={10} variant="outline" />
+  <QuantitySwitch client:only="svelte" readonly size="lg" label="" step={1} max={100} value={10} variant="ghost" />
+</Demo>
+
+
+## Usage
+
+```astro
+---
+import { QuantitySwitch } from '@yatoday/astro-ui/svelte';
+---
+
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | 
+    |------------|------------|------------| 
+    | `variant` | `default` \| `primary` \| `accent` \| `destructive` \| `outline` \| `ghost` | `default` | 
+    | `size` | `default` \| `sm` \| `lg` | `default` | 
+    | `class` | `string` | - |
+  </div>
+</div>
+
+## Style
+
+```css
+@theme {
+  --shadow-input: 0 0 0 1px var(--yt-color-border);
+}
+```

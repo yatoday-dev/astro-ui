@@ -2,7 +2,7 @@
   import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements'
 
   import type { WithElementRef } from 'bits-ui';
-  import type {ButtonSize, ButtonVariant} from "./button-variants.ts";
+  import type {ButtonSize, ButtonVariant} from "./theme-variants.ts";
 
   export type ButtonProps = WithElementRef<HTMLButtonAttributes> &
     WithElementRef<HTMLAnchorAttributes> & {
@@ -14,7 +14,7 @@
 
 <script lang="ts">
   import { cn } from '../../utils';
-  import {buttonVariants} from "./button-variants.ts";
+  import {themeVariants} from "./theme-variants.ts";
 
   let {
     class: className = '',
@@ -32,7 +32,7 @@
 {#if href}
   <a
     bind:this={ref}
-    class={cn(buttonVariants({ size, variant }), className)}
+    class={cn(themeVariants({ size, variant }), className)}
     {href}
     {...restProps}
   >
@@ -42,7 +42,7 @@
 {:else}
   <button
     bind:this={ref}
-    class={cn(buttonVariants({ size, variant }), className)}
+    class={cn(themeVariants({ size, variant }), className)}
     {type}
     {...restProps}
   >

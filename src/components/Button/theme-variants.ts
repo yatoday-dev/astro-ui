@@ -1,6 +1,6 @@
 import { tv, type VariantProps } from 'tailwind-variants';
 
-export const buttonVariants = tv({
+export const themeVariants = tv({
   base: 'btn ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center gap-2 whitespace-nowrap text-base font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 cursor-pointer',
   variants: {
     variant: {
@@ -26,5 +26,5 @@ export const buttonVariants = tv({
   },
 });
 
-export type ButtonVariant = VariantProps<typeof buttonVariants>['variant'];
-export type ButtonSize = VariantProps<typeof buttonVariants>['size'];
+export type ButtonVariant = VariantProps<typeof themeVariants>['variant'];
+export type ButtonSize = VariantProps<typeof themeVariants>['size'];

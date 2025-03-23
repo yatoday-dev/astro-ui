@@ -79,4 +79,6 @@
   --color-ring: var(--yt-color-ring);
 
   --radius-btn: theme('borderRadius.DEFAULT');
+
+  --shadow-input: 0 0 0 1px var(--yt-color-border);
 }

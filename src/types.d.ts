@@ -30,6 +30,7 @@ export type Stat = {
 
 declare module '@yatoday/astro-ui' {
   // DOMUtils.ts
+  export const id: () => string;
   export const cn: (...inputs: ClassValue[]) => string;
   export const get: (selector: string, all?: boolean) => Element | NodeListOf<Element> | null;
   export const on: (selector: string | HTMLElement | Document, event: string, callback: any, all?: boolean) => void;
