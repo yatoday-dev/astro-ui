@@ -1,21 +1,8 @@
-<script lang="ts" module>
-  import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements'
-
-  import type { WithElementRef } from 'bits-ui';
-  import type {ButtonSize, ButtonVariant} from "./theme-variants.ts";
-
-  export type ButtonProps = WithElementRef<HTMLButtonAttributes> &
-    WithElementRef<HTMLAnchorAttributes> & {
-    variant?: ButtonVariant;
-    size?: ButtonSize;
-    text?: string;
-  };
-</script>
-
 <script lang="ts">
   import { cn } from '../../utils';
   import {themeVariants} from "./theme-variants.ts";
-
+  import type {SvelteButtonProps} from "~/components/Button/types.ts";
+  
   let {
     class: className = '',
     variant = 'default',
@@ -26,7 +13,7 @@
     type = 'button',
     children,
     ...restProps
-  }: ButtonProps = $props()
+  }: SvelteButtonProps = $props()
 </script>
 
 {#if href}
