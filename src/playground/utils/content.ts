@@ -1,4 +1,4 @@
-// @ts-expect-error
+// @ts-ignore
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import { cleanSlug, trimSlash } from '../../utils';
 

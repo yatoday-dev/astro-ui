@@ -1,0 +1,163 @@
+---
+import type { ZoomedImageProps as Props } from './types';
+import Image from "../Image/Image.astro";
+import {cn} from "../../utils";
+import {findImage} from "../../utils/images";
+import {
+  astroAsseetsOptimizer,
+  getImagesOptimized,
+  isUnpicCompatible,
+  unpicOptimizer
+} from "../../utils/images-optimization";
+import type {HTMLAttributes} from "astro/types";
+
+const {
+  src,
+  class: className = '',
+} = Astro.props;
+
+const props = Astro.props;
+
+type ImageType = {
+  src: string;
+  attributes: HTMLAttributes<'img'>;
+};
+
+const _image = await findImage(props.src);
+
+let image: ImageType | undefined;
+
+if (
+  typeof _image === 'string' &&
+  (_image.startsWith('http://') || _image.startsWith('https://')) &&
+  isUnpicCompatible(_image)
+) {
+  image = await getImagesOptimized(_image, props, unpicOptimizer);
+} else if (_image) {
+  image = await getImagesOptimized(_image, props, astroAsseetsOptimizer);
+}
+---
+
+<style>
+  .zoom-wrap {
+    padding-bottom: 100%;
+    width: 100%;
+    position: relative;
+    height: auto;
+    display: block;
+    box-sizing: border-box;
+  }
+
+  .zoom-bg {
+    background-size: 200%;
+    background-repeat: no-repeat;
+    will-change: background-position;
+  }
+</style>
+
+<div class={cn("overflow-hidden", className)} data-yt-zoom-container>
+  {image && (
+    <div class="relative block flex-none w-full h-full" data-yt-zoom-wrap>
+      <button
+        id="zoom-button"
+        type="button"
+        class={cn("zoom-bg block w-full h-full cursor-zoom-in")}
+        tabindex="0"
+        style={`background-image: url('${image.src}')`}
+        data-yt-zoom-button
+      >
+        <span>
+          {!image ? (
+            <Fragment />
+          ) : (
+            <Image
+              src={props.src}
+              class='w-full h-full object-cover'
+              widths={[400, 900]}
+              width={400}
+              height={400}
+              sizes="(max-width: 900px) 400px, 900px"
+              alt={props.alt}
+              layout="cover"
+              loading="lazy"
+              decoding="async"
+              data-yt-zoom-image
+            />
+          )}
+        </span>
+      </button>
+    </div>
+  )}
+</div>
+
+<script>
+  import {on, get} from "../../utils";
+
+  const init = () => {
+    // Only run once
+    if (!window.zoomInitialized) {
+      window.zoomInitialized = true;
+
+      const container = get("[data-yt-zoom-container]", true) as NodeListOf<HTMLElement>;
+      if (container && container.length === 0) return;
+
+      container.forEach(addZoomListeners);
+    }
+  }
+  
+  const addZoomListeners = (container: HTMLElement) => {
+    // Select elements within this specific container
+    const zoomButton = container.querySelector("[data-yt-zoom-button]") as HTMLButtonElement;
+    const image = container.querySelector("[data-yt-zoom-image]") as HTMLImageElement;
+    if(!zoomButton || !image) return;
+    
+    const span = image.parentElement as HTMLElement;
+    
+    // Initialize state
+    let zoomed = false;
+    const mousePosition = {
+      percentX: 0,
+      percentY: 0,
+    };
+
+    // Mouse move handler
+    const handleMouseMove = (event: MouseEvent) => {
+      const { offsetWidth: width, offsetHeight: height } = container;
+      mousePosition.percentX = (event.offsetX / width) * 100;
+      mousePosition.percentY = (event.offsetY / height) * 100;
+
+      if (zoomed) {
+        zoomButton.style.backgroundPosition = `${mousePosition.percentX}% ${mousePosition.percentY}%`;
+      }
+    };
+
+    // Toggle zoom handler
+    const toggleZoom = () => {
+      zoomed = !zoomed;
+
+      if (zoomed) {
+        image.classList.add("hidden");
+        span.classList.add("zoom-wrap");
+        zoomButton.classList.add("cursor-zoom-out", "bg-zoomed");
+        zoomButton.classList.remove("cursor-zoom-in");
+        zoomButton.style.backgroundSize = "200%";
+        zoomButton.style.backgroundPosition = `${mousePosition.percentX}% ${mousePosition.percentY}%`;
+      } else {
+        image.classList.remove("hidden");
+        span.classList.remove("zoom-wrap");
+        zoomButton.classList.remove("cursor-zoom-out", "bg-zoomed");
+        zoomButton.classList.add("cursor-zoom-in");
+        zoomButton.style.backgroundSize = "100%";
+        zoomButton.style.backgroundPosition = "0% 0%";
+      }
+    };
+
+    // Attach event listeners
+    zoomButton.addEventListener("click", toggleZoom);
+    zoomButton.addEventListener("mousemove", handleMouseMove);
+  };
+
+  on(document, 'astro:after-swap', init);
+  init();
+</script>
+
