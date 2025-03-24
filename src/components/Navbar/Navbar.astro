@@ -27,7 +27,7 @@ const {
   header: headerClass = '',
   container: containerClass = 'max-w-7xl 2xl:max-w-[96rem] md:mx-auto',
   links: linksClass = 'hover:text-link dark:hover:text-white',
-  dropdown: dropdownClass = 'bg-background text-foreground shadow-lg',
+  dropdown: dropdownClass = 'bg-background text-foreground md:shadow-lg',
   dropdownLinks: dropdownLinksClass = 'hover:bg-black/10 hover:text-link dark:hover:text-white dark:hover:bg-white/10',
   darkModeIcon: darkModeIconClass = '',
   pinned: pinnedClasses = 'bg-background md:bg-background/90 md:backdrop-blur-md',
@@ -133,6 +133,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
         { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
         'hidden md:self-center md:flex items-center md:mb-0 fixed w-full md:w-auto md:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-3 md:p-0 md:justify-self-end',
       ]}
+      data-yt-actions
     >
       <div class="items-center flex justify-between w-full md:w-auto">
         <div class="flex">
@@ -193,11 +194,13 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       toggleClasses(elem, 'expanded');
       toggleClasses(document.body, 'overflow-hidden');
       toggleClasses(document.getElementById('header'), 'h-screen', 'expanded');
-      toggleClasses('#header nav', 'hidden');
-      toggleClasses('#header > div > div:last-child', 'hidden');
+      toggleClasses('[data-yt-sticky-header] nav', 'hidden');
+      toggleClasses('[data-yt-actions]', 'hidden');
+
+      const image = header.querySelector("[data-yt-zoom-image]") as HTMLImageElement;
     });
 
-    attachEvent('#header nav', 'click', () => {
+    attachEvent('[data-yt-sticky-header] nav', 'click', () => {
       hiddenNav();
     });
 
@@ -209,8 +212,8 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       removeClasses('[data-yt-toggle-menu]', 'expanded');
       removeClasses(document.body, 'overflow-hidden');
       removeClasses(document.getElementById('header'), 'h-screen', 'expanded');
-      addClasses('#header nav', 'hidden');
-      addClasses('#header > div > div:last-child', 'hidden');
+      addClasses('[data-yt-sticky-header] nav', 'hidden');
+      addClasses('[data-yt-actions]', 'hidden');
     }
 
     function applyHeaderStylesOnScroll() {
