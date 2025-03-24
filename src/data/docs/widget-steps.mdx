@@ -1,0 +1,207 @@
+---
+title: Steps
+category: Widget
+---
+
+import Demo from '~/playground/components/Demo.astro';
+import WidgetSteps1 from '~/components/WidgetSteps1/WidgetSteps1.astro';
+
+
+# Steps
+
+<Demo title="Default" class="bg-background">
+  <WidgetSteps1
+    title="Our values"
+    subtitle="Donec id nibh neque. Quisque et fermentum tortor. Fusce vitae dolor a mauris dignissim commodo. Ut eleifend luctus condimentum."
+    callToAction={{
+      text: 'Join us',
+      href: '/',
+    }}
+    items={[
+      {
+        title: 'Write to us',
+        description: 'Maecenas eu tellus eget est scelerisque lacinia et a diam. Aliquam velit lorem, vehicula id fermentum et, rhoncus et purus. ',
+      },
+      {
+        title: 'Call us',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis, quam nec venenatis lobortis, mi risus tempus nulla.',
+      },
+      {
+        title: 'Whatsapp',
+        description: 'Morbi sagittis, quam nec venenatis lobortis, mi risus tempus nulla, sed porttitor est nibh at nulla.',
+      },
+    ]}
+  />
+</Demo>
+
+```astro
+---
+import { WidgetSteps } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetSteps1
+  title="Our values"
+  subtitle="Donec id nibh neque..."
+  callToAction={{
+    text: 'Join us',
+    href: '/',
+  }}
+  items={[
+    {
+      title: 'Write to us',
+      description: 'Maecenas eu tellus eget est scelerisque l... ',
+    },
+    {
+      title: 'Call us',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
+    },
+    {
+      title: 'Whatsapp',
+      description: 'Morbi sagittis, quam nec venenatis lobortis...',
+    },
+  ]}
+/>
+```
+
+<Demo title="Reversed & Icons" class="bg-background">
+  <WidgetSteps1
+    isReversed={true}
+    title="Our values"
+    subtitle="Donec id nibh neque. Quisque et fermentum tortor. Fusce vitae dolor a mauris dignissim commodo. Ut eleifend luctus condimentum."
+    callToAction={{
+      text: 'Join us',
+      href: '/',
+    }}
+    items={[
+      {
+        title: 'Write to us',
+        description: 'Maecenas eu tellus eget est scelerisque lacinia et a diam. Aliquam velit lorem, vehicula id fermentum et, rhoncus et purus. ',
+        icon: 'tabler:home'
+      },
+      {
+        title: 'Call us',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis, quam nec venenatis lobortis, mi risus tempus nulla.',
+        icon: 'tabler:anchor'
+      },
+      {
+        title: 'Whatsapp',
+        description: 'Morbi sagittis, quam nec venenatis lobortis, mi risus tempus nulla, sed porttitor est nibh at nulla.',
+        icon: 'tabler:bell-ringing-2'
+      },
+    ]}
+  />
+</Demo>
+
+```astro
+---
+import { WidgetSteps } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetSteps1
+    isReversed={true}
+    title="Our values"
+    subtitle="Donec id nibh neque. Quisque et ..."
+    callToAction={{
+      text: 'Join us',
+      href: '/',
+    }}
+    items={[
+      {
+        title: 'Write to us',
+        description: 'Maecenas eu tellus eget ... ',
+        icon: 'tabler:home'
+      },
+      {
+        title: 'Call us',
+        description: 'Lorem ipsum dolor sit amet,..',
+        icon: 'tabler:anchor'
+      },
+      {
+        title: 'Whatsapp',
+        description: 'Morbi sagittis, ..',
+        icon: 'tabler:bell-ringing-2'
+      },
+    ]}
+  />
+```
+
+
+<Demo title="Links" class="bg-background">
+  <WidgetSteps1
+    title="Our values"
+    subtitle="Donec id nibh neque. Quisque et fermentum tortor. Fusce vitae dolor a mauris dignissim commodo. Ut eleifend luctus condimentum."
+    items={[
+      {
+        title: 'Write to us',
+        description: 'example@example.com',
+        icon: 'tabler:mail',
+        href: 'mailto:example@example.com'
+      },
+      {
+        title: 'Text us',
+        description: '+1 000 000000',
+        icon: 'tabler:brand-whatsapp',
+        href: 'https://wa.me/+10000000000'
+      },
+      {
+        title: 'Call us',
+        description: '+1 000 000000',
+        icon: 'tabler:phone',
+        href: 'tel:+1000000000'
+      },
+    ]}
+  />
+</Demo>
+
+```astro
+---
+import { WidgetSteps } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetSteps1
+  title="Our values"
+  subtitle="Donec id nibh neque. .."
+  items={[
+    {
+      title: 'Write to us',
+      description: 'example@example.com',
+      icon: 'tabler:mail',
+      href: 'mailto:example@example.com'
+    },
+    {
+      title: 'Text us',
+      description: '+1 000 000000',
+      icon: 'tabler:brand-whatsapp',
+      href: 'https://wa.me/+10000000000'
+    },
+    {
+      title: 'Call us',
+      description: '+1 000 000000',
+      icon: 'tabler:phone',
+      href: 'tel:+1000000000'
+    },
+  ]}
+/>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------|------|---------|---------|
+    | `position` | `center` \| `left` \| `right` | `center` | - |
+    | `links` | [ILink](/docs/types#ILink)[] | `[]` | - |
+    | `actions` | [ICallToAction](/docs/types#ICallToAction)[] | `[]` | - |
+    | `isSticky` | `boolean` | `false` | - |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the wrapper |
+    | `showToggleTheme` | `boolean` | `false` | - |
+    | `scrollOffset` | `number` | `60` | How much do you need to scroll the page to apply `pinned` classes |
+    | `classes.container` | `string` | `max-w-7xl md:mx-auto` | CSS classes for the wrapper container |
+    | `classes.links` | `string` | `hover:text-link dark:hover:text-white` | - |
+    | `classes.dropdownLinks` | `string` | `md:hover:bg-gray-200 hover:text-link dark:hover:text-white dark:hover:bg-zinc-800` | - |
+    | `classes.darkModeIcon` | `string` | - | - |
+    | `classes.pinned` | `string` | `bg-background md:bg-background/90 md:backdrop-blur-md` | Classes that will be applied when scrolling the page |
+  </div>
+</div>
+
