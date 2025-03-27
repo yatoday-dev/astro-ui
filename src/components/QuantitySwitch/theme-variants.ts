@@ -14,7 +14,7 @@ export const themeVariants = tv({
     size: {
       default: "h-10 w-24 text-base",
       sm: "h-8 w-24 text-xs",
-      lg: "h-12 w-32 px-8 text-2xl",
+      lg: "h-12 w-26 px-8 text-2xl",
     },
   },
   defaultVariants: {

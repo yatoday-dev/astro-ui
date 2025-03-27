@@ -17,7 +17,7 @@ export const themeVariants = tv({
       default: 'px-6 sm:px-8 h-10 sm:h-12 rounded-(--radius-btn)',
       sm: 'h-8 px-4 text-xs sm:h-10 sm:px-6 sm:text-sm rounded-[calc(var(--radius-btn)-2px)]',
       lg: 'h-14 px-8 text-base sm:text-lg md:text-xl rounded-[calc(var(--radius-btn)+2px)]',
-      icon: 'size-10',
+      icon: 'size-10 aspect-square',
     },
   },
   defaultVariants: {

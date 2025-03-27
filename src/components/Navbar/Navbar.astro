@@ -196,8 +196,6 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       toggleClasses(document.getElementById('header'), 'h-screen', 'expanded');
       toggleClasses('[data-yt-sticky-header] nav', 'hidden');
       toggleClasses('[data-yt-actions]', 'hidden');
-
-      const image = header.querySelector("[data-yt-zoom-image]") as HTMLImageElement;
     });
 
     attachEvent('[data-yt-sticky-header] nav', 'click', () => {
