@@ -1,20 +1,3 @@
-import { I18N } from 'vendor:config';
-
-export const formatter: Intl.DateTimeFormat = new Intl.DateTimeFormat(I18N?.language, {
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
-  timeZone: 'UTC',
-});
-
-/**
- * Formats a given Date object into a string using the specified formatter.
- *
- * @param {Date} date - The Date object to be formatted. If the argument is not provided or is invalid, an empty string will be returned.
- * @returns {string} The formatted date string if a valid Date object is provided; otherwise, returns an empty string.
- */
-export const getFormattedDate = (date: Date): string => (date ? formatter.format(date) : '');
-
 /**
  * Trims specific leading and trailing characters from a string.
  *

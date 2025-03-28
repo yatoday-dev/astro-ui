@@ -1,4 +1,4 @@
-import slugify from 'limax';
+import slug from 'limax';
 import { trim } from './utils';
 
 /**
@@ -39,7 +39,7 @@ export const createPath = (...params: string[]): string => {
 export const cleanSlug = (text: string = ''): string =>
   trimSlash(text)
     .split('/')
-    .map((slug: string) => slugify(slug))
+    .map((a: string) => slug(a))
     .join('/');
 
 /**
