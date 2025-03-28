@@ -209,11 +209,13 @@ import { Navbar } from '@yatoday/astro-ui/astro';
     | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the wrapper |
     | `showToggleTheme` | `boolean` | `false` | - |
     | `scrollOffset` | `number` | `60` | How much do you need to scroll the page to apply `pinned` classes |
-    | `classes.container` | `string` | `max-w-7xl md:mx-auto` | CSS classes for the wrapper container |
+    | `classes.header` | `string` | `` | CSS classes for the wrapper header container |
+    | `classes.container` | `string` | `max-w-7xl 2xl:max-w-[96rem] md:mx-auto` | CSS classes for the container |
     | `classes.links` | `string` | `hover:text-link dark:hover:text-white` | - |
-    | `classes.dropdownLinks` | `string` | `md:hover:bg-gray-200 hover:text-link dark:hover:text-white dark:hover:bg-zinc-800` | - |
+    | `classes.dropdown` | `string` | `bg-background text-foreground md:shadow-lg` | - |
+    | `classes.dropdownLinks` | `string` | `hover:bg-black/10 hover:text-link dark:hover:text-white dark:hover:bg-white/10` | - |
     | `classes.darkModeIcon` | `string` | - | - |
     | `classes.pinned` | `string` | `bg-background md:bg-background/90 md:backdrop-blur-md` | Classes that will be applied when scrolling the page |
+    | `classes.unpinned` | `string` | - | Classes applied by default |
   </div>
 </div>
-
