@@ -40,7 +40,7 @@ declare module '@yatoday/astro-ui' {
   export const addClasses: (el: HTMLElement | string, ...cls: string[]) => void;
 
   // utils.ts
-  export const getFormattedDate = (date: Date) => string;
+  export const getFormattedDate = (date: Date, locale: string = 'en') => string;
   export const trim = (str: string, ch?: string) => string;
   export const toUiAmount = (amount: number) => string;
 

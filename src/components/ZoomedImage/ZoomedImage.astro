@@ -131,6 +131,23 @@ if (
       }
     };
 
+    const handleTouchMove = (event: TouchEvent) => {
+      // Ensure there is at least one touch point
+      if (event.touches.length === 0) return;
+
+      const touch = event.touches[0]; // Get the first touch point
+      const { offsetWidth: width, offsetHeight: height } = container;
+      const rect = container.getBoundingClientRect(); // Get container position relative to the viewport
+
+      // Calculate touch position relative to the container
+      mousePosition.percentX = ((touch.clientX - rect.left) / width) * 100;
+      mousePosition.percentY = ((touch.clientY - rect.top) / height) * 100;
+
+      if (zoomed) {
+        zoomButton.style.backgroundPosition = `${mousePosition.percentX}% ${mousePosition.percentY}%`;
+      }
+    };
+
     // Toggle zoom handler
     const toggleZoom = () => {
       zoomed = !zoomed;
@@ -155,6 +172,7 @@ if (
     // Attach event listeners
     zoomButton.addEventListener("click", toggleZoom);
     zoomButton.addEventListener("mousemove", handleMouseMove);
+    zoomButton.addEventListener("touchmove", handleTouchMove);
   };
 
   on(document, 'astro:after-swap', init);
