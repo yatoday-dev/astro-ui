@@ -145,8 +145,42 @@ if (
 
       if (zoomed) {
         zoomButton.style.backgroundPosition = `${mousePosition.percentX}% ${mousePosition.percentY}%`;
+        // Disable document scrolling
+        document.body.style.overflow = 'hidden';
+        document.body.style.touchAction = 'none';
+        
+        // Add document click listener to detect outside clicks
+        document.addEventListener('click', handleOutsideClick);
+        document.addEventListener('touchstart', handleOutsideClick);
       }
     };
+
+    const disableZoom = () => {
+      zoomed = false;
+
+      image.classList.remove("hidden");
+      span.classList.remove("zoom-wrap");
+      zoomButton.classList.remove("cursor-zoom-out", "bg-zoomed");
+      zoomButton.classList.add("cursor-zoom-in");
+      zoomButton.style.backgroundSize = "100%";
+      zoomButton.style.backgroundPosition = "0% 0%";
+
+      // Re-enable scrolling
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+
+      // Remove the document listener to improve performance
+      document.removeEventListener('click', handleOutsideClick);
+      document.removeEventListener('touchstart', handleOutsideClick);
+    }
+    
+    const handleOutsideClick = (event: MouseEvent | TouchEvent) => {
+      // Detect whether the click is outside the zoomed container
+      if (!container.contains(event.target as Node)) {
+        disableZoom();
+      }
+    };
+
 
     // Toggle zoom handler
     const toggleZoom = () => {
@@ -160,12 +194,7 @@ if (
         zoomButton.style.backgroundSize = "200%";
         zoomButton.style.backgroundPosition = `${mousePosition.percentX}% ${mousePosition.percentY}%`;
       } else {
-        image.classList.remove("hidden");
-        span.classList.remove("zoom-wrap");
-        zoomButton.classList.remove("cursor-zoom-out", "bg-zoomed");
-        zoomButton.classList.add("cursor-zoom-in");
-        zoomButton.style.backgroundSize = "100%";
-        zoomButton.style.backgroundPosition = "0% 0%";
+        disableZoom();
       }
     };
 
