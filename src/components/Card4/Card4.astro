@@ -1,0 +1,46 @@
+---
+import type { Card4Props as Props } from './types';
+import { twMerge } from 'tailwind-merge';
+import Card0 from '../Card0/Card0.astro';
+import Button from '../Button/Button.astro';
+import { Icon } from 'astro-icon/components';
+
+const {
+  title = await Astro.slots.render('title'),
+  description = await Astro.slots.render('description'),
+  callToAction,
+  as = 'article',
+  asHeader = 'h3',
+  icon,
+  classes = {},
+} = Astro.props;
+
+const WrapperHeaderTag = asHeader;
+
+const {
+  container: containerClass = 'p-6 gap-0',
+  title: titleClass = '',
+  description: descriptionClass = 'text-muted-foreground',
+  icon: iconClass = '',
+} = classes;
+---
+
+<Card0
+  as={as}
+  classes={{
+    container: twMerge('flex flex-row max-w-md', containerClass),
+  }}
+>
+  <div class="flex justify-center">
+    {icon && <Icon name={icon} class={twMerge('w-7 h-7 mr-2 rtl:mr-0 rtl:ml-2', iconClass)} />}
+  </div>
+  <div class="space-y-2">
+    {title && <WrapperHeaderTag class={twMerge('text-xl font-bold', titleClass)}>{title}</WrapperHeaderTag>}
+    {description && <p class={descriptionClass} set:html={description} />}
+    {
+      callToAction && (
+        <Button variant="link" {...callToAction} />
+      )
+    }
+  </div>
+</Card0>
