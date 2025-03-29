@@ -3,8 +3,8 @@ import type { HeroSectionProps } from '../HeroSection/types';
 
 export type WidgetHeroSliderProps = {
   items?: HeroSectionProps[];
-  height: string;
-  isAfterContent: boolean;
-  withPagination: boolean;
-  withNavigation: boolean;
+  height?: string;
+  isAfterContent?: boolean;
+  withPagination?: boolean;
+  withNavigation?: boolean;
 } & WidgetWrapperProps;
