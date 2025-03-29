@@ -54,10 +54,10 @@ This component uses [Swiper Element (WebComponent)](https://swiperjs.com/element
 
 ```astro
 ---
-import { HeroSliderWidget } from '@yatoday/astro-ui/astro';
+import { WidgetHeroSlider } from '@yatoday/astro-ui/astro';
 ---
 
-<HeroSliderWidget
+<WidgetHeroSlider
   items={[
     {
       title: 'Default Slide',
@@ -138,12 +138,12 @@ import { HeroSliderWidget } from '@yatoday/astro-ui/astro';
 
 ```astro
 <!-- With background -->
-<HeroSliderWidget items={[]}>
+<WidgetHeroSlider items={[]}>
   <!-- Background container -->
   <Fragment slot="bg">
     <div class="absolute inset-0 bg-primary/10 dark:bg-card"></div>
   </Fragment>
-</HeroSliderWidget>
+</WidgetHeroSlider>
 ```
 
 ## Props
