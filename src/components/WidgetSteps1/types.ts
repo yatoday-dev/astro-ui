@@ -1,6 +1,6 @@
-import type {Link, Stat, ToAction} from "~/types";
-import type {WidgetFeatures0Props} from "~/components/WidgetFeatures0/types.ts";
-import type {HeadlineProps} from "~/components/Headline/types.ts";
+import type { Link, Stat, ToAction } from '~/types';
+import type { WidgetFeatures0Props } from '~/components/WidgetFeatures0/types.ts';
+import type { HeadlineProps } from '~/components/Headline/types.ts';
 
 export type WidgetSteps1Props = {
   callToAction?: ToAction;
@@ -12,4 +12,5 @@ export type WidgetSteps1Props = {
     href?: string;
     classes?: Record<string, string>;
   }[];
-} & WidgetFeatures0Props & HeadlineProps;
+} & WidgetFeatures0Props &
+  HeadlineProps;

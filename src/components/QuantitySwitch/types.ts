@@ -1,4 +1,4 @@
-import type {Size, Variant} from "~/components/QuantitySwitch/theme-variants.ts";
+import type { Size, Variant } from '~/components/QuantitySwitch/theme-variants.ts';
 
 export type QuantitySwitchProps = {
   variant?: Variant;
@@ -8,4 +8,4 @@ export type QuantitySwitchProps = {
 
 export type SvelteQuantitySwitchProps = {
   class?: string;
-} & QuantitySwitchProps
+} & QuantitySwitchProps;

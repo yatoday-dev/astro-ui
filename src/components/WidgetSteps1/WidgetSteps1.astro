@@ -1,10 +1,10 @@
 ---
 import type { WidgetSteps1Props as Props } from './types';
-import WidgetWrapper from "../WidgetWrapper/WidgetWrapper.astro";
-import Headline from "../Headline/Headline.astro";
-import Button from "../Button/Button.astro";
+import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
+import Headline from '../Headline/Headline.astro';
+import Button from '../Button/Button.astro';
 import { Icon } from 'astro-icon/components';
-import {cn} from "../../utils";
+import { cn } from '../../utils';
 
 const {
   title = await Astro.slots.render('title'),
@@ -40,9 +40,7 @@ const {
           typeof callToAction === 'string' ? (
             <Fragment set:html={callToAction} />
           ) : (
-            callToAction &&
-            callToAction.text &&
-            callToAction.href && <Button {...callToAction} class="mb-12 w-auto" />
+            callToAction && callToAction.text && callToAction.href && <Button {...callToAction} class="mb-12 w-auto" />
           )
         }
       </div>
@@ -52,20 +50,27 @@ const {
         {
           items && items.length
             ? items.map(({ title, description, icon, href, classes }, index) => (
-              <li class="flex md:-mx-4">
-                <div class="pr-4 sm:pl-4 rtl:pr-0 rtl:pl-4 rtl:sm:pl-0 rtl:sm:pr-4">
-                    <span class={cn("flex w-16 h-16 mx-auto items-center justify-center text-2xl font-bold rounded-full", classes?.icon ?? 'bg-card text-card-foreground')}>
+                <li class="flex md:-mx-4">
+                  <div class="pr-4 sm:pl-4 rtl:pr-0 rtl:pl-4 rtl:sm:pl-0 rtl:sm:pr-4">
+                    <span
+                      class={cn(
+                        'flex w-16 h-16 mx-auto items-center justify-center text-2xl font-bold rounded-full',
+                        classes?.icon ?? 'bg-card text-card-foreground'
+                      )}
+                    >
                       {icon ? <Icon name={icon} class="w-6 h-6 icon-bold" /> : index + 1}
                     </span>
-                </div>
-                <div class="pl-4 rtl:pl-0 rtl:pr-4">
-                  <h3 class={cn("mb-3 text-xl font-semibold font-heading", classes?.title ?? '')} set:html={title} />
-                  {href 
-                    ? <a href={href} class={cn('hover:underline', classes?.description ?? '')} set:html={description} /> 
-                    : <p class={classes?.description ?? ''} set:html={description} />}
-                </div>
-              </li>
-            ))
+                  </div>
+                  <div class="pl-4 rtl:pl-0 rtl:pr-4">
+                    <h3 class={cn('mb-3 text-xl font-semibold font-heading', classes?.title ?? '')} set:html={title} />
+                    {href ? (
+                      <a href={href} class={cn('hover:underline', classes?.description ?? '')} set:html={description} />
+                    ) : (
+                      <p class={classes?.description ?? ''} set:html={description} />
+                    )}
+                  </div>
+                </li>
+              ))
             : ''
         }
       </ul>

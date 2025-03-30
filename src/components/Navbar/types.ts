@@ -1,5 +1,5 @@
 import type { ToAction } from '../../types';
-import type {WidgetWrapperProps} from "../WidgetWrapper/types.ts";
+import type { WidgetWrapperProps } from '../WidgetWrapper/types.ts';
 
 export type NavbarProps = {
   links?: IMenuLink[];

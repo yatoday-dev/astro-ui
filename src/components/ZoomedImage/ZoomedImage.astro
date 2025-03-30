@@ -1,20 +1,17 @@
 ---
 import type { ZoomedImageProps as Props } from './types';
-import Image from "../Image/Image.astro";
-import {cn} from "../../utils";
-import {findImage} from "../../utils/images";
+import Image from '../Image/Image.astro';
+import { cn } from '../../utils';
+import { findImage } from '../../utils/images';
 import {
   astroAsseetsOptimizer,
   getImagesOptimized,
   isUnpicCompatible,
-  unpicOptimizer
-} from "../../utils/images-optimization";
-import type {HTMLAttributes} from "astro/types";
+  unpicOptimizer,
+} from '../../utils/images-optimization';
+import type { HTMLAttributes } from 'astro/types';
 
-const {
-  src,
-  class: className = '',
-} = Astro.props;
+const { src, class: className = '' } = Astro.props;
 
 const props = Astro.props;
 
@@ -55,64 +52,66 @@ if (
   }
 </style>
 
-<div class={cn("overflow-hidden", className)} data-yt-zoom-container>
-  {image && (
-    <div class="relative block flex-none w-full h-full" data-yt-zoom-wrap>
-      <button
-        id="zoom-button"
-        type="button"
-        class={cn("zoom-bg block w-full h-full cursor-zoom-in")}
-        tabindex="0"
-        style={`background-image: url('${image.src}')`}
-        data-yt-zoom-button
-      >
-        <span>
-          {!image ? (
-            <Fragment />
-          ) : (
-            <Image
-              src={props.src}
-              class='w-full h-full object-cover'
-              widths={[400, 900]}
-              width={400}
-              height={400}
-              sizes="(max-width: 900px) 400px, 900px"
-              alt={props.alt}
-              layout="cover"
-              loading="lazy"
-              decoding="async"
-              data-yt-zoom-image
-            />
-          )}
-        </span>
-      </button>
-    </div>
-  )}
+<div class={cn('overflow-hidden', className)} data-yt-zoom-container>
+  {
+    image && (
+      <div class="relative block flex-none w-full h-full" data-yt-zoom-wrap>
+        <button
+          id="zoom-button"
+          type="button"
+          class={cn('zoom-bg block w-full h-full cursor-zoom-in')}
+          tabindex="0"
+          style={`background-image: url('${image.src}')`}
+          data-yt-zoom-button
+        >
+          <span>
+            {!image ? (
+              <Fragment />
+            ) : (
+              <Image
+                src={props.src}
+                class="w-full h-full object-cover"
+                widths={[400, 900]}
+                width={400}
+                height={400}
+                sizes="(max-width: 900px) 400px, 900px"
+                alt={props.alt}
+                layout="cover"
+                loading="lazy"
+                decoding="async"
+                data-yt-zoom-image
+              />
+            )}
+          </span>
+        </button>
+      </div>
+    )
+  }
 </div>
 
 <script>
-  import {on, get} from "../../utils";
+  import { on, get } from '../../utils';
 
   const init = () => {
     // Only run once
     if (!window.zoomInitialized) {
       window.zoomInitialized = true;
 
-      const container = get("[data-yt-zoom-container]", true) as NodeListOf<HTMLElement>;
+      const container = get('[data-yt-zoom-container]', true) as NodeListOf<HTMLElement>;
       if (container && container.length === 0) return;
 
       container.forEach(addZoomListeners);
     }
-  }
-  
+  };
+
   const addZoomListeners = (container: HTMLElement) => {
     // Select elements within this specific container
-    const zoomButton = container.querySelector("[data-yt-zoom-button]") as HTMLButtonElement;
-    const image = container.querySelector("[data-yt-zoom-image]") as HTMLImageElement;
-    if(!zoomButton || !image) return;
-    
+    const zoomButton = container.querySelector('[data-yt-zoom-button]') as HTMLButtonElement;
+    const image = container.querySelector('[data-yt-zoom-image]') as HTMLImageElement;
+    if (!zoomButton || !image) return;
+
     const span = image.parentElement as HTMLElement;
-    
+
     // Initialize state
     let zoomed = false;
     const mousePosition = {
@@ -148,7 +147,7 @@ if (
         // Disable document scrolling
         document.body.style.overflow = 'hidden';
         document.body.style.touchAction = 'none';
-        
+
         // Add document click listener to detect outside clicks
         document.addEventListener('click', handleOutsideClick);
         document.addEventListener('touchstart', handleOutsideClick);
@@ -158,12 +157,12 @@ if (
     const disableZoom = () => {
       zoomed = false;
 
-      image.classList.remove("hidden");
-      span.classList.remove("zoom-wrap");
-      zoomButton.classList.remove("cursor-zoom-out", "bg-zoomed");
-      zoomButton.classList.add("cursor-zoom-in");
-      zoomButton.style.backgroundSize = "100%";
-      zoomButton.style.backgroundPosition = "0% 0%";
+      image.classList.remove('hidden');
+      span.classList.remove('zoom-wrap');
+      zoomButton.classList.remove('cursor-zoom-out', 'bg-zoomed');
+      zoomButton.classList.add('cursor-zoom-in');
+      zoomButton.style.backgroundSize = '100%';
+      zoomButton.style.backgroundPosition = '0% 0%';
 
       // Re-enable scrolling
       document.body.style.overflow = '';
@@ -172,8 +171,8 @@ if (
       // Remove the document listener to improve performance
       document.removeEventListener('click', handleOutsideClick);
       document.removeEventListener('touchstart', handleOutsideClick);
-    }
-    
+    };
+
     const handleOutsideClick = (event: MouseEvent | TouchEvent) => {
       // Detect whether the click is outside the zoomed container
       if (!container.contains(event.target as Node)) {
@@ -181,17 +180,16 @@ if (
       }
     };
 
-
     // Toggle zoom handler
     const toggleZoom = () => {
       zoomed = !zoomed;
 
       if (zoomed) {
-        image.classList.add("hidden");
-        span.classList.add("zoom-wrap");
-        zoomButton.classList.add("cursor-zoom-out", "bg-zoomed");
-        zoomButton.classList.remove("cursor-zoom-in");
-        zoomButton.style.backgroundSize = "200%";
+        image.classList.add('hidden');
+        span.classList.add('zoom-wrap');
+        zoomButton.classList.add('cursor-zoom-out', 'bg-zoomed');
+        zoomButton.classList.remove('cursor-zoom-in');
+        zoomButton.style.backgroundSize = '200%';
         zoomButton.style.backgroundPosition = `${mousePosition.percentX}% ${mousePosition.percentY}%`;
       } else {
         disableZoom();
@@ -199,12 +197,11 @@ if (
     };
 
     // Attach event listeners
-    zoomButton.addEventListener("click", toggleZoom);
-    zoomButton.addEventListener("mousemove", handleMouseMove);
-    zoomButton.addEventListener("touchmove", handleTouchMove);
+    zoomButton.addEventListener('click', toggleZoom);
+    zoomButton.addEventListener('mousemove', handleMouseMove);
+    zoomButton.addEventListener('touchmove', handleTouchMove);
   };
 
   on(document, 'astro:after-swap', init);
   init();
 </script>
-

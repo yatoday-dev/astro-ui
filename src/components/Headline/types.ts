@@ -1,4 +1,4 @@
-import type {HTMLTag} from "astro/types";
+import type { HTMLTag } from 'astro/types';
 
 export type HeadlineProps = {
   title?: string;

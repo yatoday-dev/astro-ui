@@ -56,10 +56,10 @@ const { selector = '#header', scrollOffset = 450 } = Astro.props;
 </style>
 
 <!-- Back to top button-->
-<a 
-  class="btn-scroll-top text-card-foreground" 
-  href="javascript:void(0);" 
-  data-yt-scroll 
+<a
+  class="btn-scroll-top text-card-foreground"
+  href="javascript:void(0);"
+  data-yt-scroll
   data-yt-scroll-offset={scrollOffset}
   data-yt-scroll-selector={selector}
 >
@@ -72,8 +72,8 @@ const { selector = '#header', scrollOffset = 450 } = Astro.props;
 </a>
 
 <script>
-  import {get, attachEvent} from "../../utils";
-  
+  import { get, attachEvent } from '../../utils';
+
   /**
    * Animate scroll to top button in/off view
    */
@@ -82,7 +82,7 @@ const { selector = '#header', scrollOffset = 450 } = Astro.props;
     if (button == null) {
       return;
     }
-    
+
     const targetEl = get(button.dataset?.ytScrollSelector || '#header') as HTMLElement;
     const offsetFromTop = Number(button.dataset.ytScrollOffset) || 450;
     const progress = button.querySelector('svg circle') as SVGCircleElement;
@@ -108,9 +108,9 @@ const { selector = '#header', scrollOffset = 450 } = Astro.props;
     };
 
     attachEvent([button], 'click', (_: Event, elem: HTMLElement) => {
-      targetEl?.scrollIntoView({ behavior: "smooth", block: "end" });
+      targetEl?.scrollIntoView({ behavior: 'smooth', block: 'end' });
     });
-    
+
     window.addEventListener('scroll', function () {
       // if (event?.currentTarget?.pageYOffset > offsetFromTop) {
       if (window.scrollY > offsetFromTop) {
