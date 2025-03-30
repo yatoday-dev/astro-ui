@@ -4,7 +4,7 @@ import type { Image, ToAction } from '../../types';
 import type { ItemGrid0Props } from '../ItemGrid0/types.ts';
 
 export type WidgetTestimonialsProps = {
-  testimonials?: Testimonial[];
+  items?: Testimonial[];
   callToAction?: ToAction;
 } & WidgetWrapperProps &
   ItemGrid0Props &

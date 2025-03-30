@@ -11,47 +11,47 @@ import WidgetTestimonials from '~/components/WidgetTestimonials/WidgetTestimonia
 
 <Demo title="">
   <WidgetTestimonials
-    title="Нам доверяют"
-    testimonials={[
+    title="Title"
+    subtitle="Subtitle"
+    tagline="Tagline"
+    items={[
       {
-        text: `Заказала остекление и отделку лоджии. Очень довольна! Все в срок поставили. Монтажники Равел и Сергей - молодцы, выше всяких похвал. Работали быстро, качественно и очень аккуратно. Перфекционистам рекомендую. За собой все убрали, рамы отмыли. Никаких следов пены и грязных рук. Очень бережное ношение к имуществу. Приду еще.`,
-        author: 'Светлана. Аликанте',
-        authorDescription: '12 декабря, 2024',
+        text: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat.`,
+        author: 'Elena Ruz. New York',
+        authorDescription: 'Sep. 12 2024',
+        image: '~/assets/images/avatar-01.jpeg',
         callToAction: {
           variant: 'outline',
           size: 'icon',
           icon: 'tabler:arrow-right',
           href: '/',
-          'aria-label': 'Read more about Seminole tax hike',
         },
       },
       {
-        text: `Заказала остекление и отделку лоджии. Очень довольна! Все в срок поставили. Монтажники Равел и Сергей - молодцы, выше всяких похвал. Работали быстро, качественно и очень аккуратно. Перфекционистам рекомендую. За собой все убрали, рамы отмыли. Никаких следов пены и грязных рук. Очень бережное ношение к имуществу. Приду еще.`,
-        author: 'Светлана. Аликанте',
-        authorDescription: '12 декабря, 2024',
+        text: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.`,
+        author: 'John lewis. London',
+        authorDescription: 'Sep. 12 2024',
         callToAction: {
           variant: 'outline',
           size: 'icon',
           icon: 'tabler:arrow-right',
           href: '/',
-          'aria-label': 'Read more about Seminole tax hike',
         },
       },
       {
-        text: `Заказала остекление и отделку лоджии. Очень довольна! Все в срок поставили. Монтажники Равел и Сергей - молодцы, выше всяких похвал. Работали быстро, качественно и очень аккуратно. Перфекционистам рекомендую. За собой все убрали, рамы отмыли. Никаких следов пены и грязных рук. Очень бережное ношение к имуществу. Приду еще.`,
-        author: 'Светлана. Аликанте',
-        authorDescription: '12 декабря, 2024',
+        text: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet .`,
+        author: 'John Doe. Singapur',
+        authorDescription: 'Sep. 12 2024',
         callToAction: {
           variant: 'outline',
           size: 'icon',
           icon: 'tabler:arrow-right',
           href: '/',
-          'aria-label': 'Read more about Seminole tax hike',
         },
       },
     ]}
     callToAction={{
-      text: 'Читать все отзывы',
+      text: 'Read all',
       href: '/',
       icon: 'tabler:chevron-right',
     }}
@@ -60,9 +60,55 @@ import WidgetTestimonials from '~/components/WidgetTestimonials/WidgetTestimonia
 
 ```astro
 ---
-import { WidgetCallToAction1 } from '@yatoday/astro-ui/astro';
+import { WidgetTestimonials } from '@yatoday/astro-ui/astro';
 ---
 
+<WidgetTestimonials
+  title="Title"
+  subtitle="Subtitle"
+  tagline="Tagline"
+  items={[
+    {
+      text: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat.`,
+      author: 'Elena Ruz. New York',
+      authorDescription: 'Sep. 12 2024',
+      image: '~/assets/images/avatar-01.jpeg',
+      callToAction: {
+        variant: 'outline',
+        size: 'icon',
+        icon: 'tabler:arrow-right',
+        href: '/',
+      },
+    },
+    {
+      text: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.`,
+      author: 'John lewis. London',
+      authorDescription: 'Sep. 12 2024',
+      callToAction: {
+        variant: 'outline',
+        size: 'icon',
+        icon: 'tabler:arrow-right',
+        href: '/',
+      },
+    },
+    {
+      text: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet .`,
+      author: 'John Doe. Singapur',
+      authorDescription: 'Sep. 12 2024',
+      callToAction: {
+        variant: 'outline',
+        size: 'icon',
+        icon: 'tabler:arrow-right',
+        href: '/',
+      },
+    },
+  ]}
+  callToAction={{
+    text: 'Read all',
+    href: '/',
+    icon: 'tabler:chevron-right',
+  }}
+/>
 ```
 
 ## Props
@@ -75,6 +121,7 @@ import { WidgetCallToAction1 } from '@yatoday/astro-ui/astro';
     | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/feature-card-1) component |
     | `tagline` | `string` | - | `Tagline` in [Headline](/docs/feature-card-1) component |
     | `actions` | [ICallToAction](/docs/types#ICallToAction)[] | `[]` | - |
+    | `testimonials` | Array | `[]` | - |
     | `id` | `string` | - | Specify a unique id for the section |
     | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the wrapper |
     | `bg` | `string` | - | Set background element |

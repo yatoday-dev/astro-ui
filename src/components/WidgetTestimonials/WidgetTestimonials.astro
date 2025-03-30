@@ -1,15 +1,17 @@
 ---
 import type { WidgetTestimonialsProps as Props } from './types';
 import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
+import ItemGrid0 from '../ItemGrid0/ItemGrid0.astro';
 import Headline from '../Headline/Headline.astro';
 import Button from '../Button/Button.astro';
 import { cn } from '../../utils';
+import Image from "../Image/Image.astro";
 
 const {
   title = '',
   subtitle = '',
   tagline = '',
-  testimonials = [],
+  items = [],
   callToAction,
   columns = 3,
 
@@ -23,68 +25,53 @@ const {
 <WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <Headline title={title} subtitle={subtitle} tagline={tagline} />
 
-  <div
-    class={cn(
-      `grid gap-6 ${
-        columns === 4
-          ? 'lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2'
-          : columns === 3
-            ? 'lg:grid-cols-3 sm:grid-cols-2'
-            : columns === 2
-              ? 'sm:grid-cols-2 '
-              : ''
-      }`
-    )}
-  >
+  <ItemGrid0 columns={columns} >
     {
-      testimonials &&
-        testimonials.map(({ title, text, author, authorDescription, image, callToAction }) => (
-          <div class="flex h-auto">
-            <div class="flex flex-col p-4 md:p-6 rounded-md shadow-xl dark:shadow-none dark:border dark:bg-card dark:text-card-foreground">
-              {title && <h2 class="text-lg font-medium leading-6 pb-4">{title}</h2>}
-              {text && (
-                <blockquote class="flex-auto">
-                  <p class="text-muted-foreground">
-                    &laquo; <Fragment set:html={text} /> &raquo;
-                  </p>
-                </blockquote>
-              )}
+      items &&
+      items.map(({ title, text, author, authorDescription, image, callToAction }) => (
+        <div class="flex h-auto">
+          <div class="flex flex-col p-4 md:p-6 rounded-md shadow-xl dark:shadow-none dark:border dark:bg-card dark:text-card-foreground">
+            {title && <h2 class="text-lg font-medium leading-6 pb-4">{title}</h2>}
+            {text && (
+              <blockquote class="flex-auto">
+                <p class="text-muted-foreground">
+                  &laquo; <Fragment set:html={text} /> &raquo;
+                </p>
+              </blockquote>
+            )}
 
-              <hr class="border my-4" />
+            <hr class="border my-4" />
 
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                  {image && (
-                    <div class="h-10 w-10 rounded-full border">
-                      {typeof image === 'string' ? (
-                        <Fragment set:html={image} />
-                      ) : (
-                        <Image
-                          class="h-10 w-10 rounded-full border min-w-full min-h-full"
-                          width={40}
-                          height={40}
-                          widths={[400, 768]}
-                          layout="fixed"
-                          {...image}
-                        />
-                      )}
-                    </div>
-                  )}
-
-                  <div class="grow">
-                    {author && <p class="text-base font-semibold">{author}</p>}
-                    {authorDescription && <p class="text-xs text-muted-foreground">{authorDescription}</p>}
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                {image && (
+                  <div class="flex-none size-10 rounded-full overflow-hidden border border-input">
+                    <Image
+                      class="size-10 aspect-square rounded-full min-w-full min-h-full"
+                      width={40}
+                      height={40}
+                      widths={[400, 768]}
+                      layout="fixed"
+                      src={typeof image === 'string' ? image : image.src}
+                      alt={typeof image === 'string' ? author : image.alt}
+                    />
                   </div>
-                </div>
+                )}
 
-                {callToAction && <Button {...callToAction} />}
+                <div class="grow">
+                  {author && <div class="inline-grid"><p class="text-base font-semibold truncate">{author}</p></div>}
+                  {authorDescription && <p class="text-xs text-muted-foreground">{authorDescription}</p>}
+                </div>
               </div>
+
+              {callToAction && <Button {...callToAction} />}
             </div>
           </div>
-        ))
+        </div>
+      ))
     }
-  </div>
-
+  </ItemGrid0>
+  
   {
     callToAction && (
       <div class="flex justify-center mx-auto w-fit mt-8 md:mt-12 font-medium">
