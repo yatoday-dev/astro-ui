@@ -1,0 +1,39 @@
+---
+import type { WidgetFaq1Props as Props } from './types';
+import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
+import Headline from '../Headline/Headline.astro';
+import ItemGrid0 from '../ItemGrid0/ItemGrid0.astro';
+import Card4 from '../Card4/Card4.astro';
+
+const {
+  title = '',
+  subtitle = '',
+  tagline = '',
+  items = [],
+  columns = 2,
+
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+---
+
+<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+  <Headline title={title} subtitle={subtitle} tagline={tagline} />
+  <ItemGrid0 columns={columns}>
+    {
+      items &&
+        items.map((item) => (
+          <Card4
+            {...item}
+            classes={{
+              container: 'p-0 gap-0 border-0 bg-transparent',
+              title: 'text-lg font-semibold',
+              icon: 'text-primary size-6',
+            }}
+          />
+        ))
+    }
+  </ItemGrid0>
+</WidgetWrapper>

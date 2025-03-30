@@ -32,7 +32,7 @@ export type Image = {
   src: string;
   alt?: string;
   aspectRatio?: string;
-}
+};
 
 declare module '@yatoday/astro-ui' {
   // DOMUtils.ts

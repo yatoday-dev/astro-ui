@@ -37,10 +37,6 @@ const {
   <div class="space-y-2">
     {title && <WrapperHeaderTag class={twMerge('text-xl font-bold', titleClass)}>{title}</WrapperHeaderTag>}
     {description && <p class={descriptionClass} set:html={description} />}
-    {
-      callToAction && (
-        <Button variant="link" {...callToAction} />
-      )
-    }
+    {callToAction && <Button variant="link" {...callToAction} />}
   </div>
 </Card0>

@@ -4,9 +4,9 @@ import Card1 from '../Card1/Card1.astro';
 import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
 import Headline from '../Headline/Headline.astro';
 import ItemGrid0 from '../ItemGrid0/ItemGrid0.astro';
-import Image from "../Image/Image.astro";
-import {twMerge} from "tailwind-merge";
-import {cn} from "../../utils";
+import Image from '../Image/Image.astro';
+import { twMerge } from 'tailwind-merge';
+import { cn } from '../../utils';
 
 const {
   via = Card1,
@@ -17,7 +17,7 @@ const {
   items = [],
   columns = 4,
   image,
-  
+
   isBeforeContent,
   isAfterContent,
   id,
@@ -35,20 +35,25 @@ const img = {
 };
 ---
 
-<WidgetWrapper 
+<WidgetWrapper
   id={id}
-  isDark={isDark} 
+  isDark={isDark}
   containerClass={`${isBeforeContent ? 'md:pb-8 lg:pb-12' : ''} ${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${
     classes?.container ?? ''
   }`}
   bg={bg}
 >
   <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
-  
+
   {
     image && (
-      <div aria-hidden="true" class={cn("aspect-w-16 aspect-h-7 mb-6")}>
-        <div class={cn("w-full h-80 object-cover overflow-hidden rounded-xl mx-auto bg-gray-500 shadow-lg", classes?.image)}>
+      <div aria-hidden="true" class={cn('aspect-w-16 aspect-h-7 mb-6')}>
+        <div
+          class={cn(
+            'w-full h-80 object-cover overflow-hidden rounded-xl mx-auto bg-gray-500 shadow-lg',
+            classes?.image
+          )}
+        >
           <Image
             class="w-full h-80 object-cover mx-auto bg-gray-500 shadow-lg"
             width="auto"
@@ -56,13 +61,13 @@ const img = {
             widths={[400, 768]}
             layout="fullWidth"
             src={img.src || String(image)}
-            alt={img.alt || (title || 'Demo')}
+            alt={img.alt || title || 'Demo'}
           />
         </div>
       </div>
     )
   }
-  
+
   <ItemGrid0 columns={columns}>
     {items && items.map((item) => <Component {...item} classes={classes?.card as Record<string, string>} />)}
   </ItemGrid0>
