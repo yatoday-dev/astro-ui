@@ -1,0 +1,50 @@
+---
+import type { WidgetCallToAction1Props as Props } from './types';
+import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
+import Headline from '../Headline/Headline.astro';
+import Button from '../Button/Button.astro';
+import {cn} from "../../utils";
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline = await Astro.slots.render('tagline'),
+  actions = await Astro.slots.render('actions'),
+
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+---
+
+<WidgetWrapper id={id} isDark={isDark} containerClass={`@container ${classes?.container ?? ''}`} bg={bg}>
+  <div class="@lg:flex gap-12">
+    <Headline
+      title={title}
+      subtitle={subtitle}
+      tagline={tagline}
+      classes={{
+        container: 'mb-0 md:mb-0 text-left',
+        title: 'text-2xl md:text-4xl font-bold tracking-tighter mb-4 font-heading',
+        subtitle: 'text-sm md:text-xl',
+        ...((classes?.headline as object) ?? {}),
+      }}
+    />
+    {
+      actions && (
+        <div class="m-auto flex flex-nowrap flex-col md:flex-row md:justify-start gap-4 mt-6">
+          {Array.isArray(actions) ? (
+            actions.map((action) => (
+              <div class="flex w-auto">
+                <Button {...(action || {})} class={cn("w-full sm:mb-0", classes?.action ?? '')} />
+              </div>
+            ))
+          ) : (
+            <Fragment set:html={actions} />
+          )}
+        </div>
+      )
+    }
+  </div>
+</WidgetWrapper>
