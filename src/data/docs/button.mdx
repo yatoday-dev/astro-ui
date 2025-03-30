@@ -34,6 +34,14 @@ import Button from '~/components/Button/Button.astro';
       ))}
     </div>
   </Demo>
+
+  <Demo title="Icon">
+    <div className="flex flex-wrap gap-2 p-2">
+      {['default', 'primary', 'accent', 'destructive', 'outline', 'ghost', 'link'].map(item => (
+        <Button size="icon" variant={item} icon="tabler:arrow-right" class="rounded-full"></Button>
+      ))}
+    </div>
+  </Demo>
 </div>
 
 ## Usage
@@ -61,17 +69,21 @@ import { Button } from '@yatoday/astro-ui/astro';
 
 <!-- With custom class -->
 <Button class="rounded-sm">Default</Button>
+
+<!-- Icon -->
+<Button size="icon" variant="accent" class="rounded-full"></Button>
 ```
 
 ## Props
 
 <div className="overflow-x-auto">
   <div className="min-w-xl">
-    | Prop | Type | Default | 
-    |------------|------------|------------| 
-    | `variant` | `default` \| `primary` \| `accent` \| `destructive` \| `outline` \| `ghost` \| `link` | `default` | 
-    | `size` | `default` \| `sm` \| `lg` \| `icon` | `default` | 
-    | `class` | `string` | - |
+    | Prop | Type | Default | Description |
+    |------------|------------|------------|------------| 
+    | `variant` | `default` \| `primary` \| `accent` \| `destructive` \| `outline` \| `ghost` \| `link` | `default` | - |
+    | `size` | `default` \| `sm` \| `lg` \| `icon` | `default` | - |
+    | `icon` | `string` | - | Name icon from set |
+    | `class` | `string` | - | - |
   </div>
 </div>
 
