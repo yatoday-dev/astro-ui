@@ -28,6 +28,12 @@ export type Stat = {
   icon?: string;
 };
 
+export type Image = {
+  src: string;
+  alt?: string;
+  aspectRatio?: string;
+}
+
 declare module '@yatoday/astro-ui' {
   // DOMUtils.ts
   export const id: () => string;
