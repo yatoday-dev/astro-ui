@@ -7,7 +7,7 @@ import type { Card3Props } from '../Card3/types';
 export type WidgetCardSliderProps = {
   via?: any;
   items?: Card1Props[] | Card2Props[] | Card3Props[];
-  isAfterContent: boolean;
-  withNavigation: boolean;
+  isAfterContent?: boolean;
+  withNavigation?: boolean;
 } & WidgetWrapperProps &
   Omit<HeadlineProps, 'classes'>;
