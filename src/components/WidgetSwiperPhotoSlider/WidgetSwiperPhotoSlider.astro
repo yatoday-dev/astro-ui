@@ -26,15 +26,13 @@ const images = await fetchLocalImages();
 const imagePaths = Object.keys(images).filter((imagePath) => {
   return imagePath.startsWith(`/src/assets/images/${imagesFolder}/`);
 });
-
-
 ---
 
 <WidgetWrapper
   id={id}
   isDark={isDark}
   bg={bg}
-  containerClass={`gallery ${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : 'px-0 md:px-6 py-6 md:py-8 lg:py-8'} ${classes?.container}`}
+  containerClass={`gallery ${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container}`}
 >
   <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
 
