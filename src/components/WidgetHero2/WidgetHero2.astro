@@ -33,10 +33,7 @@ const { container: containerClass = '' } = classes;
         {tagline && <p class="text-base text-muted-foreground font-bold tracking-wide uppercase" set:html={tagline} />}
         {
           title && (
-            <h1
-              class="text-5xl md:text-6xl font-bold leading-tighter tracking-tighter font-heading"
-              set:html={title}
-            />
+            <h1 class="text-5xl md:text-6xl font-bold leading-tighter tracking-tighter font-heading" set:html={title} />
           )
         }
         <div class="max-w-3xl mx-auto">

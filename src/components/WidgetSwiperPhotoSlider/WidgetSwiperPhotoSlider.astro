@@ -1,0 +1,89 @@
+---
+import type { WidgetSwiperPhotoSliderProps as Props } from './types';
+import Headline from '../Headline/Headline.astro';
+import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
+import SwiperSlider from '../SwiperSlider/SwiperSlider.astro';
+import { Image as AstroImage, getImage } from 'astro:assets';
+import {fetchLocalImages} from "../../utils/images";
+import Image from "../Image/Image.astro";
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline = await Astro.slots.render('tagline'),
+  imagesFolder,
+  isAfterContent = false,
+
+  id = (Math.random() + 1).toString(36).substring(7),
+  withNavigation = true,
+  isDark = false,
+  bg = await Astro.slots.render('bg'),
+  classes = {},
+  ...rest
+} = Astro.props;
+
+const images = await fetchLocalImages();
+const imagePaths = Object.keys(images).filter((imagePath) => {
+  return imagePath.startsWith(`/src/assets/images/${imagesFolder}/`);
+});
+
+
+---
+
+<WidgetWrapper
+  id={id}
+  isDark={isDark}
+  bg={bg}
+  containerClass={`gallery ${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : 'px-0 md:px-6 py-6 md:py-8 lg:py-8'} ${classes?.container}`}
+>
+  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
+
+  {
+    imagePaths && (
+      <SwiperSlider id={id} withNavigation={withNavigation} {...rest}>
+        {imagePaths.map(async (imagePath) => {
+          let image = images[imagePath]();
+          let optimizedImage = await getImage({
+            src: image,
+            width: 860,
+          });
+
+          return (
+            <swiper-slide>
+              <a
+                href={optimizedImage.src}
+                data-pswp-width={optimizedImage.attributes.width}
+                data-pswp-height={optimizedImage.attributes.height}
+                target="_blank"
+                class="group overflow-hidden rounded-md border-primary cursor-zoom-in block mb-4"
+              >
+                <AstroImage
+                  src={image}
+                  alt={'altText'}
+                  widths={[400, 900]}
+                  width={400}
+                  height={400}
+                  sizes="(max-width: 900px) 400px, 900px"
+                  class="w-full md:h-full group-hover:scale-105 transition duration-300"
+                />
+              </a>
+            </swiper-slide>
+          );
+        })}
+      </SwiperSlider>
+    )
+  }
+</WidgetWrapper>
+
+<script>
+  import PhotoSwipeLightbox from "photoswipe/lightbox";
+  import "photoswipe/style.css";
+
+  const lightbox = new PhotoSwipeLightbox({
+    gallery: ".gallery",
+    children: "a",
+    pswpModule: () => import("photoswipe"),
+  });
+
+  lightbox.init();
+</script>
