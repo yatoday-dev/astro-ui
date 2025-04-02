@@ -1,0 +1,98 @@
+---
+import type { Card5Props as Props } from './types';
+import { twMerge } from 'tailwind-merge';
+import Card0 from '../Card0/Card0.astro';
+import Button from '../Button/Button.astro';
+import Image from '../Image/Image.astro';
+import { Icon } from 'astro-icon/components';
+import { cn } from '../../utils';
+
+const {
+  title = await Astro.slots.render('title'),
+  description = await Astro.slots.render('description'),
+  callToAction,
+  as = 'article',
+  asHeader = 'h3',
+  icon,
+  image,
+  author,
+  authorDescription,
+
+  classes = {},
+} = Astro.props;
+
+const WrapperHeaderTag = asHeader;
+
+const {
+  container: containerClass = 'p-6 gap-0',
+  title: titleClass = '',
+  description: descriptionClass = 'text-muted-foreground',
+  icon: iconClass = '',
+} = classes;
+---
+
+<Card0
+  as={as}
+  classes={{
+    container: twMerge('flex h-auto', containerClass),
+  }}
+>
+  {title && <WrapperHeaderTag class={cn('text-lg font-medium leading-6 pb-4', titleClass)}>{title}</WrapperHeaderTag>}
+  {
+    description && (
+      <blockquote class="flex-auto">
+        <p class={descriptionClass}>
+          &laquo; <Fragment set:html={description} /> &raquo;
+        </p>
+      </blockquote>
+    )
+  }
+
+  <slot />
+
+  <hr class="border border-input my-4" />
+
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      {
+        icon && (
+          <div class="flex-none w-10">
+            <Icon name={icon} class={twMerge('size-10', iconClass)} />
+          </div>
+        )
+      }
+
+      {
+        image && (
+          <div class="flex-none size-10 rounded-full overflow-hidden border border-input">
+            {typeof image === 'string' ? (
+              <Fragment set:html={image} />
+            ) : (
+              <Image
+                class="size-10 aspect-square rounded-full min-w-full min-h-full"
+                width={40}
+                height={40}
+                widths={[400, 768]}
+                layout="fixed"
+                {...image}
+              />
+            )}
+          </div>
+        )
+      }
+
+      <div class="grow">
+        {
+          author && (
+            <div class="inline-grid">
+              <p class="text-base font-semibold truncate">{author}</p>
+            </div>
+          )
+        }
+        {authorDescription && <p class="text-xs text-muted-foreground">{authorDescription}</p>}
+      </div>
+    </div>
+
+    {callToAction && <Button {...callToAction} />}
+  </div>
+</Card0>

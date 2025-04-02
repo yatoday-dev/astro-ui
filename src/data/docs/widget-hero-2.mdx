@@ -1,0 +1,127 @@
+---
+title: Hero 2
+category: Widget
+---
+
+import Demo from '~/playground/components/Demo.astro';
+import WidgetHero2 from '~/components/WidgetHero2/WidgetHero2.astro';
+
+
+# Widget Hero 2
+
+<Demo title="">
+  <WidgetHero2
+    title="Sarah Johnson"
+    tagline="Personal Web Demo"
+    subtitle="I'm a Graphic Designer passionate about crafting visual stories. <br /> With 5 years of experience and a degree from New York University's School of Design. I infuse vitality into brands and designs, transforming concepts into captivating realities."
+    actions={[
+      { variant: 'primary', text: 'Hire me', href: '/' },
+      { variant: 'outline', text: 'My Portfolio', href: '/' },
+    ]}
+    classes={{
+      headline: {
+        title: 'md:text-6xl text-foreground'
+      }
+    }}
+  />
+</Demo>
+
+```astro
+---
+import { WidgetHero1 } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetHero2
+  title="Sarah Johnson"
+  tagline="Personal Web Demo"
+  subtitle="I'm a Graphic Designer passionate about crafting visual stories. <br /> With 5 years of experience and a degree from New York University's School of Design. I infuse vitality into brands and designs, transforming concepts into captivating realities."
+  actions={[
+    { variant: 'primary', text: 'Hire me', href: '/' },
+    { variant: 'outline', text: 'My Portfolio', href: '/' },
+  ]}
+  classes={{
+    headline: {
+      title: 'md:text-6xl text-foreground'
+    }
+  }}
+/>
+```
+
+<Demo title="">
+  <WidgetHero2
+    tagline="About us"
+    classes={{
+      headline: {
+        title: 'md:text-6xl text-foreground'
+      }
+    }}
+    image={{
+      src: '~/assets/images/pexels-helenalopesph-1015568.jpg',
+      alt: 'Caos Image',
+    }}
+  >
+    <Fragment slot="title">
+      <span class="text-lg md:text-5xl">Elevate your online presence with our</span> <br />
+      <span class="text-primary"> Beautiful Website Templates</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Donec efficitur, ipsum quis congue luctus, mauris magna convallis mauris, eu auctor nisi lectus non augue. Donec
+      quis lorem non massa vulputate efficitur ac at turpis. Sed tincidunt ex a nunc convallis, et lobortis nisi tempus.
+      Suspendisse vitae nisi eget tortor luctus maximus sed non lectus.
+    </Fragment>
+  </WidgetHero2>
+</Demo>
+
+```astro
+---
+import { WidgetHero2 } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetHero2
+  tagline="About us"
+  classes={{
+    headline: {
+      title: 'md:text-6xl text-foreground'
+    }
+  }}
+  image={{
+    src: '~/assets/images/pexels-helenalopesph-1015568.jpg',
+    alt: 'Caos Image',
+  }}
+>
+  <Fragment slot="title">
+    <span class="text-lg md:text-5xl">Elevate your online presence with our</span> <br />
+    <span class="text-primary"> Beautiful Website Templates</span>
+  </Fragment>
+
+  <Fragment slot="subtitle">
+    Donec efficitur, ipsum quis congue luctus, mauris magna convallis mauris, eu auctor nisi lectus non augue. Donec
+    quis lorem non massa vulputate efficitur ac at turpis. Sed tincidunt ex a nunc convallis, et lobortis nisi tempus.
+    Suspendisse vitae nisi eget tortor luctus maximus sed non lectus.
+  </Fragment>
+</WidgetHero2>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description | 
+    |-----------|------------|------------|------------|
+    | `position` | `center` \| `left` \| `right` | `center` | - |
+    | `image` | `string` \| [Image](/docs/types#image) | - | Image for the card |
+    | `title` | `string` | - | `Title` in [Headline](/docs/headline) component |
+    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component |
+    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
+    | `actions` | `Array` | `[]` | Array of [ToAction](/docs/types#toaction) components |
+    | `links` | `Array` | `[]` | Array of [Link](/docs/types#link) items |
+    | `stats` | `Array` | `[]` | Array of [Item](/docs/types#item) for the [Stats0](/docs/feature-stats-0) component |
+    | `id` | `string` | - | Specify a unique id for the section |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the [WidgetWrapper](/docs/feature-widget-wrapper) |
+    | `bg` | `string` | - | Set background element |
+    | `classes.container` | `string` | - | CSS classes for the root container |
+    | `classes.headline.{...}` | `string` | - | CSS classes for the [Headline](/docs/headline) component |
+    | `classes.stats.{...}` | `string` | - | CSS classes for the [Stats0](/docs/feature-stats-0) component |
+  </div>
+</div>

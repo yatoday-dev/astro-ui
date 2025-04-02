@@ -4,8 +4,7 @@ import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
 import ItemGrid0 from '../ItemGrid0/ItemGrid0.astro';
 import Headline from '../Headline/Headline.astro';
 import Button from '../Button/Button.astro';
-import { cn } from '../../utils';
-import Image from "../Image/Image.astro";
+import Card5 from '../Card5/Card5.astro';
 
 const {
   title = '',
@@ -14,6 +13,7 @@ const {
   items = [],
   callToAction,
   columns = 3,
+  isAfterContent = false,
 
   id,
   isDark = false,
@@ -22,56 +22,29 @@ const {
 } = Astro.props;
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper
+  id={id}
+  isDark={isDark}
+  containerClass={`max-w-6xl mx-auto ${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container ?? ''}`}
+  bg={bg}
+>
   <Headline title={title} subtitle={subtitle} tagline={tagline} />
 
-  <ItemGrid0 columns={columns} >
+  <ItemGrid0 columns={columns}>
     {
       items &&
-      items.map(({ title, text, author, authorDescription, image, callToAction }) => (
-        <div class="flex h-auto">
-          <div class="flex flex-col p-4 md:p-6 rounded-md shadow-xl dark:shadow-none dark:border dark:bg-card dark:text-card-foreground">
-            {title && <h2 class="text-lg font-medium leading-6 pb-4">{title}</h2>}
-            {text && (
-              <blockquote class="flex-auto">
-                <p class="text-muted-foreground">
-                  &laquo; <Fragment set:html={text} /> &raquo;
-                </p>
-              </blockquote>
-            )}
-
-            <hr class="border my-4" />
-
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                {image && (
-                  <div class="flex-none size-10 rounded-full overflow-hidden border border-input">
-                    <Image
-                      class="size-10 aspect-square rounded-full min-w-full min-h-full"
-                      width={40}
-                      height={40}
-                      widths={[400, 768]}
-                      layout="fixed"
-                      src={typeof image === 'string' ? image : image.src}
-                      alt={typeof image === 'string' ? author : image.alt}
-                    />
-                  </div>
-                )}
-
-                <div class="grow">
-                  {author && <div class="inline-grid"><p class="text-base font-semibold truncate">{author}</p></div>}
-                  {authorDescription && <p class="text-xs text-muted-foreground">{authorDescription}</p>}
-                </div>
-              </div>
-
-              {callToAction && <Button {...callToAction} />}
-            </div>
-          </div>
-        </div>
-      ))
+        items.map((item) => (
+          <Card5
+            {...item}
+            classes={{
+              container: 'p-6 gap-0 shadow-xl dark:shadow-none border-0 bg-card text-card-foreground',
+              ...((classes?.items as object) ?? {}),
+            }}
+          />
+        ))
     }
   </ItemGrid0>
-  
+
   {
     callToAction && (
       <div class="flex justify-center mx-auto w-fit mt-8 md:mt-12 font-medium">

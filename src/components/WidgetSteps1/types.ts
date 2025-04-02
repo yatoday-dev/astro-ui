@@ -1,16 +1,11 @@
-import type { Link, Stat, ToAction } from '~/types';
-import type { WidgetFeatures0Props } from '~/components/WidgetFeatures0/types.ts';
-import type { HeadlineProps } from '~/components/Headline/types.ts';
+import type { Item, ToAction } from '../../types';
+import type { WidgetFeatures0Props } from '../WidgetFeatures0/types.ts';
+import type { HeadlineProps } from '../Headline/types.ts';
 
 export type WidgetSteps1Props = {
   callToAction?: ToAction;
   isReversed?: boolean;
-  items?: {
-    title?: string;
-    description?: string;
-    icon?: string;
-    href?: string;
-    classes?: Record<string, string>;
-  }[];
+  isAfterContent?: boolean;
+  items?: Item[];
 } & WidgetFeatures0Props &
   HeadlineProps;

@@ -9,17 +9,20 @@ import WidgetTestimonials from '~/components/WidgetTestimonials/WidgetTestimonia
 # Testimonials
 
 
-<Demo title="">
+<Demo title="" class="bg-stripe">
   <WidgetTestimonials
     title="Title"
     subtitle="Subtitle"
     tagline="Tagline"
     items={[
       {
-        text: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat.`,
+        description: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat.`,
         author: 'Elena Ruz. New York',
         authorDescription: 'Sep. 12 2024',
-        image: '~/assets/images/avatar-01.jpeg',
+        image: {
+          src: '~/assets/images/avatar-01.jpeg',
+          alt: 'Elena Ruz'
+        },
         callToAction: {
           variant: 'outline',
           size: 'icon',
@@ -28,7 +31,7 @@ import WidgetTestimonials from '~/components/WidgetTestimonials/WidgetTestimonia
         },
       },
       {
-        text: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.`,
+        description: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.`,
         author: 'John lewis. London',
         authorDescription: 'Sep. 12 2024',
         callToAction: {
@@ -39,7 +42,7 @@ import WidgetTestimonials from '~/components/WidgetTestimonials/WidgetTestimonia
         },
       },
       {
-        text: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet .`,
+        description: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet .`,
         author: 'John Doe. Singapur',
         authorDescription: 'Sep. 12 2024',
         callToAction: {
@@ -69,10 +72,11 @@ import { WidgetTestimonials } from '@yatoday/astro-ui/astro';
   tagline="Tagline"
   items={[
     {
-      text: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat.`,
+      description: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat.`,
       author: 'Elena Ruz. New York',
       authorDescription: 'Sep. 12 2024',
-      image: '~/assets/images/avatar-01.jpeg',
+      image: {
+      },
       callToAction: {
         variant: 'outline',
         size: 'icon',
@@ -81,7 +85,7 @@ import { WidgetTestimonials } from '@yatoday/astro-ui/astro';
       },
     },
     {
-      text: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.`,
+      description: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.`,
       author: 'John lewis. London',
       authorDescription: 'Sep. 12 2024',
       callToAction: {
@@ -92,7 +96,7 @@ import { WidgetTestimonials } from '@yatoday/astro-ui/astro';
       },
     },
     {
-      text: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet .`,
+      description: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet .`,
       author: 'John Doe. Singapur',
       authorDescription: 'Sep. 12 2024',
       callToAction: {
@@ -104,7 +108,7 @@ import { WidgetTestimonials } from '@yatoday/astro-ui/astro';
     },
   ]}
   callToAction={{
-    text: 'Read all',
+    description: 'Read all',
     href: '/',
     icon: 'tabler:chevron-right',
   }}
@@ -117,19 +121,17 @@ import { WidgetTestimonials } from '@yatoday/astro-ui/astro';
   <div className="min-w-xl">
     | Prop | Type | Default | Description |
     |-----------|------------|------------|------------|
-    | `title` | `string` | - | `Title` in [Headline](/docs/feature-card-1) component |
-    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/feature-card-1) component |
-    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/feature-card-1) component |
-    | `callToAction` | `Array` | `[]` | Data for [ICallToAction](/docs/interfaces#ICallToAction) component |
-    | `items` | `Array` | `[]` | Array of [ITestimonial](/docs/interfaces#itestimonial) items |
+    | `title` | `string` | - | `Title` in [Headline](/docs/headline) component |
+    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component |
+    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
+    | `callToAction` | `ToAction` | - | Data for [ToAction](/docs/types#action-buttons) component |
+    | `items` | `Array` | `[]` | Array of [Testimonial](/docs/types#testimonial) items |
+    | `isAfterContent` | `boolean` | `false` | - |
     | `id` | `string` | - | Specify a unique id for the section |
-    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the wrapper |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the [WidgetWrapper](/docs/feature-widget-wrapper) |
     | `bg` | `string` | - | Set background element |
     | `classes.container` | `string` | - | CSS classes for the root container |
     | `classes.action` | `string` | - | CSS classes for each action |
-    | `classes.headline.container` | `string` | - | CSS classes for the `container` in the [Headline](/docs/feature-card-1) component |
-    | `classes.headline.title` | `string` | - | CSS classes for the `title` in the [Headline](/docs/feature-card-1) component |
-    | `classes.headline.subtitle` | `string` | - | CSS classes for the `subtitle` in the [Headline](/docs/feature-card-1) component |
-    | `classes.headline.tagline` | `string` | - | CSS classes for the `tagline` in the [Headline](/docs/feature-card-1) component |
+    | `classes.headline.{...}` | `string` | - | CSS classes for the [Headline](/docs/headline) component |
   </div>
 </div>

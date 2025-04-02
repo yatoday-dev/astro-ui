@@ -1,0 +1,92 @@
+---
+import type { WidgetContentProps as Props } from './types';
+import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
+import Headline from '../Headline/Headline.astro';
+import ItemGrid0 from '../ItemGrid0/ItemGrid0.astro';
+import Card4 from '../Card4/Card4.astro';
+import Button from '../Button/Button.astro';
+import Image from '../Image/Image.astro';
+import { cn } from '../../utils';
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline,
+  content = await Astro.slots.render('content'),
+  callToAction,
+  items = [],
+  columns,
+  image = await Astro.slots.render('image'),
+  isReversed = false,
+  isAfterContent = false,
+  defaultIcon = 'tabler:check',
+
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+---
+
+<WidgetWrapper
+  id={id}
+  isDark={isDark}
+  containerClass={`${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container ?? ''}`}
+  bg={bg}
+>
+  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
+
+  <div class={`md:flex ${isReversed ? 'md:flex-row-reverse' : ''} md:gap-16`}>
+    <div class="md:basis-1/2 self-center">
+      {content && <div class={cn('mb-12 text-lg', classes?.content ?? '')} set:html={content} />}
+
+      {
+        callToAction && (
+          <div class="-mt-12 mb-8">
+            <Button variant="link" {...callToAction} />
+          </div>
+        )
+      }
+
+      <ItemGrid0 columns={columns} class="gap-6">
+        {
+          items &&
+            items.map((item) => (
+              <Card4
+                icon={defaultIcon}
+                {...item}
+                classes={{
+                  container: `gap-0 border-0 py-0`,
+                  title: 'text-lg font-medium leading-6 dark:text-white ml-2 rtl:ml-0 rtl:mr-2',
+                  description: 'text-muted dark:text-slate-400 ml-2 rtl:ml-0 rtl:mr-2',
+                  icon: 'flex h-7 w-7 items-center justify-center rounded-full bg-green-600 dark:bg-green-700 text-gray-50 p-1',
+                  ...((classes?.items as object) ?? {}),
+                }}
+              />
+            ))
+        }
+      </ItemGrid0>
+    </div>
+    <div aria-hidden="true" class="mt-10 md:mt-0 md:basis-1/2">
+      {
+        image && (
+          <div class={cn('relative m-auto max-w-4xl', classes?.image ?? '')}>
+            {typeof image === 'string' ? (
+              <Fragment set:html={image} />
+            ) : (
+              <Image
+                class="mx-auto w-full rounded-lg shadow-lg"
+                width={500}
+                height={500}
+                widths={[400, 768]}
+                sizes="(max-width: 768px) 100vw, 432px"
+                layout="responsive"
+                {...image}
+              />
+            )}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</WidgetWrapper>

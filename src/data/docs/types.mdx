@@ -1,0 +1,85 @@
+---
+title: Types
+category: Getting started
+publishDate: 2025-02-24T00:00:00Z
+---
+
+# Types
+
+All types exported by the library. You can access them like this:
+
+```typescript 
+import type { ToAction } from '@yatoday/astro-ui';
+```
+
+### Action Buttons
+All buttons have this type of parameters
+
+```typescript
+import {HTMLAttributes} from "astro/types"; 
+
+export type ToAction = {
+  variant?: 'default' | 'primary' | 'accent' | 'destructive' | 'outline' | 'ghost' | 'link';
+  size?: 'default' | 'sm' | 'lg' | 'icon';
+  text?: string;
+  icon?: string;
+  classes?: Record<string, string>;
+  type?: 'button' | 'submit' | 'reset';
+} & Omit<HTMLAttributes<'a'>, 'slot'>;
+```
+
+### Link
+
+```typescript
+export type Link = {
+  href?: string;
+  text?: string;
+};
+```
+
+### NameValue
+
+```typescript
+export type NameValue = {
+  name?: string;
+  value?: string;
+};
+```
+
+### Image
+
+```typescript
+export type Image = {
+  src: string;
+  alt?: string;
+  aspectRatio?: string;
+};
+```
+
+### Testimonial
+
+Item for the [Testimonials](/docs/widget-testimonials) widget component
+
+```typescript
+export type Testimonial = {
+  title?: string;
+  text?: string;
+  author?: string;
+  authorDescription?: string;
+  image?: string | Image;
+  callToAction?: ToAction;
+};
+```
+
+### Item
+
+```typescript
+export type Item = {
+  title?: string;
+  description?: string;
+  icon?: string;
+  classes?: Record<string, string>;
+  callToAction?: CallToAction;
+  image?: Image | string;
+}
+```

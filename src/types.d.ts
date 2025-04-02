@@ -22,16 +22,29 @@ export type NameValue = {
   value?: string;
 };
 
-export type Stat = {
-  description?: number | string;
+export type Item = {
   title?: string;
+  description?: string;
   icon?: string;
+  classes?: Record<string, string>;
+  callToAction?: CallToAction;
+  image?: Image | string;
+  href?: string;
 };
 
 export type Image = {
   src: string;
   alt?: string;
   aspectRatio?: string;
+};
+
+export type Testimonial = {
+  title?: string;
+  description?: string;
+  author?: string;
+  authorDescription?: string;
+  image?: string | Image;
+  callToAction?: ToAction;
 };
 
 declare module '@yatoday/astro-ui' {

@@ -25,7 +25,7 @@ The Card component provides a versatile container for displaying related content
       <Card4
         icon="tabler:home"
         title="Card 3.2"
-        description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+        description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit."
         callToAction={{ href: '/', text: 'Read more', size: 'sm', variant: 'outline' }}
       />
       <Card4 
@@ -79,12 +79,13 @@ import { Card4, ItemGrid0 } from '@yatoday/astro-ui/astro';
     |------|------|---------|-------------| 
     | `title` | `string` | - | Title text for the card | | `description` | `string` | - | Content for the card |
     | `icon` | `string` | - | - |
-    | `callToAction` | [ICallToAction](/docs/types#icalltoaction) | - | Action button or link. See the [button](/docs/button) component for details.  |
+    | `callToAction` | [ToAction](/docs/types#action-buttons) | - | Action button or link. See the [button](/docs/button) component for details.  |
     | `as` | `string` | `article` | HTML tag name for the wrapper |
     | `asHeader` | `string` | `h3` | HTML tag name for the title |
     | `classes.container` | `string` | `bg-transparent border-transparent` | Additional CSS classes to apply to the card wrapper |
     | `classes.title` | `string` | - | Additional CSS classes to apply to the title |
     | `classes.description` | `string` | `text-muted-foreground` | Additional CSS classes to apply to the description |
     | `classes.icon` | `string` | - | Additional CSS classes to apply to the icon |
+    | `classes.action` | `string` | - | - |
   </div>
 </div>

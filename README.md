@@ -1,6 +1,8 @@
 > [!IMPORTANT]
 > This library is still in early development. New changes can break existing functionality, and no functionality should be considered final at this stage. The library will be considered stable once it reaches v1.0.
 
+This project is inspired by the following projects: [Astrowind](https://github.com/onwidget/astrowind), [Accessible Astro Components](https://github.com/incluud/accessible-astro-components/blob/main/Breadcrumbs.astro), [Webcoreui](https://github.com/Frontendland/webcoreui). 
+
 
 ## Publish package to npm
 

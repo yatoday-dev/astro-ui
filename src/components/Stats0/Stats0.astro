@@ -3,10 +3,10 @@ import type { Stats0Props as Props } from './types';
 import { Icon } from 'astro-icon/components';
 import { cn } from '../../utils';
 
-const { stats = [], classes = {} } = Astro.props;
+const { items = [], classes = {} } = Astro.props;
 
 const {
-  container: containerClass = 'text-center',
+  container: containerClass = 'text-center w-full justify-center',
   content: contentClass = 'md:border-r border-input md:last:border-none',
   title: titleClass = 'text-primary text-3xl lg:text-5xl xl:text-6xl',
   description: descriptionClass = 'font-medium uppercase tracking-widest text-muted-foreground text-sm lg:text-base',
@@ -16,8 +16,8 @@ const {
 
 <dl class={cn('flex flex-wrap', containerClass)}>
   {
-    stats &&
-      stats.map(({ description, title, icon }) => (
+    items &&
+      items.map(({ description, title, icon }) => (
         <div class={cn('p-4 w-full sm:w-1/2 md:w-1/4 max-w-60 intersect-once intersect-quarter', contentClass)}>
           {icon && (
             <div class={cn('flex items-center justify-center mx-auto mb-4', iconClass)}>

@@ -203,10 +203,10 @@ import { Navbar } from '@yatoday/astro-ui/astro';
     | Prop | Type | Default | Description |
     |------|------|---------|---------|
     | `position` | `center` \| `left` \| `right` | `center` | - |
-    | `links` | [ILink](/docs/types#ILink)[] | `[]` | - |
-    | `actions` | [ICallToAction](/docs/types#ICallToAction)[] | `[]` | - |
+    | `links` | `Array` | `[]` | Array of [Link](/docs/types#link) items |
+    | `actions` | `Array` | `[]` | Array of [ToAction](/docs/types#toaction) components |
     | `isSticky` | `boolean` | `false` | - |
-    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the wrapper |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the [WidgetWrapper](/docs/feature-widget-wrapper) |
     | `showToggleTheme` | `boolean` | `false` | - |
     | `scrollOffset` | `number` | `60` | How much do you need to scroll the page to apply `pinned` classes |
     | `classes.header` | `string` | `` | CSS classes for the wrapper header container |

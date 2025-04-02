@@ -1,13 +1,14 @@
 ---
-title: Steps
+title: Steps 1
 category: Widget
 ---
 
 import Demo from '~/playground/components/Demo.astro';
 import WidgetSteps1 from '~/components/WidgetSteps1/WidgetSteps1.astro';
 
+# Steps 1
 
-# Steps
+The **Steps 1** component is a versatile widget for presenting sequential or categorized information in a visually engaging way. It is ideal for guiding users through processes, showcasing organizational highlights, or displaying key actions.
 
 <Demo title="Default" class="bg-background">
   <WidgetSteps1
@@ -190,18 +191,21 @@ import { WidgetSteps } from '@yatoday/astro-ui/astro';
   <div className="min-w-xl">
     | Prop | Type | Default | Description |
     |------|------|---------|---------|
-    | `position` | `center` \| `left` \| `right` | `center` | - |
-    | `links` | [ILink](/docs/types#ILink)[] | `[]` | - |
-    | `actions` | [ICallToAction](/docs/types#ICallToAction)[] | `[]` | - |
-    | `isSticky` | `boolean` | `false` | - |
-    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the wrapper |
-    | `showToggleTheme` | `boolean` | `false` | - |
-    | `scrollOffset` | `number` | `60` | How much do you need to scroll the page to apply `pinned` classes |
-    | `classes.container` | `string` | `max-w-7xl md:mx-auto` | CSS classes for the wrapper container |
-    | `classes.links` | `string` | `hover:text-link dark:hover:text-white` | - |
-    | `classes.dropdownLinks` | `string` | `md:hover:bg-gray-200 hover:text-link dark:hover:text-white dark:hover:bg-zinc-800` | - |
-    | `classes.darkModeIcon` | `string` | - | - |
-    | `classes.pinned` | `string` | `bg-background md:bg-background/90 md:backdrop-blur-md` | Classes that will be applied when scrolling the page |
+    | `title` | `string` | - | `Title` in [Headline](/docs/headline) component |
+    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component |
+    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
+    | `items` | `Array` | `[]` | Array of [Item](/docs/types#item) items |
+    | `callToAction` | [ToAction](/docs/types#toaction) | - | Action Button |
+    | `isReversed` | `boolean` | `false` | Defines left or right position |
+    | `isAfterContent` | `boolean` | `false` | - |
+    | `id` | `string` | - | Specify a unique id for the section |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the [WidgetWrapper](/docs/feature-widget-wrapper) |
+    | `bg` | `string` | - | Set background element |
+    | `classes.container` | `string` | - | CSS classes for the root container |
+    | `classes.headline.{...}` | `string` | - | CSS classes for the [Headline](/docs/headline) component |
+    | `classes.itemIcon` | `string` | `bg-card text-card-foreground` | - |
+    | `classes.itemTitle` | `string` | `` | - |
+    | `classes.itemDescription` | `string` | `` | - |
   </div>
 </div>
 

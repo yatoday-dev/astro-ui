@@ -1,6 +1,6 @@
-import type { Stat } from '../../types';
+import type { Item } from '../../types';
 
 export type Stats0Props = {
-  stats: Stat[];
+  items: Item[];
   classes?: Record<string, string>;
 };

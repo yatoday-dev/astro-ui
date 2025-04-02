@@ -1,8 +1,8 @@
 import type { HTMLTag } from 'astro/types';
-import type { ImageProps } from '../../utils/images-optimization.ts';
+import type { Image } from '../../types';
 
 export type Card0Props = {
-  image?: ImageProps | string;
+  image?: Image | string;
   content?: string;
   ['as']?: HTMLTag;
   badge?: string;

@@ -1,0 +1,132 @@
+---
+title: Card 5
+category: W.Feature
+---
+
+import Demo from '~/playground/components/Demo.astro';
+import Card5 from '~/components/Card5/Card5.astro';
+import ItemGrid0 from '~/components/ItemGrid0/ItemGrid0.astro';
+
+# Card 5
+
+The Card component provides a versatile container for displaying related content. It uses semantic HTML and ensures proper heading structure and content organization.
+
+<div className="space-y-12">
+  <Demo title="">
+    <ItemGrid0 columns={3} class="bg-stripe">
+      <Card5
+        author='Elena Ruzanda. New York'
+        authorDescription='Sep. 12 2024'
+        image={{
+          src: '~/assets/images/avatar-01.jpeg',
+          alt: 'Elena Ruz'
+        }}
+        title="Card 5.1"
+        description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+        callToAction={{
+          variant: 'outline',
+          size: 'icon',
+          icon: 'tabler:arrow-right',
+          href: '/',
+        }}
+      />
+      <Card5
+        description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+        author='Elena Ruzanda. New York'
+        authorDescription='Sep. 12 2024'
+        icon="tabler:home"
+        callToAction={{
+          variant: 'outline',
+          size: 'icon',
+          icon: 'tabler:arrow-right',
+          href: '/',
+        }}
+      />
+      <Card5
+        description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+        author='Elena Ruzanda. New York'
+        authorDescription='Sep. 12 2024'
+        callToAction={{
+          variant: 'outline',
+          size: 'icon',
+          icon: 'tabler:arrow-right',
+          href: '/',
+        }}
+      >
+        Custom Content
+      </Card5>
+    </ItemGrid0>
+  </Demo>
+</div>
+
+```astro
+---
+import { Card5, ItemGrid0 } from '@yatoday/astro-ui/astro';
+---
+
+<ItemGrid0 columns={3} class="bg-stripe">
+  <Card5
+    author='Elena Ruzanda. New York'
+    authorDescription='Sep. 12 2024'
+    image={{
+      src: '~/assets/images/avatar-01.jpeg',
+      alt: 'Elena Ruz'
+    }}
+    title="Card 5.1"
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    callToAction={{
+      variant: 'outline',
+      size: 'icon',
+      icon: 'tabler:arrow-right',
+      href: '/',
+    }}
+  />
+  <Card5
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    author='Elena Ruzanda. New York'
+    authorDescription='Sep. 12 2024'
+    icon="tabler:home"
+    callToAction={{
+      variant: 'outline',
+      size: 'icon',
+      icon: 'tabler:arrow-right',
+      href: '/',
+    }}
+  />
+  <Card5
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    author='Elena Ruzanda. New York'
+    authorDescription='Sep. 12 2024'
+    callToAction={{
+      variant: 'outline',
+      size: 'icon',
+      icon: 'tabler:arrow-right',
+      href: '/',
+    }}
+  >
+    Custom Content
+  </Card5>
+</ItemGrid0>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------|------|---------|-------------| 
+    | `title` | `string` | - | Title text for the card | 
+    | `description` | `string` | - | Content for the card |
+    | `author` | `string` | - | - |
+    | `authorDescription` | `string` | - | - |
+    | `icon` | `string` | - | - |
+    | `image` | `string` \| [Image](/docs/types#image) | - | Image for the card |
+    | `callToAction` | [ToAction](/docs/types#action-buttons) | - | Action button or link. See the [button](/docs/button) component for details.  |
+    | `as` | `string` | `article` | HTML tag name for the wrapper |
+    | `asHeader` | `string` | `h3` | HTML tag name for the title |
+    | `classes.container` | `string` | `p-6 gap-0` | Additional CSS classes to apply to the card wrapper |
+    | `classes.title` | `string` | - | Additional CSS classes to apply to the title |
+    | `classes.description` | `string` | `text-muted-foreground` | Additional CSS classes to apply to the description |
+    | `classes.icon` | `string` | - | Additional CSS classes to apply to the icon |
+  </div>
+</div>

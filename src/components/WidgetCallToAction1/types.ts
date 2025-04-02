@@ -4,5 +4,6 @@ import type { ToAction } from '../../types';
 
 export type WidgetCallToAction1Props = {
   actions?: ToAction[];
+  isAfterContent?: boolean;
 } & WidgetWrapperProps &
   Omit<HeadlineProps, 'classes'>;

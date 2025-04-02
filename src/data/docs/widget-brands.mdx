@@ -45,20 +45,18 @@ import { WidgetBrands } from '@yatoday/astro-ui/astro';
   <div className="min-w-xl">
     | Prop | Type | Default | Description | 
     |-----------|------------|------------|------------| 
-    | `title` | `string` | - | `Title` in [Headline](/docs/feature-card-1) component | 
-    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/feature-card-1) component | 
-    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/feature-card-1) component | 
+    | `title` | `string` | - | `Title` in [Headline](/docs/headline) component | 
+    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component | 
+    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component | 
     | `icons` | `string[]` | - | Array of icon names | 
-    | `images` | `string[]` \| [Image](/docs/image) [] | - | Array of images | 
+    | `images` | `string[]` \| [Image](/docs/image) [] | - | Array of images |
+    | `isAfterContent` | `boolean` | `false` | - |
     | `id` | `string` | - | Specify a unique id for the section | 
     | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the wrapper |
     | `bg` | `string` | - | Set background element |
     | `classes.container` | `string` | - | CSS classes for the root container | 
     | `classes.icon` | `string` | - | CSS classes for each icon | 
-    | `classes.image` | `string` | - | CSS classes for each image | 
-    | `classes.headline.container` | `string` | - | CSS classes for the `container` in the [Headline](/docs/feature-card-1) component |
-    | `classes.headline.title` | `string` | - | CSS classes for the `title` in the [Headline](/docs/feature-card-1) component | 
-    | `classes.headline.subtitle` | `string` | - | CSS classes for the `subtitle` in the [Headline](/docs/feature-card-1) component | 
-    | `classes.headline.tagline` | `string` | - | CSS classes for the `tagline` in the [Headline](/docs/feature-card-1) component |
+    | `classes.image` | `string` | - | CSS classes for each image |
+    | `classes.headline.{...}` | `string` | - | CSS classes for the [Headline](/docs/headline) component |
   </div>
 </div>

@@ -1,0 +1,40 @@
+---
+import type { WidgetStatsProps as Props } from './types';
+import Headline from '../Headline/Headline.astro';
+import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
+import Stats0 from '../Stats0/Stats0.astro';
+import Button from '../Button/Button.astro';
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline,
+  items = [],
+  callToAction,
+  id,
+  isDark = false,
+  classes = {},
+  isAfterContent = false,
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+---
+
+<WidgetWrapper
+  id={id}
+  isDark={isDark}
+  containerClass={`${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} 
+  ${classes?.container ?? ''}`}
+  bg={bg}
+>
+  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
+
+  <Stats0 items={items} classes={classes?.items as Record<string, string>} />
+
+  {
+    callToAction && (
+      <div class="flex justify-center mx-auto w-fit mt-8 md:mt-12 font-medium">
+        <Button {...callToAction} />
+      </div>
+    )
+  }
+</WidgetWrapper>

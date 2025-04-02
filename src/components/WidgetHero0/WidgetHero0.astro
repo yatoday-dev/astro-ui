@@ -22,14 +22,6 @@ const {
 } = Astro.props;
 
 const { container: containerClass = '', bg: bgClass = '' } = classes;
-
-const img = image
-  ? {
-      src: typeof image === 'string' ? image : image?.src,
-      alt: typeof image === 'string' ? title : image?.alt,
-      aspectRatio: typeof image === 'string' ? '16:9' : image?.aspectRatio || '16:9',
-    }
-  : undefined;
 ---
 
 <WidgetWrapper id={id} isDark={isDark} containerClass={containerClass as string} bg={bg}>
@@ -67,7 +59,7 @@ const img = image
         )
       }
 
-      {stats.length > 0 && <Stats0 stats={stats} classes={classes?.stats as Record<string, string>} />}
+      {stats.length > 0 && <Stats0 items={stats} classes={classes?.stats as Record<string, string>} />}
 
       {
         actions?.length > 0 && (

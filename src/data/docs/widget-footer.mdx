@@ -162,13 +162,14 @@ export const footerData = {
   <div className="min-w-xl">
     | Prop | Type | Default | Description | 
     |------------|------------|------------|------------| 
-    | `socialLinks` | [ILink](/docs/types#ilink) [] | `[]` |  |
-    | `secondaryLinks` | [ILink](/docs/types#ilink) [] | `[]` |  |
-    | `links` | [ILink](/docs/types#ilinks) [] | `[]` |  |
-    | `note` | `string` | - |  |
-    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the wrapper |
-    | `as` | `string` | `footer` | HTML tag name for the wrapper |
+    | `socialLinks` | [Link](/docs/types#link) [] | `[]` | - |
+    | `secondaryLinks` | [Link](/docs/types#link) [] | `[]` | - |
+    | `links` | `Array` | `[]` | Array of [Link](/docs/types#link) items |
+    | `note` | `string` | - | - |
+    | `id` | `string` | - | Specify a unique id for the section |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the [WidgetWrapper](/docs/feature-widget-wrapper) |
     | `bg` | `string` | - | Set background element |
+    | `as` | `string` | `footer` | HTML tag name for the wrapper |
     | `classes.container` | `string` | - | CSS classes for the [WidgetWrapper](/docs/feature-widget-wrapper) container |
   </div>
 </div>

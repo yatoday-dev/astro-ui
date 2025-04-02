@@ -13,6 +13,7 @@ const {
   callToAction = await Astro.slots.render('callToAction'),
   items = [],
   isReversed = false,
+  isAfterContent = false,
 
   id,
   isDark = false,
@@ -21,7 +22,12 @@ const {
 } = Astro.props;
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper
+  id={id}
+  isDark={isDark}
+  containerClass={`${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''}  ${classes?.container ?? ''}`}
+  bg={bg}
+>
   <div class={`flex flex-col gap-8 md:gap-12 md:flex-row ${isReversed ? 'md:flex-row-reverse' : ''}`}>
     <div class={`w-full lg:w-1/2 gap-8 md:gap-12 ${isReversed ? 'lg:ml-16 md:ml-8 ml-0' : 'lg:mr-16 md:mr-8 mr-0'}`}>
       <Headline
@@ -49,24 +55,31 @@ const {
       <ul class="space-y-10">
         {
           items && items.length
-            ? items.map(({ title, description, icon, href, classes }, index) => (
+            ? items.map(({ title, description, icon, href }, index) => (
                 <li class="flex md:-mx-4">
                   <div class="pr-4 sm:pl-4 rtl:pr-0 rtl:pl-4 rtl:sm:pl-0 rtl:sm:pr-4">
                     <span
                       class={cn(
                         'flex w-16 h-16 mx-auto items-center justify-center text-2xl font-bold rounded-full',
-                        classes?.icon ?? 'bg-card text-card-foreground'
+                        classes?.itemIcon || 'bg-card text-card-foreground'
                       )}
                     >
                       {icon ? <Icon name={icon} class="w-6 h-6 icon-bold" /> : index + 1}
                     </span>
                   </div>
                   <div class="pl-4 rtl:pl-0 rtl:pr-4">
-                    <h3 class={cn('mb-3 text-xl font-semibold font-heading', classes?.title ?? '')} set:html={title} />
+                    <h3
+                      class={cn('mb-3 text-xl font-semibold font-heading', classes?.itemTitle || '')}
+                      set:html={title}
+                    />
                     {href ? (
-                      <a href={href} class={cn('hover:underline', classes?.description ?? '')} set:html={description} />
+                      <a
+                        href={href}
+                        class={cn('hover:underline', classes?.itemDescription || '')}
+                        set:html={description}
+                      />
                     ) : (
-                      <p class={classes?.description ?? ''} set:html={description} />
+                      <p class={classes?.itemDescription || ''} set:html={description} />
                     )}
                   </div>
                 </li>

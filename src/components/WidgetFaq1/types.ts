@@ -5,6 +5,7 @@ import type { Card4Props } from '../Card4/types';
 
 export type WidgetFaq1Props = {
   items?: Card4Props[];
+  isAfterContent?: boolean;
 } & WidgetWrapperProps &
   ItemGrid0Props &
   Omit<HeadlineProps, 'classes'>;

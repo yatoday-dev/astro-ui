@@ -6,9 +6,6 @@ category: W.Feature
 import Demo from '~/playground/components/Demo.astro';
 import Card1 from '~/components/Card1/Card1.astro';
 import ItemGrid0 from '~/components/ItemGrid0/ItemGrid0.astro';
-import INameValue from '../types/INameValue.md';
-import ILink from '../types/ILink.md';
-import ICallToAction from '../types/ICallToAction.md';
 
 # Card 1
 
@@ -166,14 +163,14 @@ import { Card1, ItemGrid0 } from '@yatoday/astro-ui/astro';
     |------|------|---------|-------------| 
     | `title` | `string` | - | Title text for the card | 
     | `description` | `string` | - | Content for the card |
-    | `image` | `string` \| [Image](/docs/image) | - | Path to the card's image |
+    | `image` | `string` \| [Image](/docs/types#image) | - | Image for the card |
     | `badge` | `string` | - | `badge` slot contents |
-    | `callToAction` | [ICallToAction](/docs/types#icalltoaction) | - | Action button or link. See the [button](/docs/button) component for details.  |
+    | `callToAction` | [ToAction](/docs/types#action-buttons) | - | Action button or link. See the [button](/docs/button) component for details.  |
     | `icon` | `string` | - | Name icon from set | 
     | `as` | `string` | `article` | HTML tag name for the wrapper | 
     | `asHeader` | `string` | `h3` | HTML tag name for the title | 
-    | `data` | [INameValue](/docs/types#inamevalue) [] | - | Array of data strings |
-    | `links` | [ILink](/docs/types#ilink) [] | - | Array of links |
+    | `data` | [NameValue](/docs/types#namevalue) [] | - | Array of data strings |
+    | `links` | `Array` | `[]` | Array of [Link](/docs/types#link) items |
     | `classes.title` | `string` | - | Additional CSS classes to apply to the title | 
     | `classes.description` | `string` | - | Additional CSS classes to apply to the description | 
     | `classes.image` | `string` | - | Additional CSS classes to apply to the image | 

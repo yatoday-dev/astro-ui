@@ -1,0 +1,79 @@
+---
+title: Steps Timeline
+category: Widget
+---
+
+import Demo from '~/playground/components/Demo.astro';
+import WidgetStepsTimeline from '~/components/WidgetStepsTimeline/WidgetStepsTimeline.astro';
+
+# Steps Timeline
+
+<Demo title="Default" class="bg-background">
+  <WidgetStepsTimeline
+    title="Work experience"
+    defaultIcon="tabler:briefcase"
+    items={[
+      {
+        title: 'Graphic Designer <br /> <span class="font-normal">ABC Design Studio, New York, NY</span> <br /> <span class="text-sm font-normal">2021 - Present</span>',
+        description: `Collaborate with clients to understand design requirements and objectives. <br /> Develop branding solutions, including logos, color palettes, and brand guidelines. <br /> Design marketing materials such as brochures, posters, and digital assets. <br /> Create visually appealing user interfaces for websites and applications.`,
+      },
+      {
+        title: 'Junior Graphic Designer <br /> <span class="font-normal">XYZ Creative Agency, Los Angeles, CA</span> <br /> <span class="text-sm font-normal">2018 - 2021</span>',
+        description: `Assisted senior designers in creating design concepts and visual assets. <br /> Contributed to the development of brand identities and marketing collateral. <br /> Collaborated with the marketing team to ensure consistent design across campaigns. <br /> Gained hands-on experience in various design software and tools.`,
+      },
+      {
+        title: `Master of Fine Arts in Graphic Design <br /> <span class="font-normal">New York University's School of Design</span> <br /> <span class="text-sm font-normal">2018 - 2020</span>`,
+        icon: 'tabler:school',
+      },
+    ]}
+  />
+</Demo>
+
+```astro
+---
+import { WidgetStepsTimeline } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetStepsTimeline
+  title="Work experience"
+  defaultIcon="tabler:briefcase"
+  items={[
+    {
+      title: 'Graphic Designer <br /> <span class="font-normal">ABC Design Studio, New York, NY</span> <br /> <span class="text-sm font-normal">2021 - Present</span>',
+      description: `Collaborate with clients to understand design requirements and objectives. <br /> Develop branding solutions, including logos, color palettes, and brand guidelines. <br /> Design marketing materials such as brochures, posters, and digital assets. <br /> Create visually appealing user interfaces for websites and applications.`,
+    },
+    {
+      title: 'Junior Graphic Designer <br /> <span class="font-normal">XYZ Creative Agency, Los Angeles, CA</span> <br /> <span class="text-sm font-normal">2018 - 2021</span>',
+      description: `Assisted senior designers in creating design concepts and visual assets. <br /> Contributed to the development of brand identities and marketing collateral. <br /> Collaborated with the marketing team to ensure consistent design across campaigns. <br /> Gained hands-on experience in various design software and tools.`,
+    },
+    {
+      title: `Master of Fine Arts in Graphic Design <br /> <span class="font-normal">New York University's School of Design</span> <br /> <span class="text-sm font-normal">2018 - 2020</span>`,
+      icon: 'tabler:school',
+    },
+  ]}
+/>
+```
+
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------|------|---------|---------|
+    | `title` | `string` | - | `Title` in [Headline](/docs/headline) component |
+    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component |
+    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
+    | `items` | `Array` | `[]` | Array of [Item](/docs/types#item) items |
+    | `isReversed` | `boolean` | `false` | Defines left or right position |
+    | `isAfterContent` | `boolean` | `false` | - |
+    | `id` | `string` | - | Specify a unique id for the section |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the [WidgetWrapper](/docs/feature-widget-wrapper) |
+    | `bg` | `string` | - | Set background element |
+    | `defaultIcon` | `string` | - | The name of the default icon that will be applied to all list items. |
+    | `classes.container` | `string` | - | CSS classes for the [WidgetWrapper](/docs/feature-widget-wrapper) container |
+    | `classes.headline.{...}` | `string` | - | CSS classes for the [Headline](/docs/headline) component |
+    | `classes.items.{...}` | `Object` | - | CSS classes for each [Timeline](/docs/timeline) item in the list |
+  </div>
+</div>
+

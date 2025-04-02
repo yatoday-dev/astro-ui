@@ -5,5 +5,6 @@ import type { Image } from '~/types';
 export type WidgetBrandsProps = {
   icons?: Array<string>;
   images?: Array<Image>;
+  isAfterContent?: boolean;
 } & WidgetWrapperProps &
   Omit<HeadlineProps, 'classes'>;

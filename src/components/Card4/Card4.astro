@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import Card0 from '../Card0/Card0.astro';
 import Button from '../Button/Button.astro';
 import { Icon } from 'astro-icon/components';
+import {cn} from "../../utils";
 
 const {
   title = await Astro.slots.render('title'),
@@ -20,7 +21,7 @@ const WrapperHeaderTag = asHeader;
 const {
   container: containerClass = 'p-6 gap-0',
   title: titleClass = '',
-  description: descriptionClass = 'text-muted-foreground',
+  description: descriptionClass = '',
   icon: iconClass = '',
 } = classes;
 ---
@@ -28,15 +29,17 @@ const {
 <Card0
   as={as}
   classes={{
-    container: twMerge('flex flex-row max-w-md', containerClass),
+    container: twMerge('flex flex-row', containerClass),
   }}
 >
   <div class="flex justify-center">
-    {icon && <Icon name={icon} class={twMerge('w-7 h-7 mr-2 rtl:mr-0 rtl:ml-2', iconClass)} />}
+    {icon && <Icon name={icon} class={twMerge('size-7 mr-2 rtl:mr-0 rtl:ml-2', iconClass)} />}
   </div>
-  <div class="space-y-2">
-    {title && <WrapperHeaderTag class={twMerge('text-xl font-bold', titleClass)}>{title}</WrapperHeaderTag>}
-    {description && <p class={descriptionClass} set:html={description} />}
-    {callToAction && <Button variant="link" {...callToAction} />}
+  <div class="flex flex-col gap-3 justify-between">
+    <div>
+      {title && <WrapperHeaderTag class={twMerge('text-lg md:text-xl font-bold', titleClass)}>{title}</WrapperHeaderTag>}
+      {description && <p class={cn('text-muted-foreground text-sm/5 md:text-base', descriptionClass)} set:html={description} />}
+    </div>
+    {callToAction && <div class={cn('w-full', classes?.action)}><Button {...callToAction} /></div>}
   </div>
 </Card0>

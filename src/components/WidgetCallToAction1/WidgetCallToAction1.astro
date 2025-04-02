@@ -10,6 +10,7 @@ const {
   subtitle = await Astro.slots.render('subtitle'),
   tagline = await Astro.slots.render('tagline'),
   actions = await Astro.slots.render('actions'),
+  isAfterContent = false,
 
   id,
   isDark = false,
@@ -18,7 +19,12 @@ const {
 } = Astro.props;
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`@container ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper
+  id={id}
+  isDark={isDark}
+  containerClass={`@container ${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container ?? ''}`}
+  bg={bg}
+>
   <div class="@lg:flex gap-12">
     <Headline
       title={title}

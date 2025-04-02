@@ -108,18 +108,16 @@ import { WidgetFaq1 } from '@yatoday/astro-ui/astro';
   <div className="min-w-xl">
     | Prop | Type | Default | Description | 
     |-----------|------------|------------|------------| 
-    | `title` | `string` | - | `Title` in [Headline](/docs/feature-card-1) component | 
-    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/feature-card-1) component | 
-    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/feature-card-1) component | 
+    | `title` | `string` | - | `Title` in [Headline](/docs/headline) component | 
+    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component | 
+    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component | 
     | `columns` | `number` | `2` | Number of columns in the grid. From 1 to 4 |
     | `items` | `Array` | `[]` | Array of [Card4](/docs/feature-card-4) components |
-    | `id` | `string` | - | Specify a unique id for the section | 
-    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the wrapper |
+    | `isAfterContent` | `boolean` | `false` | - |
+    | `id` | `string` | - | Specify a unique id for the section |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the [WidgetWrapper](/docs/feature-widget-wrapper) |
     | `bg` | `string` | - | Set background element |
-    | `classes.container` | `string` | - | CSS classes for the root container | 
-    | `classes.headline.container` | `string` | - | CSS classes for the `container` in the [Headline](/docs/feature-card-1) component |
-    | `classes.headline.title` | `string` | - | CSS classes for the `title` in the [Headline](/docs/feature-card-1) component | 
-    | `classes.headline.subtitle` | `string` | - | CSS classes for the `subtitle` in the [Headline](/docs/feature-card-1) component | 
-    | `classes.headline.tagline` | `string` | - | CSS classes for the `tagline` in the [Headline](/docs/feature-card-1) component |
+    | `classes.container` | `string` | - | CSS classes for the root container |
+    | `classes.headline.{...}` | `string` | - | CSS classes for the [Headline](/docs/headline) component |
   </div>
 </div>

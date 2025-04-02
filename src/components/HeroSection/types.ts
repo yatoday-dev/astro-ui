@@ -1,12 +1,11 @@
 import type { HTMLTag } from 'astro/types';
-import type { ImageProps } from '../Image/types';
-import type { ToAction } from '../../types';
+import type { ToAction, Image } from '../../types';
 
 export type HeroSectionProps = {
   asHeader?: HTMLTag;
   title?: string;
   description?: string;
-  image: ImageProps | string;
+  image: Image | string;
   callToAction?: ToAction;
   classes?: Record<string, string>;
 };

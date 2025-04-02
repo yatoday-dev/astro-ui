@@ -1,3 +1,3 @@
-import type { ImageProps } from '~/utils/images-optimization.ts';
+import type { Image } from '../../types';
 
-export type ZoomedImageProps = {} & ImageProps;
+export type ZoomedImageProps = {} & Image;
