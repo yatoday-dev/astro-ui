@@ -12,6 +12,7 @@ import WidgetStepsTimeline from '~/components/WidgetStepsTimeline/WidgetStepsTim
   <WidgetStepsTimeline
     title="Work experience"
     defaultIcon="tabler:briefcase"
+    image={{ src: '~/assets/images/800x800.svg', alt: 'Lorem Test' }}
     items={[
       {
         title: 'Graphic Designer <br /> <span class="font-normal">ABC Design Studio, New York, NY</span> <br /> <span class="text-sm font-normal">2021 - Present</span>',
@@ -37,6 +38,7 @@ import { WidgetStepsTimeline } from '@yatoday/astro-ui/astro';
 <WidgetStepsTimeline
   title="Work experience"
   defaultIcon="tabler:briefcase"
+  image={{ src: '~/assets/images/800x800.svg', alt: 'Lorem Test' }}
   items={[
     {
       title: 'Graphic Designer <br /> <span class="font-normal">ABC Design Studio, New York, NY</span> <br /> <span class="text-sm font-normal">2021 - Present</span>',
@@ -64,6 +66,7 @@ import { WidgetStepsTimeline } from '@yatoday/astro-ui/astro';
     | `title` | `string` | - | `Title` in [Headline](/docs/headline) component |
     | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component |
     | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
+    | `image` | `string` \| [Image](/docs/image) | - | Path to the widget's image |
     | `items` | `Array` | `[]` | Array of [Item](/docs/types#item) items |
     | `isReversed` | `boolean` | `false` | Defines left or right position |
     | `isAfterContent` | `boolean` | `false` | - |
