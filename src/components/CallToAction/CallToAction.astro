@@ -8,7 +8,7 @@ const {
   title = await Astro.slots.render('title'),
   subtitle = await Astro.slots.render('subtitle'),
   tagline = await Astro.slots.render('tagline'),
-  actions = await Astro.slots.render('actions'),
+  callToAction = await Astro.slots.render('actions'),
 
   id,
   isDark = false,
@@ -29,17 +29,32 @@ const {
         subtitle: 'text-xl',
       }}
     />
+
     {
-      actions && (
+      callToAction && (
         <div class="m-auto flex flex-nowrap flex-col md:flex-row md:justify-start gap-4 mt-6">
-          {Array.isArray(actions) ? (
-            actions.map((action) => (
-              <div class="flex w-auto">
-                <Button {...(action || {})} class="w-full sm:mb-0" />
-              </div>
+          {Array.isArray(callToAction) ? (
+            callToAction.map((action) => (
+              <Fragment>
+                {typeof action === 'string' ? (
+                  <Fragment set:html={action} />
+                ) : (
+                  <div class="flex w-auto">
+                    <Button {...(action || {})} class="w-full sm:mb-0" />
+                  </div>
+                )}
+              </Fragment>
             ))
           ) : (
-            <Fragment set:html={actions} />
+            <Fragment>
+              {typeof callToAction === 'string' ? (
+                <Fragment set:html={callToAction} />
+              ) : (
+                <div class="flex w-auto">
+                  <Button {...(callToAction as Object)} class="w-full sm:mb-0" />
+                </div>
+              )}
+            </Fragment>
           )}
         </div>
       )

@@ -5,6 +5,5 @@ export type CallToActionProps = {
   title?: string;
   subtitle?: string;
   tagline?: string;
-  callToAction?: ToAction;
-  actions?: string | ToAction[];
+  callToAction?: string | ToAction[] | Array<string | ToAction>;
 } & WidgetWrapperProps;
