@@ -41,7 +41,7 @@ const img = {
   as={as}
   badge={badge}
   classes={{
-    container: containerClass,
+    container: cn('group', containerClass),
     badge: badgeClass,
   }}
 >
@@ -52,11 +52,7 @@ const img = {
         <div class={twMerge('w-full overflow-hidden -mt-6 h-40 bg-gray-400 dark:bg-zinc-700', imageClass)}>
           <Image
             src={img.src || String(image)}
-            class={cn(
-              'w-full md:h-full',
-              imageClass,
-              url || (callToAction?.href && 'group-hover:scale-105 transition duration-300')
-            )}
+            class={cn('w-full md:h-full', imageClass, (url || callToAction?.href) && 'group-hover:scale-105 transition duration-300')}
             widths={[400, 900]}
             width={400}
             height={400}
