@@ -4,7 +4,7 @@ import Card0 from '../Card0/Card0.astro';
 import Image from '../Image/Image.astro';
 import Button from '../Button/Button.astro';
 import { twMerge } from 'tailwind-merge';
-import {cn} from "../../utils";
+import { cn } from '../../utils';
 
 const {
   title = await Astro.slots.render('title'),
@@ -28,9 +28,13 @@ const {
   badge: badgeClass = 'top-2 left-2',
 } = classes;
 
-const urlForImage = Array.isArray(callToAction) 
-  ? typeof callToAction[0] === 'string' ? callToAction[0] : (callToAction[0] as { href?: string })?.href 
-  : typeof callToAction === 'string' ? callToAction : (callToAction as { href?: string })?.href;
+const urlForImage = Array.isArray(callToAction)
+  ? typeof callToAction[0] === 'string'
+    ? callToAction[0]
+    : (callToAction[0] as { href?: string })?.href
+  : typeof callToAction === 'string'
+    ? callToAction
+    : (callToAction as { href?: string })?.href;
 ---
 
 <Card0
