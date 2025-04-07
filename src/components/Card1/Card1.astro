@@ -5,15 +5,16 @@ import Image from '../Image/Image.astro';
 import Button from '../Button/Button.astro';
 import { Icon } from 'astro-icon/components';
 import { twMerge } from 'tailwind-merge';
+import { cn } from '../../utils';
 
 const {
   title = await Astro.slots.render('title'),
   description,
   icon,
-  image,
+  image = await Astro.slots.render('image'),
   data = [],
   links = [],
-  callToAction,
+  callToAction = await Astro.slots.render('actions'),
   classes = {},
   as = 'article',
   asHeader = 'h3',
@@ -49,37 +50,19 @@ const img = {
     {
       image && (
         <div class={twMerge('w-full overflow-hidden -mt-6 h-60 bg-gray-400 dark:bg-zinc-700', imageClass)}>
-          {callToAction && callToAction.href ? (
-            <a href={callToAction.href} class="group">
-              <Image
-                src={img.src}
-                class={twMerge('w-full h-full  hover:scale-105 transition duration-300')}
-                widths={[400, 900]}
-                width={400}
-                height={400}
-                sizes="(max-width: 900px) 400px, 900px"
-                alt={img.alt}
-                aspectRatio={img.aspectRatio}
-                layout="cover"
-                loading="lazy"
-                decoding="async"
-              />
-            </a>
-          ) : (
-            <Image
-              src={img.src || String(image)}
-              class={twMerge('w-full h-full')}
-              widths={[400, 900]}
-              width={400}
-              height={400}
-              sizes="(max-width: 900px) 400px, 900px"
-              alt={img.alt || title}
-              aspectRatio={img.aspectRatio}
-              layout="cover"
-              loading="lazy"
-              decoding="async"
-            />
-          )}
+          <Image
+            src={img.src || String(image)}
+            class={twMerge('w-full h-full')}
+            widths={[400, 900]}
+            width={400}
+            height={400}
+            sizes="(max-width: 900px) 400px, 900px"
+            alt={img.alt || title}
+            aspectRatio={img.aspectRatio}
+            layout="cover"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       )
     }
@@ -137,10 +120,24 @@ const img = {
       <div class={twMerge('w-full px-6')}>
         <slot name="footer" />
 
-        {callToAction && (
-          <div class={twMerge('', actionClass)}>
-            <Button {...callToAction} />
+        {Array.isArray(callToAction) ? (
+          <div class={cn('flex gap-2', actionClass)}>
+            {callToAction.map((action) => (
+              <Fragment>
+                {typeof action === 'string' ? <Fragment set:html={action} /> : <Button {...(action || {})} />}
+              </Fragment>
+            ))}
           </div>
+        ) : (
+          <Fragment>
+            {typeof callToAction === 'string' ? (
+              <Fragment set:html={callToAction} />
+            ) : (
+              <div class={cn('', actionClass)}>
+                <Button {...(callToAction as Object)} />
+              </div>
+            )}
+          </Fragment>
         )}
       </div>
     )

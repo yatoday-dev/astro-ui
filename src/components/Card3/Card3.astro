@@ -4,12 +4,13 @@ import Card0 from '../Card0/Card0.astro';
 import Image from '../Image/Image.astro';
 import Button from '../Button/Button.astro';
 import { twMerge } from 'tailwind-merge';
+import {cn} from "../../utils";
 
 const {
   title = await Astro.slots.render('title'),
   description,
-  callToAction,
-  image,
+  callToAction = await Astro.slots.render('actions'),
+  image = await Astro.slots.render('image'),
   classes = {},
   as = 'article',
   asHeader = 'h3',
@@ -23,14 +24,13 @@ const {
   title: titleClass = '',
   description: descriptionClass = 'text-muted-foreground',
   image: imageClass = '',
+  action: actionClass = '',
   badge: badgeClass = 'top-2 left-2',
 } = classes;
 
-const img = {
-  src: typeof image === 'string' ? image : image?.src,
-  alt: typeof image === 'string' ? title : image?.alt,
-  aspectRatio: typeof image === 'string' ? '4:3' : image?.aspectRatio || '4:3',
-};
+const urlForImage = Array.isArray(callToAction) 
+  ? typeof callToAction[0] === 'string' ? callToAction[0] : (callToAction[0] as { href?: string })?.href 
+  : typeof callToAction === 'string' ? callToAction : (callToAction as { href?: string })?.href;
 ---
 
 <Card0
@@ -47,36 +47,42 @@ const img = {
         <div
           class={twMerge('w-full aspect-square overflow-hidden rounded-lg bg-gray-400 dark:bg-zinc-700', imageClass)}
         >
-          {callToAction && callToAction.href ? (
-            <a href={callToAction.href} class="group">
-              <Image
-                src={img.src}
-                class={twMerge('w-full h-full  hover:scale-105 transition duration-300')}
-                widths={[400, 900]}
-                width={400}
-                height={400}
-                sizes="(max-width: 900px) 400px, 900px"
-                alt={img.alt}
-                aspectRatio={img.aspectRatio}
-                layout="cover"
-                loading="lazy"
-                decoding="async"
-              />
+          {urlForImage ? (
+            <a href={urlForImage} class="group">
+              {typeof image === 'string' ? (
+                <Fragment set:html={image} />
+              ) : (
+                <Image
+                  class={twMerge('w-full h-full  hover:scale-105 transition duration-300')}
+                  widths={[400, 900]}
+                  width={400}
+                  height={400}
+                  sizes="(max-width: 900px) 400px, 900px"
+                  layout="cover"
+                  loading="lazy"
+                  decoding="async"
+                  {...image}
+                />
+              )}
             </a>
           ) : (
-            <Image
-              src={img.src || String(image)}
-              class={twMerge('w-full h-full')}
-              widths={[400, 900]}
-              width={400}
-              height={400}
-              sizes="(max-width: 900px) 400px, 900px"
-              alt={img.alt || title}
-              aspectRatio={img.aspectRatio}
-              layout="cover"
-              loading="lazy"
-              decoding="async"
-            />
+            <Fragment>
+              {typeof image === 'string' ? (
+                <Fragment set:html={image} />
+              ) : (
+                <Image
+                  class={twMerge('w-full h-full')}
+                  widths={[400, 900]}
+                  width={400}
+                  height={400}
+                  sizes="(max-width: 900px) 400px, 900px"
+                  layout="cover"
+                  loading="lazy"
+                  decoding="async"
+                  {...image}
+                />
+              )}
+            </Fragment>
           )}
         </div>
       )
@@ -85,16 +91,42 @@ const img = {
 
   <div class="flex items-start gap-2">
     <div>
-      <WrapperHeaderTag class={twMerge('text-lg md:text-xl font-bold', titleClass)}>
+      <WrapperHeaderTag class={cn('text-lg md:text-xl font-bold', titleClass)}>
         {title}
       </WrapperHeaderTag>
 
-      <div class={twMerge('mt-2 text-sm md:text-base leading-5 md:leading-6', descriptionClass)}>
+      <div class={cn('mt-2 text-sm md:text-base leading-5 md:leading-6', descriptionClass)}>
         <slot />
         {description}
       </div>
     </div>
 
-    {callToAction && <Button {...callToAction} />}
+    {
+      callToAction && (
+        <div>
+          <slot name="footer" />
+
+          {Array.isArray(callToAction) ? (
+            <div class={cn('flex gap-2', actionClass)}>
+              {callToAction.map((action) => (
+                <Fragment>
+                  {typeof action === 'string' ? <Fragment set:html={action} /> : <Button {...(action || {})} />}
+                </Fragment>
+              ))}
+            </div>
+          ) : (
+            <Fragment>
+              {typeof callToAction === 'string' ? (
+                <Fragment set:html={callToAction} />
+              ) : (
+                <div class={cn('', actionClass)}>
+                  <Button {...(callToAction as Object)} />
+                </div>
+              )}
+            </Fragment>
+          )}
+        </div>
+      )
+    }
   </div>
 </Card0>

@@ -10,11 +10,11 @@ import { cn } from '../../utils';
 const {
   title = await Astro.slots.render('title'),
   description = await Astro.slots.render('description'),
-  callToAction,
+  callToAction = await Astro.slots.render('actions'),
   as = 'article',
   asHeader = 'h3',
   icon,
-  image,
+  image = await Astro.slots.render('image'),
   author,
   authorDescription,
 

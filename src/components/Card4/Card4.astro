@@ -9,7 +9,7 @@ import { cn } from '../../utils';
 const {
   title = await Astro.slots.render('title'),
   description = await Astro.slots.render('description'),
-  callToAction,
+  callToAction = await Astro.slots.render('actions'),
   as = 'article',
   asHeader = 'h3',
   icon,
@@ -23,6 +23,7 @@ const {
   title: titleClass = '',
   description: descriptionClass = '',
   icon: iconClass = '',
+  action: actionClass = '',
 } = classes;
 ---
 
@@ -48,10 +49,31 @@ const {
         )
       }
     </div>
+    
     {
       callToAction && (
-        <div class={cn('w-full', classes?.action)}>
-          <Button {...callToAction} />
+        <div>
+          <slot name="footer" />
+
+          {Array.isArray(callToAction) ? (
+            <div class={cn('flex gap-2', actionClass)}>
+              {callToAction.map((action) => (
+                <Fragment>
+                  {typeof action === 'string' ? <Fragment set:html={action} /> : <Button {...(action || {})} />}
+                </Fragment>
+              ))}
+            </div>
+          ) : (
+            <Fragment>
+              {typeof callToAction === 'string' ? (
+                <Fragment set:html={callToAction} />
+              ) : (
+                <div class={cn('', actionClass)}>
+                  <Button {...(callToAction as Object)} />
+                </div>
+              )}
+            </Fragment>
+          )}
         </div>
       )
     }
