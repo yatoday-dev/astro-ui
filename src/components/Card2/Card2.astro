@@ -4,13 +4,15 @@ import Card0 from '../Card0/Card0.astro';
 import Image from '../Image/Image.astro';
 import { Icon } from 'astro-icon/components';
 import { twMerge } from 'tailwind-merge';
+import {cn} from "../../utils";
 
 const {
   title = await Astro.slots.render('title'),
   description,
   icon,
   image,
-  url = '/',
+  url = '',
+  callToAction,
   classes = {},
   as = 'article',
   asHeader = 'h3',
@@ -50,7 +52,11 @@ const img = {
         <div class={twMerge('w-full overflow-hidden -mt-6 h-40 bg-gray-400 dark:bg-zinc-700', imageClass)}>
           <Image
             src={img.src || String(image)}
-            class={twMerge('w-full md:h-full group-hover:scale-105 transition duration-300', imageClass)}
+            class={cn(
+              'w-full md:h-full', 
+              imageClass,
+              url || callToAction?.href && 'group-hover:scale-105 transition duration-300'
+            )}
             widths={[400, 900]}
             width={400}
             height={400}
@@ -71,10 +77,11 @@ const img = {
         <div class="h-12 px-6">
           <Icon
             name={icon}
-            class={twMerge(
+            class={cn(
               'w-12 h-12 text-primary group-hover:scale-105 transition duration-300',
               image ? 'mt-6' : '',
-              iconClass
+              iconClass,
+              url || callToAction?.href && 'group-hover:scale-105 transition duration-300'
             )}
           />
         </div>
@@ -87,8 +94,8 @@ const img = {
     <div>
       <WrapperHeaderTag class={twMerge('text-xl font-bold', titleClass)}>
         {
-          url ? (
-            <a href={url} class="after:content-[''] after:inset-0 after:absolute">
+          url || callToAction?.href ? (
+            <a href={url || callToAction?.href || '/'} class="after:content-[''] after:inset-0 after:absolute">
               {title}
             </a>
           ) : (
