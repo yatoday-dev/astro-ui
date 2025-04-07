@@ -5,6 +5,6 @@ import type { ToAction } from '~/types';
 export type WidgetFeatures0Props = {
   isBeforeContent?: boolean;
   isAfterContent?: boolean;
-  callToAction: string | ToAction | Array<string | ToAction>;
+  callToAction?: string | ToAction | Array<string | ToAction>;
 } & WidgetWrapperProps &
   Omit<HeadlineProps, 'classes'>;

@@ -6,5 +6,4 @@ export type WidgetFeaturesCardProps = {
   items?: any[];
   columns?: number;
   image?: Image | string;
-  isAfterContent?: boolean;
 } & WidgetFeatures0Props;
