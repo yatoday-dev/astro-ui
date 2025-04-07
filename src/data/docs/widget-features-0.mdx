@@ -13,6 +13,7 @@ import WidgetFeatures0 from '~/components/WidgetFeatures0/WidgetFeatures0.astro'
     title="Lorem Ipsum"
     subtitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
     tagline="Features"
+    callToAction={{ href: '/', text: 'Read more' }}
   >
     Content
   </WidgetFeatures0>
@@ -74,8 +75,8 @@ import { Features } from '@yatoday/astro-ui/astro';
     |-----------|------------|------------|------------| 
     | `title` | `string` | - | `Title` in [Headline](/docs/headline) component | 
     | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component | 
-    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component | 
-    | `columns` | `number` | `1` | Number of columns in the grid. From 1 to 4 |
+    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
+    | `callToAction` | `ToAction \| string \| ToAction[] \| string[]` | - | Action button or link. See the [ToAction](/docs/types#action-buttons) for details.  |
     | `isAfterContent` | `boolean` | `false` | - |
     | `id` | `string` | - | Specify a unique id for the section |
     | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the [WidgetWrapper](/docs/feature-widget-wrapper) |

@@ -62,7 +62,7 @@ import { WidgetStats } from '@yatoday/astro-ui/astro';
     | `title` | `string` | - | `Title` in [Headline](/docs/headline) component |
     | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component |
     | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
-    | `callToAction` | [ToAction](/docs/types#toaction) | - | Action Button |
+    | `callToAction` | `ToAction \| string \| ToAction[] \| string[]` | - | Action button or link. See the [ToAction](/docs/types#action-buttons) for details.  |
     | `items` | `Array` | `[]` | Array of [Stat](/docs/feature-stats-0) items. Type [here](/docs/types#stat). |
     | `isAfterContent` | `boolean` | `false` | - |
     | `id` | `string` | - | Specify a unique id for the section |

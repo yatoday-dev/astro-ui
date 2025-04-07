@@ -124,7 +124,7 @@ import { WidgetTestimonials } from '@yatoday/astro-ui/astro';
     | `title` | `string` | - | `Title` in [Headline](/docs/headline) component |
     | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component |
     | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
-    | `callToAction` | `ToAction` | - | Data for [ToAction](/docs/types#action-buttons) component |
+    | `callToAction` | `ToAction \| string \| ToAction[] \| string[]` | - | Action button or link. See the [ToAction](/docs/types#action-buttons) for details.  |
     | `items` | `Array` | `[]` | Array of [Testimonial](/docs/types#testimonial) items |
     | `isAfterContent` | `boolean` | `false` | - |
     | `id` | `string` | - | Specify a unique id for the section |

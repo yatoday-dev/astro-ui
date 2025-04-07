@@ -4,7 +4,7 @@ import Card0 from '../Card0/Card0.astro';
 import Image from '../Image/Image.astro';
 import { Icon } from 'astro-icon/components';
 import { twMerge } from 'tailwind-merge';
-import {cn} from "../../utils";
+import { cn } from '../../utils';
 
 const {
   title = await Astro.slots.render('title'),
@@ -53,9 +53,9 @@ const img = {
           <Image
             src={img.src || String(image)}
             class={cn(
-              'w-full md:h-full', 
+              'w-full md:h-full',
               imageClass,
-              url || callToAction?.href && 'group-hover:scale-105 transition duration-300'
+              url || (callToAction?.href && 'group-hover:scale-105 transition duration-300')
             )}
             widths={[400, 900]}
             width={400}
@@ -81,7 +81,7 @@ const img = {
               'w-12 h-12 text-primary group-hover:scale-105 transition duration-300',
               image ? 'mt-6' : '',
               iconClass,
-              url || callToAction?.href && 'group-hover:scale-105 transition duration-300'
+              url || (callToAction?.href && 'group-hover:scale-105 transition duration-300')
             )}
           />
         </div>

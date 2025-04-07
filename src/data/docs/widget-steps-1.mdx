@@ -195,7 +195,7 @@ import { WidgetSteps } from '@yatoday/astro-ui/astro';
     | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component |
     | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
     | `items` | `Array` | `[]` | Array of [Item](/docs/types#item) items |
-    | `callToAction` | [ToAction](/docs/types#toaction) | - | Action Button |
+    | `callToAction` | `ToAction \| string \| ToAction[] \| string[]` | - | Action button or link. See the [ToAction](/docs/types#action-buttons) for details.  |
     | `isReversed` | `boolean` | `false` | Defines left or right position |
     | `isAfterContent` | `boolean` | `false` | - |
     | `id` | `string` | - | Specify a unique id for the section |

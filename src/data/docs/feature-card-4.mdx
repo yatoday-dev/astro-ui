@@ -79,7 +79,7 @@ import { Card4, ItemGrid0 } from '@yatoday/astro-ui/astro';
     |------|------|---------|-------------| 
     | `title` | `string` | - | Title text for the card | | `description` | `string` | - | Content for the card |
     | `icon` | `string` | - | - |
-    | `callToAction` | [ToAction](/docs/types#action-buttons) | - | Action button or link. See the [button](/docs/button) component for details.  |
+    | `callToAction` | `ToAction \| string \| ToAction[] \| string[]` | - | Action button or link. See the [ToAction](/docs/types#action-buttons) for details.  |
     | `as` | `string` | `article` | HTML tag name for the wrapper |
     | `asHeader` | `string` | `h3` | HTML tag name for the title |
     | `classes.container` | `string` | `bg-transparent border-transparent` | Additional CSS classes to apply to the card wrapper |

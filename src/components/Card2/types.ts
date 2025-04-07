@@ -1,6 +1,6 @@
 import type { HTMLTag } from 'astro/types';
 import type { Card0Props } from '../Card0/types';
-import type {ToAction} from "~/types";
+import type { ToAction } from '~/types';
 
 export type Card2Props = {
   title?: string;

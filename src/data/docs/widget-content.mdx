@@ -96,7 +96,7 @@ import { WidgetContent } from '@yatoday/astro-ui/astro';
     | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component |
     | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
     | `content` | `string` | - | - |
-    | `callToAction` | [ToAction](/docs/types#toaction) | - | Action Button |
+    | `callToAction` | `ToAction \| string \| ToAction[] \| string[]` | - | Action button or link. See the [ToAction](/docs/types#action-buttons) for details.  |
     | `items` | `Array` | `[]` | Array of [Item](/docs/types#item) items |
     | `columns` | `number` | `1` | Number of columns in the grid. From 1 to 4 |
     | `image` | `string` \| [Image](/docs/types#image) | - | Image for the card |
