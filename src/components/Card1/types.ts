@@ -7,7 +7,7 @@ export type Card1Props = {
   title?: string;
   description?: string;
   icon?: string;
-  callToAction?: string | ToAction[] | Array<string | ToAction>;
+  callToAction?: string | ToAction | Array<string | ToAction>;
   data?: NameValue[];
   links?: Link[];
   badge?: string;

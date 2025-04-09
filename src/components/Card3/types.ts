@@ -7,5 +7,5 @@ export type Card3Props = {
   description?: string;
   asHeader?: HTMLTag;
   badge?: string;
-  callToAction?: string | ToAction[] | Array<string | ToAction>;
+  callToAction?: string | ToAction | Array<string | ToAction>;
 } & Card0Props;
