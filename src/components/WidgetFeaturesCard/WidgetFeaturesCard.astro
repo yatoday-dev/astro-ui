@@ -67,7 +67,7 @@ const img = {
     )
   }
 
-  <ItemGrid0 columns={columns}>
+  <ItemGrid0 columns={columns} class={classes?.grid && ''}>
     {items && items.map((item) => <Component {...item} classes={classes?.card as Record<string, string>} />)}
   </ItemGrid0>
 </WidgetWrapper>
