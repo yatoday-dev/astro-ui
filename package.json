@@ -1,7 +1,7 @@
 {
   "name": "@yatoday/astro-ui",
   "type": "module",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "scripts": {
     "prepare": "husky",
     "pre-commit": "lint-staged",
@@ -23,7 +23,6 @@
     "create-component": "node scripts/createComponent.js"
   },
   "dependencies": {
-    "limax": "4.1.0",
     "lodash.merge": "^4.6.2",
     "photoswipe": "^5.4.4",
     "swiper": "^11.2.5",
