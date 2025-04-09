@@ -1,0 +1,52 @@
+---
+title: BackToTopButton
+category: W.Feature
+---
+
+import Demo from '~/playground/components/Demo.astro';
+import BackToTopButton from '~/components/BackToTopButton/BackToTopButton.astro';
+import SourceLink from '~/playground/components/SourceLink.astro';
+
+# BackToTopButton
+
+<SourceLink name="BackToTopButton" />
+
+Scroll down this page to see how it works.
+
+<div className="space-y-12">
+  <div id="top"></div>
+  <Demo title="">
+    <div className="h-[2000px]"></div>
+    <BackToTopButton scrollOffset={20} selector="#top" />
+  </Demo>
+</div>
+
+## Usage
+
+```astro
+---
+import { BackToTopButton } from '@yatoday/astro-ui/astro';
+---
+
+<!-- Default -->
+<BackToTopButton />
+
+<!-- Or with cutom selector -->
+<div id="top"></div>
+
+<BackToTopButton
+  scrollOffset={20} 
+  selector="#top"
+/>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------------|------------|------------|------------|
+    | `selector` | `string` | `#header` | HTML selector to scroll to |
+    | `scrollOffset` | `number` | `450` | - |
+  </div>
+</div>

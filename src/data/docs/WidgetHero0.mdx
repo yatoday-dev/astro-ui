@@ -1,0 +1,135 @@
+---
+title: WidgetHero0
+category: Widget
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import WidgetHero0 from '~/components/WidgetHero0/WidgetHero0.astro';
+import Image from "~/components/Image/Image.astro";
+
+export const img = {
+  src: '~/assets/images/pexels-helenalopesph-1015568.jpg',
+  alt: 'Hero Image',
+  aspectRatio: '16:9',
+};
+
+# WidgetHero0
+
+<SourceLink name="WidgetHero0" />
+
+.
+
+<Demo title="">
+  <WidgetHero0
+    title="Work with us"
+    subtitle="Anim aute id magna aliqua ad ad non deserunt sunt..."
+    classes={{
+      headline: {
+        title: 'text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-bold tracking-tighter mb-4 font-heading text-white',
+        subtitle: 'text-xl text-white',
+      },
+      stats: {
+        container: 'text-center mx-auto justify-center',
+        content: 'pl-0',
+        title: 'text-4xl font-semibold tracking-tight text-white',
+        description: 'text-base/7 text-gray-300',
+      }
+    }}
+    stats={[
+      { title: '12', description: 'Offices worldwide' },
+      { title: '300+', description: 'Full-time colleagues' },
+      { title: '40', description: 'Hours per week' },
+      { title: 'Unlimited', description: 'Paid time off' },
+    ]}
+  >
+    <Fragment slot="bg">
+      <div class="relative isolate overflow-hidden h-full">
+        <div class="bg-gray-900/80 absolute top-0 left-0 w-full h-full z-20"></div>
+        <Image
+          src={img.src}
+          class="absolute inset-0 z-10 size-full object-cover object-right md:object-center"
+          alt={img.alt}
+          aspectRatio={img.aspectRatio}
+        />
+        <div class="hidden sm:absolute sm:-top-10 sm:right-1/2 sm:z-30 sm:mr-10 sm:block sm:transform-gpu sm:blur-3xl" aria-hidden="true">
+          <div class="aspect-1097/845 w-[68.5625rem] bg-linear-to-tr from-[#ff4694] to-[#776fff] opacity-20" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+        </div>
+        <div class="absolute -top-52 left-1/2 z-30 -translate-x-1/2 transform-gpu blur-3xl sm:top-[-28rem] sm:ml-16 sm:translate-x-0 sm:transform-gpu" aria-hidden="true">
+          <div class="aspect-1097/845 w-[68.5625rem] bg-linear-to-tr from-[#ff4694] to-[#776fff] opacity-20" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+        </div>
+      </div>
+    </Fragment>
+  </WidgetHero0>
+</Demo>
+
+```astro
+---
+import { WidgetHero0 } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetHero0
+  title="Work with us"
+  subtitle="Anim aute id magna aliqua ad ad non deserunt sunt..."
+  classes={{
+    headline: {
+      title: 'text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-bold tracking-tighter mb-4 font-heading text-white',
+      subtitle: 'text-xl text-white',
+    },
+    stats: {
+      container: 'text-center mx-auto justify-center',
+      content: 'pl-0',
+      title: 'text-4xl font-semibold tracking-tight text-white',
+      description: 'text-base/7 text-gray-300',
+    }
+  }}
+  stats={[
+    { title: '12', description: 'Offices worldwide' },
+    { title: '300+', description: 'Full-time colleagues' },
+    { title: '40', description: 'Hours per week' },
+    { title: 'Unlimited', description: 'Paid time off' },
+  ]}
+>
+  <Fragment slot="bg">
+    <div class="relative isolate overflow-hidden h-full">
+      <div class="bg-gray-900/80 absolute top-0 left-0 w-full h-full z-20"></div>
+      <Image
+        src={img.src}
+        class="absolute inset-0 z-10 size-full object-cover object-right md:object-center"
+        alt={img.alt}
+        aspectRatio={img.aspectRatio}
+      />
+      <div class="hidden sm:absolute sm:-top-10 sm:right-1/2 sm:z-30 sm:mr-10 sm:block sm:transform-gpu sm:blur-3xl" aria-hidden="true">
+        <div class="aspect-1097/845 w-[68.5625rem] bg-linear-to-tr from-[#ff4694] to-[#776fff] opacity-20" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+      </div>
+      <div class="absolute -top-52 left-1/2 z-30 -translate-x-1/2 transform-gpu blur-3xl sm:top-[-28rem] sm:ml-16 sm:translate-x-0 sm:transform-gpu" aria-hidden="true">
+        <div class="aspect-1097/845 w-[68.5625rem] bg-linear-to-tr from-[#ff4694] to-[#776fff] opacity-20" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+      </div>
+    </div>
+  </Fragment>
+</WidgetHero0>
+```
+
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description | 
+    |-----------|------------|------------|------------|
+    | `position` | `center` \| `left` \| `right` | `center` | - |
+    | `image` | `string` \| [Image](/docs/types#image) | - | Image for the card |
+    | `title` | `string` | - | `Title` in [Headline](/docs/headline) component | 
+    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component | 
+    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
+    | `actions` | `Array` | `[]` | Array of [ToAction](/docs/types#toaction) components |
+    | `links` | `Array` | `[]` | Array of [Link](/docs/types#link) items |
+    | `stats` | `Array` | `[]` | Array of [Item](/docs/types#item) for the [Stats0](/docs/feature-stats-0) component |
+    | `id` | `string` | - | Specify a unique id for the section |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the [WidgetWrapper](/docs/feature-widget-wrapper) |
+    | `bg` | `string` | - | Set background element |
+    | `classes.container` | `string` | - | CSS classes for the root container |
+    | `classes.headline.{...}` | `string` | - | CSS classes for the [Headline](/docs/headline) component |
+    | `classes.stats.{...}` | `string` | - | CSS classes for the [Stats0](/docs/feature-stats-0) component |
+  </div>
+</div>

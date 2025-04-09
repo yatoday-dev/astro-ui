@@ -1,0 +1,15 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  name?: string;
+}
+
+const { name = '' } = Astro.props;
+---
+
+<div>
+  <a href={`https://github.com/yatoday-dev/astro-ui/tree/master/src/components/${name}`} target="_blank" rel="noopener noreferrer">
+    Source code <Icon name="tabler:external-link" class="w-5 h-5 inline-block" />
+  </a>
+</div>

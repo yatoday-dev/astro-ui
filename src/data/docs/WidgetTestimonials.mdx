@@ -1,0 +1,141 @@
+---
+title: WidgetTestimonials
+category: Widget
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import WidgetTestimonials from '~/components/WidgetTestimonials/WidgetTestimonials.astro';
+
+# WidgetTestimonials
+
+<SourceLink name="WidgetTestimonials" />
+
+.
+
+<Demo title="" class="bg-stripe">
+  <WidgetTestimonials
+    title="Title"
+    subtitle="Subtitle"
+    tagline="Tagline"
+    items={[
+      {
+        description: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat.`,
+        author: 'Elena Ruz. New York',
+        authorDescription: 'Sep. 12 2024',
+        image: {
+          src: '~/assets/images/avatar-01.jpeg',
+          alt: 'Elena Ruz'
+        },
+        callToAction: {
+          variant: 'outline',
+          size: 'icon',
+          icon: 'tabler:arrow-right',
+          href: '/',
+        },
+      },
+      {
+        description: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.`,
+        author: 'John lewis. London',
+        authorDescription: 'Sep. 12 2024',
+        callToAction: {
+          variant: 'outline',
+          size: 'icon',
+          icon: 'tabler:arrow-right',
+          href: '/',
+        },
+      },
+      {
+        description: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet .`,
+        author: 'John Doe. Singapur',
+        authorDescription: 'Sep. 12 2024',
+        callToAction: {
+          variant: 'outline',
+          size: 'icon',
+          icon: 'tabler:arrow-right',
+          href: '/',
+        },
+      },
+    ]}
+    callToAction={{
+      text: 'Read all',
+      href: '/',
+      icon: 'tabler:chevron-right',
+    }}
+  />
+</Demo>
+
+```astro
+---
+import { WidgetTestimonials } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetTestimonials
+  title="Title"
+  subtitle="Subtitle"
+  tagline="Tagline"
+  items={[
+    {
+      description: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat.`,
+      author: 'Elena Ruz. New York',
+      authorDescription: 'Sep. 12 2024',
+      image: {
+      },
+      callToAction: {
+        variant: 'outline',
+        size: 'icon',
+        icon: 'tabler:arrow-right',
+        href: '/',
+      },
+    },
+    {
+      description: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.`,
+      author: 'John lewis. London',
+      authorDescription: 'Sep. 12 2024',
+      callToAction: {
+        variant: 'outline',
+        size: 'icon',
+        icon: 'tabler:arrow-right',
+        href: '/',
+      },
+    },
+    {
+      description: `Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet .`,
+      author: 'John Doe. Singapur',
+      authorDescription: 'Sep. 12 2024',
+      callToAction: {
+        variant: 'outline',
+        size: 'icon',
+        icon: 'tabler:arrow-right',
+        href: '/',
+      },
+    },
+  ]}
+  callToAction={{
+    description: 'Read all',
+    href: '/',
+    icon: 'tabler:chevron-right',
+  }}
+/>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |-----------|------------|------------|------------|
+    | `title` | `string` | - | `Title` in [Headline](/docs/headline) component |
+    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component |
+    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
+    | `callToAction` | `ToAction \| string \| ToAction[] \| string[]` | - | Action button or link. See the [ToAction](/docs/types#action-buttons) for details.  |
+    | `items` | `Array` | `[]` | Array of [Testimonial](/docs/types#testimonial) items |
+    | `isAfterContent` | `boolean` | `false` | - |
+    | `id` | `string` | - | Specify a unique id for the section |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the [WidgetWrapper](/docs/feature-widget-wrapper) |
+    | `bg` | `string` | - | Set background element |
+    | `classes.container` | `string` | - | CSS classes for the root container |
+    | `classes.action` | `string` | - | CSS classes for each action |
+    | `classes.headline.{...}` | `string` | - | CSS classes for the [Headline](/docs/headline) component |
+  </div>
+</div>

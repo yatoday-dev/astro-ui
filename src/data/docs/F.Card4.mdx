@@ -1,0 +1,94 @@
+---
+title: Card4
+category: W.Feature
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import Card4 from '~/components/Card4/Card4.astro';
+import ItemGrid0 from '~/components/ItemGrid0/ItemGrid0.astro';
+
+# Card4
+
+<SourceLink name="Card4" />
+
+The Card component provides a versatile container for displaying related content. It uses semantic HTML and ensures proper heading structure and content organization.
+
+<div className="space-y-12">
+  <Demo title="">
+    <ItemGrid0 columns={3} class="bg-stripe">
+      <Card4
+        icon="tabler:home"
+        title="Card 3.1"
+        description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+        callToAction={{ href: '/', text: 'Read more', size: 'sm', variant: 'primary' }}
+      >
+        Content
+      </Card4>
+      <Card4
+        icon="tabler:home"
+        title="Card 3.2"
+        description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+        callToAction={{ href: '/', text: 'Read more', size: 'sm', variant: 'outline' }}
+      />
+      <Card4 
+        icon="tabler:home"
+        title="Card 3.3"
+        description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+        classes={{
+          icon: 'text-primary'
+        }}
+      />
+    </ItemGrid0>
+  </Demo>
+</div>
+
+```astro
+---
+import { Card4, ItemGrid0 } from '@yatoday/astro-ui/astro';
+---
+
+<ItemGrid0 columns={3} class="bg-stripe">
+  <Card4
+    icon="tabler:home"
+    title="Card 3.1"
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    callToAction={{ href: '/', text: 'Read more', size: 'sm', variant: 'primary' }}
+  >
+    Content
+  </Card4>
+  <Card4
+    icon="tabler:home"
+    title="Card 3.2"
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    callToAction={{ href: '/', text: 'Read more', size: 'sm', variant: 'outline' }}
+  />
+  <Card4 
+    icon="tabler:home"
+    title="Card 3.3"
+    description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    classes={{
+      icon: 'text-primary'
+    }}
+  />
+</ItemGrid0>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------|------|---------|-------------| 
+    | `title` | `string` | - | Title text for the card | | `description` | `string` | - | Content for the card |
+    | `icon` | `string` | - | - |
+    | `callToAction` | `ToAction \| string \| ToAction[] \| string[]` | - | Action button or link. See the [ToAction](/docs/types#action-buttons) for details.  |
+    | `as` | `string` | `article` | HTML tag name for the wrapper |
+    | `asHeader` | `string` | `h3` | HTML tag name for the title |
+    | `classes.container` | `string` | `bg-transparent border-transparent` | Additional CSS classes to apply to the card wrapper |
+    | `classes.title` | `string` | - | Additional CSS classes to apply to the title |
+    | `classes.description` | `string` | `text-muted-foreground` | Additional CSS classes to apply to the description |
+    | `classes.icon` | `string` | - | Additional CSS classes to apply to the icon |
+    | `classes.action` | `string` | - | - |
+  </div>
+</div>

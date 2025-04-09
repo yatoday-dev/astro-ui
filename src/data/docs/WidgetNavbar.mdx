@@ -1,0 +1,226 @@
+---
+title: WidgetNavbar
+category: Widget
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import WidgetNavbar from '~/components/WidgetNavbar/WidgetNavbar.astro';
+import Button from '~/components/Button/Button.astro';
+
+export const demoActions = [{ text: 'Action', href: '/', variant: 'outline' }];
+export const demoLinks = [
+  {
+    text: "Getting started",
+    links: [
+      {text: "Styling & Theme variables", href: "/docs/styling"}, 
+      {text: "Components", href: "/docs/breadcrumbs"}, 
+      {text: "Features", href: "/docs/feature-back-to-top"}, 
+      {text: "Widgets", href: "/docs/widget-card-slider"}
+    ]
+  }, 
+  {
+    text: "Accessibility",
+    links: [
+      {text: "Accessibility", href: "/docs/accessibility"}, 
+      {text: "Accessibility testing", href: "/docs/accessibility-testing"}
+    ]
+  }, 
+  {text: "About Us", href: "/"}, 
+  {text: "Contact", href: "/"}
+];
+
+# WidgetNavbar
+
+<SourceLink name="WidgetNavbar" />
+
+.
+
+<Demo title="">
+  <WidgetNavbar 
+    links={demoLinks} 
+    position="right"
+  />
+</Demo>
+
+```astro
+---
+import { WidgetNavbar } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetNavbar
+  position="right"
+  links={[
+    {
+      text: "Getting started",
+      links: [
+        {text: "Styling & Theme variables", href: "/docs/styling"}, 
+        {text: "Components", href: "/docs/breadcrumbs"}, 
+        {text: "Features", href: "/docs/feature-back-to-top"}, 
+        {text: "Widgets", href: "/docs/widget-card-slider"}
+      ]
+    }, 
+    {
+      text: "Accessibility",
+      links: [
+        {text: "Accessibility", href: "/docs/accessibility"}, 
+        {text: "Accessibility testing", href: "/docs/accessibility-testing"}
+      ]
+    }, 
+    {text: "About Us", href: "/"}, 
+    {text: "Contact", href: "/"}
+  ]}
+/>
+```
+
+<Demo title="Sticky & ToggleTheme" class="bg-stripe h-[900px]">
+  <WidgetNavbar
+    isSticky={true}
+    showToggleTheme={true}
+    scrollOffset={1200}
+    classes={{
+      container: "mx-auto max-w-6xl text-foreground",
+      pinned: "bg-background",
+      unpinned: "",
+    }}
+    links={demoLinks}
+    actions={demoActions}
+  >
+    <Fragment slot="logo">LOGO</Fragment>
+    <Fragment slot="actions">
+      <Button variant="outline" class="ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto">
+        Create Account
+      </Button>
+    </Fragment>
+  </WidgetNavbar>
+</Demo>
+
+```astro
+---
+import { WidgetNavbar } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetNavbar
+  isSticky={true}
+  showToggleTheme={true}
+  classes={{
+    container: "mx-auto max-w-6xl bg-background text-foreground",
+  }}
+  links={[
+    {
+      text: "Getting started",
+      links: [
+        {text: "Styling & Theme variables", href: "/docs/styling"}, 
+        {text: "Components", href: "/docs/breadcrumbs"}, 
+        {text: "Features", href: "/docs/feature-back-to-top"}, 
+        {text: "Widgets", href: "/docs/widget-card-slider"}
+      ]
+    }, 
+    {
+      text: "Accessibility",
+      links: [
+        {text: "Accessibility", href: "/docs/accessibility"}, 
+        {text: "Accessibility testing", href: "/docs/accessibility-testing"}
+      ]
+    }, 
+    {text: "About Us", href: "/"}, 
+    {text: "Contact", href: "/"}
+  ]}
+  actions={[{ text: 'Action', href: '/', variant: 'outline' }]}
+>
+  <Fragment slot="logo">LOGO</Fragment>
+  <Fragment slot="actions">
+    <Button variant="outline" class="ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto">
+      Create Account
+    </Button>
+  </Fragment>
+</WidgetNavbar>
+```
+
+
+<Demo title="With actions" class="">
+  <WidgetNavbar
+    classes={{
+      container: "mx-auto max-w-6xl bg-background text-foreground",
+    }}
+    links={demoLinks}
+  >
+    <Fragment slot="actions">
+      <Button variant="outline" class="ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto">
+        Custom Action
+      </Button>
+    </Fragment>
+  </WidgetNavbar>
+</Demo>
+
+```astro
+---
+import { WidgetNavbar } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetNavbar
+  isSticky={true}
+  classes={{
+    container: "mx-auto max-w-6xl bg-background text-foreground",
+  }}
+  links={[
+    {
+      text: "Getting started",
+      links: [
+        {text: "Styling & Theme variables", href: "/docs/styling"}, 
+        {text: "Components", href: "/docs/breadcrumbs"}, 
+        {text: "Features", href: "/docs/feature-back-to-top"}, 
+        {text: "Widgets", href: "/docs/widget-card-slider"}
+      ]
+    }, 
+    {
+      text: "Accessibility",
+      links: [
+        {text: "Accessibility", href: "/docs/accessibility"}, 
+        {text: "Accessibility testing", href: "/docs/accessibility-testing"}
+      ]
+    }, 
+    {text: "About Us", href: "/"}, 
+    {text: "Contact", href: "/"}
+  ]}
+  actions={[{ text: 'Action', href: '/', variant: 'outline' }]}
+>
+  <Fragment slot="logo">LOGO</Fragment>
+  <Fragment slot="actions">
+    <Button variant="outline" class="ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto">
+      Custom Action
+    </Button>
+  </Fragment>
+</WidgetNavbar>
+
+<!-- Actions as props -->
+<WidgetNavbar
+  actions={[
+    { text: 'Action 1',  href: '/', variant: 'outline' },
+    { text: 'Action 2',  href: '/', variant: 'primary' },
+  ]}
+/>
+```
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------|------|---------|---------|
+    | `position` | `center` \| `left` \| `right` | `center` | - |
+    | `links` | `Array` | `[]` | Array of [Link](/docs/types#link) items |
+    | `actions` | `Array` | `[]` | Array of [ToAction](/docs/types#toaction) components |
+    | `isSticky` | `boolean` | `false` | - |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the [WidgetWrapper](/docs/feature-widget-wrapper) |
+    | `showToggleTheme` | `boolean` | `false` | - |
+    | `scrollOffset` | `number` | `60` | How much do you need to scroll the page to apply `pinned` classes |
+    | `classes.header` | `string` | `` | CSS classes for the wrapper header container |
+    | `classes.container` | `string` | `max-w-7xl 2xl:max-w-[96rem] md:mx-auto` | CSS classes for the container |
+    | `classes.links` | `string` | `hover:text-link dark:hover:text-white` | - |
+    | `classes.dropdown` | `string` | `bg-background text-foreground md:shadow-lg` | - |
+    | `classes.dropdownLinks` | `string` | `hover:bg-black/10 hover:text-link dark:hover:text-white dark:hover:bg-white/10` | - |
+    | `classes.darkModeIcon` | `string` | - | - |
+    | `classes.pinned` | `string` | `bg-background md:bg-background/90 md:backdrop-blur-md` | Classes that will be applied when scrolling the page |
+    | `classes.unpinned` | `string` | - | Classes applied by default |
+  </div>
+</div>

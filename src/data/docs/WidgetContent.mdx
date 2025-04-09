@@ -1,0 +1,120 @@
+---
+title: WidgetContent
+category: Widget
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import WidgetContent from '~/components/WidgetContent/WidgetContent.astro';
+
+# WidgetContent
+
+<SourceLink name="WidgetContent" />
+
+.
+
+<Demo title="">
+  <WidgetContent
+    title="Elevating visual narratives"
+    subtitle="Embark on a design journey that surpasses pixels, entering a realm of imagination. Explore my portfolio, where passion and creativity converge to shape enthralling visual narratives."
+    isReversed
+    items={[
+      {
+        title: 'Description:',
+        description:
+          'Developed a comprehensive brand identity for a tech startup, Tech Innovators, specializing in disruptive innovations. The goal was to convey a modern yet approachable image that resonated with both corporate clients and tech enthusiasts.',
+      },
+      {
+        title: 'Role:',
+        description:
+          'Led the entire branding process from concept to execution. Created a dynamic logo that symbolized innovation, selected a vibrant color palette, and I designed corporate stationery, website graphics, and social media assets.',
+      },
+    ]}
+    image={{
+      src: '~/assets/images/800x800.svg',
+      alt: 'Tech Design Image',
+    }}
+    callToAction={{
+      target: '_blank',
+      text: 'Go to the project',
+      icon: 'tabler:chevron-right',
+      href: '#',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Project 1: 
+        <br />
+        <span class="text-2xl">Brand identity for tech innovators</span>
+      </h3>
+    </Fragment>
+  </WidgetContent>
+</Demo>
+
+```astro
+---
+import { WidgetContent } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetContent
+  title="Elevating visual narratives"
+  subtitle="Embark on a design journey that surpasses pixels, entering a realm of imagination. Explore my portfolio, where passion and creativity converge to shape enthralling visual narratives."
+  isReversed
+  items={[
+    {
+      title: 'Description:',
+      description:'Developed a comprehensive brand identity for a tech startup, Tech Innovators, specializing in disruptive innovations. The goal was to convey a modern yet approachable image that resonated with both corporate clients and tech enthusiasts.',
+    },
+    {
+      title: 'Role:',
+      description:'Led the entire branding process from concept to execution. Created a dynamic logo that symbolized innovation, selected a vibrant color palette, and I designed corporate stationery, website graphics, and social media assets.',
+    },
+  ]}
+  image={{
+    src: '~/assets/images/800x800.svg',
+    alt: 'Tech Design Image',
+  }}
+  callToAction={{
+    target: '_blank',
+    text: 'Go to the project',
+    icon: 'tabler:chevron-right',
+    href: '#',
+  }}
+>
+  <Fragment slot="content">
+    <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+      Project 1: 
+      <br />
+      <span class="text-2xl">Brand identity for tech innovators</span>
+    </h3>
+  </Fragment>
+</WidgetContent>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |-----------|------------|------------|------------|
+    | `title` | `string` | - | `Title` in [Headline](/docs/headline) component |
+    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component |
+    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
+    | `content` | `string` | - | - |
+    | `callToAction` | `ToAction \| string \| ToAction[] \| string[]` | - | Action button or link. See the [ToAction](/docs/types#action-buttons) for details.  |
+    | `items` | `Array` | `[]` | Array of [Item](/docs/types#item) items |
+    | `columns` | `number` | `1` | Number of columns in the grid. From 1 to 4 |
+    | `image` | `string` \| [Image](/docs/types#image) | - | Image for the card |
+    | `isReversed` | `boolean` | `false` | Defines left or right position |
+    | `isAfterContent` | `boolean` | `false` | - |
+    | `defaultIcon` | `string` | `tabler:check` | - |
+    | `id` | `string` | - | Specify a unique id for the section |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the [WidgetWrapper](/docs/feature-widget-wrapper) |
+    | `bg` | `string` | - | Set background element |
+    | `classes.container` | `string` | - | CSS classes for the root container |
+    | `classes.content` | `string` | - | - |
+    | `classes.headline.{...}` | `string` | - | CSS classes for the [Headline](/docs/headline) component |
+    | `classes.items.{...}` | `Object` | - | CSS classes for the [Stats 0](/docs/feature-stats-0) component |
+  </div>
+</div>
+

@@ -1,0 +1,99 @@
+---
+title: Button
+category: UI
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import Button from '~/components/Button/Button.astro';
+
+# Button
+
+<SourceLink name="Button" />
+
+<div  className="mt-6 space-y-12">
+  <Demo title="Default">
+    <div className="flex flex-wrap gap-2 p-2">
+      {['default', 'primary', 'accent', 'destructive', 'outline', 'ghost', 'link'].map(item => (
+        <Button variant={item} class="capitalize">{item}</Button>
+      ))}
+    </div>
+  </Demo>
+
+  <Demo title="Size: sm">
+    <div className="flex flex-wrap gap-2 p-2">
+      {['default', 'primary', 'accent', 'destructive', 'outline', 'ghost', 'link'].map((item) => (
+        <Button size="sm" variant={item} class="capitalize">
+          {item}
+        </Button>
+      ))}
+    </div>
+  </Demo>
+
+  <Demo title="Size: lg">
+    <div className="flex flex-wrap gap-2 p-2">
+      {['default', 'primary', 'accent', 'destructive', 'outline', 'ghost', 'link'].map(item => (
+        <Button size="lg" variant={item} class="capitalize">{item}</Button>
+      ))}
+    </div>
+  </Demo>
+
+  <Demo title="Icon">
+    <div className="flex flex-wrap gap-2 p-2">
+      {['default', 'primary', 'accent', 'destructive', 'outline', 'ghost', 'link'].map(item => (
+        <Button size="icon" variant={item} icon="tabler:arrow-right" class="rounded-full"></Button>
+      ))}
+    </div>
+  </Demo>
+</div>
+
+## Usage
+
+The Dark mode component provides a toggle for switching between light and dark color schemes. <br /> It uses system preferences, persists user choices, and follows accessibility best practices.
+
+```astro
+---
+import { Button } from '@yatoday/astro-ui/astro';
+---
+
+<!-- Default -->
+<Button>Default</Button>
+
+<!-- With variants -->
+<Button variant="primary">Primary</Button>
+<Button variant="accent">Accent</Button>
+<Button variant="destructive">Destructive</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="link">Link</Button>
+
+<!-- With size -->
+<Button size="sm">Button</Button>
+
+<!-- With custom class -->
+<Button class="rounded-sm">Default</Button>
+
+<!-- Icon -->
+<Button size="icon" variant="accent" class="rounded-full"></Button>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------------|------------|------------|------------| 
+    | `variant` | `default` \| `primary` \| `accent` \| `destructive` \| `outline` \| `ghost` \| `link` | `default` | - |
+    | `size` | `default` \| `sm` \| `lg` \| `icon` | `default` | - |
+    | `icon` | `string` | - | Name icon from set |
+    | `class` | `string` | - | - |
+  </div>
+</div>
+
+## Style
+
+```css
+@theme {
+  --radius-btn: 9999px;
+}
+```

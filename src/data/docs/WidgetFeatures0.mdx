@@ -1,0 +1,92 @@
+---
+title: WidgetFeatures0
+category: Widget
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import WidgetFeatures0 from '~/components/WidgetFeatures0/WidgetFeatures0.astro';
+
+# WidgetFeatures0
+
+<SourceLink name="WidgetFeatures0" />
+
+.
+
+<Demo title="Default">
+  <WidgetFeatures0
+    title="Lorem Ipsum"
+    subtitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    tagline="Features"
+    callToAction={{ href: '/', text: 'Read more' }}
+  >
+    Content
+  </WidgetFeatures0>
+</Demo>
+
+```astro
+---
+import { Features } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetFeatures0
+  title="Lorem Ipsum"
+  subtitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+  tagline="Features"
+>
+  Content
+</WidgetFeatures0>
+```
+
+<Demo title="With custom classes">
+  <WidgetFeatures0
+    title="Lorem Ipsum"
+    subtitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+    tagline="Features"
+    classes={{ container: 'text-center', headline: { container: 'text-left', title: '', subtitle: '', tagline: '' } }}
+  >
+    Content
+  </WidgetFeatures0>
+</Demo>
+
+```astro
+---
+import { Features } from '@yatoday/astro-ui/astro';
+---
+
+<Features0Widget
+  title="Lorem Ipsum"
+  subtitle="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+  tagline="Features"
+  classes={{
+    container: 'text-center',
+    headline: {
+      container: 'text-left',
+      title: '',
+      subtitle: '',
+      tagline: '',
+    },
+  }}
+>
+  Content
+</Features0Widget>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description | 
+    |-----------|------------|------------|------------| 
+    | `title` | `string` | - | `Title` in [Headline](/docs/headline) component | 
+    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component | 
+    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
+    | `callToAction` | `ToAction \| string \| ToAction[] \| string[]` | - | Action button or link. See the [ToAction](/docs/types#action-buttons) for details.  |
+    | `isAfterContent` | `boolean` | `false` | - |
+    | `id` | `string` | - | Specify a unique id for the section |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the [WidgetWrapper](/docs/feature-widget-wrapper) |
+    | `bg` | `string` | - | Set background element |
+    | `classes.container` | `string` | - | CSS classes for the root container |
+    | `classes.headline.{...}` | `string` | - | CSS classes for the [Headline](/docs/headline) component |
+  </div>
+</div>
