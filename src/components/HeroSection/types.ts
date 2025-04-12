@@ -6,6 +6,6 @@ export type HeroSectionProps = {
   title?: string;
   description?: string;
   image: Image | string;
-  callToAction?: ToAction;
+  callToAction?: string | ToAction | Array<string | ToAction>;
   classes?: Record<string, string>;
 };
