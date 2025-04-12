@@ -6,12 +6,13 @@ const {
   title = await Astro.slots.render('title'),
   subtitle = await Astro.slots.render('subtitle'),
   tagline,
+  position= 'center',
   classes = {},
   as = 'h2',
 } = Astro.props;
 
 const {
-  container: containerClass = 'max-w-3xl md:mx-auto ',
+  container: containerClass = '',
   title: titleClass = 'text-foreground',
   subtitle: subtitleClass = '',
   tagline: taglineClass = '',
@@ -22,24 +23,30 @@ const WrapperTag = as;
 
 {
   (title || subtitle || tagline) && (
-    <div class={cn('mb-8 md:mb-12 text-center', containerClass)}>
+    <div class={cn(
+      'mb-8 md:mb-12', 
+      position === 'center' && 'text-center max-w-3xl md:mx-auto',
+      position === 'left' && 'text-left max-w-3xl',
+      position === 'right' && 'text-right',
+      containerClass
+    )}>
       {tagline && (
         <p
-          class={cn('text-base text-muted-foreground font-bold tracking-wide uppercase', taglineClass)}
+          class={cn('text-sm md:text-base text-muted-foreground font-bold tracking-wide uppercase', taglineClass)}
           set:html={tagline}
         />
       )}
       {title && (
         <WrapperTag
           class={cn(
-            'font-bold leading-tighter tracking-tighter font-heading text-heading text-3xl md:text-4xl',
+            'font-bold leading-tighter tracking-tighter font-heading text-heading text-2xl md:text-4xl',
             titleClass
           )}
           set:html={title}
         />
       )}
 
-      {subtitle && <p class={cn('mt-4 text-muted-foreground text-xl', subtitleClass)} set:html={subtitle} />}
+      {subtitle && <p class={cn('mt-1 md:mt-4 text-muted-foreground text-lg/6 md:text-xl', subtitleClass)} set:html={subtitle} />}
     </div>
   )
 }

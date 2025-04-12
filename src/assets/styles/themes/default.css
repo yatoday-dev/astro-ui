@@ -22,6 +22,8 @@
   --yt-color-border: hsl(0 0% 89.8%);
   --yt-color-input: hsl(0 0% 89.8%);
   --yt-color-ring: hsl(0 0% 3.9%);
+
+  color-scheme: light;
 }
 
 .dark {

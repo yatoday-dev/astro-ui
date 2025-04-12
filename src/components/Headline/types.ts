@@ -6,4 +6,5 @@ export type HeadlineProps = {
   tagline?: string;
   classes?: Record<string, string>;
   ['as']?: HTMLTag;
+  position?: 'center' | 'left' | 'right';
 };
