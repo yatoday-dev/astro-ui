@@ -21,7 +21,7 @@ const img = {
 };
 
 const {
-  container: containerClass = 'bg-zinc-700 text-zinc-200 h-96',
+  container: containerClass = 'h-96',
   image: imageClass = '',
   content: contentClass = '',
   title: titleClass = '',
@@ -34,7 +34,7 @@ const WrapperHeaderTag = asHeader;
 
 <div
   class={twMerge(
-    'swiper-slide overflow-hidden dark:bg-card dark:text-card-foreground',
+    'swiper-slide overflow-hidden bg-zinc-700 text-zinc-200 dark:bg-card dark:text-card-foreground',
     containerClass
   )}
 >
