@@ -8,7 +8,7 @@ import { cn } from '../../utils';
 
 const {
   title = await Astro.slots.render('title'),
-  description,
+  description = await Astro.slots.render('description'),
   icon,
   image = await Astro.slots.render('image'),
   url = '',
@@ -29,12 +29,6 @@ const {
   image: imageClass = '',
   badge: badgeClass = 'top-2 left-2',
 } = classes;
-
-const img = {
-  src: typeof image === 'string' ? image : image?.src,
-  alt: typeof image === 'string' ? title : image?.alt,
-  aspectRatio: typeof image === 'string' ? '4:3' : image?.aspectRatio || '4:3',
-};
 ---
 
 <Card0
@@ -50,19 +44,21 @@ const img = {
     {
       image && (
         <div class={twMerge('w-full overflow-hidden -mt-6 h-40 bg-gray-400 dark:bg-zinc-700', imageClass)}>
-          <Image
-            src={img.src || String(image)}
-            class={cn('w-full md:h-full', imageClass, (url || callToAction?.href) && 'group-hover:scale-105 transition duration-300')}
-            widths={[400, 900]}
-            width={400}
-            height={400}
-            sizes="(max-width: 900px) 400px, 900px"
-            alt={img.alt || title}
-            aspectRatio={img.aspectRatio}
-            layout="cover"
-            loading="lazy"
-            decoding="async"
-          />
+          {typeof image === 'string' ? (
+            <Fragment set:html={image} />
+          ) : (
+            <Image
+              class={cn('w-full md:h-full', imageClass, (url || callToAction?.href) && 'group-hover:scale-105 transition duration-300')}
+              widths={[400, 900]}
+              width={400}
+              height={400}
+              sizes="(max-width: 900px) 400px, 900px"
+              layout="cover"
+              loading="lazy"
+              decoding="async"
+              {...image}
+            />
+          )}
         </div>
       )
     }

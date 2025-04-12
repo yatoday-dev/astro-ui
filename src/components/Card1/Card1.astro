@@ -9,9 +9,9 @@ import { cn } from '../../utils';
 
 const {
   title = await Astro.slots.render('title'),
-  description,
-  icon,
+  description = await Astro.slots.render('description'),
   image = await Astro.slots.render('image'),
+  icon,
   data = [],
   links = [],
   callToAction = await Astro.slots.render('actions'),
@@ -32,11 +32,13 @@ const {
   action: actionClass = '',
 } = classes;
 
-const img = {
-  src: typeof image === 'string' ? image : image?.src,
-  alt: typeof image === 'string' ? title : image?.alt,
-  aspectRatio: typeof image === 'string' ? '4:3' : image?.aspectRatio || '4:3',
-};
+const urlForImage = Array.isArray(callToAction)
+  ? typeof callToAction[0] === 'string'
+    ? callToAction[0]
+    : (callToAction[0] as { href?: string })?.href
+  : typeof callToAction === 'string'
+    ? callToAction
+    : (callToAction as { href?: string })?.href;
 ---
 
 <Card0
@@ -50,19 +52,43 @@ const img = {
     {
       image && (
         <div class={twMerge('w-full overflow-hidden -mt-6 h-60 bg-gray-400 dark:bg-zinc-700', imageClass)}>
-          <Image
-            src={img.src || String(image)}
-            class={twMerge('w-full h-full')}
-            widths={[400, 900]}
-            width={400}
-            height={400}
-            sizes="(max-width: 900px) 400px, 900px"
-            alt={img.alt || title}
-            aspectRatio={img.aspectRatio}
-            layout="cover"
-            loading="lazy"
-            decoding="async"
-          />
+          {urlForImage ? (
+            <a href={urlForImage} class="group">
+              {typeof image === 'string' ? (
+                <Fragment set:html={image} />
+              ) : (
+                <Image
+                  class={twMerge('w-full h-full  hover:scale-105 transition duration-300')}
+                  widths={[400, 900]}
+                  width={400}
+                  height={400}
+                  sizes="(max-width: 900px) 400px, 900px"
+                  layout="cover"
+                  loading="lazy"
+                  decoding="async"
+                  {...image}
+                />
+              )}
+            </a>
+          ) : (
+            <Fragment>
+              {typeof image === 'string' ? (
+                <Fragment set:html={image} />
+              ) : (
+                <Image
+                  class={twMerge('w-full h-full')}
+                  widths={[400, 900]}
+                  width={400}
+                  height={400}
+                  sizes="(max-width: 900px) 400px, 900px"
+                  layout="cover"
+                  loading="lazy"
+                  decoding="async"
+                  {...image}
+                />
+              )}
+            </Fragment>
+          )}
         </div>
       )
     }
