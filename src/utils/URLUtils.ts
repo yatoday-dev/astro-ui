@@ -39,7 +39,7 @@ export const createPath = (...params: string[]): string => {
 export const cleanSlug = (text: string = ''): string =>
   trimSlash(text)
     .split('/')
-    .map((a: string) => slugify(a))
+    .map((a: string) => slugify(a).toLowerCase())
     .join('/');
 
 /**

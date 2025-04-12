@@ -66,6 +66,6 @@ declare module '@yatoday/astro-ui' {
   // URLUtils.ts
   export const trimSlash = (s: number) => string;
   export const createPath = (...params: string[]) => string;
-  export const cleanSlug = (text: string[]) => string;
+  export const cleanSlug = (text: string) => string;
   export const getCanonical = (path: string) => string | URL;
 }
