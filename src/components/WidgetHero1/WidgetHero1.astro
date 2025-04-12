@@ -12,7 +12,7 @@ const {
   subtitle = await Astro.slots.render('subtitle'),
   tagline = await Astro.slots.render('tagline'),
   position = 'center',
-  image,
+  image = await Astro.slots.render('image'),
   actions = [],
   links = [],
   stats = [],
@@ -24,14 +24,6 @@ const {
 } = Astro.props;
 
 const { container: containerClass = '', bg: bgClass = '' } = classes;
-
-const img = image
-  ? {
-      src: typeof image === 'string' ? image : image?.src,
-      alt: typeof image === 'string' ? title : image?.alt,
-      aspectRatio: typeof image === 'string' ? '16:9' : image?.aspectRatio || '16:9',
-    }
-  : undefined;
 ---
 
 <WidgetWrapper
@@ -43,19 +35,24 @@ const img = image
     <div class="relative isolate overflow-hidden h-full">
       <div class={cn(' absolute top-0 left-0 w-full h-full z-20', bgClass)}></div>
       {
-        img && (
-          <Image
-            src={img.src}
-            class="absolute inset-0 z-10 size-full object-cover object-right md:object-center"
-            alt={img.alt}
-            aspectRatio={img.aspectRatio}
-            widths={[400, 768, 1024, 2040]}
-            sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
-            loading="eager"
-            width={1024}
-            height={576}
-            layout="fullWidth"
-          />
+        image && (
+          <Fragment>
+            {typeof image === 'string' ? (
+              <Fragment set:html={image} />
+            ) : (
+              <Image
+                class="absolute inset-0 z-10 size-full object-cover object-right md:object-center"
+                widths={[400, 900]}
+                widths={[400, 768, 1024, 2040]}
+                sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
+                loading="eager"
+                width={1024}
+                height={576}
+                layout="fullWidth"
+                {...image}
+              />
+            )}
+          </Fragment>
         )
       }
     </div>
