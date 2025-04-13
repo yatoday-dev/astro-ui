@@ -20,7 +20,7 @@ type ImageType = {
   attributes: HTMLAttributes<'img'>;
 };
 
-const _image = await findImage(props.src);
+const _image = await findImage(src);
 
 let image: ImageType | undefined;
 
@@ -127,6 +127,9 @@ if (
 
       if (zoomed) {
         zoomButton.style.backgroundPosition = `${mousePosition.percentX}% ${mousePosition.percentY}%`;
+
+        // Add document click listener to detect outside clicks
+        document.addEventListener('click', handleOutsideClick);
       }
     };
 
