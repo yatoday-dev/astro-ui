@@ -28,8 +28,7 @@ function replace(string: string, options?: string | Options): string {
     throw new Error('slugify: string argument expected');
   }
 
-  const resolvedOptions: Options =
-    typeof options === 'string' ? { replacement: options } : options || {};
+  const resolvedOptions: Options = typeof options === 'string' ? { replacement: options } : options || {};
 
   const locale: LocaleMap = locales[resolvedOptions.locale || ''] || {};
   const replacement: string = resolvedOptions.replacement === undefined ? '-' : resolvedOptions.replacement;

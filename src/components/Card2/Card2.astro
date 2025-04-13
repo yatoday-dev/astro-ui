@@ -48,7 +48,11 @@ const {
             <Fragment set:html={image} />
           ) : (
             <Image
-              class={cn('w-full md:h-full', imageClass, (url || callToAction?.href) && 'group-hover:scale-105 transition duration-300')}
+              class={cn(
+                'w-full md:h-full',
+                imageClass,
+                (url || callToAction?.href) && 'group-hover:scale-105 transition duration-300'
+              )}
               widths={[400, 900]}
               width={400}
               height={400}
