@@ -1,0 +1,66 @@
+---
+title: ImageGalleryIkea
+category: W.Feature
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import ImageGalleryIkea from '~/components/ImageGalleryIkea/ImageGalleryIkea.astro';
+import ItemGrid0 from '~/components/ItemGrid0/ItemGrid0.astro';
+
+# ImageGalleryIkea
+
+<SourceLink name="ImageGalleryIkea" />
+
+.
+
+<div className="space-y-12">
+  <Demo title="">
+    <div className="max-w-[600px]">
+      <ImageGalleryIkea
+        height="h-[500px]"
+        images={[
+          {src: '~/assets/images/800x800.svg', alt: '1'},
+          {src: 'https://swiperjs.com/demos/images/nature-2.jpg', alt: '2'},
+          {src: 'https://swiperjs.com/demos/images/nature-3.jpg', alt: '3'},
+          {src: 'https://swiperjs.com/demos/images/nature-4.jpg', alt: '4'},
+          {src: 'https://swiperjs.com/demos/images/nature-5.jpg', alt: '5'},
+          {src: 'https://swiperjs.com/demos/images/nature-6.jpg', alt: '6'},
+          {src: 'https://swiperjs.com/demos/images/nature-7.jpg', alt: '7'},
+        ]}
+      />
+    </div>
+  </Demo>
+</div>
+
+```astro
+---
+import { ImageGalleryIkea } from '@yatoday/astro-ui/astro';
+---
+
+<ImageGalleryIkea
+  height="h-[500px]"
+  images={[
+    {src: '~/assets/images/800x800.svg', alt: '1'},
+    {src: 'https://swiperjs.com/demos/images/nature-2.jpg', alt: '2'},
+    {src: 'https://swiperjs.com/demos/images/nature-3.jpg', alt: '3'},
+    {src: 'https://swiperjs.com/demos/images/nature-4.jpg', alt: '4'},
+    {src: 'https://swiperjs.com/demos/images/nature-5.jpg', alt: '5'},
+    {src: 'https://swiperjs.com/demos/images/nature-6.jpg', alt: '6'},
+    {src: 'https://swiperjs.com/demos/images/nature-7.jpg', alt: '7'},
+  ]}
+/>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------|------|---------|-------------|
+    | `id` | `string` | random | By default, the `id` is generated automatically. If you decide to specify this parameter yourself, make sure that it is unique on the page |
+    | `classes.container` | `string` | - | Additional CSS classes to apply to the container |
+    | `classes.swiper` | `string` | - | - |
+    | `classes.swiperThumb` | `string` | - | - |
+  </div>
+</div>

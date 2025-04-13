@@ -15,8 +15,8 @@ const {
   <swiper-container
     data-id={id}
     class={cn('opacity-100', classes?.swiper)}
-    centered-slides="true"
     space-between="10"
+    centered-slides="true"
     slides-per-view="1.2"
     navigation={withNavigation
       ? JSON.stringify({
@@ -75,7 +75,6 @@ const {
 
 <script>
   import { addClasses, removeClasses } from '../../utils';
-
   import { register } from 'swiper/element/bundle';
 
   register();
@@ -85,29 +84,31 @@ const {
     matches.forEach((elem) => {
       const id = elem.dataset.id;
 
-      elem.addEventListener(
-        'swiperreachend',
-        () => {
-          removeClasses(`#btn-next-${id}`, 'opacity-100');
-          addClasses(`#btn-next-${id}`, 'opacity-0');
-        },
-        false
-      );
-      elem.addEventListener(
-        'swiperreachbeginning',
-        () => {
-          addClasses(`#btn-prev-${id}`, 'opacity-0');
-        },
-        false
-      );
-      elem.addEventListener(
-        'swiperfromedge',
-        () => {
-          removeClasses(`#btn-prev-${id}`, 'opacity-0');
-          addClasses(`#btn-next-${id}`, 'opacity-100');
-        },
-        false
-      );
+      if (id) {
+        elem.addEventListener(
+          'swiperreachend',
+          () => {
+            removeClasses(`#btn-next-${id}`, 'opacity-100');
+            addClasses(`#btn-next-${id}`, 'opacity-0');
+          },
+          false
+        );
+        elem.addEventListener(
+          'swiperreachbeginning',
+          () => {
+            addClasses(`#btn-prev-${id}`, 'opacity-0');
+          },
+          false
+        );
+        elem.addEventListener(
+          'swiperfromedge',
+          () => {
+            removeClasses(`#btn-prev-${id}`, 'opacity-0');
+            addClasses(`#btn-next-${id}`, 'opacity-100');
+          },
+          false
+        );
+      }
     });
   }
 </script>
