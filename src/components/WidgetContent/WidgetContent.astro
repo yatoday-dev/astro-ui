@@ -20,7 +20,7 @@ const {
   isReversed = false,
   isAfterContent = false,
   defaultIcon = 'tabler:check',
-
+  position = 'center',
   id,
   isDark = false,
   classes = {},
@@ -34,7 +34,7 @@ const {
   containerClass={`${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container ?? ''}`}
   bg={bg}
 >
-  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
+  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} position={position} />
 
   <div class={`md:flex ${isReversed ? 'md:flex-row-reverse' : ''} md:gap-16`}>
     <div class="md:basis-1/2 self-center">

@@ -16,7 +16,7 @@ const {
   items = [],
   columns = 4,
   image = await Astro.slots.render('image'),
-
+  position = 'center',
   isBeforeContent,
   isAfterContent,
   id,
@@ -36,7 +36,7 @@ const Component = via;
   }`}
   bg={bg}
 >
-  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
+  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} position={position} />
 
   {
     image && (

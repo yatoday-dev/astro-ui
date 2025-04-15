@@ -14,7 +14,7 @@ const {
   callToAction,
   columns = 3,
   isAfterContent = false,
-
+  position = 'center',
   id,
   isDark = false,
   classes = {},
@@ -28,7 +28,7 @@ const {
   containerClass={`max-w-6xl mx-auto ${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container ?? ''}`}
   bg={bg}
 >
-  <Headline title={title} subtitle={subtitle} tagline={tagline} />
+  <Headline title={title} subtitle={subtitle} tagline={tagline} position={position} />
 
   <ItemGrid0 columns={columns}>
     {

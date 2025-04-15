@@ -14,7 +14,7 @@ const {
   title = await Astro.slots.render('title'),
   subtitle = await Astro.slots.render('subtitle'),
   tagline = await Astro.slots.render('tagline'),
-
+  position = 'center',
   items = [] as Card1Props[] | Card2Props[] | Card3Props[],
   isAfterContent = false,
 
@@ -35,7 +35,7 @@ const Component = via;
   bg={bg}
   containerClass={`${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container}`}
 >
-  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
+  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} position={position} />
 
   {
     items && (

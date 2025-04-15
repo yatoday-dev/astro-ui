@@ -5,13 +5,13 @@ import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
 import SwiperSlider from '../SwiperSlider/SwiperSlider.astro';
 import { Image as AstroImage, getImage } from 'astro:assets';
 import { fetchLocalImages } from '../../utils/images';
-import Image from '../Image/Image.astro';
 
 const {
   title = await Astro.slots.render('title'),
   subtitle = await Astro.slots.render('subtitle'),
   tagline = await Astro.slots.render('tagline'),
   imagesFolder,
+  position = 'center',
   isAfterContent = false,
 
   id = (Math.random() + 1).toString(36).substring(7),
@@ -34,7 +34,7 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
   bg={bg}
   containerClass={`gallery ${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container}`}
 >
-  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
+  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} position={position} />
 
   {
     imagePaths && (
@@ -53,7 +53,7 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
                 data-pswp-width={optimizedImage.attributes.width}
                 data-pswp-height={optimizedImage.attributes.height}
                 target="_blank"
-                class="group overflow-hidden rounded-md border-primary cursor-zoom-in block mb-4"
+                class="group overflow-hidden rounded-md border-primary cursor-zoom-in block"
               >
                 <AstroImage
                   src={image}
