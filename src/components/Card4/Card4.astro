@@ -48,6 +48,8 @@ const {
           <p class={cn('text-muted-foreground text-sm/5 md:text-base', descriptionClass)} set:html={description} />
         )
       }
+
+      <slot />
     </div>
 
     {

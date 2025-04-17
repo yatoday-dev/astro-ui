@@ -7,9 +7,9 @@ import Button from '../Button/Button.astro';
 import Card5 from '../Card5/Card5.astro';
 
 const {
-  title = '',
-  subtitle = '',
-  tagline = '',
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline = await Astro.slots.render('tagline'),
   items = [],
   callToAction,
   columns = 3,

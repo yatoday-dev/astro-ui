@@ -5,7 +5,7 @@ import { cn } from '../../utils';
 const {
   title = await Astro.slots.render('title'),
   subtitle = await Astro.slots.render('subtitle'),
-  tagline,
+  tagline = await Astro.slots.render('tagline'),
   position = 'center',
   classes = {},
   as = 'h2',

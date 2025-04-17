@@ -7,9 +7,9 @@ import { Icon } from 'astro-icon/components';
 import { cn } from '../../utils';
 
 const {
-  title = '',
-  subtitle = '',
-  tagline = '',
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline = await Astro.slots.render('tagline'),
   icons = [],
   images = [],
   position = 'center',
