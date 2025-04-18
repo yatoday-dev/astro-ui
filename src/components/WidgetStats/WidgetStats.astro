@@ -27,7 +27,13 @@ const {
   ${classes?.container ?? ''}`}
   bg={bg}
 >
-  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} position={position} />
+  <Headline
+    title={title}
+    subtitle={subtitle}
+    tagline={tagline}
+    classes={classes?.headline as Record<string, string>}
+    position={position}
+  />
 
   <Stats0 items={items} classes={classes?.items as Record<string, string>} />
 

@@ -14,11 +14,7 @@ const {
   ...rest
 } = Astro.props;
 
-const {
-  container: containerClass = '',
-  swiper: swiperClass = '',
-  swiperThumb: swiperThumbClass = '',
-} = classes;
+const { container: containerClass = '', swiper: swiperClass = '', swiperThumb: swiperThumbClass = '' } = classes;
 ---
 
 <style>
@@ -28,7 +24,7 @@ const {
   }
 </style>
 
-<div class={cn("@container relative", containerClass)} data-image-gallery-ikea={id}>
+<div class={cn('@container relative', containerClass)} data-image-gallery-ikea={id}>
   <div class="absolute left-0 top-0 z-20 hidden md:block group w-20">
     <!-- Thumb Slider -->
     <button

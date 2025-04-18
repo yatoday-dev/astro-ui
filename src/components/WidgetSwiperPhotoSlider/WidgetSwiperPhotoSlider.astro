@@ -34,7 +34,13 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
   bg={bg}
   containerClass={`gallery ${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container}`}
 >
-  <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} position={position} />
+  <Headline
+    title={title}
+    subtitle={subtitle}
+    tagline={tagline}
+    classes={classes?.headline as Record<string, string>}
+    position={position}
+  />
 
   {
     imagePaths && (
