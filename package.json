@@ -1,7 +1,7 @@
 {
   "name": "@yatoday/astro-ui",
   "type": "module",
-  "version": "0.7.5",
+  "version": "0.8.0",
   "scripts": {
     "prepare": "husky",
     "pre-commit": "lint-staged",
@@ -46,6 +46,7 @@
     "astro-compress": "2.3.6",
     "astro-eslint-parser": "1.1.0",
     "astro-icon": "^1.1.5",
+    "lucide-svelte": "^0.469.0",
     "bits-ui": "^1.1.0",
     "clsx": "^2.1.1",
     "eslint": "9.18.0",

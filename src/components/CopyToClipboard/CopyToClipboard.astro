@@ -1,0 +1,76 @@
+---
+import type { CopyToClipboardProps as Props } from './types';
+import Button from "../Button/Button.astro";
+import { Icon } from 'astro-icon/components';
+
+const {
+  variant = 'outline',
+  size = 'icon',
+  text = '',
+  class: className = '',
+  type = 'button',
+  ...rest
+} = Astro.props;
+---
+
+<Button
+  data-yt-copy-to-clipboard={text}
+  type={type}
+  class={className}
+  variant={variant}
+  size={size}
+  {...rest}
+>
+  <span class="copy-icon">
+    <Icon name="tabler:copy" />
+  </span>
+  <span class="check-icon" style="display: none;">
+    <Icon name="tabler:check" />
+  </span>
+</Button>
+
+<script>
+  import { on, get } from '../../utils';
+  import copyToClipboard from "./copy";
+
+  const init = () => {
+    // Only run once
+    if (!window.copyToClipboardInitialized) {
+      window.copyToClipboardInitialized = true;
+
+      const btn = get('[data-yt-copy-to-clipboard]', true) as NodeListOf<HTMLElement>;
+      if (btn && btn.length === 0) return;
+
+      btn.forEach(addCopyListeners);
+    }
+  };
+
+  const addCopyListeners = (btn: HTMLElement) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      if(btn.dataset.ytCopyToClipboard) {
+        copyToClipboard(btn.dataset.ytCopyToClipboard);
+
+        // Show check icon
+        const copyIcon = btn.querySelector('.copy-icon') as HTMLElement;
+        const checkIcon = btn.querySelector('.check-icon') as HTMLElement;
+
+        if (copyIcon && checkIcon) {
+          copyIcon.style.display = 'none';
+          checkIcon.style.display = 'block';
+
+          // Reset back to copy icon after 3 seconds
+          setTimeout(() => {
+            copyIcon.style.display = 'block';
+            checkIcon.style.display = 'none';
+          }, 3000);
+        }
+
+      }
+    });
+  };
+
+  on(document, 'astro:after-swap', init);
+  init();
+</script>

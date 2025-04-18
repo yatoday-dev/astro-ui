@@ -1,0 +1,43 @@
+---
+title: CopyToClipboard
+category: UI
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import CopyToClipboard from '~/components/CopyToClipboard/CopyToClipboard.astro';
+
+# CopyToClipboard
+
+The **CopyToClipboard** component provides a button that copies specified text to the clipboard. It includes a visual feedback mechanism that shows a check icon for 3 seconds after successful copying.
+
+<SourceLink name="Button" />
+
+<div  className="mt-6 space-y-12">
+  <Demo title="">
+    <CopyToClipboard text="Hello World!" />
+  </Demo>
+</div>
+
+## Usage
+
+
+```astro
+---
+import { CopyToClipboard } from '@yatoday/astro-ui/astro';
+---
+
+<CopyToClipboard text="Hello World!" />
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------------|------------|------------|------------| 
+    | `variant` | `default` \| `primary` \| `accent` \| `destructive` \| `outline` \| `ghost` \| `link` | `default` | - |
+    | `size` | `default` \| `sm` \| `lg` \| `icon` | `default` | - |
+    | `class` | `string` | - | - |
+  </div>
+</div>
