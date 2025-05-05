@@ -18,13 +18,13 @@ The Card component provides a versatile container for displaying related content
   <Demo title="">
     <ItemGrid0 columns={3} class="bg-stripe">
       <Card0>
-        
+
         <Fragment slot="badge">
           <div className="bg-stripe text-sm border p-1 rounded">
             <div className="text-foreground">Badge</div>
           </div>
         </Fragment>
-        
+
         <Fragment slot="image">
           <div className="bg-stripe text-sm border p-1 rounded">
             <div className="text-foreground text-center">Image</div>
@@ -47,6 +47,21 @@ import { Card0 } from '@yatoday/astro-ui/astro';
 <Card0>
   <Fragment slot="badge">Badge</Fragment>
   <Fragment slot="image">Image</Fragment>
+
+  Content
+</Card0>
+```
+
+### Svelte Usage
+
+```svelte
+<script>
+  import { Card0 } from '@yatoday/astro-ui/svelte';
+</script>
+
+<Card0>
+  <div slot="badge">Badge</div>
+  <div slot="image">Image</div>
 
   Content
 </Card0>
