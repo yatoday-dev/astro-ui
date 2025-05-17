@@ -10,4 +10,5 @@ export type LayoutProps = {
   openGraph?: MetaDataOpenGraph;
   twitter?: MetaDataTwitter;
   metadata?: MetaData;
+  class?: string;
 };
