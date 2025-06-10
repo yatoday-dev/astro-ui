@@ -6,6 +6,7 @@ export type WidgetWrapperProps = {
   ['as']?: HTMLTag;
   id?: string;
   isDark?: boolean;
+  isAfterContent?: boolean;
   bg?: string;
   classes?: Record<string, string | Record<string, string>>;
 };

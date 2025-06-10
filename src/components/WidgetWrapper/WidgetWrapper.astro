@@ -2,8 +2,9 @@
 import { twMerge } from 'tailwind-merge';
 import type { WidgetWrapperProps as Props } from './types';
 import Background from '../Background/Background.astro';
+import {cn} from "../../utils";
 
-const { id, isDark = false, class: className = '', containerClass = '', bg, as = 'section', ...rest } = Astro.props;
+const { id, isDark = false, class: className = '', containerClass = '', bg, as = 'section', isAfterContent = false, ...rest } = Astro.props;
 
 const WrapperTag = as;
 ---
@@ -19,8 +20,9 @@ const WrapperTag = as;
   <!-- WrapperTag: content -->
   <div
     class:list={[
-      twMerge(
-        'relative mx-auto max-w-7xl 2xl:max-w-[96rem] px-4 md:px-6 py-12 md:py-16 lg:py-20 text-default',
+      cn(
+        'relative mx-auto max-w-7xl 2xl:max-w-[96rem] px-4 md:px-6 text-default',
+        isAfterContent ? 'py-6 md:py-8' : 'py-12 md:py-16 lg:py-20',
         containerClass
       ),
       { dark: isDark },
