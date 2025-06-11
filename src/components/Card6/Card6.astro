@@ -1,0 +1,126 @@
+---
+import type {Card6Props as Props} from './types';
+import {Icon} from "astro-icon/components";
+import {twMerge} from 'tailwind-merge';
+import Card0 from '../Card0/Card0.astro';
+import Image from '../Image/Image.astro';
+import {cn} from '../../utils';
+
+const {
+  title = await Astro.slots.render('title'),
+  description,
+  callToAction = await Astro.slots.render('actions'),
+  image = await Astro.slots.render('image'),
+  classes = {},
+  as = 'article',
+  asHeader = 'h3',
+  badge = await Astro.slots.render('badge'),
+  widths = [800, 1600],
+  size = 800,
+  sizes = '(max-width: 1600px) 800px, 1600px'
+} = Astro.props;
+
+const WrapperHeaderTag = asHeader;
+
+const {
+  container: containerClass = '',
+  bg: bgClass = 'bg-gradient-to-b from-transparent to-black/80',
+  title: titleClass = '',
+  description: descriptionClass = '',
+  image: imageClass = '',
+  badge: badgeClass = 'top-2 left-2',
+} = classes;
+
+const urlForImage = Array.isArray(callToAction)
+  ? typeof callToAction[0] === 'string'
+    ? callToAction[0]
+    : (callToAction[0] as { href?: string })?.href
+  : typeof callToAction === 'string'
+    ? callToAction
+    : (callToAction as { href?: string })?.href;
+---
+
+<Card0
+  as={as}
+  classes={{
+    container: twMerge(containerClass, 'bg-transparent border-transparent text-inherit justify-start py-0 @container'),
+    badge: badgeClass,
+  }}
+>
+  <Fragment slot="image">
+    {
+      image && (
+        <div
+          class={cn('w-full h-full aspect-square overflow-hidden rounded-lg bg-gray-400 dark:bg-zinc-700 ', imageClass)}
+        >
+          {urlForImage ? (
+            <a href={urlForImage} class="group">
+              {typeof image === 'string' ? (
+                <Fragment set:html={image}/>
+              ) : (
+                <Image
+                  class={twMerge('w-full h-full group-hover:scale-105 transition duration-300')}
+                  widths={widths}
+                  width={size}
+                  height={size}
+                  sizes={sizes}
+                  layout="cover"
+                  loading="lazy"
+                  decoding="async"
+                  {...image}
+                />
+              )}
+              <span class="absolute inset-0 z-10"></span>
+            </a>
+          ) : (
+            <Fragment>
+              {typeof image === 'string' ? (
+                <Fragment set:html={image}/>
+              ) : (
+                <Image
+                  class={twMerge('w-full h-full')}
+                  widths={widths}
+                  width={size}
+                  height={size}
+                  sizes={sizes}
+                  layout="cover"
+                  loading="lazy"
+                  decoding="async"
+                  {...image}
+                />
+              )}
+            </Fragment>
+          )}
+        </div>
+      )
+    }
+  </Fragment>
+
+  <div class="absolute bottom-0 w-full p-6 @2xl:p-10 pt-8 @2xl:pt-12">
+    <div class={cn("absolute inset-0", bgClass)}></div>
+
+    {badge && (
+      <div class="relative" set:html={badge}></div>)}
+
+    <WrapperHeaderTag
+      class={cn('font-bold text-lg @lg:text-xl @2xl:text-2xl relative', urlForImage && 'group-hover:underline', titleClass)}>
+      {title}
+    </WrapperHeaderTag>
+
+    <div class={cn('text-sm @lg:text-base @2xl:text-lg mt-2 relative', descriptionClass)}>
+      <slot/>
+      {description}
+    </div>
+
+    {urlForImage && (
+      <div class="size-6 overflow-hidden mt-4 relative">
+        <div
+          class="grid grid-cols-2 w-12 gap-2 duration-400 transition-transform -translate-x-7 group-hover:translate-x-0">
+          <Icon name="tabler:arrow-right" class="size-6"/>
+          <Icon name="tabler:arrow-right" class="size-6"/>
+        </div>
+      </div>
+    )}
+
+  </div>
+</Card0>

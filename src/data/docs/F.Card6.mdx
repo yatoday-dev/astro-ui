@@ -1,0 +1,101 @@
+---
+title: Card6
+category: W.Feature
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import Card6 from '~/components/Card6/Card6.astro';
+import ItemGrid0 from '~/components/ItemGrid0/ItemGrid0.astro';
+
+# Card6
+
+<SourceLink name="Card6" />
+
+The Card component provides a versatile container for displaying related content. It uses semantic HTML and ensures proper heading structure and content organization.
+
+<div className="space-y-12">
+  <Demo title="">
+    <ItemGrid0 columns={3} class="bg-stripe ">
+      <div className="text-white">
+        <Card6
+          title="Card 6.1"
+          description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+          image={{ src: '~/assets/images/800x800.svg', alt: 'Card 6.1' }}
+          callToAction={{ href: '/' }}
+          badge="Badge"
+        />
+      </div>
+      <div className="text-white">
+        <Card6
+          title="Card 6.1"
+          description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+          image={{ src: '~/assets/images/800x800.svg', alt: 'Card 6.1' }}
+          callToAction={{ href: '/' }}
+          badge="Badge"
+        />
+      </div>
+      <div className="text-white">
+        <Card6
+          title="Card 6.1"
+          description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+          image={{ src: '~/assets/images/800x800.svg', alt: 'Card 6.1' }}
+          callToAction={{ href: '/' }}
+          badge="Badge"
+        />
+      </div>
+    </ItemGrid0>
+  </Demo>
+</div>
+
+```astro
+---
+import { Card6 } from '@yatoday/astro-ui/astro';
+---
+<ItemGrid0 columns={3} class="bg-stripe ">
+  <div className="text-white">
+    <Card6
+      title="Card 6.1"
+      description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+      image={{ src: '~/assets/images/800x800.svg', alt: 'Card 6.1' }}
+      callToAction={{ href: '/' }}
+      badge="Badge"
+    />
+  </div>
+  <div className="text-white">
+    <Card6
+      title="Card 6.1"
+      description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+      image={{ src: '~/assets/images/800x800.svg', alt: 'Card 6.1' }}
+      callToAction={{ href: '/' }}
+      badge="Badge"
+    />
+  </div>
+  <div className="text-white">
+    <Card6
+      title="Card 6.1"
+      description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+      image={{ src: '~/assets/images/800x800.svg', alt: 'Card 6.1' }}
+      callToAction={{ href: '/' }}
+      badge="Badge"
+    />
+  </div>
+</ItemGrid0>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------|------|---------|-------------|
+    | `title` | `string` | - | Title text for the card |
+    | `description` | `string` | - | Content for the card |
+    | `callToAction` | `ToAction \| string \| ToAction[] \| string[]` | - | Action button or link. See the [ToAction](/docs/types#action-buttons) for details.  |
+    | `as` | `string` | `article` | HTML tag name for the wrapper |
+    | `asHeader` | `string` | `h3` | HTML tag name for the title |
+    | `classes.container` | `string` | `bg-transparent border-transparent` | Additional CSS classes to apply to the card wrapper |
+    | `classes.title` | `string` | - | Additional CSS classes to apply to the title |
+    | `classes.description` | `string` | `text-muted-foreground` | Additional CSS classes to apply to the description |
+  </div>
+</div>
