@@ -1,0 +1,129 @@
+---
+title: ItemGrid1
+category: W.Feature
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import ItemGrid1 from '~/components/ItemGrid1/ItemGrid1.astro';
+import Card6 from '~/components/Card6/Card6.astro';
+
+# ItemGrid1
+
+<SourceLink name="ItemGrid1" />
+
+A flexible and responsive grid layout component designed for displaying up to 5 items in a dynamic grid pattern. The component automatically adjusts its layout based on the number of columns specified and the available space.
+
+<Demo class="mb-12">
+  <ItemGrid1 class="p-6">
+    <Card6
+      title='Card 6.1'
+      image={{ src: '~/assets/images/800x800.svg', alt: 'Card 6.1' }}
+      callToAction={{ href: '#' }}
+      badge="Badge"
+      classes={{ aspect: 'pb-[116%]' }}
+    />
+    <Card6
+      title='Card 6.2'
+      image={{ src: '~/assets/images/800x800.svg', alt: 'Card 6.1' }}
+      callToAction={{ href: '#' }}
+      classes={{ aspect: 'pb-[100%]' }}
+    />
+    <Card6
+      title='Card 6.3'
+      image={{ src: '~/assets/images/800x800.svg', alt: 'Card 6.1' }}
+      callToAction={{ href: '#' }}
+      classes={{ aspect: 'pb-[133%]' }}
+    />
+    <Card6
+      title='Card 6.4'
+      image={{ src: '~/assets/images/800x800.svg', alt: 'Card 6.1' }}
+      callToAction={{ href: '#' }}
+      classes={{ aspect: 'pb-[133%]' }}
+    />
+    <Card6
+      title="Card 6.5"
+      callToAction={{ href: '/' }}
+      classes={{ container: 'bg-fuchsia-200 dark:bg-fuchsia-800' }}
+    />
+  </ItemGrid1>
+</Demo>
+
+
+```astro
+---
+import { ItemGrid1, Card6 } from '@yatoday/astro-ui/astro';
+---
+
+<ItemGrid1 class="p-6">
+  <Card6
+    title='Card 6.1'
+    image={{ src: '~/assets/images/800x800.svg', alt: 'Card 6.1' }}
+    callToAction={{ href: '#' }}
+    badge="Badge"
+    classes={{ aspect: 'pb-[116%]' }}
+  />
+  <Card6
+    title='Card 6.2'
+    image={{ src: '~/assets/images/800x800.svg', alt: 'Card 6.1' }}
+    callToAction={{ href: '#' }}
+    classes={{ aspect: 'pb-[100%]' }}
+  />
+  <Card6
+    title='Card 6.3'
+    image={{ src: '~/assets/images/800x800.svg', alt: 'Card 6.1' }}
+    callToAction={{ href: '#' }}
+    classes={{ aspect: 'pb-[133%]' }}
+  />
+  <Card6
+    title='Card 6.4'
+    image={{ src: '~/assets/images/800x800.svg', alt: 'Card 6.1' }}
+    callToAction={{ href: '#' }}
+    classes={{ aspect: 'pb-[133%]' }}
+  />
+  <Card6
+    title="Card 6.5"
+    callToAction={{ href: '/' }}
+    classes={{ container: 'bg-fuchsia-200 dark:bg-fuchsia-800' }}
+  />
+</ItemGrid1>
+```
+
+
+<Demo title="With different number of items">
+  {Array.from({ length: 5 }, (_, a) => a).map((a) => (
+    <>
+      <div className="text-gray-500 text-center">{5-a} items</div>
+      <ItemGrid1 class="p-6">
+        {Array.from({ length: 5-a }, (_, i) => i).map((i) => (
+          <div className="grid place-content-center rounded-sm bg-slate-100 dark:bg-zinc-800 py-12">{i + 1}</div>
+        ))}
+      </ItemGrid1>
+    </>
+  ))}
+</Demo>
+
+```astro
+---
+import { ItemGrid1, Card6 } from '@yatoday/astro-ui/astro';
+---
+
+<ItemGrid1 class="p-6">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+</ItemGrid1>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description | 
+    |-----------|------------|------------|------------| 
+    | `class` | `string` | - | Additional CSS classes to apply to the container | 
+    | `variant` | `0` \| `1` \| `2` | `0` |  |
+  </div>
+</div>
