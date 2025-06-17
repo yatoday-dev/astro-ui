@@ -3,6 +3,7 @@ import type { Image } from '../../types';
 
 export type WidgetFeaturesCardProps = {
   via?: any;
+  viaGrid?: any;
   items?: any[];
   columns?: number;
   image?: Image | string;

@@ -9,6 +9,7 @@ import { cn } from '../../utils';
 
 const {
   via = Card1,
+  viaGrid = ItemGrid0,
 
   title = await Astro.slots.render('title'),
   subtitle = await Astro.slots.render('subtitle'),
@@ -26,6 +27,7 @@ const {
 } = Astro.props;
 
 const Component = via;
+const ComponentGrid = viaGrid;
 ---
 
 <WidgetWrapper
@@ -70,7 +72,7 @@ const Component = via;
     )
   }
 
-  <ItemGrid0 columns={columns} class={classes?.grid && ''}>
-    {items && items.map((item) => <Component {...item} classes={classes?.card as Record<string, string>} />)}
-  </ItemGrid0>
+  <ComponentGrid columns={columns} class={classes?.grid && ''}>
+    {items && items.map((item) => <Component {...item} classes={Object.assign({}, classes?.card || {}, item?.classes || {}) as Record<string, string>}/>)}
+  </ComponentGrid>
 </WidgetWrapper>
