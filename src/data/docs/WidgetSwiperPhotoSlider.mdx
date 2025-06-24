@@ -18,6 +18,11 @@ import WidgetSwiperPhotoSlider from '~/components/WidgetSwiperPhotoSlider/Widget
     title="More ideas and inspiration"
     subtitle="Embark on a design journey that surpasses pixels, entering a realm of imagination."
     imagesFolder="portfolio_01"
+    callToAction={{
+      text: 'View all',
+      href: '/',
+      icon: 'tabler:chevron-right',
+    }}
   />
 </Demo>
 
@@ -51,7 +56,14 @@ import { WidgetSwiperPhotoSlider } from '@yatoday/astro-ui/astro';
 ---
 
 <!-- All images in the directory /src/assets/images/folder_01 will be added to the gallery -->
-<WidgetSwiperPhotoSlider imagesFolder="folder_01" />
+<WidgetSwiperPhotoSlider 
+  imagesFolder="folder_01"
+  callToAction={{
+    text: 'Read all',
+    href: '/',
+    icon: 'tabler:chevron-right',
+  }}
+/>
 ```
 
 ## Props
@@ -64,6 +76,7 @@ import { WidgetSwiperPhotoSlider } from '@yatoday/astro-ui/astro';
   | `title` | `string` | - | `Title` prop in [Headline](/docs/headline) component |
   | `subtitle` | `string` | - | `Subtitle` prop in [Headline](/docs/headline) component |
   | `tagline` | `string` | - | `Tagline` prop in [Headline](/docs/headline) component |
+  | `callToAction` | `ToAction \| string \| ToAction[] \| string[]` | - | Action button or link. See the [ToAction](/docs/types#action-buttons) for details.  |
   | `isAfterContent` | `boolean` | `false` | - |
   | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the [WidgetWrapper](/docs/feature-widget-wrapper) |
   | `bg` | `string` | - | Set background element |
