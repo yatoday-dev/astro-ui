@@ -45,7 +45,7 @@ const ComponentGrid = viaGrid;
     classes={classes?.headline as Record<string, string>}
     position={position}
   />
-
+  
   {
     image && (
       <div aria-hidden="true" class={cn('aspect-w-16 aspect-h-7 mb-6')}>
@@ -71,6 +71,8 @@ const ComponentGrid = viaGrid;
       </div>
     )
   }
+
+  <slot />
 
   <ComponentGrid columns={columns} class={classes?.grid && ''}>
     {items && items.map((item) => <Component {...item} classes={Object.assign({}, classes?.card || {}, item?.classes || {}) as Record<string, string>}/>)}
