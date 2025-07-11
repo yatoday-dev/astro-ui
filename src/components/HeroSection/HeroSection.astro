@@ -1,7 +1,6 @@
 ---
 import type { HeroSectionProps as Props } from './types';
 
-import { twMerge } from 'tailwind-merge';
 import Image from '../Image/Image.astro';
 import Button from '../Button/Button.astro';
 import { cn } from '../../utils';
@@ -25,8 +24,10 @@ const urlForImage = Array.isArray(callToAction)
 
 const {
   container: containerClass = 'h-96',
+  start: startClass = 'w-full',
+  end: endClass = 'w-full',
   image: imageClass = '',
-  content: contentClass = '',
+  content: contentClass = 'md:px-12 lg:px-20 xl:px-24',
   title: titleClass = '',
   description: descriptionClass = '',
   action: actionClass = '',
@@ -36,25 +37,24 @@ const WrapperHeaderTag = asHeader;
 ---
 
 <div
-  class={twMerge(
-    'swiper-slide overflow-hidden bg-zinc-700 text-zinc-200 dark:bg-card dark:text-card-foreground',
+  class={cn(
+    'overflow-hidden bg-zinc-700 text-zinc-200 dark:bg-card dark:text-card-foreground',
     containerClass
   )}
 >
-  <div class="slide flex flex-col-reverse justify-between md:flex-row h-full">
-    <div class="w-full flex items-center justify-center">
-      <div class={twMerge('p-6 md:px-12 lg:px-20 xl:px-24 w-full h-full md:h-auto', contentClass)}>
-        <slot />
+  <div class="flex flex-col-reverse justify-between md:flex-row h-full">
+    <div class={cn("flex items-center justify-center", startClass)}>
+      <div class={cn('p-6 w-full h-full md:h-auto', contentClass)}>
         {
           title && description && (
-            <div class="flex flex-col h-full justify-between">
+            <div class="flex flex-col h-full">
               <div class="mb-6">
                 <WrapperHeaderTag
-                  class={twMerge('text-base md:text-lg xl:text-2xl font-medium md:font-semibold mb-2', titleClass)}
+                  class={cn('text-base md:text-lg xl:text-2xl font-medium md:font-semibold mb-2', titleClass)}
                 >
                   {title}
                 </WrapperHeaderTag>
-                <p class={twMerge('text-sm md:text-base xl:text-lg', descriptionClass)}>{description}</p>
+                <p class={cn('text-sm md:text-base xl:text-lg', descriptionClass)}>{description}</p>
               </div>
 
               {callToAction && (
@@ -83,9 +83,11 @@ const WrapperHeaderTag = asHeader;
             </div>
           )
         }
+
+        <slot />
       </div>
     </div>
-    <div class="w-full md:h-auto">
+    <div class={cn("md:h-auto", endClass)}>
       {
         image && (
           <Fragment>
@@ -95,7 +97,7 @@ const WrapperHeaderTag = asHeader;
                   <Fragment set:html={image} />
                 ) : (
                   <Image
-                    class={twMerge('w-full md:h-full bg-gray-400 dark:bg-slate-700', imageClass)}
+                    class={cn('w-full md:h-full bg-gray-400 dark:bg-slate-700', imageClass)}
                     widths={[400, 900]}
                     width={400}
                     height={400}
@@ -113,7 +115,7 @@ const WrapperHeaderTag = asHeader;
                   <Fragment set:html={image} />
                 ) : (
                   <Image
-                    class={twMerge('w-full h-full')}
+                    class={cn('w-full h-full')}
                     widths={[400, 900]}
                     width={400}
                     height={400}

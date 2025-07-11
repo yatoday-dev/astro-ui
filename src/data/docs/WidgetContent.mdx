@@ -11,46 +11,101 @@ import WidgetContent from '~/components/WidgetContent/WidgetContent.astro';
 
 <SourceLink name="WidgetContent" />
 
-.
+<div className="mt-6 space-y-12">
 
-<Demo title="">
-  <WidgetContent
-    title="Elevating visual narratives"
-    subtitle="Embark on a design journey that surpasses pixels, entering a realm of imagination. Explore my portfolio, where passion and creativity converge to shape enthralling visual narratives."
-    isReversed
-    items={[
-      {
-        title: 'Description:',
-        description:
-          'Developed a comprehensive brand identity for a tech startup, Tech Innovators, specializing in disruptive innovations. The goal was to convey a modern yet approachable image that resonated with both corporate clients and tech enthusiasts.',
-      },
-      {
-        title: 'Role:',
-        description:
-          'Led the entire branding process from concept to execution. Created a dynamic logo that symbolized innovation, selected a vibrant color palette, and I designed corporate stationery, website graphics, and social media assets.',
-      },
-    ]}
-    image={{
-      src: '~/assets/images/800x800.svg',
-      alt: 'Tech Design Image',
-    }}
-    callToAction={{
-      target: '_blank',
-      text: 'Go to the project',
-      icon: 'tabler:chevron-right',
-      href: '#',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        Project 1: 
-        <br />
-        <span class="text-2xl">Brand identity for tech innovators</span>
-      </h3>
-    </Fragment>
-  </WidgetContent>
-</Demo>
+  <Demo title="">
+    <WidgetContent
+      title="Elevating visual narratives"
+      subtitle="Embark on a design journey that surpasses pixels, entering a realm of imagination. Explore my portfolio, where passion and creativity converge to shape enthralling visual narratives."
+      isReversed
+      items={[
+        {
+          title: 'Description:',
+          description:
+            'Developed a comprehensive brand identity for a tech startup, Tech Innovators, specializing in disruptive innovations. The goal was to convey a modern yet approachable image that resonated with both corporate clients and tech enthusiasts.',
+        },
+        {
+          title: 'Role:',
+          description:
+            'Led the entire branding process from concept to execution. Created a dynamic logo that symbolized innovation, selected a vibrant color palette, and I designed corporate stationery, website graphics, and social media assets.',
+        },
+      ]}
+      image={{
+        src: '~/assets/images/800x800.svg',
+        alt: 'Tech Design Image',
+      }}
+      callToAction={{
+        target: '_blank',
+        text: 'Go to the project',
+        icon: 'tabler:chevron-right',
+        href: '#',
+      }}
+    >
+      <Fragment slot="content">
+        <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+          Project 1: 
+          <br />
+          <span class="text-2xl">Brand identity for tech innovators</span>
+        </h3>
+      </Fragment>
+    </WidgetContent>
+  </Demo>
 
+  <Demo title="With points">
+    <WidgetContent
+      isReversed
+      points={[
+        {
+          isPopupOpen: true,
+          x: 25,
+          y: 30,
+          title: "Title 1",
+          description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+          callToAction: { href: '/', text: 'Read more', size: 'sm', variant: 'primary' }
+        },
+        {
+          x: 75,
+          y: 45,
+          title: "Title 2",
+          description: "Aliquam asperiores aspernatur delectus eligendi et harum, iure libero mollitia odio omnis quaerat velit veniam, veritatis."
+        },
+        {
+          x: 50,
+          y: 70,
+          title: "Title 3",
+          description: "Aspernatur delectus eligendi et harum, iure libero mollitia odio omnis quaerat velit veniam, veritatis."
+        },
+        {
+          x: 85,
+          y: 20,
+          title: "Title 4",
+          description: "Lorem ipsum dolor sit amet, consectetur adipisicinglibero mollitia odio omnis quaerat velit veniam, veritatis."
+        },
+        {
+          x: 15,
+          y: 60,
+          title: "Title 5",
+          description: " Lorem ipsum dolor sit amet, consectetur harum, iure libero mollitia odio omnis quaerat velit veniam, veritatis.  "
+        }
+      ]}
+      image={{
+        src: '~/assets/images/800x800.svg',
+        alt: 'Tech Design Image',
+      }}
+      callToAction={{
+        target: '_blank',
+        text: 'Go to the project',
+        icon: 'tabler:chevron-right',
+        href: '#',
+      }}
+    >
+      <Fragment slot="content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias assumenda autem distinctio dolor dolore fuga illum ipsa iste, minima, necessitatibus numquam perspiciatis provident quas quis, quos voluptas voluptate voluptatum? Dignissimos!</p>
+      </Fragment>
+    </WidgetContent>
+  </Demo>
+
+</div>
 ```astro
 ---
 import { WidgetContent } from '@yatoday/astro-ui/astro';
@@ -113,8 +168,11 @@ import { WidgetContent } from '@yatoday/astro-ui/astro';
     | `bg` | `string` | - | Set background element |
     | `classes.container` | `string` | - | CSS classes for the root container |
     | `classes.content` | `string` | - | - |
+    | `classes.start` | `string` | - | - |
+    | `classes.end` | `string` | - | - |
     | `classes.headline.{...}` | `string` | - | CSS classes for the [Headline](/docs/headline) component |
     | `classes.items.{...}` | `Object` | - | CSS classes for the [Stats 0](/docs/feature-stats-0) component |
+    | `classes.points.{...}` | `Object` | - | CSS classes for the [Stats 0](/docs/fpointmap) component |
   </div>
 </div>
 

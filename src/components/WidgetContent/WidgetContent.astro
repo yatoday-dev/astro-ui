@@ -6,6 +6,7 @@ import ItemGrid0 from '../ItemGrid0/ItemGrid0.astro';
 import Card4 from '../Card4/Card4.astro';
 import Button from '../Button/Button.astro';
 import Image from '../Image/Image.astro';
+import PointMap from '../PointMap/PointMap.astro';
 import { cn } from '../../utils';
 
 const {
@@ -15,6 +16,8 @@ const {
   content = await Astro.slots.render('content'),
   callToAction,
   items = [],
+  points = [],
+  pointsDisplayMode = 'always',
   columns,
   image = await Astro.slots.render('image'),
   isReversed = false,
@@ -31,7 +34,7 @@ const {
 <WidgetWrapper
   id={id}
   isDark={isDark}
-  containerClass={`${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container ?? ''}`}
+  containerClass={`${isAfterContent ? 'pt-4 md:pt-6 lg:pt-8' : ''} ${classes?.container ?? ''}`}
   bg={bg}
 >
   <Headline
@@ -43,7 +46,8 @@ const {
   />
 
   <div class={`md:flex ${isReversed ? 'md:flex-row-reverse' : ''} md:gap-16`}>
-    <div class="md:basis-1/2 self-center">
+    <div class={cn("md:basis-1/2 self-center", classes?.start ?? '')}>
+      <slot />
       {content && <div class={cn('mb-12 text-lg', classes?.content ?? '')} set:html={content} />}
 
       {
@@ -73,24 +77,26 @@ const {
         }
       </ItemGrid0>
     </div>
-    <div aria-hidden="true" class="mt-10 md:mt-0 md:basis-1/2">
+    <div aria-hidden="true" class={cn("mt-10 md:mt-0 md:basis-1/2", classes?.end ?? '')}>
       {
         image && (
-          <div class={cn('relative m-auto max-w-4xl', classes?.image ?? '')}>
-            {typeof image === 'string' ? (
-              <Fragment set:html={image} />
-            ) : (
-              <Image
-                class="mx-auto w-full rounded-lg shadow-lg"
-                width={500}
-                height={500}
-                widths={[400, 768]}
-                sizes="(max-width: 768px) 100vw, 432px"
-                layout="responsive"
-                {...image}
-              />
-            )}
-          </div>
+            <div class={cn('relative m-auto max-w-4xl', classes?.image ?? '')}>
+              <PointMap items={points} pointsDisplayMode={pointsDisplayMode} classes={{...((classes?.points as object) ?? {})}}>
+              {typeof image === 'string' ? (
+                <Fragment set:html={image} />
+              ) : (
+                <Image
+                  class="mx-auto w-full rounded-lg shadow-lg"
+                  width={500}
+                  height={500}
+                  widths={[400, 768]}
+                  sizes="(max-width: 768px) 100vw, 432px"
+                  layout="responsive"
+                  {...image}
+                />
+              )}
+              </PointMap>
+            </div>
         )
       }
     </div>
