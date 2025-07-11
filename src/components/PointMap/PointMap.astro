@@ -1,0 +1,326 @@
+---
+import type {PointMapProps as Props} from './types';
+import {cn, id} from "../../utils";
+import Card7 from '../Card7/Card7.astro';
+
+const {
+  via = Card7,
+  items = [],
+  pointsDisplayMode = 'always', // default to always visible
+  classes = {}
+} = Astro.props;
+
+const mapId = `map-${id()}`;
+
+const {
+  container: containerClass = '',
+  popup: popupClass = '',
+} = classes;
+
+const Component = via;
+---
+
+<div id={mapId} class={cn(`map-picker relative h-full w-full points-${pointsDisplayMode}`, containerClass)}>
+  {items.map((point, i) => (
+    <>
+      <!-- Hotspot point -->
+      <button
+        class="hotspot-point cursor-pointer"
+        style={`left: ${point.x}%; top: ${point.y}%; width: 24px; height: 24px; transform: translate(-50%, -50%);`}
+        data-index={i}
+        data-map-id={mapId}
+        aria-label={point.title}
+        {...(point.isPopupOpen ? { 'data-initially-open': '' } : {})}
+      >
+      </button>
+
+      <!-- Popup content (hidden by default) -->
+      <div
+        class={cn("popup-content absolute rounded-md shadow-lg z-10 max-w-xs hidden", popupClass)}
+        style={`left: ${point.x}%; top: ${point.y}%; transform: translate(${point.x > 50 ? '-100%' : '0'}, ${point.y > 50 ? '-100%' : '0'});`}
+        data-popup={i}
+        data-map-id={mapId}
+      >
+        <Component 
+          {...point}
+          classes={Object.assign({container: 'border-transparent dark:border-input'}, classes?.card || {}, point?.classes || {}) as Record<string, string>}
+        />
+      </div>
+    </>
+  ))}
+
+  <div class="w-full h-full">
+    <slot/>
+  </div>
+</div>
+
+<style>
+  .map-picker {
+    max-width: 100%;
+    display: block;
+  }
+
+  .popup-content {
+    width: 250px;
+    margin: 10px;
+    transition: all 200ms ease-in-out;
+  }
+
+  /* Points display modes */
+  .points-hover .hotspot-point {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 250ms ease-in-out, visibility 250ms ease-in-out;
+  }
+
+  .points-hover:hover .hotspot-point,
+  .points-hover .hotspot-point[data-initially-open] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .hotspot-point {
+    box-sizing: border-box;
+    transition: border-color 250ms ease-in-out, opacity 250ms ease-in-out, visibility 250ms ease-in-out;
+    transform: translateX(-1rem) translateY(-1rem) scale(0.999);
+    padding: 0;
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid rgba(223, 223, 223, 0.75);
+    background-clip: padding-box;
+    position: absolute;
+    background-color: rgba(17, 17, 17, 0.75);
+    border-radius: 64px;
+    line-height: .5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hotspot-point::before {
+    content: "";
+    position: absolute;
+    top: -0.5rem;
+    left: -0.5rem;
+    right: -0.5rem;
+    bottom: -0.5rem;
+    display: block;
+  }
+
+  .hotspot-point::after {
+    content: "";
+    position: relative;
+    display: block;
+    background: rgb(255, 255, 255);
+    box-shadow: 0 1px 4px rgba(17, 17, 17, 0.55);
+    width: .75rem;
+    height: .75rem;
+    border-radius: 64px;
+    transition: transform 250ms ease-in-out;
+  }
+
+  .hotspot-point:active, .hotspot-point:hover {
+    background-color: rgba(17, 17, 17, 0.9);
+  }
+
+  .hotspot-point:hover::after {
+    transform: scale(0.667);
+  }
+</style>
+
+<script>
+  interface PointCoordinates {
+    x: number;
+    y: number;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const POPUP_DATA_ATTRIBUTE = 'data-popup';
+    const MAP_ID_ATTRIBUTE = 'data-map-id';
+
+    // Initialize each map component separately
+    document.querySelectorAll('.map-picker').forEach(mapContainer => {
+      const mapId = mapContainer.id;
+      if (!mapId) return;
+
+      // Get all hotspot points and popups for this specific map
+      const hotspotPoints = document.querySelectorAll(`.hotspot-point[${MAP_ID_ATTRIBUTE}="${mapId}"]`);
+      const popups = document.querySelectorAll(`.popup-content[${MAP_ID_ATTRIBUTE}="${mapId}"]`) as NodeListOf<HTMLElement>;
+
+      if (!hotspotPoints.length || !popups.length) return;
+
+      // Check for initially open popups
+      hotspotPoints.forEach((point, index) => {
+        // Get the data attribute to check if the popup should be initially open
+        const isInitiallyOpen = point.hasAttribute('data-initially-open');
+        if (isInitiallyOpen) {
+          showPopup(index);
+        }
+      });
+
+      // Show a popup when hovering over a point
+      function showPopup(index: number) {
+        popups.forEach((popup: HTMLElement, i) => {
+          if (i === index) {
+            popup.classList.remove('hidden');
+
+            // Position correction for popups that don't fit within the container
+            // This is especially important for mobile devices with smaller screens
+            // where popups might extend beyond the visible area
+            const containerRect = mapContainer.getBoundingClientRect();
+            const popupRect = popup.getBoundingClientRect();
+
+            // Calculate offsets if popup extends beyond container
+            let offsetX = 0;
+            let offsetY = 0;
+
+            // Check horizontal overflow
+            if (popupRect.right > containerRect.right) {
+              offsetX = containerRect.right - popupRect.right - 10; // 10px padding
+            } else if (popupRect.left < containerRect.left) {
+              offsetX = containerRect.left - popupRect.left + 10; // 10px padding
+            }
+
+            // Check vertical overflow
+            if (popupRect.bottom > containerRect.bottom) {
+              offsetY = containerRect.bottom - popupRect.bottom - 10; // 10px padding
+            } else if (popupRect.top < containerRect.top) {
+              offsetY = containerRect.top - popupRect.top + 10; // 10px padding
+            }
+
+            // Apply position adjustment if needed
+            if (offsetX !== 0 || offsetY !== 0) {
+              // Get the point data to preserve the original positioning logic
+              const popupIndex = getPopupIndex(popup);
+              if (popupIndex === null) {
+                return;
+              }
+
+              const point = document.querySelector(`.hotspot-point[data-index="${popupIndex}"][${MAP_ID_ATTRIBUTE}="${mapId}"]`) as HTMLElement;
+              if (!point) return;
+              const coordinates = getPointCoordinates(point);
+              const translateX = coordinates.x > 50 ? '-100%' : '0';
+              const translateY = coordinates.y > 50 ? '-100%' : '0';
+
+              // Apply the original transform with additional pixel offsets for correction
+              popup.style.transform = `translate(${translateX}, ${translateY}) translate(${offsetX}px, ${offsetY}px)`;
+            }
+          } else {
+            popup.classList.add('hidden');
+          }
+        });
+      }
+
+      function getPointCoordinates(pointElement: HTMLElement): PointCoordinates {
+        return {
+          x: parseFloat(pointElement.style.left) || 0,
+          y: parseFloat(pointElement.style.top) || 0
+        };
+      }
+
+      function getPopupIndex(element: HTMLElement): number | null {
+        const rawIndex = element?.getAttribute(POPUP_DATA_ATTRIBUTE);
+        if (!rawIndex) {
+          return null;
+        }
+
+        const parsedIndex = parseInt(rawIndex, 10);
+        return isNaN(parsedIndex) ? null : parsedIndex;
+      }
+
+      function getPointIndex(element: Element): number | null {
+        const dataIndex = element.getAttribute('data-index');
+        if (!dataIndex) {
+          return null;
+        }
+        const index = parseInt(dataIndex, 10);
+        if (isNaN(index)) {
+          return null;
+        }
+        return index;
+      }
+
+      // Hide popup when the mouse leaves
+      function hidePopup() {
+        popups.forEach((popup: HTMLElement) => {
+          const index = getPopupIndex(popup);
+          if (index === null) return;
+
+          const point = document.querySelector(`.hotspot-point[data-index="${index}"][${MAP_ID_ATTRIBUTE}="${mapId}"]`);
+          if (!point) return;
+
+          // Only hide popups that aren't initially open
+          if (!point.hasAttribute('data-initially-open')) {
+            popup.classList.add('hidden');
+          }
+        });
+      }
+
+      // Hide all popups (including initially open ones)
+      function hideAllPopups() {
+        popups.forEach(popup => {
+          popup.classList.add('hidden');
+        });
+      }
+
+      // Add event listeners to hotspot points
+      hotspotPoints.forEach(point => {
+        const index = getPointIndex(point);
+        if (index === null) return;
+
+        point.addEventListener('mouseenter', () => {
+          // Hide all popups (including initially open ones) when hovering a new point
+          hideAllPopups();
+          showPopup(index);
+        });
+
+        point.addEventListener('mouseleave', () => {
+          hidePopup();
+        });
+
+        // Add click event to the toggle popup
+        point.addEventListener('click', (e) => {
+          e.preventDefault();
+          // Hide all popups first
+          hideAllPopups();
+          showPopup(index);
+        });
+      });
+
+      // Add an event listener to the container for mouseleave
+      mapContainer.addEventListener('mouseleave', () => {
+        // Hide all popups first
+        hideAllPopups();
+
+        // Show popups for points that should be initially open
+        hotspotPoints.forEach((point, index) => {
+          if (point.hasAttribute('data-initially-open')) {
+            showPopup(index);
+          }
+        });
+      });
+
+      // Add event listeners to popups to keep them visible when hovered
+      popups.forEach((popup: HTMLElement) => {
+        const index = getPopupIndex(popup);
+        if (index === null) return;
+
+        popup.addEventListener('mouseenter', () => {
+          showPopup(index);
+        });
+
+        popup.addEventListener('mouseleave', () => {
+          hidePopup(); // This will preserve initially open popups
+        });
+
+        // Add click event to close the popup
+        popup.addEventListener('click', (e) => {
+          // If the click is on the popup itself (not a child element), close it
+          if (e.target === popup) {
+            hideAllPopups();
+          }
+        });
+      });
+    });
+  });
+</script>

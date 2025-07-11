@@ -22,6 +22,16 @@ export type NameValue = {
   value?: string;
 };
 
+export type HotspotPoint = {
+  x: number; // percentage from the left (0-100)
+  y: number; // percentage from top (0-100)
+  title: string;
+  description: string;
+  isPopupOpen?: boolean; // whether the popup is open on initialization
+  classes?: Record<string, string>;
+  callToAction?: CallToAction;
+}
+
 export type Item = {
   title?: string;
   description?: string;

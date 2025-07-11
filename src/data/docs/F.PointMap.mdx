@@ -1,0 +1,157 @@
+---
+title: PointMap
+category: W.Feature
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import PointMap from "~/components/PointMap/PointMap.astro";
+import Image from "~/components/Image/Image.astro";
+
+# PointMap
+
+<SourceLink name="PointMap"/>
+
+The PointMap component allows you to create interactive maps with clickable points and popups. It's useful for creating image-based navigation or highlighting specific areas in images.
+
+<div className="space-y-12">
+  <Demo>
+    <PointMap
+      items={[
+        {
+          isPopupOpen: true,
+          x: 25,
+          y: 30,
+          title: "Title 1",
+          description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+          callToAction: { href: '/', text: 'Read more', size: 'sm', variant: 'primary' }
+        },
+        {
+          x: 75,
+          y: 45,
+          title: "Title 2",
+          description: "Aliquam asperiores aspernatur delectus eligendi et harum, iure libero mollitia odio omnis quaerat velit veniam, veritatis."
+        },
+        {
+          x: 50,
+          y: 70,
+          title: "Title 3",
+          description: "Aspernatur delectus eligendi et harum, iure libero mollitia odio omnis quaerat velit veniam, veritatis."
+        },
+        {
+          x: 85,
+          y: 20,
+          title: "Title 4",
+          description: "Lorem ipsum dolor sit amet, consectetur adipisicinglibero mollitia odio omnis quaerat velit veniam, veritatis."
+        },
+        {
+          x: 15,
+          y: 60,
+          title: "Title 5",
+          description: " Lorem ipsum dolor sit amet, consectetur harum, iure libero mollitia odio omnis quaerat velit veniam, veritatis.  "
+        }
+      ]}
+    >
+      <div className="h-96 w-full bg-stripe"></div>
+    </PointMap>
+  </Demo>
+
+  <Demo title="Image Background">
+    <PointMap
+      items={[
+        {
+          isPopupOpen: true,
+          x: 25,
+          y: 30,
+          title: "Title 1",
+          description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+          callToAction: { href: '/', text: 'Read more', size: 'sm', variant: 'primary' }
+        },
+        {
+          x: 75,
+          y: 45,
+          title: "Title 2",
+          description: "Aliquam asperiores aspernatur delectus eligendi et harum, iure libero mollitia odio omnis quaerat velit veniam, veritatis."
+        },
+        {
+          x: 50,
+          y: 70,
+          title: "Title 3",
+          description: "Aspernatur delectus eligendi et harum, iure libero mollitia odio omnis quaerat velit veniam, veritatis."
+        },
+        {
+          x: 85,
+          y: 20,
+          title: "Title 4",
+          description: "Lorem ipsum dolor sit amet, consectetur adipisicinglibero mollitia odio omnis quaerat velit veniam, veritatis."
+        },
+        {
+          x: 15,
+          y: 60,
+          title: "Title 5",
+          description: " Lorem ipsum dolor sit amet, consectetur harum, iure libero mollitia odio omnis quaerat velit veniam, veritatis.  "
+        }
+      ]}
+    >
+      <Image src="~/assets/images/pexels-helenalopesph-1015568.jpg"
+             alt="Image alt"/>
+    </PointMap>
+  </Demo>
+</div>
+
+```astro
+---
+import { PointMap } from '@yatoday/astro-ui/astro';
+---
+
+<PointMap
+  items={[
+    {
+      isPopupOpen: true,
+      x: 25,
+      y: 30,
+      title: "Title 1",
+      description: "Lorem ipsum dolor sit amet..."
+    },
+    {
+      x: 75,
+      y: 45,
+      title: "Title 2",
+      description: "Aliquam asperiores aspernatur..."
+    },
+    {
+      x: 50,
+      y: 70,
+      title: "Title 3",
+      description: "Aspernatur delectus eligendi et harum..."
+    },
+    {
+      x: 85,
+      y: 20,
+      title: "Title 4",
+      description: "Lorem ipsum dolor sit amet..."
+    },
+    {
+      x: 15,
+      y: 60,
+      title: "Title 5",
+      description: " Lorem ipsum dolor sit amet..."
+    }
+  ]}
+>
+  <div className="h-96 w-full"></div>
+</PointMap>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------------|------------|------------|------------|
+    | `items` | [HotspotPoint](/docs/types#hotspotpoint) [] | - | Array of data items |
+    | `via` | `Component` | `Card7` | Which card component should be used for rendering |
+    | `classes.container` | `string` | `h-96` | CSS classes for the wrapper container |
+    | `classes.card` | `Object` | - | CSS classes for the `Card{...}` component |
+  </div>
+</div>
