@@ -3,7 +3,7 @@ import type { BreadcrumbsProps as Props } from './types';
 
 import { Icon } from 'astro-icon/components';
 
-const { class: classNames = 'text-gray-600 dark:text-gray-400', ariaLabel = 'Breadcrumbs', items = [] } = Astro.props;
+const { class: classNames = '', ariaLabel = 'Breadcrumbs', items = [] } = Astro.props;
 ---
 
 <nav class:list={['breadcrumbs', classNames]} aria-label={ariaLabel}>
