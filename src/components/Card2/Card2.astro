@@ -27,8 +27,12 @@ const {
   content: contentClass = 'text-muted-foreground',
   icon: iconClass = '',
   image: imageClass = '',
+  imageLayout: imageLayout = 'cover',
   badge: badgeClass = 'top-2 left-2',
-} = classes;
+} = classes as {
+  // Ensure imageLayout is typed as the Layout union, not just string
+  imageLayout?: 'fixed' | 'constrained' | 'fullWidth' | 'cover' | 'responsive' | 'contained';
+} & Record<string, string>;
 ---
 
 <Card0
@@ -57,7 +61,7 @@ const {
               width={400}
               height={400}
               sizes="(max-width: 900px) 400px, 900px"
-              layout="cover"
+              layout={imageLayout}
               loading="lazy"
               decoding="async"
               {...image}

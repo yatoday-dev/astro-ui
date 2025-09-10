@@ -24,9 +24,13 @@ const {
   title: titleClass = '',
   description: descriptionClass = 'text-muted-foreground',
   image: imageClass = '',
+  imageLayout: imageLayout = 'cover',
   action: actionClass = '',
   badge: badgeClass = 'top-2 left-2',
-} = classes;
+} = classes as {
+  // Ensure imageLayout is typed as the Layout union, not just string
+  imageLayout?: 'fixed' | 'constrained' | 'fullWidth' | 'cover' | 'responsive' | 'contained';
+} & Record<string, string>;
 
 const urlForImage = Array.isArray(callToAction)
   ? typeof callToAction[0] === 'string'
@@ -62,7 +66,7 @@ const urlForImage = Array.isArray(callToAction)
                   width={400}
                   height={400}
                   sizes="(max-width: 900px) 400px, 900px"
-                  layout="cover"
+                  layout={imageLayout}
                   loading="lazy"
                   decoding="async"
                   {...image}
@@ -80,7 +84,7 @@ const urlForImage = Array.isArray(callToAction)
                   width={400}
                   height={400}
                   sizes="(max-width: 900px) 400px, 900px"
-                  layout="cover"
+                  layout={imageLayout}
                   loading="lazy"
                   decoding="async"
                   {...image}

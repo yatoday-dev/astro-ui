@@ -28,9 +28,13 @@ const {
   title: titleClass = '',
   description: descriptionClass = '',
   image: imageClass = '',
+  imageLayout: imageLayout = 'cover',
   badge: badgeClass = 'top-2 left-2',
   aspect: aspectClass = 'pb-[100%]',
-} = classes;
+} = classes as {
+  // Ensure imageLayout is typed as the Layout union, not just string
+  imageLayout?: 'fixed' | 'constrained' | 'fullWidth' | 'cover' | 'responsive' | 'contained';
+} & Record<string, string>;
 
 const urlForImage = Array.isArray(callToAction)
   ? typeof callToAction[0] === 'string'
@@ -102,7 +106,7 @@ const LinkWrapperTag = urlForImage ? 'a' : 'div';
               width={size}
               height={size}
               sizes={sizes}
-              layout="cover"
+              layout={imageLayout}
               loading="lazy"
               decoding="async"
               {...image}
