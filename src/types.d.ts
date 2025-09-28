@@ -1,4 +1,7 @@
 // Utility Types
+import type {HTMLAttributes} from "astro/types";
+import type {ImageMetadata} from "astro";
+
 export type ClassValue = ClassArray | ClassDictionary | string | number | bigint | null | boolean | undefined;
 export type ClassDictionary = Record<string, any>;
 export type ClassArray = ClassValue[];
@@ -47,6 +50,23 @@ export type Image = {
   alt?: string;
   aspectRatio?: string;
   class?: string;
+} & Omit<HTMLAttributes<'img'>, 'src'> & {
+  src?: string | ImageMetadata | null;
+  width?: string | number | null;
+  height?: string | number | null;
+  alt?: string | null;
+  loading?: 'eager' | 'lazy' | null;
+  decoding?: 'sync' | 'async' | 'auto' | null;
+  class?: string;
+  style?: string;
+  srcset?: string | null;
+  sizes?: string | null;
+  fetchpriority?: 'high' | 'low' | 'auto' | null;
+  layout?: Layout;
+  widths?: number[] | null;
+  aspectRatio?: string | number | null;
+  objectPosition?: string;
+  format?: string;
 };
 
 export type Testimonial = {

@@ -25,6 +25,24 @@ The Card component provides a versatile container for displaying related content
           </div>
         </Fragment>
 
+        <Fragment slot="badgeTopRight">
+          <div className="bg-stripe text-sm border p-1 rounded">
+            <div className="text-foreground">Badge Top Right</div>
+          </div>
+        </Fragment>
+
+        <Fragment slot="badgeBottomRight">
+          <div className="bg-stripe text-sm border p-1 rounded">
+            <div className="text-foreground">Badge Bottom Right</div>
+          </div>
+        </Fragment>
+
+        <Fragment slot="badgeBottomLeft">
+          <div className="bg-stripe text-sm border p-1 rounded">
+            <div className="text-foreground">Badge Bottom Left</div>
+          </div>
+        </Fragment>
+
         <Fragment slot="image">
           <div className="bg-stripe text-sm border p-1 rounded">
             <div className="text-foreground text-center">Image</div>
@@ -76,5 +94,8 @@ import { Card0 } from '@yatoday/astro-ui/astro';
     | `as` | `string` | `article` | HTML tag name for the wrapper | 
     | `classes.container` | `string` | - | Additional CSS classes to apply to the card wrapper |
     | `classes.badge` | `string` | - | Additional CSS classes to apply to the badge container |
+    | `classes.badgeTopRight` | `string` | - | Additional CSS classes to apply to the badgeTopRight container |
+    | `classes.badgeBottomRight` | `string` | - | Additional CSS classes to apply to the badgeBottomRight container |
+    | `classes.badgeBottomLeft` | `string` | - | Additional CSS classes to apply to the badgeBottomLeft container |
   </div>
 </div>

@@ -9,5 +9,8 @@ export type Card0Props = {
   content?: string;
   ['as']?: HTMLTag;
   badge?: string;
+  badgeTopRight?: string;
+  badgeBottomRight?: string;
+  badgeBottomLeft?: string;
   classes?: Record<string, string>;
 };
