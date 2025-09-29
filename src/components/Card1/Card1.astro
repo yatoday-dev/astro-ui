@@ -19,6 +19,9 @@ const {
   as = 'article',
   asHeader = 'h3',
   badge = await Astro.slots.render('badge'),
+  badgeTopRight = await Astro.slots.render('badgeTopRight'),
+  badgeBottomRight = await Astro.slots.render('badgeBottomRight'),
+  badgeBottomLeft = await Astro.slots.render('badgeBottomLeft'),
 } = Astro.props;
 
 const WrapperHeaderTag = asHeader;
@@ -48,14 +51,36 @@ const urlForImage = Array.isArray(callToAction)
 <Card0
   as={as}
   badge={badge}
+  badgeTopRight={badgeTopRight}
+  badgeBottomRight={badgeBottomRight}
+  badgeBottomLeft={badgeBottomLeft}
   classes={{
     content: 'space-y-6',
+    badge: classes?.badge,
+    badgeTopRight: classes?.badgeTopRight,
   }}
 >
   <Fragment slot="image">
     {
       image && (
-        <div class={twMerge('w-full overflow-hidden -mt-6 h-60 bg-gray-400 dark:bg-zinc-700', imageClass)}>
+        <div class={twMerge('relative w-full overflow-hidden -mt-6 h-60 bg-gray-400 dark:bg-zinc-700', imageClass)}>
+
+          {(Astro.slots.has('badgeBottomRight') || badgeBottomRight) && (
+            <div class={twMerge('absolute z-10 bottom-2 right-2', classes?.badgeBottomRight)}>
+              <slot name="badgeBottomRight">
+                {badgeBottomRight && <span set:html={badgeBottomRight}/>}
+              </slot>
+            </div>
+          )}
+
+          {(Astro.slots.has('badgeBottomLeft') || badgeBottomLeft) && (
+            <div class={twMerge('absolute z-10 bottom-2 left-2', classes?.badgeBottomLeft)}>
+              <slot name="badgeBottomLeft">
+                {badgeBottomLeft && <span set:html={badgeBottomLeft}/>}
+              </slot>
+            </div>
+          )}
+          
           {urlForImage ? (
             <a href={urlForImage} class="group">
               {typeof image === 'string' ? (

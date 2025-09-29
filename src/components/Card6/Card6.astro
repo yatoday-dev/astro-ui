@@ -15,6 +15,9 @@ const {
   as = 'article',
   asHeader = 'h3',
   badge = await Astro.slots.render('badge'),
+  badgeTopRight = await Astro.slots.render('badgeTopRight'),
+  badgeBottomRight = await Astro.slots.render('badgeBottomRight'),
+  badgeBottomLeft = await Astro.slots.render('badgeBottomLeft'),
   widths = [800, 1600],
   size = 800,
   sizes = '(max-width: 1600px) 800px, 1600px'
@@ -49,9 +52,13 @@ const LinkWrapperTag = urlForImage ? 'a' : 'div';
 
 <Card0
   as={as}
+  badgeTopRight={badgeTopRight}
+  badgeBottomRight={badgeBottomRight}
+  badgeBottomLeft={badgeBottomLeft}
   classes={{
     container: cn('relative h-full bg-gray-200 dark:bg-zinc-700 border-transparent text-inherit justify-start py-0 @container', containerClass),
     badge: badgeClass,
+    badgeTopRight: classes?.badgeTopRight,
   }}
 >
   <!-- Content & link -->
@@ -59,6 +66,22 @@ const LinkWrapperTag = urlForImage ? 'a' : 'div';
     <div class={cn("p-6 @2xl:p-10 pt-8 @2xl:pt-12", contentClass, !image && 'bg-transparent')}>
       {badge && (
         <div class="" set:html={badge}></div>)}
+      
+      {(Astro.slots.has('badgeBottomRight') || badgeBottomRight) && (
+        <div class={twMerge('absolute z-10 bottom-2 right-2', classes?.badgeBottomRight)}>
+          <slot name="badgeBottomRight">
+            {badgeBottomRight && <span set:html={badgeBottomRight}/>}
+          </slot>
+        </div>
+      )}
+
+      {(Astro.slots.has('badgeBottomLeft') || badgeBottomLeft) && (
+        <div class={twMerge('absolute z-10 bottom-2 left-2', classes?.badgeBottomLeft)}>
+          <slot name="badgeBottomLeft">
+            {badgeBottomLeft && <span set:html={badgeBottomLeft}/>}
+          </slot>
+        </div>
+      )}
 
       <WrapperHeaderTag
         class={cn('font-bold text-lg @lg:text-xl @2xl:text-2xl ', urlForImage && 'group-hover:underline', titleClass)}>

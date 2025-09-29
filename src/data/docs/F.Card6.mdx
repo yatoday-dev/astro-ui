@@ -38,6 +38,9 @@ The Card component provides a versatile container for displaying related content
         description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
         callToAction={{ href: '/' }}
         classes={{container: 'dark:text-white text-slate-800'}}
+        badgeBottomLeft="Bg: Bottom-Left"
+        badgeTopRight="Bg: Top-Right"
+        badgeBottomRight="Bg: Bottom-Right"
       />
     </ItemGrid0>
   </Demo>
@@ -74,6 +77,9 @@ import { ItemGrid0, Card6 } from '@yatoday/astro-ui/astro';
     description="Lorem ipsum dolor sit amet, consectetur adipisicing elit."
     callToAction={{ href: '/' }}
     classes={{container: 'dark:text-white text-slate-800'}}
+    badgeBottomLeft="Bg: Bottom-Left"
+    badgeTopRight="Bg: Top-Right"
+    badgeBottomRight="Bg: Bottom-Right" 
   />
 </ItemGrid0>
 ```
@@ -89,6 +95,10 @@ import { ItemGrid0, Card6 } from '@yatoday/astro-ui/astro';
     | `callToAction` | `ToAction \| string \| ToAction[] \| string[]` | - | Action button or link. See the [ToAction](/docs/types#action-buttons) for details.  |
     | `as` | `string` | `article` | HTML tag name for the wrapper |
     | `asHeader` | `string` | `h3` | HTML tag name for the title |
+    | `badge` | `string` | - | `badge` slot contents |
+    | `badgeTopRight` | `string` | - | `badgeTopRight` slot contents |
+    | `badgeBottomRight` | `string` | - | `badgeBottomRight` slot contents |
+    | `badgeBottomLeft` | `string` | - | `badgeBottomLeft` slot contents |
     | `classes.container` | `string` | `bg-transparent border-transparent` | Additional CSS classes to apply to the card wrapper |
     | `classes.content` | `string` | `bg-gradient-to-b from-transparent to-black/80` | Additional CSS classes to apply to the content wrapper |
     | `classes.title` | `string` | - | Additional CSS classes to apply to the title |

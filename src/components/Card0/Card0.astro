@@ -15,10 +15,8 @@ const WrapperTag = as;
 
 const {
   container: containerClass = '',
-  badge: badgeClass = 'top-2 left-2',
-  badgeTopRight: badgeTopRightClass = 'top-2 right-2',
-  badgeBottomRight: badgeBottomRightClass = 'bottom-2 right-2',
-  badgeBottomLeft: badgeBottomLeftClass = 'bottom-2 left-2',
+  badge: badgeClass = '',
+  badgeTopRight: badgeTopRightClass = '',
 } = classes;
 ---
 
@@ -30,7 +28,7 @@ const {
 >
   <!-- Default badge -->
   {(Astro.slots.has('badge') || badge) && (
-    <div class={twMerge('absolute z-10', badgeClass)}>
+    <div class={twMerge('absolute z-10 top-2 left-2', badgeClass)}>
       <slot name="badge">
         {badge && <span set:html={badge}/>}
       </slot>
@@ -38,29 +36,13 @@ const {
   )}
 
   {(Astro.slots.has('badgeTopRight') || badgeTopRight) && (
-    <div class={twMerge('absolute z-10', badgeTopRightClass)}>
+    <div class={twMerge('absolute z-10 top-2 right-2', badgeTopRightClass)}>
       <slot name="badgeTopRight">
         {badgeTopRight && <span set:html={badgeTopRight}/>}
       </slot>
     </div>
   )}
-
-  {(Astro.slots.has('badgeBottomRight') || badgeBottomRight) && (
-    <div class={twMerge('absolute z-10', badgeBottomRightClass)}>
-      <slot name="badgeBottomRight">
-        {badgeBottomRight && <span set:html={badgeBottomRight}/>}
-      </slot>
-    </div>
-  )}
-
-  {(Astro.slots.has('badgeBottomLeft') || badgeBottomLeft) && (
-    <div class={twMerge('absolute z-10', badgeBottomLeftClass)}>
-      <slot name="badgeBottomLeft">
-        {badgeBottomLeft && <span set:html={badgeBottomLeft}/>}
-      </slot>
-    </div>
-  )}
-
+  
 
   <slot name="image"/>
 

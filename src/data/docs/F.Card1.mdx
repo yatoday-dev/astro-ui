@@ -27,6 +27,14 @@ The Card component provides a versatile container for displaying related content
           { href: '/', text: 'Additional link 2' },
           { href: '/', text: 'Additional link 3' },
         ]}
+        badgeTopRight="TR"
+        badgeBottomRight="BR"
+        badgeBottomLeft="BL"
+        classes={{
+          badgeTopRight: 'text-red-700 font-semibold text-sm border p-1 rounded', 
+          badgeBottomRight: 'text-amber-500 font-semibold text-sm border p-1 rounded', 
+          badgeBottomLeft: 'text-blue-700 font-semibold text-sm border p-1 rounded'
+        }}
       >
         <Fragment slot="badge">
           <div className="text-green-700 font-semibold text-sm border p-1 rounded">Badge</div>
@@ -102,6 +110,14 @@ import { Card1, ItemGrid0 } from '@yatoday/astro-ui/astro';
       { href: '/', text: 'Additional link 2' },
       { href: '/', text: 'Additional link 3' },
     ]}
+    badgeTopRight="TR"
+    badgeBottomRight="BR"
+    badgeBottomLeft="BL"
+    classes={{
+      badgeTopRight: 'text-red-700 font-semibold text-sm border p-1 rounded', 
+      badgeBottomRight: 'text-amber-500 font-semibold text-sm border p-1 rounded', 
+      badgeBottomLeft: 'text-blue-700 font-semibold text-sm border p-1 rounded'
+    }}
   >
     <Fragment slot="badge">
       <div className="text-green-700 font-semibold text-sm border p-1 rounded">Badge</div>
@@ -168,6 +184,9 @@ import { Card1, ItemGrid0 } from '@yatoday/astro-ui/astro';
     | `description` | `string` | - | Content for the card |
     | `image` | `string` \| [Image](/docs/types#image) | - | Image for the card |
     | `badge` | `string` | - | `badge` slot contents |
+    | `badgeTopRight` | `string` | - | `badgeTopRight` slot contents |
+    | `badgeBottomRight` | `string` | - | `badgeBottomRight` slot contents |
+    | `badgeBottomLeft` | `string` | - | `badgeBottomLeft` slot contents |
     | `callToAction` | `ToAction \| string \| ToAction[] \| string[]` | - | Action button or link. See the [ToAction](/docs/types#action-buttons) for details.  |
     | `icon` | `string` | - | Name icon from set | 
     | `as` | `string` | `article` | HTML tag name for the wrapper | 
