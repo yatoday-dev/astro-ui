@@ -33,14 +33,16 @@ const {
 >
   <div class="flex items-center relative">
     <div class={cn("flex flex-col gap-3 justify-between h-full p-4 ", callToAction && 'border-r dark:border-white/10 border-black/10')}>
-      {callToAction ? (
+
+      {title && (callToAction ? (
         <a href={callToAction.href} class="flex items-center">
           <WrapperHeaderTag class={cn('text-lg md:text-xl font-bold', titleClass)}>{title}</WrapperHeaderTag>
           <span class="absolute inset-0" aria-hidden="true"></span>
         </a>
       ) : (
         <WrapperHeaderTag class={cn('text-lg md:text-xl font-bold', titleClass)}>{title}</WrapperHeaderTag>
-      )}
+      ))}
+      
       {description && (
         <p class={cn('text-muted-foreground text-sm/5 md:text-base', descriptionClass)} set:html={description}/>
       )}

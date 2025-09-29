@@ -1,7 +1,7 @@
 {
   "name": "@yatoday/astro-ui",
   "type": "module",
-  "version": "0.10.6",
+  "version": "0.10.7",
   "scripts": {
     "prepare": "husky",
     "pre-commit": "lint-staged",
