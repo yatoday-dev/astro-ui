@@ -24,7 +24,7 @@ const {
   ...rest
 } = Astro.props;
 
-const images = await fetchLocalImages();
+const images = await fetchLocalImages() as Record<string, () => any>;
 const imagePaths = Object.keys(images).filter((imagePath) => {
   return imagePath.startsWith(`/src/assets/images/${imagesFolder}/`);
 });
@@ -61,16 +61,15 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
                 data-pswp-width={optimizedImage.attributes.width}
                 data-pswp-height={optimizedImage.attributes.height}
                 target="_blank"
-                class="group overflow-hidden rounded-md border-primary cursor-zoom-in block"
+                class="group overflow-hidden rounded-md border-primary cursor-zoom-in block aspect-square"
               >
                 <AstroImage
                   src={image}
                   alt={'altText'}
                   widths={[400, 900]}
                   width={400}
-                  height={400}
                   sizes="(max-width: 900px) 400px, 900px"
-                  class="aspect-square w-full md:h-full group-hover:scale-105 transition duration-300"
+                  class="object-cover object-top w-full md:h-full group-hover:scale-105 transition duration-300"
                 />
               </a>
             </swiper-slide>
