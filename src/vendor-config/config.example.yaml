@@ -1,0 +1,105 @@
+# Example configuration file demonstrating environment variable support
+# Copy this to your project and rename to config.yaml
+
+# Site Configuration
+# Use environment variables for deployment-specific values
+site:
+  name: '${SITE_NAME:My Website}'
+  site: '${SITE_URL:https://example.com}'
+  base: '${BASE_PATH:/}'
+  trailingSlash: false
+
+  # Google Site Verification (optional)
+  googleSiteVerificationId: '${GOOGLE_SITE_VERIFICATION:}'
+
+# SEO Metadata
+# Environment variables useful for different environments (dev/staging/prod)
+metadata:
+  title:
+    default: '${SITE_TITLE:Example Website}'
+    template: '%s — ${SITE_TITLE:Example Website}'
+  description: '${SITE_DESCRIPTION:This is the default meta description}'
+
+  robots:
+    # Disable indexing in non-production environments
+    index: ${ROBOTS_INDEX:true}
+    follow: ${ROBOTS_FOLLOW:true}
+
+  openGraph:
+    site_name: '${OG_SITE_NAME:Example}'
+    images:
+      - url: '~/assets/images/default.png'
+        width: 1200
+        height: 628
+    type: website
+
+  twitter:
+    handle: '${TWITTER_HANDLE:@twitter_user}'
+    site: '${TWITTER_SITE:@twitter_user}'
+    cardType: summary_large_image
+
+# Internationalization
+i18n:
+  language: '${LANG:en}'
+  textDirection: '${TEXT_DIRECTION:ltr}'
+
+# Application Features
+apps:
+  blog:
+    isEnabled: ${BLOG_ENABLED:true}
+    postsPerPage: ${POSTS_PER_PAGE:6}
+
+    post:
+      isEnabled: true
+      permalink: '/blog/%slug%'
+      robots:
+        index: ${BLOG_POST_INDEX:true}
+
+    list:
+      isEnabled: true
+      pathname: 'blog'
+      robots:
+        index: true
+
+    category:
+      isEnabled: true
+      pathname: 'category'
+      robots:
+        index: true
+
+    tag:
+      isEnabled: true
+      pathname: 'tag'
+      robots:
+        index: false
+
+    isRelatedPostsEnabled: ${RELATED_POSTS_ENABLED:true}
+    relatedPostsCount: ${RELATED_POSTS_COUNT:4}
+
+# Analytics Configuration
+# Use environment variables for API keys and tracking IDs
+analytics:
+  vendors:
+    googleAnalytics:
+      # Use empty string as default to disable when not set
+      id: '${GA_ID:}'
+
+# UI Configuration
+ui:
+  # Options: 'system' | 'light' | 'dark' | 'light:only' | 'dark:only'
+  theme: '${UI_THEME:system}'
+
+# Example: Custom API Configuration
+# (Add this section if your application needs external APIs)
+# api:
+#   baseUrl: '${API_BASE_URL:https://api.example.com}'
+#   timeout: ${API_TIMEOUT:5000}
+#   retries: ${API_RETRIES:3}
+#   apiKey: '${API_KEY:}'
+
+# Example: Feature Flags
+# (Add this section for feature toggles)
+# features:
+#   beta: ${FEATURE_BETA:false}
+#   experimental: ${FEATURE_EXPERIMENTAL:false}
+#   maintenance: ${MAINTENANCE_MODE:false}
