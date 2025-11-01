@@ -4,4 +4,5 @@ export type BreadcrumbsItemProps = {
   currentPage?: boolean;
   hasIcon?: boolean;
   class?: string;
+  position?: number;
 };

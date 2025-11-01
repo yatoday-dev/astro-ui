@@ -16,36 +16,36 @@ import BreadcrumbsItem from '~/components/BreadcrumbsItem/BreadcrumbsItem.astro'
 <div className="mt-6 space-y-12">
   <Demo title="Default">
     <Breadcrumbs>
-      <BreadcrumbsItem href="/" label="Home" />
-      <BreadcrumbsItem href="/products" label="Products" />
-      <BreadcrumbsItem label="Current Page" currentPage={true} />
+      <BreadcrumbsItem href="/" label="Home" position={1} />
+      <BreadcrumbsItem href="/products" label="Products" position={2} />
+      <BreadcrumbsItem label="Current Page" currentPage={true} position={3} />
     </Breadcrumbs>
   </Demo>
 
 <Demo title="With icon variant">
   <Breadcrumbs>
-    <BreadcrumbsItem href="/" label="Home" hasIcon>
+    <BreadcrumbsItem href="/" label="Home" hasIcon position={1}>
       <Icon name="tabler:home" slot="icon" />
     </BreadcrumbsItem>
-    <BreadcrumbsItem href="/products" label="Products" />
-    <BreadcrumbsItem label="Current Page" currentPage={true} />
+    <BreadcrumbsItem href="/products" label="Products" position={2} />
+    <BreadcrumbsItem label="Current Page" currentPage={true} position={3} />
   </Breadcrumbs>
 </Demo>
 
   <Demo title="Custom separator variant">
     <Breadcrumbs>
-      <BreadcrumbsItem href="/" label="Home" hasIcon>
+      <BreadcrumbsItem href="/" label="Home" hasIcon position={1}>
         <Icon name="tabler:home" slot="icon" />
         <span slot="separator" class="separator" aria-hidden="true">
           <Icon name="tabler:chevrons-right" />
         </span>
       </BreadcrumbsItem>
-      <BreadcrumbsItem href="/docs" label="Documentation">
+      <BreadcrumbsItem href="/docs" label="Documentation" position={2}>
         <span slot="separator" class="separator" aria-hidden="true">
           <Icon name="tabler:chevrons-right" />
         </span>
       </BreadcrumbsItem>
-      <BreadcrumbsItem label="Current Page" currentPage={true} />
+      <BreadcrumbsItem label="Current Page" currentPage={true} position={3} />
     </Breadcrumbs>
   </Demo>
 </div>
@@ -54,6 +54,8 @@ import BreadcrumbsItem from '~/components/BreadcrumbsItem/BreadcrumbsItem.astro'
 
 Use the currentPage prop to indicate the current page in the breadcrumb trail. This will render it as a `<span>` instead of a link and add the appropriate ARIA attributes.
 
+The components include schema.org BreadcrumbList markup for improved SEO. Use the `position` prop to specify the position of each item in the breadcrumb trail.
+
 ```astro
 ---
 import { Breadcrumbs, BreadcrumbsItem } from '@yatoday/astro-ui/astro';
@@ -61,42 +63,42 @@ import { Breadcrumbs, BreadcrumbsItem } from '@yatoday/astro-ui/astro';
 
 <!-- Default -->
 <Breadcrumbs>
-  <BreadcrumbsItem href="/" label="Home" />
-  <BreadcrumbsItem href="/products" label="Products" />
-  <BreadcrumbsItem label="Current Page" currentPage={true} />
+  <BreadcrumbsItem href="/" label="Home" position={1} />
+  <BreadcrumbsItem href="/products" label="Products" position={2} />
+  <BreadcrumbsItem label="Current Page" currentPage={true} position={3} />
 </Breadcrumbs>
 
 <!-- Home icon variant -->
 <Breadcrumbs>
-  <BreadcrumbsItem href="/" label="Home" hasIcon>
+  <BreadcrumbsItem href="/" label="Home" hasIcon position={1}>
     <Icon name="tabler:home" slot="icon" />
   </BreadcrumbsItem>
-  <BreadcrumbsItem href="/products" label="Products" />
-  <BreadcrumbsItem label="Current Page" currentPage={true} />
+  <BreadcrumbsItem href="/products" label="Products" position={2} />
+  <BreadcrumbsItem label="Current Page" currentPage={true} position={3} />
 </Breadcrumbs>
 
 <!-- Custom separator variant -->
 <Breadcrumbs>
-  <BreadcrumbsItem href="/" label="Home" hasIcon>
+  <BreadcrumbsItem href="/" label="Home" hasIcon position={1}>
     <Icon name="tabler:home" slot="icon" />
     <span slot="separator" class="separator" aria-hidden="true">
       <Icon name="tabler:chevrons-right" />
     </span>
   </BreadcrumbsItem>
-  <BreadcrumbsItem href="/docs" label="Documentation">
+  <BreadcrumbsItem href="/docs" label="Documentation" position={2}>
     <span slot="separator" class="separator" aria-hidden="true">
       <Icon name="tabler:chevrons-right" />
     </span>
   </BreadcrumbsItem>
-  <BreadcrumbsItem label="Current Page" currentPage={true} />
+  <BreadcrumbsItem label="Current Page" currentPage={true} position={3} />
 </Breadcrumbs>
 
 <!-- Array props -->
 <Breadcrumbs
   items={[
-    { href: '/', icon: 'tabler:home' },
-    { href: '/products', label: 'Products' },
-    { href: '/products', label: 'Current Page', currentPage: true },
+    { href: '/', icon: 'tabler:home', position: 1 },
+    { href: '/products', label: 'Products', position: 2 },
+    { href: '/products', label: 'Current Page', currentPage: true, position: 3 },
   ]}
 />
 ```
@@ -118,12 +120,13 @@ import { Breadcrumbs, BreadcrumbsItem } from '@yatoday/astro-ui/astro';
 
 <div className="overflow-x-auto">
   <div className="min-w-xl">
-    | Prop | Type | Default | Description | 
-    |------------|------------|------------|------------| 
-    | `href` | `string` | `#` | The URL the breadcrumb item links to | 
-    | `label` | `string` | `Breadcrumb` | The text to display (or screen reader text when using icons) | 
-    | `currentPage` | `boolean` | `false` | Whether this item represents the current page | 
+    | Prop | Type | Default | Description |
+    |------------|------------|------------|------------|
+    | `href` | `string` | `#` | The URL the breadcrumb item links to |
+    | `label` | `string` | `Breadcrumb` | The text to display (or screen reader text when using icons) |
+    | `currentPage` | `boolean` | `false` | Whether this item represents the current page |
     | `hasIcon` | `boolean` | `false` | Whether this item displays an icon instead of text |
+    | `position` | `number` | - | The position of this item in the breadcrumb trail (for schema.org markup) |
     | `class` | `string` | - | Additional CSS classes to apply to the item |
   </div>
 </div>

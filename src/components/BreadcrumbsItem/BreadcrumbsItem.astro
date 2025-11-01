@@ -1,13 +1,14 @@
 ---
 import type { BreadcrumbsItemProps as Props } from './types';
 
-const { href = '#', label = 'Breadcrumb', currentPage = false, hasIcon = false, class: classNames } = Astro.props;
+const { href = '#', label = 'Breadcrumb', currentPage = false, hasIcon = false, class: classNames, position } = Astro.props;
 ---
 
 <li class:list={['item', classNames]} itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+  {position && <meta itemprop="position" content={position.toString()} />}
   {
     currentPage ? (
-      <span aria-current="page" class:list={[hasIcon ? 'has-icon' : '']}>
+      <span aria-current="page" class:list={[hasIcon ? 'has-icon' : '']} itemprop="name">
         {hasIcon ? (
           <Fragment>
             <slot name="icon" />
@@ -18,15 +19,17 @@ const { href = '#', label = 'Breadcrumb', currentPage = false, hasIcon = false, 
         )}
       </span>
     ) : (
-      <a href={href} class:list={[hasIcon ? 'has-icon' : '']}>
-        {hasIcon ? (
-          <Fragment>
-            <slot name="icon" />
-            <span class="sr-only">{label}</span>
-          </Fragment>
-        ) : (
-          label
-        )}
+      <a href={href} class:list={[hasIcon ? 'has-icon' : '']} itemprop="item">
+        <span itemprop="name">
+          {hasIcon ? (
+            <Fragment>
+              <slot name="icon" />
+              <span class="sr-only">{label}</span>
+            </Fragment>
+          ) : (
+            label
+          )}
+        </span>
       </a>
     )
   }
