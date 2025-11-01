@@ -8,10 +8,13 @@ import { I18N } from 'vendor:config';
 
 const { metadata = {}, class: className } = Astro.props;
 const { language, textDirection } = I18N;
+
+// Use current locale from Astro's i18n routing, fallback to config
+const currentLang = Astro.currentLocale || language;
 ---
 
 <!doctype html>
-<html lang={language} dir={textDirection} class={className}>
+<html lang={currentLang} dir={textDirection} class={className}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
