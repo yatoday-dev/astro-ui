@@ -1,6 +1,7 @@
-import type { WidgetWrapperProps } from '../WidgetWrapper/types';
+import type { WidgetWrapperProps, SvelteWidgetWrapperProps } from '../WidgetWrapper/types';
 import type { HeadlineProps } from '../Headline/types';
-import type {ToAction} from "../../types";
+import type { ToAction, Image } from '../../types';
+import type { Snippet } from 'svelte';
 
 export type WidgetSwiperPhotoSliderProps = {
   isAfterContent?: boolean;
@@ -10,3 +11,15 @@ export type WidgetSwiperPhotoSliderProps = {
   callToAction?: ToAction;
 } & WidgetWrapperProps &
   Omit<HeadlineProps, 'classes'>;
+
+export type SvelteWidgetSwiperPhotoSliderProps = {
+  isAfterContent?: boolean;
+  withNavigation?: boolean;
+  images?: Image[];
+  classes?: Record<string, string>;
+  callToAction?: ToAction;
+  title?: string | Snippet;
+  subtitle?: string | Snippet;
+  tagline?: string | Snippet;
+  position?: 'center' | 'left' | 'right';
+} & SvelteWidgetWrapperProps;

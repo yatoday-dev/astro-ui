@@ -1,4 +1,5 @@
-import type { WidgetWrapperProps } from '../WidgetWrapper/types';
+import type { WidgetWrapperProps, SvelteWidgetWrapperProps } from '../WidgetWrapper/types';
+import type { Snippet } from 'svelte';
 
 export type WidgetFooterProps = {
   links: Array<ILinks>;
@@ -19,3 +20,14 @@ export interface ILinks {
   title?: string;
   links: Array<ILink>;
 }
+
+export type SvelteWidgetFooterProps = {
+  links?: Array<ILinks>;
+  secondaryLinks?: Array<ILink>;
+  socialLinks?: Array<ILink>;
+  note?: string;
+  theme?: 'dark' | 'light';
+  logo?: Snippet;
+  subscribe?: Snippet;
+  bg?: Snippet;
+} & SvelteWidgetWrapperProps;
