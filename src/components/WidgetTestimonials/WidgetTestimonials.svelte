@@ -5,7 +5,7 @@
   import Headline from '../Headline/Headline.svelte';
   import Button from '../Button/Button.svelte';
   import Card5 from '../Card5/Card5.svelte';
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
 
   let {
     title,

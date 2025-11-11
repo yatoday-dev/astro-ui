@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { SveltePointMapProps } from './types';
-  import { cn, id as generateId } from '~/utils';
+  import { cn, id as generateId } from '../../utils';
   import Card7 from '../Card7/Card7.svelte';
   import { onMount } from 'svelte';
 

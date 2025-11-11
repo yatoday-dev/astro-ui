@@ -4,7 +4,7 @@
   import Headline from '../Headline/Headline.svelte';
   import ItemGrid0 from '../ItemGrid0/ItemGrid0.svelte';
   import Card4 from '../Card4/Card4.svelte';
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
 
   let {
     title,

@@ -5,7 +5,7 @@
   import Headline from '../Headline/Headline.svelte';
   import ItemGrid0 from '../ItemGrid0/ItemGrid0.svelte';
   import Image from '../Image/Image.svelte';
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
   import type { Image as ImageType } from '~/types';
 
   let {

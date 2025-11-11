@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
   import Card0 from '../Card0/Card0.svelte';
   import Image from '../Image/Image.svelte';
   import type { SvelteCard2Props } from './types';
@@ -65,7 +65,7 @@
             {:else if badgeBottomRight}
               {@html badgeBottomRight}
             {/if}
-          </div}
+          </div>
         {/if}
 
         {#if badgeBottomLeftSlot || badgeBottomLeft}
@@ -75,7 +75,7 @@
             {:else if badgeBottomLeft}
               {@html badgeBottomLeft}
             {/if}
-          </div}
+          </div>
         {/if}
 
         {#if typeof image === 'string'}

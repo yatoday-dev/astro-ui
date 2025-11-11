@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { SvelteWidgetFooterProps } from './types';
   import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.svelte';
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
 
   let {
     socialLinks = [],

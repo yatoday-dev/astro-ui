@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { SvelteZoomedImageProps } from './types';
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
   import { onMount } from 'svelte';
 
   let {

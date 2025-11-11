@@ -7,8 +7,8 @@
   }: SvelteAnalyticsProps = $props();
 </script>
 
-{#if googleAnalyticsId}
-  <svelte:head>
+<svelte:head>
+  {#if googleAnalyticsId}
     <script async src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -16,5 +16,5 @@
       gtag('js', new Date());
       gtag('config', '{googleAnalyticsId}');
     </script>
-  </svelte:head>
-{/if}
+  {/if}
+</svelte:head>

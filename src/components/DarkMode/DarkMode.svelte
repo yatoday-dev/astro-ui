@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
   import type { SvelteDarkModeProps } from './types';
 
   let {

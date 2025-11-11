@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { SvelteImageGalleryIkeaProps } from './types';
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
   import { onMount } from 'svelte';
   import ZoomedImage from '../ZoomedImage/ZoomedImage.svelte';
   import Image from '../Image/Image.svelte';

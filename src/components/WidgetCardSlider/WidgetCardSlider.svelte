@@ -4,7 +4,7 @@
   import Headline from '../Headline/Headline.svelte';
   import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.svelte';
   import SwiperSlider from '../SwiperSlider/SwiperSlider.svelte';
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
 
   let {
     via = Card1,

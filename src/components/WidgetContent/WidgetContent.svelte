@@ -7,7 +7,7 @@
   import Button from '../Button/Button.svelte';
   import Image from '../Image/Image.svelte';
   import PointMap from '../PointMap/PointMap.svelte';
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
   import type { Image as ImageType } from '~/types';
 
   let {

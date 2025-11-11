@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { SvelteWidgetHeroSliderProps } from './types';
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
   import { onMount } from 'svelte';
   import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.svelte';
   import HeroSection from '../HeroSection/HeroSection.svelte';

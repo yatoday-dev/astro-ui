@@ -61,7 +61,7 @@ const {
             <div class={cn('flex gap-2', actionClass)}>
               {callToAction.map((action) => (
                 <Fragment>
-                  {typeof action === 'string' ? <Fragment set:html={action} /> : <Button {...(action || {})} />}
+                  {typeof action === 'string' ? <Fragment set:html={action} /> : <Button {...(action as any || {})} />}
                 </Fragment>
               ))}
             </div>

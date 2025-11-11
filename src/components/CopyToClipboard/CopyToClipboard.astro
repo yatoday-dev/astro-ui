@@ -15,11 +15,11 @@ const {
 
 <Button
   data-yt-copy-to-clipboard={text}
-  type={type}
+  type={type as 'button' | 'submit' | 'reset' | undefined}
   class={className}
   variant={variant}
   size={size}
-  {...rest}
+  {...(rest as any)}
 >
   <span class="copy-icon">
     <Icon name="tabler:copy" />
@@ -32,6 +32,12 @@ const {
 <script>
   import { on, get } from '../../utils';
   import copyToClipboard from "./copy";
+
+  declare global {
+    interface Window {
+      copyToClipboardInitialized?: boolean;
+    }
+  }
 
   const init = () => {
     // Only run once

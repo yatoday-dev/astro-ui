@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { SvelteTimelineProps } from './types';
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
 
   let {
     items = [],

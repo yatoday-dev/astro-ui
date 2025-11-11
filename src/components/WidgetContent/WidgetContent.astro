@@ -53,7 +53,7 @@ const {
       {
         callToAction && (
           <div class="-mt-12 mb-8">
-            <Button variant="link" {...callToAction} />
+            <Button variant="link" {...(callToAction as any)} />
           </div>
         )
       }

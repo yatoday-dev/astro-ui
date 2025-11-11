@@ -4,7 +4,7 @@
   import DarkMode from '../DarkMode/DarkMode.svelte';
   import Button from '../Button/Button.svelte';
   import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.svelte';
-  import { cn, trimSlash } from '~/utils';
+  import { cn, trimSlash } from '../../utils';
   import { twMerge } from 'tailwind-merge';
 
   let {

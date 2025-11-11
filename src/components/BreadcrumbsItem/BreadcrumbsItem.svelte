@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
   import type { SvelteBreadcrumbsItemProps } from './types';
 
   let {

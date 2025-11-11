@@ -4,7 +4,7 @@
   import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.svelte';
   import Stats0 from '../Stats0/Stats0.svelte';
   import Button from '../Button/Button.svelte';
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
 
   let {
     title,

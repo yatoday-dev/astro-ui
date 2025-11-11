@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
   import Image from '../Image/Image.svelte';
   import Button from '../Button/Button.svelte';
   import type { SvelteHeroSectionProps } from './types';

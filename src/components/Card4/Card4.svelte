@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
   import Card0 from '../Card0/Card0.svelte';
   import Button from '../Button/Button.svelte';
   import type { SvelteCard4Props } from './types';

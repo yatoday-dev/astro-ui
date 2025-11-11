@@ -5,7 +5,7 @@
   import SwiperSlider from '../SwiperSlider/SwiperSlider.svelte';
   import Button from '../Button/Button.svelte';
   import Image from '../Image/Image.svelte';
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
 
   let {
     title,

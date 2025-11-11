@@ -203,7 +203,7 @@ const { container: containerClass = '', swiper: swiperClass = '', swiperThumb: s
 
       Object.assign(mainSwiperEl, {});
 
-      mainSwiperEl?.initialize();
+      (mainSwiperEl as any)?.initialize();
     });
   };
 

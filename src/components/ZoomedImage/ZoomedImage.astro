@@ -92,6 +92,12 @@ if (
 <script>
   import { on, get } from '../../utils';
 
+  declare global {
+    interface Window {
+      zoomInitialized?: boolean;
+    }
+  }
+
   const init = () => {
     // Only run once
     if (!window.zoomInitialized) {

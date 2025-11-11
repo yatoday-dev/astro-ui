@@ -6,8 +6,8 @@
   }: SvelteSiteVerificationProps = $props();
 </script>
 
-{#if googleSiteVerificationId}
-  <svelte:head>
+<svelte:head>
+  {#if googleSiteVerificationId}
     <meta name="google-site-verification" content={googleSiteVerificationId} />
-  </svelte:head>
-{/if}
+  {/if}
+</svelte:head>

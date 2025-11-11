@@ -3,7 +3,7 @@
   import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.svelte';
   import Headline from '../Headline/Headline.svelte';
   import Button from '../Button/Button.svelte';
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
 
   let {
     title,

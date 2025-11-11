@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
   import Background from '../Background/Background.svelte';
   import type { SvelteWidgetWrapperProps } from './types';
 

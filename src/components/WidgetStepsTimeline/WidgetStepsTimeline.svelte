@@ -4,7 +4,7 @@
   import Headline from '../Headline/Headline.svelte';
   import Timeline from '../Timeline/Timeline.svelte';
   import Image from '../Image/Image.svelte';
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
   import type { Image as ImageType } from '~/types';
 
   let {

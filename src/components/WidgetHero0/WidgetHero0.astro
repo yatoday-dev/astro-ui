@@ -69,7 +69,7 @@ const { container: containerClass = '', bg: bgClass = '' } = classes;
             })}
           >
             {actions.map((btnProps) => (
-              <Button {...btnProps} />
+              <Button {...(btnProps as any)} />
             ))}
           </div>
         )

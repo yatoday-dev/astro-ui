@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { SvelteStats0Props } from './types';
-  import { cn } from '~/utils';
+  import { cn } from '../../utils';
 
   let {
     items = [],
