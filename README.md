@@ -10,7 +10,7 @@ The build is done using Github Actions. See `.github/workflows/publish.yml` for 
 
 1. Make a new release
 ```shell
-git tag -a {tag} -m 'tag message here'
+git tag -a 0.12.0 -m 'Bump to version 0.12.0'
 ```
 
 ```shell
