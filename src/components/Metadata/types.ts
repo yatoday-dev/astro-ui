@@ -4,6 +4,8 @@ export type MetadataProps = {
   ? never
   : MetaData;
 
+export type SvelteMetadataProps = AstroSeoProps;
+
 export interface MetaData {
   title?: string;
   ignoreTitleTemplate?: boolean;

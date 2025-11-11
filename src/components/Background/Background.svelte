@@ -1,13 +1,14 @@
 <script lang="ts">
-  import type { SvelteBackgroundProps } from './types.ts';
-  
-  const {
-    isDark,
+  import { cn } from '~/utils';
+  import type { SvelteBackgroundProps } from './types';
+
+  let {
+    isDark = false,
     children,
-    ...rest
-  }: SvelteBackgroundProps = $props()
+    ...restProps
+  }: SvelteBackgroundProps = $props();
 </script>
 
-<div class:list={['absolute inset-0', { 'bg-dark dark:bg-transparent': isDark }]} {...rest}>
+<div class={cn('absolute inset-0', isDark && 'bg-dark dark:bg-transparent')} {...restProps}>
   {@render children?.()}
 </div>
