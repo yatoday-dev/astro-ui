@@ -1,61 +1,93 @@
 ---
-import type { AstroSeoProps, MetadataProps as Props } from './types';
-import AstroSeo from './AstroSeo.astro';
+import type { MetadataProps as Props } from './types';
+import SEO from '../SEO/SEO.astro';
+import type { SEOProps } from '../SEO/SEO.astro';
 import { adaptOpenGraphImages } from '../../utils/images';
-import { getCanonical } from '../../utils/URLUtils';
 
 import merge from 'lodash.merge';
-import { I18N, METADATA, SITE } from 'vendor:config';
+import { METADATA, SITE } from 'vendor:config';
 
 const {
   title,
   ignoreTitleTemplate = false,
-  canonical = String(getCanonical(String(Astro.url.pathname))),
+  canonical: propCanonical,
   robots = {},
   description,
   openGraph = {},
   twitter = {},
 } = Astro.props;
 
-const seoProps: AstroSeoProps = merge(
-  {
-    title: '',
-    titleTemplate: '%s',
-    canonical,
-    noindex: true,
-    nofollow: true,
-    description: undefined,
-    openGraph: {
-      url: canonical,
-      site_name: SITE?.name,
-      images: [],
-      locale: I18N?.language || 'en',
-      type: 'website',
+// Build canonical URL using Astro.site
+const canonical = propCanonical || String(new URL(Astro.url.pathname, Astro.site));
+
+// Get language from URL path (e.g., /ru/, /en/, /es/)
+const urlParts = Astro.url.pathname.split('/').filter(Boolean);
+const locale = urlParts[0] && ['ru', 'en', 'es'].includes(urlParts[0]) ? urlParts[0] : 'ru';
+
+// Build alternate locale links for hreflang
+const alternateLocales = ['ru', 'en', 'es']
+  .filter((lang) => lang !== locale)
+  .map((lang) => ({
+    locale: lang,
+    url: String(new URL(Astro.url.pathname.replace(`/${locale}/`, `/${lang}/`).replace(`/${locale}`, `/${lang}`), Astro.site)),
+  }))
+  .concat([
+    {
+      locale: 'x-default',
+      url: String(new URL(Astro.url.pathname.replace(`/${locale}/`, '/ru/').replace(`/${locale}`, '/ru'), Astro.site)),
     },
-    twitter: {
-      cardType: openGraph?.images?.length ? 'summary_large_image' : 'summary',
-    },
-  },
+  ]);
+
+// Merge metadata from config with props
+const finalTitle = title || METADATA?.title?.default || '';
+const finalDescription = description || METADATA?.description || '';
+const finalRobots = {
+  index: typeof robots?.index !== 'undefined' ? robots.index : METADATA?.robots?.index !== false,
+  follow: typeof robots?.follow !== 'undefined' ? robots.follow : METADATA?.robots?.follow !== false,
+};
+
+// Process OpenGraph images
+const mergedOpenGraph = merge({}, METADATA?.openGraph || {}, openGraph);
+const processedOpenGraph = await adaptOpenGraphImages(mergedOpenGraph, Astro.site);
+
+// Build final OpenGraph props
+const ogImage = processedOpenGraph?.images?.[0]
+  ? {
+      url: String(new URL(processedOpenGraph.images[0].url, Astro.site)),
+      width: processedOpenGraph.images[0].width,
+      height: processedOpenGraph.images[0].height,
+      alt: processedOpenGraph.images[0].alt,
+    }
+  : undefined;
+
+const finalOpenGraph = {
+  title: finalTitle,
+  description: finalDescription,
+  url: canonical,
+  type: (processedOpenGraph?.type as string) || 'website',
+  image: ogImage,
+  siteName: SITE?.name,
+};
+
+// Build final Twitter props
+const finalTwitter = merge(
   {
-    title: METADATA?.title?.default,
-    titleTemplate: METADATA?.title?.template,
-    noindex: typeof METADATA?.robots?.index !== 'undefined' ? !METADATA.robots.index : undefined,
-    nofollow: typeof METADATA?.robots?.follow !== 'undefined' ? !METADATA.robots.follow : undefined,
-    description: METADATA?.description,
-    openGraph: METADATA?.openGraph,
-    twitter: METADATA?.twitter,
+    card: ogImage ? 'summary_large_image' : 'summary',
   },
-  {
-    title,
-    titleTemplate: ignoreTitleTemplate ? '%s' : undefined,
-    canonical,
-    noindex: typeof robots?.index !== 'undefined' ? !robots.index : undefined,
-    nofollow: typeof robots?.follow !== 'undefined' ? !robots.follow : undefined,
-    description,
-    openGraph: { url: canonical, ...openGraph },
-    twitter,
-  }
+  METADATA?.twitter || {},
+  twitter || {}
 );
+
+const seoProps: SEOProps = {
+  title: finalTitle,
+  description: finalDescription,
+  canonical,
+  locale,
+  alternateLocales,
+  robots: finalRobots,
+  openGraph: finalOpenGraph,
+  twitter: finalTwitter as SEOProps['twitter'],
+};
 ---
 
-<AstroSeo {...{ ...seoProps, openGraph: await adaptOpenGraphImages(seoProps?.openGraph, Astro.site) }} />
+<SEO {...seoProps} />
