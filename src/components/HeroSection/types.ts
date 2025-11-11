@@ -11,6 +11,7 @@ export type HeroSectionProps = {
   image: Image | string;
   callToAction?: string | ToAction | Array<string | ToAction>;
   classes?: Record<string, string>;
+  isFirstSlide?: boolean;
 };
 
 export type SvelteHeroSectionProps = WithElementRef<HTMLAttributes<HTMLDivElement>> &

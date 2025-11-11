@@ -193,11 +193,14 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     let ticking = true;
 
     attachEvent('[data-yt-toggle-menu]', 'click', (_: Event, elem: HTMLElement) => {
-      toggleClasses(elem, 'expanded');
-      toggleClasses(document.body, 'overflow-hidden');
-      toggleClasses(document.getElementById('header'), 'h-screen', 'expanded');
-      toggleClasses('[data-yt-sticky-header] nav', 'hidden');
-      toggleClasses('[data-yt-actions]', 'hidden');
+      // Batch DOM updates to prevent forced reflow
+      requestAnimationFrame(() => {
+        toggleClasses(elem, 'expanded');
+        toggleClasses(document.body, 'overflow-hidden');
+        toggleClasses(document.getElementById('header'), 'h-screen', 'expanded');
+        toggleClasses('[data-yt-sticky-header] nav', 'hidden');
+        toggleClasses('[data-yt-actions]', 'hidden');
+      });
     });
 
     attachEvent('[data-yt-sticky-header] nav', 'click', () => {
@@ -209,11 +212,14 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     });
 
     function hiddenNav() {
-      removeClasses('[data-yt-toggle-menu]', 'expanded');
-      removeClasses(document.body, 'overflow-hidden');
-      removeClasses(document.getElementById('header'), 'h-screen', 'expanded');
-      addClasses('[data-yt-sticky-header] nav', 'hidden');
-      addClasses('[data-yt-actions]', 'hidden');
+      // Batch DOM updates to prevent forced reflow
+      requestAnimationFrame(() => {
+        removeClasses('[data-yt-toggle-menu]', 'expanded');
+        removeClasses(document.body, 'overflow-hidden');
+        removeClasses(document.getElementById('header'), 'h-screen', 'expanded');
+        addClasses('[data-yt-sticky-header] nav', 'hidden');
+        addClasses('[data-yt-actions]', 'hidden');
+      });
     }
 
     function applyHeaderStylesOnScroll() {

@@ -12,6 +12,7 @@ const {
   title = await Astro.slots.render('title'),
   description = await Astro.slots.render('description'),
   callToAction,
+  isFirstSlide = false,
 } = Astro.props;
 
 const urlForImage = Array.isArray(callToAction)
@@ -103,8 +104,9 @@ const WrapperHeaderTag = asHeader;
                     height={400}
                     sizes="(max-width: 900px) 400px, 900px"
                     layout="cover"
-                    loading="lazy"
-                    decoding="async"
+                    loading={isFirstSlide ? "eager" : "lazy"}
+                    fetchpriority={isFirstSlide ? "high" : undefined}
+                    decoding={isFirstSlide ? "sync" : "async"}
                     {...image}
                   />
                 )}
@@ -121,8 +123,9 @@ const WrapperHeaderTag = asHeader;
                     height={400}
                     sizes="(max-width: 900px) 400px, 900px"
                     layout="cover"
-                    loading="lazy"
-                    decoding="async"
+                    loading={isFirstSlide ? "eager" : "lazy"}
+                    fetchpriority={isFirstSlide ? "high" : undefined}
+                    decoding={isFirstSlide ? "sync" : "async"}
                     {...image}
                   />
                 )}

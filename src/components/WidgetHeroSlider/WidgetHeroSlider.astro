@@ -130,6 +130,13 @@ const {
             prevEl: `#btn-prev-${id}`,
           })
         : false}
+      a11y={JSON.stringify({
+        enabled: true,
+        prevSlideMessage: 'Previous slide',
+        nextSlideMessage: 'Next slide',
+        firstSlideMessage: 'This is the first slide',
+        lastSlideMessage: 'This is the last slide',
+      })}
       breakpoints={JSON.stringify({
         // 640: sm
         // 768: sm
@@ -145,11 +152,12 @@ const {
       {...rest}
     >
       {
-        items.map((item) => (
+        items.map((item, index) => (
           <swiper-slide>
             <HeroSection
               {...item}
               classes={{ ...item?.classes, container: cn('rounded-xl', item?.classes?.container, height) }}
+              isFirstSlide={index === 0}
             />
           </swiper-slide>
         ))
@@ -164,11 +172,15 @@ const {
             type="button"
             id={`btn-prev-${id}`}
             class="btn-navigation btn-prev hidden lg:block cursor-pointer absolute z-10 w-10 h-10 bg-transparent border-2 border-white rounded-full shadow-sm transition-opacity opacity-20 hover:opacity-100 group-hover:opacity-100"
+            aria-label="Previous slide"
+            title="Previous slide"
           />
           <button
             type="button"
             id={`btn-next-${id}`}
             class="btn-navigation btn-next hidden lg:block cursor-pointer absolute z-10 w-10 h-10 bg-transparent border-2 border-white rounded-full shadow-sm transition-opacity opacity-20 hover:opacity-100 group-hover:opacity-100"
+            aria-label="Next slide"
+            title="Next slide"
           />
         </Fragment>
       )
