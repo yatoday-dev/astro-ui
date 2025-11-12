@@ -19,7 +19,7 @@
 
   onMount(async () => {
     const { register } = await import('swiper/element/bundle');
-    const { on, get } = await import('~/utils');
+    const { on, get } = await import('../../utils');
 
     register();
 
