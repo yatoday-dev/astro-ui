@@ -14,8 +14,10 @@ export type WidgetContentProps = {
   isReversed?: boolean;
   isAfterContent?: boolean;
   callToAction?: ToAction;
+  asHeader?: HeadlineProps['as'];
+  asSubtitle?: HeadlineProps['asSubtitle'];
 } & WidgetWrapperProps &
-  Omit<HeadlineProps, 'classes'>;
+  Omit<HeadlineProps, 'classes' | 'as' | 'asSubtitle'>;
 
 export type SvelteWidgetContentProps = {
   content?: string | Snippet;
@@ -33,5 +35,7 @@ export type SvelteWidgetContentProps = {
   tagline?: string | Snippet;
   bg?: Snippet;
   children?: Snippet;
+  asHeader?: HeadlineProps['as'];
+  asSubtitle?: HeadlineProps['asSubtitle'];
 } & SvelteWidgetWrapperProps &
-  Omit<HeadlineProps, 'classes'>;
+  Omit<HeadlineProps, 'classes' | 'as' | 'asSubtitle'>;

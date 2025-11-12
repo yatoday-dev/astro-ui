@@ -6,7 +6,8 @@ import Button from '../Button/Button.astro';
 import { cn } from '../../utils';
 
 const {
-  asHeader = 'h3',
+  asHeader = 'h1',
+  asDescription = 'h2',
   classes = {},
   image = await Astro.slots.render('image'),
   title = await Astro.slots.render('title'),
@@ -35,6 +36,7 @@ const {
 } = classes;
 
 const WrapperHeaderTag = asHeader;
+const WrapperDescriptionTag = asDescription;
 ---
 
 <div
@@ -55,7 +57,7 @@ const WrapperHeaderTag = asHeader;
                 >
                   {title}
                 </WrapperHeaderTag>
-                <p class={cn('text-sm md:text-base xl:text-lg', descriptionClass)}>{description}</p>
+                <WrapperDescriptionTag class={cn('text-sm md:text-base xl:text-lg', descriptionClass)}>{description}</WrapperDescriptionTag>
               </div>
 
               {callToAction && (

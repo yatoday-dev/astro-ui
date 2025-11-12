@@ -18,6 +18,8 @@ const {
   columns = 4,
   image = await Astro.slots.render('image'),
   position = 'center',
+  asHeader = 'h2',
+  asSubtitle = 'p',
   isBeforeContent,
   isAfterContent,
   id,
@@ -44,6 +46,8 @@ const ComponentGrid = viaGrid;
     tagline={tagline}
     classes={classes?.headline as Record<string, string>}
     position={position}
+    as={asHeader}
+    asSubtitle={asSubtitle}
   />
   
   {

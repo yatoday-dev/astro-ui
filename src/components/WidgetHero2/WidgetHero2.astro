@@ -1,11 +1,8 @@
 ---
 import type { WidgetHero2Props as Props } from './types';
 import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
-import Headline from '../Headline/Headline.astro';
 import Image from '../Image/Image.astro';
-import Stats0 from '../Stats0/Stats0.astro';
 import Button from '../Button/Button.astro';
-import { cn } from '../../utils';
 
 const {
   title = await Astro.slots.render('title'),
@@ -14,7 +11,14 @@ const {
   content = await Astro.slots.render('content'),
   actions = await Astro.slots.render('actions'),
   image = await Astro.slots.render('image'),
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   position = 'center',
+  // Note: asHeader is kept for API consistency but not used since this component has custom heading implementation
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  asHeader = 'h1',
+  // Note: asSubtitle is kept for API consistency but not used since this component has custom heading implementation
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  asSubtitle = 'p',
 
   id,
   isDark = false,

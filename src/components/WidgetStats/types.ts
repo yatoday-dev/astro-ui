@@ -8,8 +8,10 @@ export type WidgetStatsProps = {
   items?: Item[];
   callToAction?: ToAction;
   isAfterContent?: boolean;
+  asHeader?: HeadlineProps['as'];
+  asSubtitle?: HeadlineProps['asSubtitle'];
 } & WidgetWrapperProps &
-  Omit<HeadlineProps, 'classes'>;
+  Omit<HeadlineProps, 'classes' | 'as' | 'asSubtitle'>;
 
 export type SvelteWidgetStatsProps = {
   via?: any;
@@ -20,5 +22,7 @@ export type SvelteWidgetStatsProps = {
   subtitle?: string | Snippet;
   tagline?: string | Snippet;
   bg?: Snippet;
+  asHeader?: HeadlineProps['as'];
+  asSubtitle?: HeadlineProps['asSubtitle'];
 } & SvelteWidgetWrapperProps &
-  Omit<HeadlineProps, 'classes'>;
+  Omit<HeadlineProps, 'classes' | 'as' | 'asSubtitle'>;

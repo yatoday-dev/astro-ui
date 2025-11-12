@@ -158,13 +158,15 @@
       <button
         type="button"
         id={`btn-prev-${id}`}
+        aria-label="Previous slide"
         class="btn-navigation btn-prev hidden lg:block cursor-pointer absolute z-10 w-10 h-10 bg-transparent border-2 border-white rounded-full shadow-sm transition-opacity opacity-20 hover:opacity-100 group-hover:opacity-100"
-      />
+      ></button>
       <button
         type="button"
         id={`btn-next-${id}`}
+        aria-label="Next slide"
         class="btn-navigation btn-next hidden lg:block cursor-pointer absolute z-10 w-10 h-10 bg-transparent border-2 border-white rounded-full shadow-sm transition-opacity opacity-20 hover:opacity-100 group-hover:opacity-100"
-      />
+      ></button>
     {/if}
 
     <!-- Loading indicator -->

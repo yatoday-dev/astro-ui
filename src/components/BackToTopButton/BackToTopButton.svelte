@@ -8,7 +8,7 @@
     iconSlot,
   }: SvelteBackToTopButtonProps = $props();
 
-  let buttonRef: HTMLAnchorElement;
+  let buttonRef: HTMLButtonElement;
   let progressRef: SVGCircleElement;
   let showButton = $state(false);
   let strokeDashoffset = $state(0);
@@ -34,8 +34,7 @@
       showProgress();
     };
 
-    const handleClick = (e: MouseEvent) => {
-      e.preventDefault();
+    const handleClick = () => {
       const targetEl = document.querySelector(selector);
       targetEl?.scrollIntoView({ behavior: 'smooth', block: 'end' });
     };
@@ -102,10 +101,11 @@
   }
 </style>
 
-<a
+<button
   bind:this={buttonRef}
+  type="button"
   class="btn-scroll-top text-card-foreground {showButton ? 'show' : ''}"
-  href="javascript:void(0);"
+  aria-label="Back to top"
   data-yt-scroll
   data-yt-scroll-offset={scrollOffset}
   data-yt-scroll-selector={selector}
@@ -132,4 +132,4 @@
       </svg>
     {/if}
   </span>
-</a>
+</button>

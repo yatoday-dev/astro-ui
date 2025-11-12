@@ -8,4 +8,8 @@ export type AnalyticsGoogleProps = {
   partytown?: boolean;
 };
 
+export type AnalyticsGTMProps = {
+  id: string;
+};
+
 export type SvelteAnalyticsProps = AnalyticsProps;

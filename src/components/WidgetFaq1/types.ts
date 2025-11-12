@@ -7,9 +7,11 @@ import type { Snippet } from 'svelte';
 export type WidgetFaq1Props = {
   items?: Card4Props[];
   isAfterContent?: boolean;
+  asHeader?: HeadlineProps['as'];
+  asSubtitle?: HeadlineProps['asSubtitle'];
 } & WidgetWrapperProps &
   ItemGrid0Props &
-  Omit<HeadlineProps, 'classes'>;
+  Omit<HeadlineProps, 'classes' | 'as' | 'asSubtitle'>;
 
 export type SvelteWidgetFaq1Props = {
   items?: Card4Props[];
@@ -18,6 +20,8 @@ export type SvelteWidgetFaq1Props = {
   subtitle?: string | Snippet;
   tagline?: string | Snippet;
   bg?: Snippet;
+  asHeader?: HeadlineProps['as'];
+  asSubtitle?: HeadlineProps['asSubtitle'];
 } & SvelteWidgetWrapperProps &
   ItemGrid0Props &
-  Omit<HeadlineProps, 'classes'>;
+  Omit<HeadlineProps, 'classes' | 'as' | 'asSubtitle'>;

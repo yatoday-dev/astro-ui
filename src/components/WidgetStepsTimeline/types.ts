@@ -9,8 +9,10 @@ export type WidgetStepsTimelineProps = {
   image?: string | Image;
   defaultIcon?: string;
   isAfterContent?: boolean;
+  asHeader?: HeadlineProps['as'];
+  asSubtitle?: HeadlineProps['asSubtitle'];
 } & WidgetFeatures0Props &
-  HeadlineProps;
+  Omit<HeadlineProps, 'as' | 'asSubtitle'>;
 
 export type SvelteWidgetStepsTimelineProps = {
   isReversed?: boolean;
@@ -22,5 +24,7 @@ export type SvelteWidgetStepsTimelineProps = {
   subtitle?: string | Snippet;
   tagline?: string | Snippet;
   bg?: Snippet;
+  asHeader?: HeadlineProps['as'];
+  asSubtitle?: HeadlineProps['asSubtitle'];
 } & SvelteWidgetFeatures0Props &
-  HeadlineProps;
+  Omit<HeadlineProps, 'as' | 'asSubtitle'>;

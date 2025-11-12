@@ -11,6 +11,8 @@ const {
   tagline = await Astro.slots.render('tagline'),
   actions = await Astro.slots.render('actions'),
   isAfterContent = false,
+  asHeader = 'h2',
+  asSubtitle = 'p',
 
   id,
   isDark = false,
@@ -30,6 +32,8 @@ const {
       title={title}
       subtitle={subtitle}
       tagline={tagline}
+      as={asHeader}
+      asSubtitle={asSubtitle}
       classes={{
         container: 'mb-0 md:mb-0 text-left',
         title: 'text-2xl md:text-4xl font-bold tracking-tighter mb-4 font-heading',

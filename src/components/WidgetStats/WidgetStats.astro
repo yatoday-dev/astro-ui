@@ -12,6 +12,8 @@ const {
   items = [],
   callToAction,
   position = 'center',
+  asHeader = 'h2',
+  asSubtitle = 'p',
   id,
   isDark = false,
   classes = {},
@@ -33,6 +35,8 @@ const {
     tagline={tagline}
     classes={classes?.headline as Record<string, string>}
     position={position}
+    as={asHeader}
+    asSubtitle={asSubtitle}
   />
 
   <Stats0 items={items} classes={classes?.items as Record<string, string>} />

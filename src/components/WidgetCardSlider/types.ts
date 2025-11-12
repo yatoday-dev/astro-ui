@@ -10,8 +10,10 @@ export type WidgetCardSliderProps = {
   items?: Card1Props[] | Card2Props[] | Card3Props[];
   isAfterContent?: boolean;
   withNavigation?: boolean;
+  asHeader?: HeadlineProps['as'];
+  asSubtitle?: HeadlineProps['asSubtitle'];
 } & WidgetWrapperProps &
-  Omit<HeadlineProps, 'classes'>;
+  Omit<HeadlineProps, 'classes' | 'as' | 'asSubtitle'>;
 
 export type SvelteWidgetCardSliderProps = {
   via?: any;
@@ -22,5 +24,7 @@ export type SvelteWidgetCardSliderProps = {
   subtitle?: string | Snippet;
   tagline?: string | Snippet;
   bg?: Snippet;
+  asHeader?: HeadlineProps['as'];
+  asSubtitle?: HeadlineProps['asSubtitle'];
 } & SvelteWidgetWrapperProps &
-  Omit<HeadlineProps, 'classes'>;
+  Omit<HeadlineProps, 'classes' | 'as' | 'asSubtitle'>;

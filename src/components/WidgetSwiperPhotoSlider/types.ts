@@ -12,8 +12,10 @@ export type WidgetSwiperPhotoSliderProps = {
     headline?: Record<string, string>;
   };
   callToAction?: ToAction;
+  asHeader?: HeadlineProps['as'];
+  asSubtitle?: HeadlineProps['asSubtitle'];
 } & WidgetWrapperProps &
-  Omit<HeadlineProps, 'classes'>;
+  Omit<HeadlineProps, 'classes' | 'as' | 'asSubtitle'>;
 
 export type SvelteWidgetSwiperPhotoSliderProps = {
   isAfterContent?: boolean;
@@ -25,4 +27,6 @@ export type SvelteWidgetSwiperPhotoSliderProps = {
   subtitle?: string | Snippet;
   tagline?: string | Snippet;
   position?: 'center' | 'left' | 'right';
+  asHeader?: HeadlineProps['as'];
+  asSubtitle?: HeadlineProps['asSubtitle'];
 } & SvelteWidgetWrapperProps;

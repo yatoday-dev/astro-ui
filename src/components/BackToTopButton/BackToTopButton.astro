@@ -56,9 +56,9 @@ const { selector = '#header', scrollOffset = 450 } = Astro.props;
 </style>
 
 <!-- Back to top button-->
-<a
+<button
+  type="button"
   class="btn-scroll-top text-card-foreground"
-  href="javascript:void(0);"
   data-yt-scroll
   data-yt-scroll-offset={scrollOffset}
   data-yt-scroll-selector={selector}
@@ -71,7 +71,7 @@ const { selector = '#header', scrollOffset = 450 } = Astro.props;
   <span class="flex items-center justify-center">
     <Icon name="tabler:arrow-up" />
   </span>
-</a>
+</button>
 
 <script>
   import { get, attachEvent } from '../../utils';

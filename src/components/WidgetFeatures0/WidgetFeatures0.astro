@@ -12,6 +12,8 @@ const {
   isAfterContent = false,
   callToAction = await Astro.slots.render('actions'),
   position = 'center',
+  asHeader = 'h2',
+  asSubtitle = 'p',
   id,
   isDark = false,
   classes = {},
@@ -31,6 +33,8 @@ const {
     tagline={tagline}
     classes={classes?.headline as Record<string, string>}
     position={position}
+    as={asHeader}
+    asSubtitle={asSubtitle}
   />
   <slot />
 

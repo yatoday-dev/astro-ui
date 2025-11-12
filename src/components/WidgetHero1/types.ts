@@ -1,5 +1,6 @@
 import type { WidgetFeatures0Props } from '~/components/WidgetFeatures0/types.ts';
 import type { Link, Item, ToAction, Image } from '../../types';
+import type { HeadlineProps } from '../Headline/types';
 import type { Snippet } from 'svelte';
 
 export type WidgetHero1Props = {

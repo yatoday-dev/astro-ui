@@ -6,6 +6,7 @@ import type { HTMLAttributes } from 'svelte/elements';
 
 export type HeroSectionProps = {
   asHeader?: HTMLTag;
+  asDescription?: HTMLTag;
   title?: string;
   description?: string;
   image: Image | string;

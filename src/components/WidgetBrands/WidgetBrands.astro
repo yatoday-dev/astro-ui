@@ -13,6 +13,8 @@ const {
   icons = [],
   images = [],
   position = 'center',
+  asHeader = 'h2',
+  asSubtitle = 'p',
   isAfterContent = false,
   id,
   isDark = false,
@@ -27,7 +29,7 @@ const {
   containerClass={`${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container ?? ''}`}
   bg={bg}
 >
-  <Headline title={title} subtitle={subtitle} tagline={tagline} position={position} />
+  <Headline title={title} subtitle={subtitle} tagline={tagline} position={position} as={asHeader} asSubtitle={asSubtitle} />
 
   <div class="flex flex-wrap justify-center gap-x-6 sm:gap-x-12 lg:gap-x-24">
     {

@@ -119,9 +119,11 @@ import { WidgetHero0 } from '@yatoday/astro-ui/astro';
     |-----------|------------|------------|------------|
     | `position` | `center` \| `left` \| `right` | `center` | - |
     | `image` | `string` \| [Image](/docs/types#image) | - | Image for the card |
-    | `title` | `string` | - | `Title` in [Headline](/docs/headline) component | 
-    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component | 
+    | `title` | `string` | - | `Title` in [Headline](/docs/headline) component |
+    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component |
     | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
+    | `asHeader` | `h1` \| `h2` \| `h3` \| `h4` \| `h5` \| `h6` | `h2` | HTML heading tag to use for the title |
+    | `asSubtitle` | `h1` \| `h2` \| `h3` \| `h4` \| `h5` \| `h6` \| `p` \| `span` \| `div` | `p` | HTML tag to use for the subtitle |
     | `actions` | `Array` | `[]` | Array of [ToAction](/docs/types#toaction) components |
     | `links` | `Array` | `[]` | Array of [Link](/docs/types#link) items |
     | `stats` | `Array` | `[]` | Array of [Item](/docs/types#item) for the [Stats0](/docs/feature-stats-0) component |

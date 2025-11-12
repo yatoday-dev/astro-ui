@@ -13,9 +13,11 @@ const {
   tagline = await Astro.slots.render('tagline'),
   imagesFolder,
   position = 'center',
+  asHeader = 'h2',
+  asSubtitle = 'p',
   isAfterContent = false,
   callToAction,
-  
+
   id = (Math.random() + 1).toString(36).substring(7),
   withNavigation = true,
   isDark = false,
@@ -42,6 +44,8 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
     tagline={tagline}
     classes={classes?.headline as Record<string, string>}
     position={position}
+    as={asHeader}
+    asSubtitle={asSubtitle}
   />
 
   {

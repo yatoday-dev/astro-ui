@@ -11,6 +11,8 @@ const {
   subtitle = await Astro.slots.render('subtitle'),
   tagline = await Astro.slots.render('tagline'),
   position = 'center',
+  asHeader = 'h2',
+  asSubtitle = 'p',
   image,
   actions = [],
   links = [],
@@ -31,6 +33,8 @@ const { container: containerClass = '', bg: bgClass = '' } = classes;
         title={title}
         subtitle={subtitle}
         tagline={tagline}
+        as={asHeader}
+        asSubtitle={asSubtitle}
         classes={{
           container: cn(
             'max-w-3xl',

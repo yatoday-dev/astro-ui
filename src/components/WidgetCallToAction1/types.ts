@@ -6,8 +6,10 @@ import type { Snippet } from 'svelte';
 export type WidgetCallToAction1Props = {
   actions?: ToAction[];
   isAfterContent?: boolean;
+  asHeader?: HeadlineProps['as'];
+  asSubtitle?: HeadlineProps['asSubtitle'];
 } & WidgetWrapperProps &
-  Omit<HeadlineProps, 'classes'>;
+  Omit<HeadlineProps, 'classes' | 'as' | 'asSubtitle'>;
 
 export type SvelteWidgetCallToAction1Props = {
   actions?: ToAction[] | Snippet;
@@ -16,5 +18,7 @@ export type SvelteWidgetCallToAction1Props = {
   subtitle?: string | Snippet;
   tagline?: string | Snippet;
   bg?: Snippet;
+  asHeader?: HeadlineProps['as'];
+  asSubtitle?: HeadlineProps['asSubtitle'];
 } & SvelteWidgetWrapperProps &
-  Omit<HeadlineProps, 'classes'>;
+  Omit<HeadlineProps, 'classes' | 'as' | 'asSubtitle'>;

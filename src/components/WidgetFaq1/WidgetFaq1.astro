@@ -13,6 +13,8 @@ const {
   columns = 2,
   isAfterContent = false,
   position = 'center',
+  asHeader = 'h2',
+  asSubtitle = 'p',
   id,
   isDark = false,
   classes = {},
@@ -32,6 +34,8 @@ const {
     tagline={tagline}
     classes={classes?.headline as Record<string, string>}
     position={position}
+    as={asHeader}
+    asSubtitle={asSubtitle}
   />
 
   <ItemGrid0 columns={columns}>

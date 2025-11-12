@@ -24,6 +24,8 @@ const {
   isAfterContent = false,
   defaultIcon = 'tabler:check',
   position = 'center',
+  asHeader = 'h2',
+  asSubtitle = 'p',
   id,
   isDark = false,
   classes = {},
@@ -43,6 +45,8 @@ const {
     tagline={tagline}
     classes={classes?.headline as Record<string, string>}
     position={position}
+    as={asHeader}
+    asSubtitle={asSubtitle}
   />
 
   <div class={`md:flex ${isReversed ? 'md:flex-row-reverse' : ''} md:gap-16`}>

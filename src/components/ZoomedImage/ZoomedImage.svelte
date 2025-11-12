@@ -15,10 +15,10 @@
     ...restProps
   }: SvelteZoomedImageProps = $props();
 
-  let containerRef: HTMLDivElement;
-  let zoomButtonRef: HTMLButtonElement;
-  let imageRef: HTMLImageElement;
-  let spanRef: HTMLElement;
+  let containerRef = $state<HTMLDivElement | null>(null);
+  let zoomButtonRef = $state<HTMLButtonElement | null>(null);
+  let imageRef = $state<HTMLImageElement | null>(null);
+  let spanRef = $state<HTMLElement | null>(null);
 
   let zoomed = $state(false);
   let mousePosition = $state({ percentX: 0, percentY: 0 });

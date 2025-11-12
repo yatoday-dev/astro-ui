@@ -8,12 +8,15 @@ export type WidgetHero2Props = {
   content?: string;
   actions?: string | ToAction[];
   image?: string | Image;
+  asHeader?: HeadlineProps['as'];
+  asSubtitle?: HeadlineProps['asSubtitle'];
 } & WidgetWrapperProps &
-  Omit<HeadlineProps, 'classes'>;
+  Omit<HeadlineProps, 'classes' | 'as' | 'asSubtitle'>;
 
-export type SvelteWidgetHero2Props = WidgetHero2Props & {
+export type SvelteWidgetHero2Props = Omit<WidgetHero2Props, 'asSubtitle'> & {
   contentSlot?: Snippet;
   actionsSlot?: Snippet;
   imageSlot?: Snippet;
   bgSlot?: Snippet;
+  asSubtitle?: HeadlineProps['asSubtitle'];
 };

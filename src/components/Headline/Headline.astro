@@ -9,6 +9,7 @@ const {
   position = 'center',
   classes = {},
   as = 'h2',
+  asSubtitle = 'p',
 } = Astro.props;
 
 const {
@@ -19,6 +20,7 @@ const {
 } = classes;
 
 const WrapperTag = as;
+const SubtitleTag = asSubtitle;
 ---
 
 {
@@ -49,7 +51,7 @@ const WrapperTag = as;
       )}
 
       {subtitle && (
-        <p class={cn('mt-1 md:mt-4 text-muted-foreground text-lg/6 md:text-xl', subtitleClass)} set:html={subtitle} />
+        <SubtitleTag class={cn('mt-1 md:mt-4 text-muted-foreground text-lg/6 md:text-xl', subtitleClass)} set:html={subtitle} />
       )}
     </div>
   )
