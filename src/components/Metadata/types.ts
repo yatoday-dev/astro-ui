@@ -14,6 +14,7 @@ export interface MetaData {
   description?: string;
   openGraph?: MetaDataOpenGraph;
   twitter?: MetaDataTwitter;
+  alternateUrls?: Record<string, string>; // Map of locale to URL for hreflang links
 }
 
 export interface MetaDataRobots {

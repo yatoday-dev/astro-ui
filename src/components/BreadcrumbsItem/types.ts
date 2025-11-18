@@ -8,7 +8,7 @@ export type BreadcrumbsItemProps = {
   currentPage?: boolean;
   hasIcon?: boolean;
   class?: string;
-  position?: number;
+  position: number; // Required for valid BreadcrumbList schema
 };
 
 export type SvelteBreadcrumbsItemProps = WithElementRef<HTMLLiAttributes> &

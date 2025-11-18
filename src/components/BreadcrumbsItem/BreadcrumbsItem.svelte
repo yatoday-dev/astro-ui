@@ -8,6 +8,7 @@
     currentPage = false,
     hasIcon = false,
     class: className,
+    position,
     ref = $bindable(null),
     icon,
     separator,
@@ -23,6 +24,7 @@
   itemtype="https://schema.org/ListItem"
   {...restProps}
 >
+  <meta itemprop="position" content={position.toString()} />
   {#if currentPage}
     <span aria-current="page" class:has-icon={hasIcon}>
       {#if hasIcon}

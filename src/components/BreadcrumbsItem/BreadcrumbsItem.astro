@@ -5,7 +5,7 @@ const { href = '#', label = 'Breadcrumb', currentPage = false, hasIcon = false, 
 ---
 
 <li class:list={['item', classNames]} itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-  {position && <meta itemprop="position" content={position.toString()} />}
+  <meta itemprop="position" content={position.toString()} />
   {
     currentPage ? (
       <span aria-current="page" class:list={[hasIcon ? 'has-icon' : '']} itemprop="name">
