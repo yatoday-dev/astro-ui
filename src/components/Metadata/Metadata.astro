@@ -15,28 +15,55 @@ const {
   description,
   openGraph = {},
   twitter = {},
+  alternateUrls,
 } = Astro.props;
 
 // Build canonical URL using Astro.site
-const canonical = propCanonical || String(new URL(Astro.url.pathname, Astro.site));
+// Ensure pathname has trailing slash for proper URL structure
+let pathname = Astro.url.pathname;
+if (!pathname.endsWith('/')) {
+  pathname += '/';
+}
+const canonical = propCanonical || String(new URL(pathname, Astro.site));
 
 // Get language from URL path (e.g., /ru/, /en/, /es/)
-const urlParts = Astro.url.pathname.split('/').filter(Boolean);
-const locale = urlParts[0] && ['ru', 'en', 'es'].includes(urlParts[0]) ? urlParts[0] : 'ru';
+const urlParts = pathname.split('/').filter(Boolean);
+const locale = urlParts[0] && ['ru', 'en', 'es'].includes(urlParts[0]) ? urlParts[0] : 'es';
 
-// Build alternate locale links for hreflang
-const alternateLocales = ['ru', 'en', 'es']
-  .filter((lang) => lang !== locale)
-  .map((lang) => ({
-    locale: lang,
-    url: String(new URL(Astro.url.pathname.replace(`/${locale}/`, `/${lang}/`).replace(`/${locale}`, `/${lang}`), Astro.site)),
-  }))
-  .concat([
-    {
-      locale: 'x-default',
-      url: String(new URL(Astro.url.pathname.replace(`/${locale}/`, '/ru/').replace(`/${locale}`, '/ru'), Astro.site)),
-    },
-  ]);
+// Build alternate locale links for hreflang (including self-reference)
+// Use alternateUrls if provided (for blog posts with different slugs per language)
+// Otherwise, use path-based replacement for static pages
+const alternateLocales = alternateUrls
+  ? ['ru', 'en', 'es']
+      .map((lang) => ({
+        locale: lang,
+        url: alternateUrls[lang] || String(new URL(pathname.replace(`/${locale}/`, `/${lang}/`), Astro.site)),
+      }))
+      .concat([
+        {
+          locale: 'x-default',
+          url: alternateUrls['es'] || String(new URL(pathname.replace(`/${locale}/`, '/es/'), Astro.site)),
+        },
+      ])
+  : ['ru', 'en', 'es']
+      .map((lang) => {
+        // Replace current locale with target locale and ensure trailing slash
+        let altPath = pathname.replace(`/${locale}/`, `/${lang}/`);
+        if (!altPath.endsWith('/')) {
+          altPath += '/';
+        }
+        return {
+          locale: lang,
+          url: String(new URL(altPath, Astro.site)),
+        };
+      })
+      .concat([
+        {
+          locale: 'x-default',
+          // x-default always points to Spanish (es) - the primary default language
+          url: String(new URL(pathname.replace(`/${locale}/`, '/es/'), Astro.site)),
+        },
+      ]);
 
 // Merge metadata from config with props
 const finalTitle = title || METADATA?.title?.default || '';
