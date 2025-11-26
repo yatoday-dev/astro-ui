@@ -201,6 +201,16 @@ const {
 </WidgetWrapper>
 
 <script>
-  import { register } from 'swiper/element/bundle';
-  register();
+  // Dynamic import for better code splitting - loads Swiper only when needed
+  async function initSwiper() {
+    const { register } = await import('swiper/element/bundle');
+    register();
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSwiper);
+  } else {
+    initSwiper();
+  }
 </script>

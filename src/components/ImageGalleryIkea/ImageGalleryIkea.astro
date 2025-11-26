@@ -149,13 +149,13 @@ const { container: containerClass = '', swiper: swiperClass = '', swiperThumb: s
 <script>
   import { on, get } from '../../utils';
 
-  import { register } from 'swiper/element/bundle';
-
-  register();
-
-  const init = () => {
+  // Dynamic import for better code splitting - loads Swiper only when needed
+  const init = async () => {
     const matches = document.querySelectorAll('div[data-image-gallery-ikea]');
     if (!matches.length) return;
+
+    const { register } = await import('swiper/element/bundle');
+    register();
 
     matches.forEach((elem) => {
       const id = (elem as HTMLElement).dataset.imageGalleryIkea || '0';

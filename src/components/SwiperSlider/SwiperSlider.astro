@@ -86,47 +86,57 @@ const {
 
 <script>
   import { addClasses, removeClasses } from '../../utils';
-  import { register } from 'swiper/element/bundle';
 
-  register();
+  // Dynamic import for better code splitting - loads Swiper only when needed
+  async function initSwiper() {
+    const { register } = await import('swiper/element/bundle');
+    register();
 
-  const matches = document.querySelectorAll('swiper-container');
-  if (matches && matches.length) {
-    matches.forEach((elem) => {
-      const id = elem.dataset.id;
+    const matches = document.querySelectorAll('swiper-container');
+    if (matches && matches.length) {
+      matches.forEach((elem) => {
+        const id = elem.dataset.id;
 
-      if (id) {
-        elem.addEventListener(
-          'swiperreachend',
-          () => {
-            // Use requestAnimationFrame to batch DOM updates and prevent forced reflow
-            requestAnimationFrame(() => {
-              removeClasses(`#btn-next-${id}`, 'opacity-100');
-              addClasses(`#btn-next-${id}`, 'opacity-0');
-            });
-          },
-          false
-        );
-        elem.addEventListener(
-          'swiperreachbeginning',
-          () => {
-            requestAnimationFrame(() => {
-              addClasses(`#btn-prev-${id}`, 'opacity-0');
-            });
-          },
-          false
-        );
-        elem.addEventListener(
-          'swiperfromedge',
-          () => {
-            requestAnimationFrame(() => {
-              removeClasses(`#btn-prev-${id}`, 'opacity-0');
-              addClasses(`#btn-next-${id}`, 'opacity-100');
-            });
-          },
-          false
-        );
-      }
-    });
+        if (id) {
+          elem.addEventListener(
+            'swiperreachend',
+            () => {
+              // Use requestAnimationFrame to batch DOM updates and prevent forced reflow
+              requestAnimationFrame(() => {
+                removeClasses(`#btn-next-${id}`, 'opacity-100');
+                addClasses(`#btn-next-${id}`, 'opacity-0');
+              });
+            },
+            false
+          );
+          elem.addEventListener(
+            'swiperreachbeginning',
+            () => {
+              requestAnimationFrame(() => {
+                addClasses(`#btn-prev-${id}`, 'opacity-0');
+              });
+            },
+            false
+          );
+          elem.addEventListener(
+            'swiperfromedge',
+            () => {
+              requestAnimationFrame(() => {
+                removeClasses(`#btn-prev-${id}`, 'opacity-0');
+                addClasses(`#btn-next-${id}`, 'opacity-100');
+              });
+            },
+            false
+          );
+        }
+      });
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSwiper);
+  } else {
+    initSwiper();
   }
 </script>
