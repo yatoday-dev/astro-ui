@@ -87,8 +87,13 @@ const {
 <script>
   import { addClasses, removeClasses } from '../../utils';
 
+  let swiperInitialized = false;
+
   // Dynamic import for better code splitting - loads Swiper only when needed
   async function initSwiper() {
+    if (swiperInitialized) return;
+    swiperInitialized = true;
+
     const { register } = await import('swiper/element/bundle');
     register();
 
@@ -133,10 +138,40 @@ const {
     }
   }
 
+  // Use Intersection Observer to lazy-load Swiper when slider comes into view
+  function setupLazyInit() {
+    const swiperContainers = document.querySelectorAll('swiper-container');
+    if (!swiperContainers.length) return;
+
+    // If IntersectionObserver is not supported, initialize immediately (deferred)
+    if (!('IntersectionObserver' in window)) {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => initSwiper(), { timeout: 3000 });
+      } else {
+        setTimeout(initSwiper, 200);
+      }
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            initSwiper();
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: '200px' } // Start loading when 200px away from viewport
+    );
+
+    swiperContainers.forEach((container) => observer.observe(container));
+  }
+
   // Initialize when DOM is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initSwiper);
+    document.addEventListener('DOMContentLoaded', setupLazyInit);
   } else {
-    initSwiper();
+    setupLazyInit();
   }
 </script>

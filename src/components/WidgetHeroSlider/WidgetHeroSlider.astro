@@ -207,10 +207,20 @@ const {
     register();
   }
 
-  // Initialize when DOM is ready
+  // Defer Swiper initialization to avoid blocking LCP
+  // Use requestIdleCallback for non-critical initialization, with setTimeout fallback
+  function deferInit() {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => initSwiper(), { timeout: 2000 });
+    } else {
+      setTimeout(initSwiper, 100);
+    }
+  }
+
+  // Initialize after DOM is ready, but defer the actual Swiper load
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initSwiper);
+    document.addEventListener('DOMContentLoaded', deferInit);
   } else {
-    initSwiper();
+    deferInit();
   }
 </script>
