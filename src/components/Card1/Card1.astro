@@ -88,10 +88,10 @@ const urlForImage = Array.isArray(callToAction)
               ) : (
                 <Image
                   class={twMerge('w-full h-full  hover:scale-105 transition duration-300')}
-                  widths={[400, 900]}
+                  widths={[320, 480]}
                   width={400}
                   height={400}
-                  sizes="(max-width: 900px) 400px, 900px"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   layout={imageLayout}
                   loading="lazy"
                   decoding="async"
@@ -106,10 +106,10 @@ const urlForImage = Array.isArray(callToAction)
               ) : (
                 <Image
                   class={twMerge('w-full h-full')}
-                  widths={[400, 900]}
+                  widths={[320, 480]}
                   width={400}
                   height={400}
-                  sizes="(max-width: 900px) 400px, 900px"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   layout={imageLayout}
                   loading="lazy"
                   decoding="async"

@@ -101,10 +101,10 @@ const WrapperDescriptionTag = asDescription;
                 ) : (
                   <Image
                     class={cn('w-full md:h-full bg-gray-400 dark:bg-slate-700', imageClass)}
-                    widths={[400, 900]}
-                    width={400}
+                    widths={[400, 600]}
+                    width={600}
                     height={400}
-                    sizes="(max-width: 900px) 400px, 900px"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     layout="cover"
                     loading={isFirstSlide ? "eager" : "lazy"}
                     fetchpriority={isFirstSlide ? "high" : undefined}
@@ -120,10 +120,10 @@ const WrapperDescriptionTag = asDescription;
                 ) : (
                   <Image
                     class={cn('w-full h-full')}
-                    widths={[400, 900]}
-                    width={400}
+                    widths={[400, 600]}
+                    width={600}
                     height={400}
-                    sizes="(max-width: 900px) 400px, 900px"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     layout="cover"
                     loading={isFirstSlide ? "eager" : "lazy"}
                     fetchpriority={isFirstSlide ? "high" : undefined}

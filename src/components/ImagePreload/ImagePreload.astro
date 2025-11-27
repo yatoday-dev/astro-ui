@@ -27,10 +27,10 @@ interface Props {
 
 const {
   src,
-  sizes = '100vw',
-  widths = [400, 900],
-  width = 900,
-  height = 600,
+  sizes = '(max-width: 768px) 100vw, 50vw',
+  widths = [400, 600],
+  width = 600,
+  height = 400,
   fetchpriority = 'high'
 } = Astro.props;
 
