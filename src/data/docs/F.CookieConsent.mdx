@@ -1,0 +1,243 @@
+---
+title: CookieConsent
+category: W.Feature
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import CookieConsent from '~/components/CookieConsent/CookieConsent.astro';
+
+# CookieConsent
+
+<SourceLink name="CookieConsent" />
+
+A GDPR-compliant cookie consent banner component that blocks analytics scripts (like Google Analytics) until the user provides consent. The banner displays on first visit and stores the user's preference in a cookie.
+
+<div className="space-y-12">
+  <Demo title="Default (Bottom position)">
+    <div className="relative h-48 bg-stripe border rounded overflow-hidden">
+      <div className="absolute bottom-0 left-0 right-0 bg-background border-t p-4">
+        <h2 className="text-lg font-semibold mb-2">This website uses cookies</h2>
+        <p className="text-sm text-muted-foreground mb-4">
+          We use cookies to personalize content and ads, to provide social media features and to analyze our traffic.
+        </p>
+        <div className="flex gap-3">
+          <button className="px-6 py-2.5 text-sm font-medium rounded-md bg-primary text-primary-foreground">
+            Deny
+          </button>
+          <button className="px-6 py-2.5 text-sm font-medium rounded-md bg-primary text-primary-foreground">
+            Allow all
+          </button>
+        </div>
+      </div>
+    </div>
+  </Demo>
+</div>
+
+## Basic Usage
+
+```astro
+---
+import { CookieConsent } from '@yatoday/astro-ui/astro';
+---
+
+<CookieConsent
+  title="This website uses cookies"
+  description="We use cookies to personalize content and ads, to provide social media features and to analyze our traffic."
+  denyText="Deny"
+  allowText="Allow all"
+/>
+```
+
+## With Google Analytics Integration
+
+The component works seamlessly with Google Analytics. Use the `requireConsent` prop on `AnalyticsGoogle` to defer loading until user consent:
+
+```astro
+---
+import { CookieConsent, AnalyticsGoogle } from '@yatoday/astro-ui/astro';
+---
+
+<head>
+  <!-- Analytics will only load after user accepts cookies -->
+  <AnalyticsGoogle id="G-XXXXXXXXXX" requireConsent />
+</head>
+
+<body>
+  <!-- Cookie consent banner -->
+  <CookieConsent
+    title="This website uses cookies"
+    description="We use cookies to personalize content and ads."
+    denyText="Deny"
+    allowText="Allow all"
+  />
+</body>
+```
+
+## Multilingual Support
+
+Pass translated text as props:
+
+```astro
+---
+import { CookieConsent } from '@yatoday/astro-ui/astro';
+
+// Example with i18n
+const translations = {
+  ru: {
+    title: 'Этот сайт использует файлы cookie',
+    description: 'Мы используем файлы cookie для персонализации контента и рекламы.',
+    deny: 'Отклонить',
+    allow: 'Принять все',
+  },
+  en: {
+    title: 'This website uses cookies',
+    description: 'We use cookies to personalize content and ads.',
+    deny: 'Deny',
+    allow: 'Allow all',
+  },
+  es: {
+    title: 'Este sitio web utiliza cookies',
+    description: 'Utilizamos cookies para personalizar el contenido y los anuncios.',
+    deny: 'Rechazar',
+    allow: 'Permitir todo',
+  },
+};
+
+const lang = Astro.currentLocale || 'en';
+const t = translations[lang] || translations.en;
+---
+
+<CookieConsent
+  title={t.title}
+  description={t.description}
+  denyText={t.deny}
+  allowText={t.allow}
+/>
+```
+
+## Position Variants
+
+```astro
+<!-- Bottom (default) -->
+<CookieConsent position="bottom" ... />
+
+<!-- Top -->
+<CookieConsent position="top" ... />
+
+<!-- Center (modal-like) -->
+<CookieConsent position="center" ... />
+```
+
+## Custom Styling
+
+```astro
+<CookieConsent
+  title="Cookie Notice"
+  description="We use cookies..."
+  classes={{
+    container: 'backdrop-blur-sm',
+    content: 'bg-card',
+    title: 'text-xl',
+    description: 'text-base',
+    denyButton: 'bg-secondary text-secondary-foreground',
+    allowButton: 'bg-accent text-accent-foreground',
+  }}
+/>
+```
+
+## JavaScript API
+
+The component exposes a global `CookieConsent` object:
+
+```javascript
+// Get current consent status ('accepted', 'denied', or null)
+const status = window.CookieConsent.getStatus();
+
+// Programmatically show/hide banner
+window.CookieConsent.show();
+window.CookieConsent.hide();
+
+// Programmatically set consent
+window.CookieConsent.accept();
+window.CookieConsent.deny();
+
+// Reset consent (clears cookie and shows banner)
+window.CookieConsent.reset();
+```
+
+## Events
+
+The component dispatches custom events:
+
+```javascript
+// Listen for consent changes
+window.addEventListener('cookie-consent-changed', (e) => {
+  console.log('Consent status:', e.detail.status); // 'accepted' or 'denied'
+  console.log('Was accepted:', e.detail.accepted); // true or false
+});
+
+// Listen for analytics enabled
+window.addEventListener('cookie-consent-analytics-enabled', () => {
+  console.log('User accepted analytics cookies');
+});
+
+// Listen specifically for accepted/denied
+window.addEventListener('cookie-consent-accepted', () => {
+  console.log('User accepted all cookies');
+});
+
+window.addEventListener('cookie-consent-denied', () => {
+  console.log('User denied cookies');
+});
+```
+
+### Svelte Usage
+
+```svelte
+<script>
+  import { CookieConsent } from '@yatoday/astro-ui/svelte';
+</script>
+
+<CookieConsent
+  title="This website uses cookies"
+  description="We use cookies to personalize content and ads."
+  denyText="Deny"
+  allowText="Allow all"
+/>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------|------|---------|-------------|
+    | `title` | `string` | - | Title text for the banner |
+    | `description` | `string` | - | Description text explaining cookie usage |
+    | `denyText` | `string` | `"Deny"` | Text for the deny/reject button |
+    | `allowText` | `string` | `"Allow all"` | Text for the allow/accept button |
+    | `cookieName` | `string` | `"cookie_consent"` | Cookie name to store consent preference |
+    | `cookieExpireDays` | `number` | `365` | Cookie expiration in days |
+    | `position` | `'bottom' \| 'top' \| 'center'` | `"bottom"` | Position of the banner |
+    | `classes.container` | `string` | - | CSS classes for outer container |
+    | `classes.content` | `string` | - | CSS classes for content wrapper |
+    | `classes.title` | `string` | - | CSS classes for title |
+    | `classes.description` | `string` | - | CSS classes for description |
+    | `classes.actions` | `string` | - | CSS classes for button container |
+    | `classes.denyButton` | `string` | - | CSS classes for deny button |
+    | `classes.allowButton` | `string` | - | CSS classes for allow button |
+  </div>
+</div>
+
+## AnalyticsGoogle Props (with consent)
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------|------|---------|-------------|
+    | `id` | `string` | `"GA_MEASUREMENT_ID"` | Google Analytics Measurement ID |
+    | `partytown` | `boolean` | `false` | Enable Partytown for off-main-thread execution |
+    | `requireConsent` | `boolean` | `false` | If true, waits for cookie consent before loading |
+  </div>
+</div>

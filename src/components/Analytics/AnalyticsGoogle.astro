@@ -1,17 +1,102 @@
 ---
+/**
+ * Google Analytics 4 Component
+ *
+ * Works with CookieConsent component for GDPR compliance:
+ * - CookieConsent sets default consent state to 'denied'
+ * - This component loads gtag.js (which respects consent state)
+ * - When user accepts, CookieConsent updates consent to 'granted'
+ *
+ * Usage:
+ * <AnalyticsGoogle id="G-XXXXXXXXXX" />
+ *
+ * With consent requirement (deferred loading):
+ * <AnalyticsGoogle id="G-XXXXXXXXXX" requireConsent />
+ */
 import type { AnalyticsGoogleProps as Props } from './types';
 
-const { id = 'GA_MEASUREMENT_ID', partytown = false } = Astro.props;
+const { id = 'GA_MEASUREMENT_ID', partytown = false, requireConsent = false } = Astro.props;
 const attrs = partytown ? { type: 'text/partytown' } : {};
 ---
 
-<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${id}`} {...attrs}></script>
+{/*
+  When NOT requiring consent: Load immediately
+  Google Consent Mode (set by CookieConsent) will still control data collection
+*/}
+{!requireConsent && (
+  <>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${id}`} {...attrs}></script>
 
-<script is:inline define:vars={{ id }} {...attrs}>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    window.dataLayer.push(arguments);
-  }
-  gtag('js', new Date());
-  gtag('config', id);
-</script>
+    <script is:inline define:vars={{ id }} {...attrs}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      // Note: consent defaults are set by CookieConsent component
+      gtag('js', new Date());
+      gtag('config', id, {
+        // Disable automatic page_view - consent mode handles this
+        'send_page_view': true
+      });
+    </script>
+  </>
+)}
+
+{/*
+  When requiring consent: Only load after user accepts
+  This completely blocks GA until consent is given
+*/}
+{requireConsent && (
+  <script is:inline define:vars={{ id, partytown }}>
+  (function() {
+    let analyticsLoaded = false;
+
+    function loadGoogleAnalytics() {
+      if (analyticsLoaded) return;
+      analyticsLoaded = true;
+
+      // Create and inject the gtag.js script
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+      if (partytown) {
+        script.type = 'text/partytown';
+      }
+      document.head.appendChild(script);
+
+      // Initialize gtag (dataLayer already exists from CookieConsent)
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', id);
+
+      // Dispatch event to notify that analytics is now active
+      window.dispatchEvent(new CustomEvent('analytics-loaded', { detail: { id } }));
+      console.log('[AnalyticsGoogle] GA4 loaded after consent:', id);
+    }
+
+    // Check if consent was already given
+    function checkExistingConsent() {
+      try {
+        const data = localStorage.getItem('cookie_consent_status');
+        if (data) {
+          const consent = JSON.parse(data);
+          return consent.status === 'accepted';
+        }
+      } catch (e) {}
+      return false;
+    }
+
+    // If consent already given, load immediately
+    if (checkExistingConsent()) {
+      loadGoogleAnalytics();
+    }
+
+    // Listen for consent event
+    window.addEventListener('cookie-consent-analytics-enabled', loadGoogleAnalytics);
+  })();
+  </script>
+)}

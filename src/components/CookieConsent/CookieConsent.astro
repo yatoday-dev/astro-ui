@@ -1,0 +1,523 @@
+---
+import type { CookieConsentProps as Props } from './types';
+import { cn } from '../../utils';
+
+const {
+  title = await Astro.slots.render('title'),
+  description = await Astro.slots.render('description'),
+  denyText = 'Deny',
+  allowText = 'Allow all',
+  cookieName = 'cookie_consent_id',
+  cookieExpireDays = 365,
+  position = 'bottom',
+  consentVersion = '1.0',
+  apiEndpoint = '',
+  googleAnalyticsId = '',
+  classes = {},
+  infoDialog = {},
+} = Astro.props;
+
+const {
+  consentDateLabel = 'Consent date:',
+  consentIdLabel = 'Your consent ID:',
+  changeConsentText = 'Change your consent',
+  closeText = 'Close',
+} = infoDialog;
+
+const {
+  container: containerClass = '',
+  content: contentClass = '',
+  title: titleClass = '',
+  description: descriptionClass = '',
+  actions: actionsClass = '',
+  denyButton: denyButtonClass = '',
+  allowButton: allowButtonClass = '',
+} = classes;
+
+const positionClasses = {
+  bottom: 'bottom-0 left-0 right-0',
+  top: 'top-0 left-0 right-0',
+  center: 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+};
+---
+
+<!-- Cookie Consent Banner -->
+<div
+  id="cookie-consent-banner"
+  class={cn(
+    'fixed z-[9999] hidden',
+    positionClasses[position],
+    containerClass
+  )}
+  data-cookie-name={cookieName}
+  data-cookie-expire-days={cookieExpireDays}
+  data-consent-version={consentVersion}
+  data-api-endpoint={apiEndpoint}
+  data-ga-id={googleAnalyticsId}
+  data-consent-date-label={consentDateLabel}
+  data-consent-id-label={consentIdLabel}
+  data-change-consent-text={changeConsentText}
+  data-close-text={closeText}
+>
+  <div
+    class={cn(
+      'bg-background border-t border-border shadow-lg',
+      position === 'center' && 'border rounded-lg max-w-lg mx-4',
+      position !== 'center' && 'w-full',
+      contentClass
+    )}
+  >
+    <div class="container mx-auto px-4 py-6">
+      <div class="flex flex-col gap-4">
+        {title && (
+          <h2
+            class={cn('text-lg font-semibold text-foreground', titleClass)}
+            set:html={title}
+          />
+        )}
+
+        {description && (
+          <p
+            class={cn('text-sm text-muted-foreground', descriptionClass)}
+            set:html={description}
+          />
+        )}
+
+        <div class={cn('flex flex-wrap gap-3', actionsClass)}>
+          <button
+            type="button"
+            id="cookie-consent-deny"
+            class={cn(
+              'px-6 py-2.5 text-sm font-medium rounded-md',
+              'bg-primary text-primary-foreground',
+              'hover:bg-primary/90 transition-colors',
+              'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
+              denyButtonClass
+            )}
+          >
+            {denyText}
+          </button>
+
+          <button
+            type="button"
+            id="cookie-consent-allow"
+            class={cn(
+              'px-6 py-2.5 text-sm font-medium rounded-md',
+              'bg-primary text-primary-foreground',
+              'hover:bg-primary/90 transition-colors',
+              'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
+              allowButtonClass
+            )}
+          >
+            {allowText}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Floating Cookie Settings Button (appears after consent is given) -->
+<button
+  type="button"
+  id="cookie-consent-fab"
+  class="fixed bottom-4 left-4 z-[9998] hidden w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 transition-all hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+  aria-label="Cookie settings"
+  title="Cookie settings"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path>
+    <path d="M8.5 8.5v.01"></path>
+    <path d="M16 15.5v.01"></path>
+    <path d="M12 12v.01"></path>
+    <path d="M11 17v.01"></path>
+    <path d="M7 14v.01"></path>
+  </svg>
+</button>
+
+<!-- Consent Info Dialog (Cookiebot-style popup) -->
+<div
+  id="cookie-consent-info-dialog"
+  class="fixed bottom-20 left-4 z-[9999] hidden w-80 max-w-[calc(100vw-2rem)] bg-background border border-border rounded-lg shadow-xl"
+>
+  <div class="p-4 space-y-3">
+    <!-- Consent Date -->
+    <div class="text-sm">
+      <span class="text-muted-foreground" id="cookie-info-date-label">{consentDateLabel}</span>
+      <span class="font-medium text-foreground ml-1" id="cookie-info-date-value">—</span>
+    </div>
+
+    <!-- Consent ID -->
+    <div class="text-sm">
+      <span class="text-muted-foreground" id="cookie-info-id-label">{consentIdLabel}</span>
+      <div class="font-mono text-xs text-foreground mt-1 break-all bg-muted rounded px-2 py-1" id="cookie-info-id-value">—</div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex flex-col gap-2 pt-2 border-t border-border">
+      <button
+        type="button"
+        id="cookie-info-change-btn"
+        class="w-full px-4 py-2 text-sm font-medium rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+      >
+        {changeConsentText}
+      </button>
+      <button
+        type="button"
+        id="cookie-info-close-btn"
+        class="w-full px-4 py-2 text-sm font-medium rounded-md border border-border text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+      >
+        {closeText}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Google Consent Mode v2: Set default state BEFORE gtag.js loads -->
+<script is:inline>
+  // Initialize dataLayer and gtag
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+
+  // Set default consent state to denied (GDPR requirement)
+  // This MUST run before Google Analytics loads
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'wait_for_update': 500  // Wait 500ms for consent update
+  });
+</script>
+
+<script is:inline>
+(function() {
+  const banner = document.getElementById('cookie-consent-banner');
+  const fab = document.getElementById('cookie-consent-fab');
+  const infoDialog = document.getElementById('cookie-consent-info-dialog');
+  if (!banner) return;
+
+  // Configuration from data attributes
+  const config = {
+    cookieName: banner.dataset.cookieName || 'cookie_consent_id',
+    cookieExpireDays: parseInt(banner.dataset.cookieExpireDays || '365', 10),
+    consentVersion: banner.dataset.consentVersion || '1.0',
+    apiEndpoint: banner.dataset.apiEndpoint || '',
+    gaId: banner.dataset.gaId || ''
+  };
+
+  // Generate UUID v4
+  function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  // Get or create consent ID
+  function getConsentId() {
+    const value = document.cookie
+      .split('; ')
+      .find(row => row.startsWith(config.cookieName + '='));
+    if (value) {
+      return value.split('=')[1];
+    }
+    return null;
+  }
+
+  // Get consent status from localStorage (faster than API call)
+  function getConsentStatus() {
+    try {
+      const data = localStorage.getItem('cookie_consent_status');
+      return data ? JSON.parse(data) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // Save consent status to localStorage
+  function saveConsentStatus(status, categories) {
+    try {
+      localStorage.setItem('cookie_consent_status', JSON.stringify({
+        status: status,
+        categories: categories,
+        timestamp: new Date().toISOString()
+      }));
+    } catch (e) {
+      // Ignore localStorage errors
+    }
+  }
+
+  // Set consent ID cookie
+  function setConsentIdCookie(consentId) {
+    const date = new Date();
+    date.setTime(date.getTime() + (config.cookieExpireDays * 24 * 60 * 60 * 1000));
+    document.cookie = config.cookieName + '=' + consentId + ';expires=' + date.toUTCString() + ';path=/;SameSite=Lax';
+  }
+
+  // Update Google Consent Mode
+  function updateGoogleConsent(granted) {
+    if (typeof gtag !== 'function') return;
+
+    const consentState = granted ? 'granted' : 'denied';
+
+    gtag('consent', 'update', {
+      'analytics_storage': consentState,
+      'ad_storage': consentState,
+      'ad_user_data': consentState,
+      'ad_personalization': consentState
+    });
+
+    console.log('[CookieConsent] Google Consent Mode updated:', consentState);
+  }
+
+  // Send consent to backend API
+  async function sendConsentToBackend(consentId, status, categories) {
+    if (!config.apiEndpoint) {
+      console.log('[CookieConsent] No API endpoint configured, skipping backend call');
+      return;
+    }
+
+    const payload = {
+      consent_id: consentId,
+      status: status,
+      consent_version: config.consentVersion,
+      categories: categories,
+      page_url: window.location.href,
+      locale: document.documentElement.lang || 'en',
+      user_agent: navigator.userAgent
+    };
+
+    try {
+      const response = await fetch(config.apiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error('API response: ' + response.status);
+      }
+
+      console.log('[CookieConsent] Consent saved to backend');
+    } catch (error) {
+      console.error('[CookieConsent] Failed to save consent to backend:', error);
+    }
+  }
+
+  // Show/hide banner, FAB, and info dialog
+  function showBanner() {
+    banner.classList.remove('hidden');
+    if (fab) fab.classList.add('hidden');
+    if (infoDialog) infoDialog.classList.add('hidden');
+  }
+
+  function hideBanner() {
+    banner.classList.add('hidden');
+    if (fab) fab.classList.remove('hidden');
+  }
+
+  function showFab() {
+    if (fab) fab.classList.remove('hidden');
+  }
+
+  function hideFab() {
+    if (fab) fab.classList.add('hidden');
+  }
+
+  function showInfoDialog() {
+    if (!infoDialog) return;
+
+    // Populate dialog with current consent info
+    const consentId = getConsentId();
+    const savedConsent = getConsentStatus();
+
+    const dateValueEl = document.getElementById('cookie-info-date-value');
+    const idValueEl = document.getElementById('cookie-info-id-value');
+
+    if (dateValueEl && savedConsent && savedConsent.timestamp) {
+      try {
+        const date = new Date(savedConsent.timestamp);
+        dateValueEl.textContent = date.toLocaleDateString(document.documentElement.lang || 'en', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      } catch (e) {
+        dateValueEl.textContent = savedConsent.timestamp;
+      }
+    }
+
+    if (idValueEl && consentId) {
+      idValueEl.textContent = consentId;
+    }
+
+    infoDialog.classList.remove('hidden');
+  }
+
+  function hideInfoDialog() {
+    if (infoDialog) infoDialog.classList.add('hidden');
+  }
+
+  // Handle consent
+  function handleConsent(accepted) {
+    const status = accepted ? 'accepted' : 'denied';
+
+    // Get or create consent ID
+    let consentId = getConsentId();
+    if (!consentId) {
+      consentId = generateUUID();
+      setConsentIdCookie(consentId);
+    }
+
+    // Define categories based on acceptance
+    const categories = {
+      analytics_storage: accepted,
+      ad_storage: accepted,
+      ad_user_data: accepted,
+      ad_personalization: accepted
+    };
+
+    // Save to localStorage for quick access
+    saveConsentStatus(status, categories);
+
+    // Update Google Consent Mode
+    updateGoogleConsent(accepted);
+
+    // Send to backend
+    sendConsentToBackend(consentId, status, categories);
+
+    // Hide banner, show FAB
+    hideBanner();
+
+    // Dispatch custom events
+    const eventName = accepted ? 'cookie-consent-accepted' : 'cookie-consent-denied';
+    window.dispatchEvent(new CustomEvent(eventName, {
+      detail: { status, consentId, categories }
+    }));
+
+    window.dispatchEvent(new CustomEvent('cookie-consent-changed', {
+      detail: { status, accepted, consentId, categories }
+    }));
+
+    // If accepted, enable analytics
+    if (accepted) {
+      window.dispatchEvent(new CustomEvent('cookie-consent-analytics-enabled', {
+        detail: { consentId }
+      }));
+    }
+  }
+
+  // Initialize on page load
+  function init() {
+    const consentId = getConsentId();
+    const savedConsent = getConsentStatus();
+
+    if (consentId && savedConsent) {
+      // User has already made a choice - show FAB, hide banner
+      console.log('[CookieConsent] Existing consent found:', savedConsent.status);
+      showFab();
+
+      // Apply saved consent to Google
+      updateGoogleConsent(savedConsent.status === 'accepted');
+
+      // Re-dispatch event for SPA navigation
+      if (savedConsent.status === 'accepted') {
+        window.dispatchEvent(new CustomEvent('cookie-consent-analytics-enabled', {
+          detail: { consentId }
+        }));
+      }
+    } else {
+      // No consent yet - show banner, hide FAB
+      showBanner();
+    }
+  }
+
+  // Event listeners for buttons
+  const denyBtn = document.getElementById('cookie-consent-deny');
+  const allowBtn = document.getElementById('cookie-consent-allow');
+
+  if (denyBtn) {
+    denyBtn.addEventListener('click', function() {
+      handleConsent(false);
+    });
+  }
+
+  if (allowBtn) {
+    allowBtn.addEventListener('click', function() {
+      handleConsent(true);
+    });
+  }
+
+  // FAB click - show info dialog (not banner directly)
+  if (fab) {
+    fab.addEventListener('click', function() {
+      showInfoDialog();
+    });
+  }
+
+  // Info dialog buttons
+  const infoChangeBtn = document.getElementById('cookie-info-change-btn');
+  const infoCloseBtn = document.getElementById('cookie-info-close-btn');
+
+  if (infoChangeBtn) {
+    infoChangeBtn.addEventListener('click', function() {
+      hideInfoDialog();
+      showBanner();
+    });
+  }
+
+  if (infoCloseBtn) {
+    infoCloseBtn.addEventListener('click', function() {
+      hideInfoDialog();
+    });
+  }
+
+  // Close info dialog when clicking outside
+  document.addEventListener('click', function(e) {
+    if (infoDialog && !infoDialog.classList.contains('hidden')) {
+      const target = e.target;
+      if (!infoDialog.contains(target) && target !== fab && !fab.contains(target)) {
+        hideInfoDialog();
+      }
+    }
+  });
+
+  // Expose API for external use
+  window.CookieConsent = {
+    getConsentId: getConsentId,
+    getStatus: getConsentStatus,
+    show: showBanner,
+    hide: hideBanner,
+    showInfo: showInfoDialog,
+    hideInfo: hideInfoDialog,
+    accept: function() { handleConsent(true); },
+    deny: function() { handleConsent(false); },
+    reset: function() {
+      // Clear cookie
+      document.cookie = config.cookieName + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+      // Clear localStorage
+      localStorage.removeItem('cookie_consent_status');
+      // Reset Google consent to denied
+      updateGoogleConsent(false);
+      // Hide info dialog if open
+      hideInfoDialog();
+      // Show banner, hide FAB
+      showBanner();
+      console.log('[CookieConsent] Consent reset');
+    },
+    // For footer "Manage cookies" button - now shows info dialog first
+    manage: function() {
+      showInfoDialog();
+    }
+  };
+
+  // Initialize
+  init();
+})();
+</script>

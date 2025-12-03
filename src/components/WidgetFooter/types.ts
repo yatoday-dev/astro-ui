@@ -14,6 +14,8 @@ export interface ILink {
   href?: string;
   ariaLabel?: string;
   icon?: string;
+  /** Inline onclick handler for special links like cookie settings */
+  onclick?: string;
 }
 
 export interface ILinks {

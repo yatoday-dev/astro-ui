@@ -1,0 +1,147 @@
+---
+title: Analytics
+category: Utility
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+
+# Analytics
+
+<SourceLink name="Analytics" />
+
+Components for integrating analytics services like Google Analytics and Google Tag Manager into your Astro site.
+
+## AnalyticsGoogle
+
+Integrates Google Analytics 4 (GA4) into your site.
+
+### Basic Usage
+
+```astro
+---
+import { AnalyticsGoogle } from '@yatoday/astro-ui/astro';
+---
+
+<head>
+  <AnalyticsGoogle id="G-XXXXXXXXXX" />
+</head>
+```
+
+### With Cookie Consent (GDPR)
+
+Use the `requireConsent` prop to defer loading until the user accepts cookies. This requires the `CookieConsent` component to be present on the page.
+
+```astro
+---
+import { AnalyticsGoogle, CookieConsent } from '@yatoday/astro-ui/astro';
+---
+
+<head>
+  <AnalyticsGoogle id="G-XXXXXXXXXX" requireConsent />
+</head>
+
+<body>
+  <CookieConsent
+    title="This website uses cookies"
+    description="We use cookies to analyze our traffic."
+    denyText="Deny"
+    allowText="Allow all"
+  />
+</body>
+```
+
+When `requireConsent` is enabled:
+- Analytics script does NOT load on page load
+- Waits for `cookie-consent-analytics-enabled` event (fired when user clicks "Allow all")
+- If user already accepted (cookie exists), loads immediately on page load
+- Fires `analytics-loaded` event when GA is initialized
+
+### With Partytown
+
+Use Partytown to run analytics in a web worker for better performance:
+
+```astro
+<AnalyticsGoogle id="G-XXXXXXXXXX" partytown />
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `string` | `"GA_MEASUREMENT_ID"` | Google Analytics Measurement ID (G-XXXXXXXXXX) |
+| `partytown` | `boolean` | `false` | Run script in web worker via Partytown |
+| `requireConsent` | `boolean` | `false` | Wait for cookie consent before loading |
+
+## AnalyticsGTM
+
+Integrates Google Tag Manager.
+
+### Usage
+
+```astro
+---
+import { AnalyticsGTM, AnalyticsGTMBody } from '@yatoday/astro-ui/astro';
+---
+
+<head>
+  <AnalyticsGTM id="GTM-XXXXXXX" />
+</head>
+
+<body>
+  <AnalyticsGTMBody id="GTM-XXXXXXX" />
+  <!-- rest of body -->
+</body>
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `id` | `string` | - | Google Tag Manager Container ID (GTM-XXXXXXX) |
+
+## Analytics (Auto-configured)
+
+The `Analytics` component automatically loads analytics based on your `config.yaml` vendor configuration.
+
+### Usage
+
+```astro
+---
+import { Analytics } from '@yatoday/astro-ui/astro';
+---
+
+<head>
+  <Analytics />
+</head>
+```
+
+### Configuration
+
+In your `config.yaml`:
+
+```yaml
+analytics:
+  vendors:
+    googleAnalytics:
+      id: "G-XXXXXXXXXX"
+      partytown: false
+    googleTagManager:
+      id: "GTM-XXXXXXX"
+```
+
+## Events
+
+When using `requireConsent`, you can listen for these events:
+
+```javascript
+// Analytics has been loaded and initialized
+window.addEventListener('analytics-loaded', (e) => {
+  console.log('GA loaded with ID:', e.detail.id);
+});
+
+// Track custom events after consent
+window.addEventListener('cookie-consent-analytics-enabled', () => {
+  // Safe to use gtag() here
+  gtag('event', 'page_view');
+});
+```
