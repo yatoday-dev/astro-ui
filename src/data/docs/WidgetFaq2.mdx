@@ -1,0 +1,183 @@
+---
+title: WidgetFaq2
+category: Widget
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import WidgetFaq2 from '~/components/WidgetFaq2/WidgetFaq2.astro';
+
+# WidgetFaq2
+
+<SourceLink name="WidgetFaq2" />
+
+An accordion-style FAQ widget with expandable/collapsible items. Each item can be clicked to reveal or hide its content.
+
+<Demo title="">
+  <WidgetFaq2
+    title="Frequently Asked Questions"
+    subtitle="Here we have collected answers to the most popular questions about our service."
+    classes={{ container: 'max-w-6xl' }}
+    items={[
+      {
+        title: 'What is included in the service?',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+      },
+      {
+        title: 'How do I get started?',
+        description:
+          'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.',
+      },
+      {
+        title: 'What payment methods do you accept?',
+        description:
+          'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.',
+      },
+      {
+        title: 'How long does delivery take?',
+        description:
+          'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error.',
+      },
+    ]}
+  />
+</Demo>
+
+```astro
+---
+import { WidgetFaq2 } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetFaq2
+  title="Frequently Asked Questions"
+  subtitle="Here we have collected answers to the most popular questions about our service."
+  classes={{ container: 'max-w-6xl' }}
+  items={[
+    {
+      title: 'What is included in the service?',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    },
+    {
+      title: 'How do I get started?',
+      description:
+        'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+    },
+    {
+      title: 'What payment methods do you accept?',
+      description:
+        'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+    },
+    {
+      title: 'How long does delivery take?',
+      description:
+        'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    },
+  ]}
+/>
+```
+
+## Open All Items
+
+Use `openAllItems` prop to have all accordion items expanded by default.
+
+<Demo title="">
+  <WidgetFaq2
+    title="All Items Open"
+    openAllItems={true}
+    classes={{ container: 'max-w-6xl' }}
+    items={[
+      {
+        title: 'Question 1',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      },
+      {
+        title: 'Question 2',
+        description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.',
+      },
+    ]}
+  />
+</Demo>
+
+```astro
+<WidgetFaq2
+  title="All Items Open"
+  openAllItems={true}
+  items={[
+    {
+      title: 'Question 1',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    },
+    {
+      title: 'Question 2',
+      description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.',
+    },
+  ]}
+/>
+```
+
+## First Item Closed
+
+Set `openFirstItem` to `false` to have all items collapsed initially.
+
+<Demo title="">
+  <WidgetFaq2
+    title="All Items Closed"
+    openFirstItem={false}
+    classes={{ container: 'max-w-6xl' }}
+    items={[
+      {
+        title: 'Question 1',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      },
+      {
+        title: 'Question 2',
+        description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.',
+      },
+    ]}
+  />
+</Demo>
+
+```astro
+<WidgetFaq2
+  title="All Items Closed"
+  openFirstItem={false}
+  items={[
+    {
+      title: 'Question 1',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    },
+    {
+      title: 'Question 2',
+      description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.',
+    },
+  ]}
+/>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |-----------|------------|------------|------------|
+    | `title` | `string` | - | `Title` in [Headline](/docs/headline) component |
+    | `subtitle` | `string` | - | `Subtitle` in [Headline](/docs/headline) component |
+    | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
+    | `asHeader` | `h1` \| `h2` \| `h3` \| `h4` \| `h5` \| `h6` | `h2` | HTML heading tag to use for the title |
+    | `asSubtitle` | `h1` \| `h2` \| `h3` \| `h4` \| `h5` \| `h6` \| `p` \| `span` \| `div` | `p` | HTML tag to use for the subtitle |
+    | `items` | `Array<{title, description}>` | `[]` | Array of FAQ items with title and description |
+    | `openFirstItem` | `boolean` | `true` | Whether the first item should be open by default |
+    | `openAllItems` | `boolean` | `false` | Whether all items should be open by default |
+    | `isAfterContent` | `boolean` | `false` | - |
+    | `id` | `string` | - | Specify a unique id for the section |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the [WidgetWrapper](/docs/feature-widget-wrapper) |
+    | `bg` | `string` | - | Set background element |
+    | `classes.container` | `string` | - | CSS classes for the root container |
+    | `classes.headline.{...}` | `string` | - | CSS classes for the [Headline](/docs/headline) component |
+    | `classes.item` | `string` | - | CSS classes for each FAQ item container |
+    | `classes.trigger` | `string` | - | CSS classes for the clickable trigger button |
+    | `classes.title` | `string` | - | CSS classes for the question title |
+    | `classes.description` | `string` | - | CSS classes for the answer description |
+  </div>
+</div>

@@ -201,6 +201,36 @@ import { WidgetNavbar } from '@yatoday/astro-ui/astro';
   ]}
 />
 ```
+
+## Actions with Custom Classes
+
+You can add custom CSS classes to action buttons using the `class` property. These classes will be appended to the default button classes.
+
+<Demo title="Custom action classes">
+  <WidgetNavbar
+    classes={{
+      container: "mx-auto max-w-6xl bg-background text-foreground",
+    }}
+    links={demoLinks}
+    actions={[
+      { text: 'Default', href: '/', variant: 'outline' },
+      { text: 'Custom', href: '/', variant: 'primary', class: 'rounded-full bg-green-600 hover:bg-green-700' },
+    ]}
+  >
+    <Fragment slot="logo">LOGO</Fragment>
+  </WidgetNavbar>
+</Demo>
+
+```astro
+<WidgetNavbar
+  links={[...]}
+  actions={[
+    { text: 'Default', href: '/', variant: 'outline' },
+    { text: 'Custom', href: '/', variant: 'primary', class: 'rounded-full bg-green-600 hover:bg-green-700' },
+  ]}
+/>
+```
+
 ## Props
 
 <div className="overflow-x-auto">
