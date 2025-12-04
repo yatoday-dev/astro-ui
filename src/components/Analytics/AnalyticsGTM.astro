@@ -1,15 +1,56 @@
 ---
 import type { AnalyticsGTMProps as Props } from './types';
 
-const { id = 'GTM-XXXXXXX' } = Astro.props;
+const { id = 'GTM-XXXXXXX', defer = false } = Astro.props;
 ---
 
-<!-- Google Tag Manager -->
-<script is:inline define:vars={{ id }}>
-  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer',id);
-</script>
-<!-- End Google Tag Manager -->
+{/* Immediate loading (default) */}
+{!defer && (
+  <>
+    {/* Google Tag Manager */}
+    <script is:inline define:vars={{ id }}>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer',id);
+    </script>
+    {/* End Google Tag Manager */}
+  </>
+)}
+
+{/* Deferred loading - loads after user interaction */}
+{defer && (
+  <script is:inline define:vars={{ id }}>
+    (function() {
+      var gtmLoaded = false;
+
+      function loadGTM() {
+        if (gtmLoaded) return;
+        gtmLoaded = true;
+
+        // Remove event listeners
+        document.removeEventListener('scroll', loadGTM);
+        document.removeEventListener('click', loadGTM);
+        document.removeEventListener('touchstart', loadGTM);
+        document.removeEventListener('keydown', loadGTM);
+
+        // Load GTM
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer',id);
+      }
+
+      // Load on any user interaction
+      document.addEventListener('scroll', loadGTM, { once: true, passive: true });
+      document.addEventListener('click', loadGTM, { once: true });
+      document.addEventListener('touchstart', loadGTM, { once: true, passive: true });
+      document.addEventListener('keydown', loadGTM, { once: true });
+
+      // Also load after 5 seconds as fallback (for users who don't interact)
+      setTimeout(loadGTM, 5000);
+    })();
+  </script>
+)}

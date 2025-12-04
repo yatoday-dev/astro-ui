@@ -19,6 +19,7 @@ import { ANALYTICS } from 'vendor:config';
   ANALYTICS?.vendors?.googleTagManager?.id ? (
     <AnalyticsGTMProvider
       id={String(ANALYTICS.vendors.googleTagManager.id)}
+      defer={ANALYTICS?.vendors?.googleTagManager?.defer}
     />
   ) : null
 }
