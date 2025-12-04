@@ -15,6 +15,12 @@ export interface MetaData {
   openGraph?: MetaDataOpenGraph;
   twitter?: MetaDataTwitter;
   alternateUrls?: Record<string, string>; // Map of locale to URL for hreflang links
+  i18n?: MetaDataI18n; // Optional i18n config for locale detection
+}
+
+export interface MetaDataI18n {
+  locales?: string[];
+  defaultLocale?: string;
 }
 
 export interface MetaDataRobots {

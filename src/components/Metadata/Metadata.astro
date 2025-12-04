@@ -17,6 +17,7 @@ const {
   openGraph = {},
   twitter = {},
   alternateUrls,
+  i18n,
 } = Astro.props;
 
 // Build canonical URL using Astro.site
@@ -27,9 +28,9 @@ if (!pathname.endsWith('/')) {
 }
 const canonical = propCanonical || String(new URL(pathname, Astro.site));
 
-// Get supported locales from Astro's i18n config
-const supportedLocales = getLocales();
-const defaultLocale = getDefaultLocale();
+// Get supported locales from props or fallback to defaults
+const supportedLocales = getLocales(i18n);
+const defaultLocale = getDefaultLocale(i18n);
 
 // Get language from URL path (e.g., /ru/, /en/, /es/)
 const urlParts = pathname.split('/').filter(Boolean);
