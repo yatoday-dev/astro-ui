@@ -32,4 +32,6 @@ export type SvelteWidgetFooterProps = {
   logo?: Snippet;
   subscribe?: Snippet;
   bg?: Snippet;
+  /** Home URL with locale prefix (e.g., '/en/'). Defaults to '/' */
+  homeHref?: string;
 } & SvelteWidgetWrapperProps;

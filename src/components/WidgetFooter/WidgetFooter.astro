@@ -15,6 +15,9 @@ const {
   isDark = false,
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
+
+const currentLocale = Astro.currentLocale || 'en';
+const homeHref = `/${currentLocale}/`;
 ---
 
 <WidgetWrapper
@@ -29,7 +32,7 @@ const {
         <div class="mb-2">
           <!-- SLOT: logo -->
           <slot name="logo">
-            <a class="inline-block font-medium text-xl" href="/">{SITE?.name || 'Logo'}</a>
+            <a class="inline-block font-medium text-xl" href={homeHref}>{SITE?.name || 'Logo'}</a>
           </slot>
         </div>
         <div class="text-sm text-muted-foreground flex gap-1">

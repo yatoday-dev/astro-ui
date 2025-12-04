@@ -14,6 +14,7 @@
     bg,
     logo,
     subscribe,
+    homeHref = '/',
     ref = $bindable(null),
     ...restProps
   }: SvelteWidgetFooterProps = $props();
@@ -34,7 +35,7 @@
           {#if logo}
             {@render logo()}
           {:else}
-            <a class="inline-block font-medium text-xl" href="/">Logo</a>
+            <a class="inline-block font-medium text-xl" href={homeHref}>Logo</a>
           {/if}
         </div>
         <div class="text-sm text-muted-foreground flex gap-1">
