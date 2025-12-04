@@ -268,8 +268,8 @@ const positionClasses = {
       'ad_user_data': consentState,
       'ad_personalization': consentState
     });
-    
-    gtag({'event': `consent_${consentState}`});
+
+    gtag('event', `consent_${consentState}`);
 
     console.log('[CookieConsent] Google Consent Mode updated:', consentState);
   }
