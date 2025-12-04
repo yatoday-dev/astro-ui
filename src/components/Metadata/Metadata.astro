@@ -3,6 +3,7 @@ import type { MetadataProps as Props } from './types';
 import SEO from '../SEO/SEO.astro';
 import type { SEOProps } from '../SEO/SEO.astro';
 import { adaptOpenGraphImages } from '../../utils/images';
+import { getLocales, getDefaultLocale } from '../../utils/i18n';
 
 import merge from 'lodash.merge';
 import { METADATA, SITE } from 'vendor:config';
@@ -26,15 +27,19 @@ if (!pathname.endsWith('/')) {
 }
 const canonical = propCanonical || String(new URL(pathname, Astro.site));
 
+// Get supported locales from Astro's i18n config
+const supportedLocales = getLocales();
+const defaultLocale = getDefaultLocale();
+
 // Get language from URL path (e.g., /ru/, /en/, /es/)
 const urlParts = pathname.split('/').filter(Boolean);
-const locale = urlParts[0] && ['ru', 'en', 'es'].includes(urlParts[0]) ? urlParts[0] : 'es';
+const locale = urlParts[0] && supportedLocales.includes(urlParts[0]) ? urlParts[0] : defaultLocale;
 
 // Build alternate locale links for hreflang (including self-reference)
 // Use alternateUrls if provided (for blog posts with different slugs per language)
 // Otherwise, use path-based replacement for static pages
 const alternateLocales = alternateUrls
-  ? ['ru', 'en', 'es']
+  ? supportedLocales
       .map((lang) => ({
         locale: lang,
         url: alternateUrls[lang] || String(new URL(pathname.replace(`/${locale}/`, `/${lang}/`), Astro.site)),
@@ -42,10 +47,10 @@ const alternateLocales = alternateUrls
       .concat([
         {
           locale: 'x-default',
-          url: alternateUrls['es'] || String(new URL(pathname.replace(`/${locale}/`, '/es/'), Astro.site)),
+          url: alternateUrls[defaultLocale] || String(new URL(pathname.replace(`/${locale}/`, `/${defaultLocale}/`), Astro.site)),
         },
       ])
-  : ['ru', 'en', 'es']
+  : supportedLocales
       .map((lang) => {
         // Replace current locale with target locale and ensure trailing slash
         let altPath = pathname.replace(`/${locale}/`, `/${lang}/`);
@@ -60,8 +65,8 @@ const alternateLocales = alternateUrls
       .concat([
         {
           locale: 'x-default',
-          // x-default always points to Spanish (es) - the primary default language
-          url: String(new URL(pathname.replace(`/${locale}/`, '/es/'), Astro.site)),
+          // x-default points to the default locale configured in Astro i18n
+          url: String(new URL(pathname.replace(`/${locale}/`, `/${defaultLocale}/`), Astro.site)),
         },
       ]);
 
