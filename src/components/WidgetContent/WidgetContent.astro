@@ -70,11 +70,10 @@ const {
                 icon={defaultIcon}
                 {...item}
                 classes={{
-                  container: `gap-0 border-0 py-0 justify-start`,
-                  title: 'text-lg font-medium leading-6 dark:text-white ml-2 rtl:ml-0 rtl:mr-2',
-                  description: 'ml-2 rtl:ml-0 rtl:mr-2',
-                  icon: 'flex h-7 w-7 items-center justify-center rounded-full bg-green-600 dark:bg-green-700 text-gray-50 p-1',
-                  ...((classes?.items as object) ?? {}),
+                  container: cn('gap-0 border-0 py-0 justify-start', (classes?.items as Record<string, string>)?.container),
+                  title: cn('text-lg font-medium leading-6 dark:text-white ml-2 rtl:ml-0 rtl:mr-2', (classes?.items as Record<string, string>)?.title),
+                  description: cn('ml-2 rtl:ml-0 rtl:mr-2', (classes?.items as Record<string, string>)?.description),
+                  icon: cn('flex h-7 w-7 items-center justify-center rounded-full bg-green-600 dark:bg-green-700 text-gray-50 p-1', (classes?.items as Record<string, string>)?.icon),
                 }}
               />
             ))

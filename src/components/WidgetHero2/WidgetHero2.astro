@@ -1,8 +1,10 @@
 ---
 import type { WidgetHero2Props as Props } from './types';
 import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
+import Headline from '../Headline/Headline.astro';
 import Image from '../Image/Image.astro';
 import Button from '../Button/Button.astro';
+import { cn } from '../../utils';
 
 const {
   title = await Astro.slots.render('title'),
@@ -11,14 +13,10 @@ const {
   content = await Astro.slots.render('content'),
   actions = await Astro.slots.render('actions'),
   image = await Astro.slots.render('image'),
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   position = 'center',
-  // Note: asHeader is kept for API consistency but not used since this component has custom heading implementation
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   asHeader = 'h1',
-  // Note: asSubtitle is kept for API consistency but not used since this component has custom heading implementation
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   asSubtitle = 'p',
+  isAfterContent = false,
 
   id,
   isDark = false,
@@ -29,58 +27,71 @@ const {
 const { container: containerClass = '' } = classes;
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`py-0 md:py-0 lg:py-0 ${containerClass as string}`} bg={bg}>
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
-    <!--<div class="pt-0 md:pt-[76px] pointer-events-none"></div>-->
-    <div class="py-12 md:py-20">
-      <div class="text-center max-w-5xl mx-auto">
-        {tagline && <p class="text-base text-muted-foreground font-bold tracking-wide uppercase" set:html={tagline} />}
+<WidgetWrapper
+  id={id}
+  isDark={isDark}
+  containerClass={`${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${containerClass as string}`}
+  bg={bg}
+>
+  <!--<div class="pt-0 md:pt-[76px] pointer-events-none"></div>-->
+  <div class="">
+    <div class="text-center max-w-5xl mx-auto">
+      <Headline
+        as={asHeader}
+        title={title}
+        subtitle={subtitle}
+        tagline={tagline}
+        asSubtitle={asSubtitle}
+        position={position}
+        classes={{
+          container: cn(
+            'max-w-5xl mx-auto',
+            { 'text-center': position === 'center' },
+            { 'text-right': position === 'right' },
+            { 'text-left': position === 'left' }
+          ),
+          ...((classes?.headline as Record<string, never>) ?? {}),
+        }}
+      />
+      <div class="max-w-3xl mx-auto">
         {
-          title && (
-            <h1 class="text-5xl md:text-6xl font-bold leading-tighter tracking-tighter font-heading" set:html={title} />
-          )
-        }
-        <div class="max-w-3xl mx-auto">
-          {subtitle && <p class="text-xl text-muted-foreground mt-4" set:html={subtitle} />}
-          {
-            actions && (
-              <div class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 mt-6">
-                {Array.isArray(actions) ? (
-                  actions.map((action) => (
-                    <div class="flex w-full sm:w-auto">
-                      <Button {...(action || {})} class="w-full sm:mb-0" />
-                    </div>
-                  ))
-                ) : (
-                  <Fragment set:html={actions} />
-                )}
-              </div>
-            )
-          }
-        </div>
-        {content && <Fragment set:html={content} />}
-      </div>
-      <div class="">
-        {
-          image && (
-            <div class="relative m-auto max-w-5xl mt-10 md:mt-16 ">
-              {typeof image === 'string' ? (
-                <Fragment set:html={image} />
+          actions && (
+            <div class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 mt-6">
+              {Array.isArray(actions) ? (
+                actions.map((action) => (
+                  <div class="flex w-full sm:w-auto">
+                    <Button {...(action || {})} class="w-full sm:mb-0" />
+                  </div>
+                ))
               ) : (
-                <Image
-                  class="mx-auto rounded-md w-full"
-                  widths={[400, 768, 1024, 2040]}
-                  sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
-                  loading="eager"
-                  width={1024}
-                  height={576}
-                  {...image}
-                />
+                <Fragment set:html={actions} />
               )}
             </div>
           )
         }
       </div>
+      {content && <Fragment set:html={content} />}
+    </div>
+    <div class="">
+      {
+        image && (
+          <div class="relative m-auto max-w-5xl mt-10 md:mt-16 ">
+            {typeof image === 'string' ? (
+              <Fragment set:html={image} />
+            ) : (
+              <Image
+                class="mx-auto rounded-md w-full"
+                widths={[400, 768, 1024, 2040]}
+                sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
+                loading="eager"
+                width={1024}
+                height={576}
+                {...image}
+              />
+            )}
+          </div>
+        )
+      }
     </div>
   </div>
 </WidgetWrapper>
