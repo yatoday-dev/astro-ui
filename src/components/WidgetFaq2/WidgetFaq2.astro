@@ -76,7 +76,7 @@ const {
                 data-yt-faq-content
                 style={isOpen ? '' : 'height: 0px;'}
               >
-                <p class={cn('pb-4 text-muted-foreground', classes?.description)}>{item.description}</p>
+                <p class={cn('pb-4 text-muted-foreground', classes?.description)} set:html={item.description} />
               </div>
             </div>
           );
