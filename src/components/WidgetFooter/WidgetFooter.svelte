@@ -60,13 +60,16 @@
           <div class="text-foreground font-medium mb-2">{title}</div>
           {#if linkList && Array.isArray(linkList) && linkList.length > 0}
             <ul class="text-sm">
-              {#each linkList as { text, href, ariaLabel }}
+              {#each linkList as { text, href, ariaLabel, icon }}
                 <li class="mb-2">
                   <a
-                    class="text-muted-foreground hover:text-foreground hover:underline transition duration-150 ease-in-out"
+                    class="text-muted-foreground hover:text-foreground hover:underline transition duration-150 ease-in-out inline-flex items-center gap-1.5"
                     {href}
                     aria-label={ariaLabel}
                   >
+                    {#if icon}
+                      <span class="w-4 h-4 flex-shrink-0" data-icon={icon}></span>
+                    {/if}
                     {@html text}
                   </a>
                 </li>
