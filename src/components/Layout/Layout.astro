@@ -8,10 +8,13 @@ import type { LayoutProps as Props } from './types';
 import { I18N } from 'vendor:config';
 
 const { metadata = {}, class: className } = Astro.props;
-const { language, textDirection } = I18N;
+const { language, textDirection, locales, defaultLocale } = I18N;
 
 // Use current locale from Astro's i18n routing, fallback to config
 const currentLang = Astro.currentLocale || language;
+
+// Build i18n config for Metadata component (for hreflang generation)
+const i18nConfig = locales?.length ? { locales, defaultLocale: defaultLocale || language } : undefined;
 ---
 
 <!doctype html>
@@ -20,7 +23,7 @@ const currentLang = Astro.currentLocale || language;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <SeoMetadata {...metadata} />
+    <SeoMetadata {...metadata} i18n={i18nConfig} />
 
     <slot name="head" />
     <slot name="styles" />

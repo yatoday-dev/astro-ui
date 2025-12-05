@@ -31,6 +31,8 @@ export interface I18NConfig {
   language: string;
   textDirection: string;
   dateFormatter?: Intl.DateTimeFormat;
+  locales?: string[];
+  defaultLocale?: string;
 }
 
 export interface AppBlogConfig {
