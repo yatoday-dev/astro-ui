@@ -94,8 +94,8 @@ const ogImage = processedOpenGraph?.images?.[0]
   : undefined;
 
 const finalOpenGraph = {
-  title: finalTitle,
-  description: finalDescription,
+  title: processedOpenGraph?.title || finalTitle,
+  description: processedOpenGraph?.description || finalDescription,
   url: canonical,
   type: (processedOpenGraph?.type as string) || 'website',
   image: ogImage,
