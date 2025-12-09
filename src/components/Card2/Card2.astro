@@ -1,7 +1,7 @@
 ---
 import type { Card2Props as Props } from './types';
 import Card0 from '../Card0/Card0.astro';
-import Image from '../Image/Image.astro';
+import ImageGallery from '../ImageGallery/ImageGallery.astro';
 import { Icon } from 'astro-icon/components';
 import { twMerge } from 'tailwind-merge';
 import { cn } from '../../utils';
@@ -11,7 +11,6 @@ const {
   description = await Astro.slots.render('description'),
   icon,
   image = await Astro.slots.render('image'),
-  images,
   url = '',
   callToAction,
   classes = {},
@@ -38,8 +37,8 @@ const {
   imageLayout?: 'fixed' | 'constrained' | 'fullWidth' | 'cover' | 'responsive' | 'contained';
 } & Record<string, string>;
 
-// Use images array if provided, otherwise fall back to single image
-const hasMultipleImages = images && images.length > 1;
+// Check if image is a string (HTML) or actual image data
+const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
 ---
 
 <Card0
@@ -57,102 +56,43 @@ const hasMultipleImages = images && images.length > 1;
   <!-- Image -->
   <Fragment slot="image">
     {
-      (image || hasMultipleImages) && (
+      image && (
         <div class={twMerge('relative w-full overflow-hidden -mt-6 h-40 bg-gray-400 dark:bg-zinc-700', imageClass)}>
-
-          {(Astro.slots.has('badgeBottomRight') || badgeBottomRight) && (
-            <div class={twMerge('absolute z-10 bottom-2 right-2', classes?.badgeBottomRight)}>
-              <slot name="badgeBottomRight">
-                {badgeBottomRight && <span set:html={badgeBottomRight}/>}
-              </slot>
-            </div>
-          )}
-
-          {(Astro.slots.has('badgeBottomLeft') || badgeBottomLeft) && (
-            <div class={twMerge('absolute z-10 bottom-2 left-2', classes?.badgeBottomLeft)}>
-              <slot name="badgeBottomLeft">
-                {badgeBottomLeft && <span set:html={badgeBottomLeft}/>}
-              </slot>
-            </div>
-          )}
-
-          {hasMultipleImages ? (
-            /* Multi-image gallery with hover zones */
-            <div class="card2-gallery relative w-full h-full" data-image-count={images.length}>
-              {/* All images stacked, first visible by default */}
-              {images.map((img, index) => (
-                <div
-                  class={cn(
-                    'card2-gallery-image absolute inset-0 transition-opacity duration-200',
-                    index === 0 ? 'opacity-100' : 'opacity-0'
-                  )}
-                  data-index={index}
-                >
-                  {typeof img === 'string' ? (
-                    <Fragment set:html={img} />
-                  ) : (
-                    <Image
-                      class={cn(
-                        'w-full md:h-full',
-                        imageClass,
-                        (url || callToAction?.href) && 'group-hover:scale-105 transition duration-300'
-                      )}
-                      widths={[400, 900]}
-                      width={400}
-                      height={400}
-                      sizes="(max-width: 900px) 400px, 900px"
-                      layout={imageLayout}
-                      loading={index === 0 ? 'eager' : 'lazy'}
-                      decoding="async"
-                      {...img}
-                    />
-                  )}
-                </div>
-              ))}
-
-              {/* Invisible hover zones */}
-              <div class="absolute inset-0 flex z-20">
-                {images.map((_, index) => (
-                  <div
-                    class="card2-hover-zone flex-1 h-full cursor-pointer"
-                    data-zone={index}
-                  />
-                ))}
-              </div>
-
-              {/* Indicator dots */}
-              <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-10">
-                {images.map((_, index) => (
-                  <div
-                    class={cn(
-                      'card2-indicator w-1.5 h-1.5 rounded-full transition-all duration-200',
-                      index === 0
-                        ? 'bg-white'
-                        : 'bg-white/50'
-                    )}
-                    data-indicator={index}
-                  />
-                ))}
-              </div>
-            </div>
-          ) : typeof image === 'string' ? (
+          {isHtmlImage ? (
             <Fragment set:html={image} />
-          ) : image && (
-            <Image
-              class={cn(
+          ) : (
+            <ImageGallery
+              image={image}
+              imageClass={cn(
                 'w-full md:h-full',
-                imageClass,
                 (url || callToAction?.href) && 'group-hover:scale-105 transition duration-300'
               )}
+              imageLayout={imageLayout}
               widths={[400, 900]}
               width={400}
               height={400}
               sizes="(max-width: 900px) 400px, 900px"
-              layout={imageLayout}
-              loading="lazy"
-              decoding="async"
-              {...image}
-            />
+              hoverEffect={!!(url || callToAction?.href)}
+            >
+              {(Astro.slots.has('badgeBottomRight') || badgeBottomRight) && (
+                <Fragment slot="badgeBottomRight">
+                  <div class={twMerge('', classes?.badgeBottomRight)}>
+                    <slot name="badgeBottomRight">
+                      {badgeBottomRight && <span set:html={badgeBottomRight}/>}
+                    </slot>
+                  </div>
+                </Fragment>
+              )}
+              {(Astro.slots.has('badgeBottomLeft') || badgeBottomLeft) && (
+                <Fragment slot="badgeBottomLeft">
+                  <div class={twMerge('', classes?.badgeBottomLeft)}>
+                    <slot name="badgeBottomLeft">
+                      {badgeBottomLeft && <span set:html={badgeBottomLeft}/>}
+                    </slot>
+                  </div>
+                </Fragment>
+              )}
+            </ImageGallery>
           )}
         </div>
       )
@@ -197,70 +137,3 @@ const hasMultipleImages = images && images.length > 1;
     </div>
   </div>
 </Card0>
-
-<script>
-  function initCard2Galleries() {
-    document.querySelectorAll('.card2-gallery').forEach((gallery) => {
-      const zones = gallery.querySelectorAll('.card2-hover-zone');
-      const images = gallery.querySelectorAll('.card2-gallery-image');
-      const indicators = gallery.querySelectorAll('.card2-indicator');
-
-      zones.forEach((zone) => {
-        zone.addEventListener('mouseenter', () => {
-          const index = parseInt(zone.getAttribute('data-zone') || '0', 10);
-
-          // Update images visibility
-          images.forEach((img, i) => {
-            if (i === index) {
-              img.classList.remove('opacity-0');
-              img.classList.add('opacity-100');
-            } else {
-              img.classList.remove('opacity-100');
-              img.classList.add('opacity-0');
-            }
-          });
-
-          // Update indicators
-          indicators.forEach((ind, i) => {
-            if (i === index) {
-              ind.classList.remove('bg-white/50');
-              ind.classList.add('bg-white');
-            } else {
-              ind.classList.remove('bg-white');
-              ind.classList.add('bg-white/50');
-            }
-          });
-        });
-      });
-
-      // Reset to first image on mouse leave
-      gallery.addEventListener('mouseleave', () => {
-        images.forEach((img, i) => {
-          if (i === 0) {
-            img.classList.remove('opacity-0');
-            img.classList.add('opacity-100');
-          } else {
-            img.classList.remove('opacity-100');
-            img.classList.add('opacity-0');
-          }
-        });
-
-        indicators.forEach((ind, i) => {
-          if (i === 0) {
-            ind.classList.remove('bg-white/50');
-            ind.classList.add('bg-white');
-          } else {
-            ind.classList.remove('bg-white');
-            ind.classList.add('bg-white/50');
-          }
-        });
-      });
-    });
-  }
-
-  // Initialize on page load
-  initCard2Galleries();
-
-  // Re-initialize on Astro page transitions
-  document.addEventListener('astro:page-load', initCard2Galleries);
-</script>

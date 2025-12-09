@@ -1,16 +1,14 @@
 <script lang="ts">
   import { cn } from '../../utils';
   import Card0 from '../Card0/Card0.svelte';
-  import Image from '../Image/Image.svelte';
+  import ImageGallery from '../ImageGallery/ImageGallery.svelte';
   import type { SvelteCard2Props } from './types';
-  import type { Image as ImageType } from '~/types';
 
   let {
     title,
     description,
     icon,
     image,
-    images,
     url = '',
     callToAction,
     classes = {},
@@ -41,17 +39,9 @@
     imageLayout?: 'fixed' | 'constrained' | 'fullWidth' | 'cover' | 'responsive' | 'contained';
   } & Record<string, string>;
 
-  // Multi-image gallery state
-  const hasMultipleImages = $derived(images && images.length > 1);
-  let activeImageIndex = $state(0);
-
-  function handleZoneHover(index: number) {
-    activeImageIndex = index;
-  }
-
-  function handleGalleryLeave() {
-    activeImageIndex = 0;
-  }
+  // Check if image is HTML string or snippet (not array/object)
+  const isHtmlImage = $derived(typeof image === 'string');
+  const isSnippet = $derived(typeof image === 'function');
 </script>
 
 <Card0
@@ -69,110 +59,48 @@
   {...restProps}
 >
   {#snippet imageSlot()}
-    {#if image || hasMultipleImages}
+    {#if image}
       <div class={cn('relative w-full overflow-hidden -mt-6 h-40 bg-gray-400 dark:bg-zinc-700', imageClass)}>
-        {#if badgeBottomRightSlot || badgeBottomRight}
-          <div class={cn('absolute z-10 bottom-2 right-2', classes?.badgeBottomRight)}>
-            {#if badgeBottomRightSlot}
-              {@render badgeBottomRightSlot()}
-            {:else if badgeBottomRight}
-              {@html badgeBottomRight}
-            {/if}
-          </div>
-        {/if}
-
-        {#if badgeBottomLeftSlot || badgeBottomLeft}
-          <div class={cn('absolute z-10 bottom-2 left-2', classes?.badgeBottomLeft)}>
-            {#if badgeBottomLeftSlot}
-              {@render badgeBottomLeftSlot()}
-            {:else if badgeBottomLeft}
-              {@html badgeBottomLeft}
-            {/if}
-          </div>
-        {/if}
-
-        {#if hasMultipleImages && images}
-          <!-- Multi-image gallery with hover zones -->
-          <!-- svelte-ignore a11y_no_static_element_interactions -->
-          <div
-            class="card2-gallery relative w-full h-full"
-            data-image-count={images.length}
-            onmouseleave={handleGalleryLeave}
-          >
-            <!-- All images stacked -->
-            {#each images as img, index}
-              <div
-                class={cn(
-                  'card2-gallery-image absolute inset-0 transition-opacity duration-200',
-                  index === activeImageIndex ? 'opacity-100' : 'opacity-0'
-                )}
-                data-index={index}
-              >
-                {#if typeof img === 'string'}
-                  {@html img}
-                {:else}
-                  <Image
-                    class={cn(
-                      'w-full md:h-full',
-                      imageClass,
-                      (url || callToAction?.href) && 'group-hover:scale-105 transition duration-300'
-                    )}
-                    widths={[400, 900]}
-                    width={400}
-                    height={400}
-                    layout={imageLayout}
-                    loading={index === 0 ? 'eager' : 'lazy'}
-                    decoding="async"
-                    {...img}
-                  />
-                {/if}
-              </div>
-            {/each}
-
-            <!-- Invisible hover zones -->
-            <div class="absolute inset-0 flex z-20">
-              {#each images as _, index}
-                <!-- svelte-ignore a11y_no_static_element_interactions -->
-                <div
-                  class="card2-hover-zone flex-1 h-full cursor-pointer"
-                  data-zone={index}
-                  onmouseenter={() => handleZoneHover(index)}
-                />
-              {/each}
-            </div>
-
-            <!-- Indicator dots -->
-            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-10">
-              {#each images as _, index}
-                <div
-                  class={cn(
-                    'card2-indicator w-1.5 h-1.5 rounded-full transition-all duration-200',
-                    index === activeImageIndex ? 'bg-white' : 'bg-white/50'
-                  )}
-                  data-indicator={index}
-                />
-              {/each}
-            </div>
-          </div>
-        {:else if typeof image === 'string'}
+        {#if isHtmlImage}
           {@html image}
-        {:else if typeof image === 'function'}
+        {:else if isSnippet}
           {@render image()}
-        {:else if image}
-          <Image
-            class={cn(
+        {:else}
+          <ImageGallery
+            {image}
+            imageClass={cn(
               'w-full md:h-full',
-              imageClass,
               (url || callToAction?.href) && 'group-hover:scale-105 transition duration-300'
             )}
+            {imageLayout}
             widths={[400, 900]}
             width={400}
             height={400}
-            layout={imageLayout}
-            loading="lazy"
-            decoding="async"
-            {...(image as ImageType)}
-          />
+            hoverEffect={!!(url || callToAction?.href)}
+          >
+            {#snippet badgeBottomRight()}
+              {#if badgeBottomRightSlot}
+                <div class={cn('', classes?.badgeBottomRight)}>
+                  {@render badgeBottomRightSlot()}
+                </div>
+              {:else if badgeBottomRight}
+                <div class={cn('', classes?.badgeBottomRight)}>
+                  {@html badgeBottomRight}
+                </div>
+              {/if}
+            {/snippet}
+            {#snippet badgeBottomLeft()}
+              {#if badgeBottomLeftSlot}
+                <div class={cn('', classes?.badgeBottomLeft)}>
+                  {@render badgeBottomLeftSlot()}
+                </div>
+              {:else if badgeBottomLeft}
+                <div class={cn('', classes?.badgeBottomLeft)}>
+                  {@html badgeBottomLeft}
+                </div>
+              {/if}
+            {/snippet}
+          </ImageGallery>
         {/if}
       </div>
     {/if}

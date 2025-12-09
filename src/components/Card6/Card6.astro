@@ -3,7 +3,7 @@ import type {Card6Props as Props} from './types';
 import {Icon} from "astro-icon/components";
 import {twMerge} from 'tailwind-merge';
 import Card0 from '../Card0/Card0.astro';
-import Image from '../Image/Image.astro';
+import ImageGallery from '../ImageGallery/ImageGallery.astro';
 import {cn} from '../../utils';
 
 const {
@@ -48,6 +48,9 @@ const urlForImage = Array.isArray(callToAction)
     : (callToAction as { href?: string })?.href;
 
 const LinkWrapperTag = urlForImage ? 'a' : 'div';
+
+// Check if image is a string (HTML) or actual image data
+const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
 ---
 
 <Card0
@@ -66,7 +69,7 @@ const LinkWrapperTag = urlForImage ? 'a' : 'div';
     <div class={cn("p-6 @2xl:p-10 pt-8 @2xl:pt-12", contentClass, !image && 'bg-transparent')}>
       {badge && (
         <div class="" set:html={badge}></div>)}
-      
+
       {(Astro.slots.has('badgeBottomRight') || badgeBottomRight) && (
         <div class={twMerge('absolute z-10 bottom-2 right-2', classes?.badgeBottomRight)}>
           <slot name="badgeBottomRight">
@@ -104,7 +107,7 @@ const LinkWrapperTag = urlForImage ? 'a' : 'div';
       )}
     </div>
   </LinkWrapperTag>
-  
+
   <!-- Image -->
   <div class="relative flex w-full h-full overflow-hidden">
 
@@ -120,19 +123,18 @@ const LinkWrapperTag = urlForImage ? 'a' : 'div';
     <div class={cn("relative w-full h-auto", aspectClass)}>
       {image && (
         <Fragment>
-          {typeof image === 'string' ? (
+          {isHtmlImage ? (
             <Fragment set:html={image}/>
           ) : (
-            <Image
-              class={cn('w-full h-full absolute left-0 top-0 p-0', imageClass)}
+            <ImageGallery
+              image={image}
+              imageClass={cn('absolute left-0 top-0 p-0', imageClass)}
+              imageLayout={imageLayout}
               widths={widths}
               width={size}
               height={size}
               sizes={sizes}
-              layout={imageLayout}
-              loading="lazy"
-              decoding="async"
-              {...image}
+              hoverEffect={false}
             />
           )}
         </Fragment>

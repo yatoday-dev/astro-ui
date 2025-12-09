@@ -1,0 +1,229 @@
+---
+title: ImageGallery
+category: W.Feature
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import ImageGallery from '~/components/ImageGallery/ImageGallery.astro';
+
+# ImageGallery
+
+<SourceLink name="ImageGallery" />
+
+A reusable image gallery component with hover-based image switching. When multiple images are provided, the component divides the image area into invisible vertical zones - hovering over each zone displays the corresponding image, similar to Instagram or Tinder photo galleries.
+
+## Basic Usage
+
+### Single Image
+
+When a single image is provided, the component renders it without gallery functionality.
+
+<div className="space-y-12">
+  <Demo title="Single image">
+    <div className="w-64 h-48 bg-gray-200 dark:bg-zinc-700 rounded-lg overflow-hidden">
+      <ImageGallery
+        image={{src: '~/assets/images/800x800.svg', alt: 'Single image'}}
+      />
+    </div>
+  </Demo>
+</div>
+
+```astro
+---
+import { ImageGallery } from '@yatoday/astro-ui/astro';
+---
+
+<div class="w-64 h-48 overflow-hidden">
+  <ImageGallery
+    image={{src: '/images/photo.jpg', alt: 'Single image'}}
+  />
+</div>
+```
+
+### Multi-Image Gallery
+
+When an array of images is provided, the component enables gallery mode with hover zones and indicator dots.
+
+<div className="space-y-12">
+  <Demo title="Multi-image gallery (hover to switch)">
+    <div className="w-64 h-48 bg-gray-200 dark:bg-zinc-700 rounded-lg overflow-hidden">
+      <ImageGallery
+        image={[
+          {src: '~/assets/images/800x800.svg', alt: 'View 1'},
+          {src: '~/assets/images/800x600.svg', alt: 'View 2'},
+          {src: '~/assets/images/600x800.svg', alt: 'View 3'},
+        ]}
+      />
+    </div>
+  </Demo>
+</div>
+
+```astro
+---
+import { ImageGallery } from '@yatoday/astro-ui/astro';
+---
+
+<div class="w-64 h-48 overflow-hidden">
+  <ImageGallery
+    image={[
+      {src: '/images/photo-1.jpg', alt: 'View 1'},
+      {src: '/images/photo-2.jpg', alt: 'View 2'},
+      {src: '/images/photo-3.jpg', alt: 'View 3'},
+    ]}
+  />
+</div>
+```
+
+## With Hover Effect
+
+Enable the `hoverEffect` prop to add a scale animation on hover (useful when wrapped in a link).
+
+<div className="space-y-12">
+  <Demo title="With hover scale effect">
+    <a href="/" className="block w-64 h-48 bg-gray-200 dark:bg-zinc-700 rounded-lg overflow-hidden group">
+      <ImageGallery
+        image={[
+          {src: '~/assets/images/800x800.svg', alt: 'View 1'},
+          {src: '~/assets/images/800x600.svg', alt: 'View 2'},
+        ]}
+        hoverEffect={true}
+      />
+    </a>
+  </Demo>
+</div>
+
+```astro
+<a href="/product" class="block w-64 h-48 overflow-hidden group">
+  <ImageGallery
+    image={[
+      {src: '/images/photo-1.jpg', alt: 'View 1'},
+      {src: '/images/photo-2.jpg', alt: 'View 2'},
+    ]}
+    hoverEffect={true}
+  />
+</a>
+```
+
+## With Badge Slots
+
+The component supports badge slots for overlaying content on the image.
+
+<div className="space-y-12">
+  <Demo title="With badges">
+    <div className="w-64 h-48 bg-gray-200 dark:bg-zinc-700 rounded-lg overflow-hidden">
+      <ImageGallery
+        image={[
+          {src: '~/assets/images/800x800.svg', alt: 'View 1'},
+          {src: '~/assets/images/800x600.svg', alt: 'View 2'},
+        ]}
+      >
+        <Fragment slot="badgeBottomRight">
+          <span className="bg-red-500 text-white text-xs px-2 py-1 rounded">Sale</span>
+        </Fragment>
+        <Fragment slot="badgeBottomLeft">
+          <span className="bg-black/50 text-white text-xs px-2 py-1 rounded">New</span>
+        </Fragment>
+      </ImageGallery>
+    </div>
+  </Demo>
+</div>
+
+```astro
+<ImageGallery
+  image={[
+    {src: '/images/photo-1.jpg', alt: 'View 1'},
+    {src: '/images/photo-2.jpg', alt: 'View 2'},
+  ]}
+>
+  <Fragment slot="badgeBottomRight">
+    <span class="bg-red-500 text-white text-xs px-2 py-1 rounded">Sale</span>
+  </Fragment>
+  <Fragment slot="badgeBottomLeft">
+    <span class="bg-black/50 text-white text-xs px-2 py-1 rounded">New</span>
+  </Fragment>
+</ImageGallery>
+```
+
+## Svelte Usage
+
+```svelte
+<script>
+  import { ImageGallery } from '@yatoday/astro-ui/svelte';
+</script>
+
+<div class="w-64 h-48 overflow-hidden">
+  <ImageGallery
+    image={[
+      {src: '/images/photo-1.jpg', alt: 'View 1'},
+      {src: '/images/photo-2.jpg', alt: 'View 2'},
+      {src: '/images/photo-3.jpg', alt: 'View 3'},
+    ]}
+    hoverEffect={true}
+  >
+    {#snippet badgeBottomRight()}
+      <span class="bg-red-500 text-white text-xs px-2 py-1 rounded">Sale</span>
+    {/snippet}
+  </ImageGallery>
+</div>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------|------|---------|-------------|
+    | `image` | [Image](/docs/image) \| Image[] \| `string` | - | Single image, array of images for gallery, or HTML string |
+    | `imageClass` | `string` | `''` | CSS classes for the image element |
+    | `imageLayout` | `string` | `'cover'` | Image layout mode: `fixed`, `constrained`, `fullWidth`, `cover`, `responsive`, `contained` |
+    | `widths` | `number[]` | `[400, 900]` | Image widths for srcset |
+    | `width` | `number` | `400` | Image width |
+    | `height` | `number` | `400` | Image height |
+    | `sizes` | `string` | `'(max-width: 900px) 400px, 900px'` | Image sizes attribute |
+    | `hoverEffect` | `boolean` | `false` | Whether to add hover scale effect (requires parent with `group` class) |
+    | `class` | `string` | `''` | Additional class for the container |
+  </div>
+</div>
+
+## Slots
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Slot | Description |
+    |------|-------------|
+    | `badgeBottomRight` | Content to display at the bottom right of the image |
+    | `badgeBottomLeft` | Content to display at the bottom left of the image |
+  </div>
+</div>
+
+## How It Works
+
+1. **Single Image**: Renders a standard image without any gallery functionality
+2. **Multiple Images**:
+   - All images are stacked absolutely positioned, with opacity controlling visibility
+   - The image area is divided into equal vertical zones (one per image)
+   - Hovering over a zone shows the corresponding image with a 200ms opacity transition
+   - Indicator dots at the bottom show the active image
+   - When the mouse leaves, it resets to the first image
+3. **Performance**: First image loads eagerly, subsequent images lazy-load
+
+## Integration with Card Components
+
+This component is used internally by Card1, Card2, Card3, and Card6 components. You can use it directly for custom layouts or when you need more control over the image gallery behavior.
+
+```astro
+---
+import { Card2 } from '@yatoday/astro-ui/astro';
+---
+
+<!-- Card2 uses ImageGallery internally -->
+<Card2
+  title="Product"
+  image={[
+    {src: '/images/front.jpg', alt: 'Front'},
+    {src: '/images/back.jpg', alt: 'Back'},
+  ]}
+  url="/product"
+/>
+```

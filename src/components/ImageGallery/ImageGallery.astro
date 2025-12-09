@@ -1,0 +1,189 @@
+---
+import type { ImageGalleryProps as Props } from './types';
+import Image from '../Image/Image.astro';
+import { cn } from '../../utils';
+
+const {
+  image,
+  imageClass = '',
+  imageLayout = 'cover',
+  widths = [400, 900],
+  width = 400,
+  height = 400,
+  sizes = '(max-width: 900px) 400px, 900px',
+  hoverEffect = false,
+  class: className = '',
+} = Astro.props;
+
+// Normalize image prop: convert to array, check if gallery mode
+const images = Array.isArray(image) ? image : image ? [image] : [];
+const hasMultipleImages = images.length > 1;
+const hasBadgeBottomRight = Astro.slots.has('badgeBottomRight');
+const hasBadgeBottomLeft = Astro.slots.has('badgeBottomLeft');
+---
+
+{images.length > 0 && (
+  <div class={cn('image-gallery relative w-full h-full', className)}>
+    {/* Badge slots */}
+    {hasBadgeBottomRight && (
+      <div class="absolute z-30 bottom-2 right-2">
+        <slot name="badgeBottomRight" />
+      </div>
+    )}
+
+    {hasBadgeBottomLeft && (
+      <div class="absolute z-30 bottom-2 left-2">
+        <slot name="badgeBottomLeft" />
+      </div>
+    )}
+
+    {hasMultipleImages ? (
+      /* Multi-image gallery with hover zones */
+      <div class="image-gallery-multi relative w-full h-full" data-image-count={images.length}>
+        {/* All images stacked, first visible by default */}
+        {images.map((img, index) => (
+          <div
+            class={cn(
+              'image-gallery-item absolute inset-0 transition-opacity duration-200',
+              index === 0 ? 'opacity-100' : 'opacity-0'
+            )}
+            data-index={index}
+          >
+            {typeof img === 'string' ? (
+              <Fragment set:html={img} />
+            ) : (
+              <Image
+                class={cn(
+                  'w-full h-full',
+                  imageClass,
+                  hoverEffect && 'group-hover:scale-105 transition duration-300'
+                )}
+                widths={widths}
+                width={width}
+                height={height}
+                sizes={sizes}
+                layout={imageLayout}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                {...img}
+              />
+            )}
+          </div>
+        ))}
+
+        {/* Invisible hover zones */}
+        <div class="absolute inset-0 flex z-20">
+          {images.map((_, index) => (
+            <div
+              class="image-gallery-zone flex-1 h-full cursor-pointer"
+              data-zone={index}
+            />
+          ))}
+        </div>
+
+        {/* Indicator dots */}
+        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-10">
+          {images.map((_, index) => (
+            <div
+              class={cn(
+                'image-gallery-indicator w-1.5 h-1.5 rounded-full transition-all duration-200',
+                index === 0 ? 'bg-white' : 'bg-white/50'
+              )}
+              data-indicator={index}
+            />
+          ))}
+        </div>
+      </div>
+    ) : (
+      /* Single image */
+      <Fragment>
+        {typeof images[0] === 'string' ? (
+          <Fragment set:html={images[0]} />
+        ) : (
+          <Image
+            class={cn(
+              'w-full h-full',
+              imageClass,
+              hoverEffect && 'group-hover:scale-105 transition duration-300'
+            )}
+            widths={widths}
+            width={width}
+            height={height}
+            sizes={sizes}
+            layout={imageLayout}
+            loading="lazy"
+            decoding="async"
+            {...images[0]}
+          />
+        )}
+      </Fragment>
+    )}
+  </div>
+)}
+
+<script>
+  function initImageGalleries() {
+    document.querySelectorAll('.image-gallery-multi').forEach((gallery) => {
+      const zones = gallery.querySelectorAll('.image-gallery-zone');
+      const images = gallery.querySelectorAll('.image-gallery-item');
+      const indicators = gallery.querySelectorAll('.image-gallery-indicator');
+
+      zones.forEach((zone) => {
+        zone.addEventListener('mouseenter', () => {
+          const index = parseInt(zone.getAttribute('data-zone') || '0', 10);
+
+          // Update images visibility
+          images.forEach((img, i) => {
+            if (i === index) {
+              img.classList.remove('opacity-0');
+              img.classList.add('opacity-100');
+            } else {
+              img.classList.remove('opacity-100');
+              img.classList.add('opacity-0');
+            }
+          });
+
+          // Update indicators
+          indicators.forEach((ind, i) => {
+            if (i === index) {
+              ind.classList.remove('bg-white/50');
+              ind.classList.add('bg-white');
+            } else {
+              ind.classList.remove('bg-white');
+              ind.classList.add('bg-white/50');
+            }
+          });
+        });
+      });
+
+      // Reset to first image on mouse leave
+      gallery.addEventListener('mouseleave', () => {
+        images.forEach((img, i) => {
+          if (i === 0) {
+            img.classList.remove('opacity-0');
+            img.classList.add('opacity-100');
+          } else {
+            img.classList.remove('opacity-100');
+            img.classList.add('opacity-0');
+          }
+        });
+
+        indicators.forEach((ind, i) => {
+          if (i === 0) {
+            ind.classList.remove('bg-white/50');
+            ind.classList.add('bg-white');
+          } else {
+            ind.classList.remove('bg-white');
+            ind.classList.add('bg-white/50');
+          }
+        });
+      });
+    });
+  }
+
+  // Initialize on page load
+  initImageGalleries();
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initImageGalleries);
+</script>

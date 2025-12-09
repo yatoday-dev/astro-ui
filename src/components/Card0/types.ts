@@ -2,7 +2,8 @@ import type { HTMLTag } from 'astro/types';
 import type { Image } from '../../types';
 
 export type Card0Props = {
-  image?: Image | string;
+  /** Single image, array of images for gallery, or HTML string */
+  image?: Image | Image[] | string;
   widths?: number[];
   size?: number;
   sizes?: string;

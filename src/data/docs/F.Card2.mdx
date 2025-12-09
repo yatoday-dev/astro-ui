@@ -68,7 +68,7 @@ import { Card2, ItemGrid0 } from '@yatoday/astro-ui/astro';
 
 ## Multi-Image Gallery
 
-Card2 supports multiple images with an interactive hover gallery. When you pass an `images` array with more than one image, the card displays invisible vertical hover zones. Moving your mouse across the image area switches between images, similar to Instagram or Tinder photo galleries.
+Card2 supports multiple images with an interactive hover gallery. When you pass an array of images to the `image` prop, the card displays invisible vertical hover zones. Moving your mouse across the image area switches between images, similar to Instagram or Tinder photo galleries.
 
 <div className="space-y-12">
   <Demo title="Multi-image hover gallery">
@@ -76,7 +76,7 @@ Card2 supports multiple images with an interactive hover gallery. When you pass 
       <Card2
         title="Product with Gallery"
         description="Hover over the image and move left to right to see all photos."
-        images={[
+        image={[
           {src: '~/assets/images/800x800.svg', alt: 'View 1'},
           {src: '~/assets/images/800x600.svg', alt: 'View 2'},
           {src: '~/assets/images/600x800.svg', alt: 'View 3'},
@@ -86,7 +86,7 @@ Card2 supports multiple images with an interactive hover gallery. When you pass 
       <Card2
         title="Two Images"
         description="Card with two images in the gallery."
-        images={[
+        image={[
           {src: '~/assets/images/800x800.svg', alt: 'Front view'},
           {src: '~/assets/images/800x600.svg', alt: 'Back view'},
         ]}
@@ -115,7 +115,7 @@ import { Card2, ItemGrid0 } from '@yatoday/astro-ui/astro';
   <Card2
     title="Product with Gallery"
     description="Hover over the image and move left to right to see all photos."
-    images={[
+    image={[
       {src: '/images/product-1.jpg', alt: 'View 1'},
       {src: '/images/product-2.jpg', alt: 'View 2'},
       {src: '/images/product-3.jpg', alt: 'View 3'},
@@ -125,7 +125,7 @@ import { Card2, ItemGrid0 } from '@yatoday/astro-ui/astro';
   <Card2
     title="Two Images"
     description="Card with two images in the gallery."
-    images={[
+    image={[
       {src: '/images/front.jpg', alt: 'Front view'},
       {src: '/images/back.jpg', alt: 'Back view'},
     ]}
@@ -157,7 +157,7 @@ import { Card2, ItemGrid0 } from '@yatoday/astro-ui/astro';
 <Card2
   title="Product Gallery"
   description="Interactive image gallery on hover."
-  images={[
+  image={[
     {src: '/images/view-1.jpg', alt: 'View 1'},
     {src: '/images/view-2.jpg', alt: 'View 2'},
     {src: '/images/view-3.jpg', alt: 'View 3'},
@@ -176,8 +176,7 @@ Both `callToAction` and `URL` are supported. The button will not be displayed.
     |------|------|---------|-------------|
     | `title` | `string` | - | Title text for the card |
     | `description` | `string` | - | Content for the card |
-    | `image` | `string` \| [Image](/docs/image) | - | Path to the card's image (single image) |
-    | `images` | [Image](/docs/image)[] | - | Array of images for multi-image hover gallery |
+    | `image` | `string` \| [Image](/docs/image) \| Image[] | - | Single image, array of images for gallery, or HTML string |
     | `icon` | `string` | - | Name icon from set |
     | `badge` | `string` | - | `badge` slot contents |
     | `badgeTopRight` | `string` | - | `badgeTopRight` slot contents |
@@ -199,6 +198,7 @@ Both `callToAction` and `URL` are supported. The button will not be displayed.
 
 ## Notes
 
-- When both `image` and `images` props are provided, `images` takes precedence if it has more than one item
-- If `images` array has only one item, it behaves like the single `image` prop
+- Pass a single `Image` object for a single image, or an array of `Image` objects for a gallery
+- If the array has only one item, it behaves like a single image
 - The multi-image gallery works with Astro page transitions (View Transitions API)
+- Gallery feature is also available in Card1, Card3, and Card6 components

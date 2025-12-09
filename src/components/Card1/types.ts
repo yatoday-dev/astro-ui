@@ -20,7 +20,8 @@ export type SvelteCard1Props = WithElementRef<HTMLAttributes<HTMLElement>> &
   Omit<Card1Props, 'image'> & {
     ref?: HTMLElement | null;
     children?: Snippet;
-    image?: Snippet | Image | string;
+    /** Single image, array of images for gallery, Snippet, or HTML string */
+    image?: Snippet | Image | Image[] | string;
     iconSlot?: Snippet;
     badgeSlot?: Snippet;
     badgeTopRightSlot?: Snippet;

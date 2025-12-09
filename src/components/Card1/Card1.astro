@@ -1,7 +1,7 @@
 ---
 import type { Card1Props as Props } from './types';
 import Card0 from '../Card0/Card0.astro';
-import Image from '../Image/Image.astro';
+import ImageGallery from '../ImageGallery/ImageGallery.astro';
 import Button from '../Button/Button.astro';
 import { Icon } from 'astro-icon/components';
 import { twMerge } from 'tailwind-merge';
@@ -46,6 +46,9 @@ const urlForImage = Array.isArray(callToAction)
   : typeof callToAction === 'string'
     ? callToAction
     : (callToAction as { href?: string })?.href;
+
+// Check if image is a string (HTML) or actual image data
+const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
 ---
 
 <Card0
@@ -64,57 +67,76 @@ const urlForImage = Array.isArray(callToAction)
     {
       image && (
         <div class={twMerge('relative w-full overflow-hidden -mt-6 h-60 bg-gray-400 dark:bg-zinc-700', imageClass)}>
-
-          {(Astro.slots.has('badgeBottomRight') || badgeBottomRight) && (
-            <div class={twMerge('absolute z-10 bottom-2 right-2', classes?.badgeBottomRight)}>
-              <slot name="badgeBottomRight">
-                {badgeBottomRight && <span set:html={badgeBottomRight}/>}
-              </slot>
-            </div>
-          )}
-
-          {(Astro.slots.has('badgeBottomLeft') || badgeBottomLeft) && (
-            <div class={twMerge('absolute z-10 bottom-2 left-2', classes?.badgeBottomLeft)}>
-              <slot name="badgeBottomLeft">
-                {badgeBottomLeft && <span set:html={badgeBottomLeft}/>}
-              </slot>
-            </div>
-          )}
-          
           {urlForImage ? (
-            <a href={urlForImage} class="group">
-              {typeof image === 'string' ? (
+            <a href={urlForImage} class="group block w-full h-full">
+              {isHtmlImage ? (
                 <Fragment set:html={image} />
               ) : (
-                <Image
-                  class={twMerge('w-full h-full  hover:scale-105 transition duration-300')}
+                <ImageGallery
+                  image={image}
+                  imageClass=""
+                  imageLayout={imageLayout}
                   widths={[320, 480]}
                   width={400}
                   height={400}
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  layout={imageLayout}
-                  loading="lazy"
-                  decoding="async"
-                  {...image}
-                />
+                  hoverEffect={true}
+                >
+                  {(Astro.slots.has('badgeBottomRight') || badgeBottomRight) && (
+                    <Fragment slot="badgeBottomRight">
+                      <div class={twMerge('', classes?.badgeBottomRight)}>
+                        <slot name="badgeBottomRight">
+                          {badgeBottomRight && <span set:html={badgeBottomRight}/>}
+                        </slot>
+                      </div>
+                    </Fragment>
+                  )}
+                  {(Astro.slots.has('badgeBottomLeft') || badgeBottomLeft) && (
+                    <Fragment slot="badgeBottomLeft">
+                      <div class={twMerge('', classes?.badgeBottomLeft)}>
+                        <slot name="badgeBottomLeft">
+                          {badgeBottomLeft && <span set:html={badgeBottomLeft}/>}
+                        </slot>
+                      </div>
+                    </Fragment>
+                  )}
+                </ImageGallery>
               )}
             </a>
           ) : (
             <Fragment>
-              {typeof image === 'string' ? (
+              {isHtmlImage ? (
                 <Fragment set:html={image} />
               ) : (
-                <Image
-                  class={twMerge('w-full h-full')}
+                <ImageGallery
+                  image={image}
+                  imageClass=""
+                  imageLayout={imageLayout}
                   widths={[320, 480]}
                   width={400}
                   height={400}
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  layout={imageLayout}
-                  loading="lazy"
-                  decoding="async"
-                  {...image}
-                />
+                  hoverEffect={false}
+                >
+                  {(Astro.slots.has('badgeBottomRight') || badgeBottomRight) && (
+                    <Fragment slot="badgeBottomRight">
+                      <div class={twMerge('', classes?.badgeBottomRight)}>
+                        <slot name="badgeBottomRight">
+                          {badgeBottomRight && <span set:html={badgeBottomRight}/>}
+                        </slot>
+                      </div>
+                    </Fragment>
+                  )}
+                  {(Astro.slots.has('badgeBottomLeft') || badgeBottomLeft) && (
+                    <Fragment slot="badgeBottomLeft">
+                      <div class={twMerge('', classes?.badgeBottomLeft)}>
+                        <slot name="badgeBottomLeft">
+                          {badgeBottomLeft && <span set:html={badgeBottomLeft}/>}
+                        </slot>
+                      </div>
+                    </Fragment>
+                  )}
+                </ImageGallery>
               )}
             </Fragment>
           )}
