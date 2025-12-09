@@ -10,6 +10,7 @@
     description,
     icon,
     image,
+    images,
     url = '',
     callToAction,
     classes = {},
@@ -39,6 +40,18 @@
   } = classes as {
     imageLayout?: 'fixed' | 'constrained' | 'fullWidth' | 'cover' | 'responsive' | 'contained';
   } & Record<string, string>;
+
+  // Multi-image gallery state
+  const hasMultipleImages = $derived(images && images.length > 1);
+  let activeImageIndex = $state(0);
+
+  function handleZoneHover(index: number) {
+    activeImageIndex = index;
+  }
+
+  function handleGalleryLeave() {
+    activeImageIndex = 0;
+  }
 </script>
 
 <Card0
@@ -56,7 +69,7 @@
   {...restProps}
 >
   {#snippet imageSlot()}
-    {#if image}
+    {#if image || hasMultipleImages}
       <div class={cn('relative w-full overflow-hidden -mt-6 h-40 bg-gray-400 dark:bg-zinc-700', imageClass)}>
         {#if badgeBottomRightSlot || badgeBottomRight}
           <div class={cn('absolute z-10 bottom-2 right-2', classes?.badgeBottomRight)}>
@@ -78,11 +91,74 @@
           </div>
         {/if}
 
-        {#if typeof image === 'string'}
+        {#if hasMultipleImages && images}
+          <!-- Multi-image gallery with hover zones -->
+          <!-- svelte-ignore a11y_no_static_element_interactions -->
+          <div
+            class="card2-gallery relative w-full h-full"
+            data-image-count={images.length}
+            onmouseleave={handleGalleryLeave}
+          >
+            <!-- All images stacked -->
+            {#each images as img, index}
+              <div
+                class={cn(
+                  'card2-gallery-image absolute inset-0 transition-opacity duration-200',
+                  index === activeImageIndex ? 'opacity-100' : 'opacity-0'
+                )}
+                data-index={index}
+              >
+                {#if typeof img === 'string'}
+                  {@html img}
+                {:else}
+                  <Image
+                    class={cn(
+                      'w-full md:h-full',
+                      imageClass,
+                      (url || callToAction?.href) && 'group-hover:scale-105 transition duration-300'
+                    )}
+                    widths={[400, 900]}
+                    width={400}
+                    height={400}
+                    layout={imageLayout}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
+                    {...img}
+                  />
+                {/if}
+              </div>
+            {/each}
+
+            <!-- Invisible hover zones -->
+            <div class="absolute inset-0 flex z-20">
+              {#each images as _, index}
+                <!-- svelte-ignore a11y_no_static_element_interactions -->
+                <div
+                  class="card2-hover-zone flex-1 h-full cursor-pointer"
+                  data-zone={index}
+                  onmouseenter={() => handleZoneHover(index)}
+                />
+              {/each}
+            </div>
+
+            <!-- Indicator dots -->
+            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-10">
+              {#each images as _, index}
+                <div
+                  class={cn(
+                    'card2-indicator w-1.5 h-1.5 rounded-full transition-all duration-200',
+                    index === activeImageIndex ? 'bg-white' : 'bg-white/50'
+                  )}
+                  data-indicator={index}
+                />
+              {/each}
+            </div>
+          </div>
+        {:else if typeof image === 'string'}
           {@html image}
         {:else if typeof image === 'function'}
           {@render image()}
-        {:else}
+        {:else if image}
           <Image
             class={cn(
               'w-full md:h-full',

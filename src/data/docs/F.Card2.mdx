@@ -14,6 +14,8 @@ import ItemGrid0 from '~/components/ItemGrid0/ItemGrid0.astro';
 
 The Card component provides a versatile container for displaying related content. It uses semantic HTML and ensures proper heading structure and content organization.
 
+## Basic Usage
+
 <div className="space-y-12">
   <Demo title="">
     <ItemGrid0 columns={3} class="bg-stripe">
@@ -64,6 +66,106 @@ import { Card2, ItemGrid0 } from '@yatoday/astro-ui/astro';
 </ItemGrid0>
 ```
 
+## Multi-Image Gallery
+
+Card2 supports multiple images with an interactive hover gallery. When you pass an `images` array with more than one image, the card displays invisible vertical hover zones. Moving your mouse across the image area switches between images, similar to Instagram or Tinder photo galleries.
+
+<div className="space-y-12">
+  <Demo title="Multi-image hover gallery">
+    <ItemGrid0 columns={3} class="bg-stripe">
+      <Card2
+        title="Product with Gallery"
+        description="Hover over the image and move left to right to see all photos."
+        images={[
+          {src: '~/assets/images/800x800.svg', alt: 'View 1'},
+          {src: '~/assets/images/800x600.svg', alt: 'View 2'},
+          {src: '~/assets/images/600x800.svg', alt: 'View 3'},
+        ]}
+        url="/"
+      />
+      <Card2
+        title="Two Images"
+        description="Card with two images in the gallery."
+        images={[
+          {src: '~/assets/images/800x800.svg', alt: 'Front view'},
+          {src: '~/assets/images/800x600.svg', alt: 'Back view'},
+        ]}
+        url="/"
+      >
+        <Fragment slot="badgeTopRight">
+          <div className="bg-red-500 text-white text-xs px-2 py-1 rounded">Sale</div>
+        </Fragment>
+      </Card2>
+      <Card2
+        title="Single Image"
+        description="Falls back to standard single image display."
+        image={{src: '~/assets/images/800x800.svg', alt: ''}}
+        url="/"
+      />
+    </ItemGrid0>
+  </Demo>
+</div>
+
+```astro
+---
+import { Card2, ItemGrid0 } from '@yatoday/astro-ui/astro';
+---
+
+<ItemGrid0 columns={3}>
+  <Card2
+    title="Product with Gallery"
+    description="Hover over the image and move left to right to see all photos."
+    images={[
+      {src: '/images/product-1.jpg', alt: 'View 1'},
+      {src: '/images/product-2.jpg', alt: 'View 2'},
+      {src: '/images/product-3.jpg', alt: 'View 3'},
+    ]}
+    url="/product"
+  />
+  <Card2
+    title="Two Images"
+    description="Card with two images in the gallery."
+    images={[
+      {src: '/images/front.jpg', alt: 'Front view'},
+      {src: '/images/back.jpg', alt: 'Back view'},
+    ]}
+    url="/product"
+  >
+    <Fragment slot="badgeTopRight">
+      <div className="bg-red-500 text-white text-xs px-2 py-1 rounded">Sale</div>
+    </Fragment>
+  </Card2>
+</ItemGrid0>
+```
+
+### How it works
+
+- The image area is divided into equal vertical sections (one per image)
+- Hovering over each section shows the corresponding image
+- Small indicator dots at the bottom show which image is active
+- Images transition with a smooth 200ms opacity animation
+- When the mouse leaves the card, it resets to the first image
+- The first image loads eagerly, subsequent images lazy-load for performance
+
+### Svelte Usage
+
+```svelte
+<script>
+  import { Card2 } from '@yatoday/astro-ui/svelte';
+</script>
+
+<Card2
+  title="Product Gallery"
+  description="Interactive image gallery on hover."
+  images={[
+    {src: '/images/view-1.jpg', alt: 'View 1'},
+    {src: '/images/view-2.jpg', alt: 'View 2'},
+    {src: '/images/view-3.jpg', alt: 'View 3'},
+  ]}
+  url="/product"
+/>
+```
+
 ## Props
 
 Both `callToAction` and `URL` are supported. The button will not be displayed.
@@ -71,10 +173,11 @@ Both `callToAction` and `URL` are supported. The button will not be displayed.
 <div className="overflow-x-auto">
   <div className="min-w-xl">
     | Prop | Type | Default | Description |
-    |------|------|---------|-------------| 
-    | `title` | `string` | - | Title text for the card | 
+    |------|------|---------|-------------|
+    | `title` | `string` | - | Title text for the card |
     | `description` | `string` | - | Content for the card |
-    | `image` | `string` \| [Image](/docs/image) | - | Path to the card's image |
+    | `image` | `string` \| [Image](/docs/image) | - | Path to the card's image (single image) |
+    | `images` | [Image](/docs/image)[] | - | Array of images for multi-image hover gallery |
     | `icon` | `string` | - | Name icon from set |
     | `badge` | `string` | - | `badge` slot contents |
     | `badgeTopRight` | `string` | - | `badgeTopRight` slot contents |
@@ -82,7 +185,7 @@ Both `callToAction` and `URL` are supported. The button will not be displayed.
     | `badgeBottomLeft` | `string` | - | `badgeBottomLeft` slot contents |
     | `as` | `string` | `article` | HTML tag name for the wrapper |
     | `asHeader` | `string` | `h3` | HTML tag name for the title |
-    | `url` | `string` | - | URL for the card’s link wrapper |
+    | `url` | `string` | - | URL for the card's link wrapper |
     | `callToAction` | `ToAction` | - | Action button or link. See the [ToAction](/docs/types#action-buttons) for details.  |
     | `classes.container` | `string` | - | Additional CSS classes to apply to the card wrapper |
     | `classes.title` | `string` | - | Additional CSS classes to apply to the title |
@@ -93,3 +196,9 @@ Both `callToAction` and `URL` are supported. The button will not be displayed.
     | `classes.badge` | `string` | `top-2 left-2` | Additional CSS classes to apply to the badge |
   </div>
 </div>
+
+## Notes
+
+- When both `image` and `images` props are provided, `images` takes precedence if it has more than one item
+- If `images` array has only one item, it behaves like the single `image` prop
+- The multi-image gallery works with Astro page transitions (View Transitions API)

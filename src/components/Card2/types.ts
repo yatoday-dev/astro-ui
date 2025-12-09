@@ -13,6 +13,8 @@ export type Card2Props = {
   badge?: string;
   url?: string;
   callToAction?: ToAction;
+  /** Array of images for multi-image hover gallery. When provided, hovering over different sections of the card switches between images. */
+  images?: Image[];
 } & Card0Props;
 
 export type SvelteCard2Props = WithElementRef<HTMLAttributes<HTMLElement>> &
@@ -20,6 +22,8 @@ export type SvelteCard2Props = WithElementRef<HTMLAttributes<HTMLElement>> &
     ref?: HTMLElement | null;
     children?: Snippet;
     image?: Snippet | Image | string;
+    /** Array of images for multi-image hover gallery */
+    images?: Image[];
     iconSlot?: Snippet;
     badgeTopRightSlot?: Snippet;
     badgeBottomRightSlot?: Snippet;
