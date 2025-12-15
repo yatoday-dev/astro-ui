@@ -39,19 +39,18 @@ const { container: containerClass = '', bg: bgClass = '' } = classes;
       {
         image && (
           <Fragment>
-            {typeof image === 'string' ? (
+            {typeof image === 'string' && image.trim().startsWith('<') ? (
               <Fragment set:html={image} />
             ) : (
               <Image
                 class="absolute inset-0 z-10 size-full object-cover object-right md:object-center"
-                widths={[400, 900]}
                 widths={[400, 768, 1024, 2040]}
                 sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
                 loading="eager"
                 width={1024}
                 height={576}
                 layout="fullWidth"
-                {...image}
+                {...(typeof image === 'string' ? { src: image, alt: '' } : image)}
               />
             )}
           </Fragment>
