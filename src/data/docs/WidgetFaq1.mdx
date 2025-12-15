@@ -11,48 +11,44 @@ import WidgetFaq1 from '~/components/WidgetFaq1/WidgetFaq1.astro';
 
 <SourceLink name="WidgetFaq1" />
 
-.
+A FAQ (Frequently Asked Questions) section widget that displays a list of questions with their answers in a responsive grid layout. Uses [Card4](/docs/card-4) components internally and supports customizable columns, icons, and [Headline](/docs/headline) options.
 
 <Demo title="">
   <WidgetFaq1
     title="FAQs"
+    icon="tabler:chevron-right"
     classes={{ container: 'max-w-6xl' }}
     items={[
       {
-        icon: 'tabler:chevron-right',
         title: 'Title 1',
         description:
           'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.  ',
       },
       {
-        icon: 'tabler:chevron-right',
         title: 'Title 2',
         description:
           'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.',
       },
       {
-        icon: 'tabler:chevron-right',
         title: 'Title 3',
         description:
           'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.',
       },
       {
-        icon: 'tabler:chevron-right',
         title: 'Title 4',
         description:
           'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.',
       },
       {
-        icon: 'tabler:chevron-right',
         title: 'Title 5',
         description:
           'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.',
       },
       {
-        icon: 'tabler:chevron-right',
-        title: 'Title 6',
+        icon: 'tabler:star',
+        title: 'Title 6 (custom icon)',
         description:
-          'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.',
+          'This item has a custom icon that overrides the global icon.',
       },
     ]}
   />
@@ -65,43 +61,39 @@ import { WidgetFaq1 } from '@yatoday/astro-ui/astro';
 
 <WidgetFaq1
   title="FAQs"
+  icon="tabler:chevron-right"
   classes={{ container: 'max-w-6xl' }}
   items={[
     {
-      icon: 'tabler:chevron-right',
       title: 'Title 1',
       description:
         'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.  ',
     },
     {
-      icon: 'tabler:chevron-right',
       title: 'Title 2',
       description:
         'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.',
     },
     {
-      icon: 'tabler:chevron-right',
       title: 'Title 3',
       description:
         'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.',
     },
     {
-      icon: 'tabler:chevron-right',
       title: 'Title 4',
       description:
         'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.',
     },
     {
-      icon: 'tabler:chevron-right',
       title: 'Title 5',
       description:
         'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.',
     },
     {
-      icon: 'tabler:chevron-right',
-      title: 'Title 6',
+      icon: 'tabler:star',
+      title: 'Title 6 (custom icon)',
       description:
-        'Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat.',
+        'This item has a custom icon that overrides the global icon.',
     },
   ]}
 />
@@ -118,6 +110,7 @@ import { WidgetFaq1 } from '@yatoday/astro-ui/astro';
     | `tagline` | `string` | - | `Tagline` in [Headline](/docs/headline) component |
     | `asHeader` | `h1` \| `h2` \| `h3` \| `h4` \| `h5` \| `h6` | `h2` | HTML heading tag to use for the title |
     | `asSubtitle` | `h1` \| `h2` \| `h3` \| `h4` \| `h5` \| `h6` \| `p` \| `span` \| `div` | `p` | HTML tag to use for the subtitle |
+    | `icon` | `string` | - | Default icon for all items. Can be overridden per item |
     | `columns` | `number` | `2` | Number of columns in the grid. From 1 to 4 |
     | `items` | `Array` | `[]` | Array of [Card4](/docs/feature-card-4) components |
     | `isAfterContent` | `boolean` | `false` | - |

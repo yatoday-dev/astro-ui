@@ -10,6 +10,7 @@ const {
   subtitle = await Astro.slots.render('subtitle'),
   tagline = await Astro.slots.render('tagline'),
   items = [],
+  icon,
   columns = 2,
   isAfterContent = false,
   position = 'center',
@@ -44,6 +45,7 @@ const {
         items.map((item) => (
           <Card4
             {...item}
+            icon={item.icon ?? icon}
             classes={{
               container: 'p-0 gap-0 border-0 bg-transparent',
               title: 'text-lg/5 font-semibold',

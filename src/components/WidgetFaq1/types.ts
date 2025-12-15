@@ -6,6 +6,7 @@ import type { Snippet } from 'svelte';
 
 export type WidgetFaq1Props = {
   items?: Card4Props[];
+  icon?: string;
   isAfterContent?: boolean;
   asHeader?: HeadlineProps['as'];
   asSubtitle?: HeadlineProps['asSubtitle'];
@@ -15,6 +16,7 @@ export type WidgetFaq1Props = {
 
 export type SvelteWidgetFaq1Props = {
   items?: Card4Props[];
+  icon?: string;
   isAfterContent?: boolean;
   title?: string | Snippet;
   subtitle?: string | Snippet;
