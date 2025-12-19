@@ -61,8 +61,8 @@ if (
           type="button"
           class={cn('zoom-bg block w-full h-full cursor-zoom-in')}
           tabindex="0"
-          style={`background-image: url('${image.src}')`}
           data-yt-zoom-button
+          data-yt-zoom-src={image.src}
         >
           <span>
             {!image ? (
@@ -170,6 +170,7 @@ if (
       span.classList.remove('zoom-wrap');
       zoomButton.classList.remove('cursor-zoom-out', 'bg-zoomed');
       zoomButton.classList.add('cursor-zoom-in');
+      zoomButton.style.backgroundImage = 'none';
       zoomButton.style.backgroundSize = '100%';
       zoomButton.style.backgroundPosition = '0% 0%';
 
@@ -194,6 +195,11 @@ if (
       zoomed = !zoomed;
 
       if (zoomed) {
+        // Set background-image only when zooming in
+        const zoomSrc = zoomButton.dataset.ytZoomSrc;
+        if (zoomSrc) {
+          zoomButton.style.backgroundImage = `url('${zoomSrc}')`;
+        }
         image.classList.add('hidden');
         span.classList.add('zoom-wrap');
         zoomButton.classList.add('cursor-zoom-out', 'bg-zoomed');

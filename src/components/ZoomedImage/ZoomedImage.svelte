@@ -64,6 +64,7 @@
       if (zoomButtonRef) {
         zoomButtonRef.classList.remove('cursor-zoom-out', 'bg-zoomed');
         zoomButtonRef.classList.add('cursor-zoom-in');
+        zoomButtonRef.style.backgroundImage = 'none';
         zoomButtonRef.style.backgroundSize = '100%';
         zoomButtonRef.style.backgroundPosition = '0% 0%';
       }
@@ -87,6 +88,11 @@
         if (imageRef) imageRef.classList.add('hidden');
         if (spanRef) spanRef.classList.add('zoom-wrap');
         if (zoomButtonRef) {
+          // Set background-image only when zooming in
+          const zoomSrc = zoomButtonRef.dataset.ytZoomSrc;
+          if (zoomSrc) {
+            zoomButtonRef.style.backgroundImage = `url('${zoomSrc}')`;
+          }
           zoomButtonRef.classList.add('cursor-zoom-out', 'bg-zoomed');
           zoomButtonRef.classList.remove('cursor-zoom-in');
           zoomButtonRef.style.backgroundSize = '200%';
@@ -139,8 +145,8 @@
         type="button"
         class={cn('zoom-bg block w-full h-full cursor-zoom-in')}
         tabindex="0"
-        style={`background-image: url('${src}')`}
         data-yt-zoom-button
+        data-yt-zoom-src={src}
       >
         <span bind:this={spanRef}>
           <img
