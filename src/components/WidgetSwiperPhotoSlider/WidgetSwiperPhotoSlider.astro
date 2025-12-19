@@ -12,6 +12,7 @@ const {
   subtitle = await Astro.slots.render('subtitle'),
   tagline = await Astro.slots.render('tagline'),
   imagesFolder,
+  alt,
   position = 'center',
   asHeader = 'h2',
   asSubtitle = 'p',
@@ -51,12 +52,23 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
   {
     imagePaths && (
       <SwiperSlider id={id} withNavigation={withNavigation} {...rest}>
-        {imagePaths.map(async (imagePath) => {
+        {imagePaths.map(async (imagePath, index) => {
           let image = images[imagePath]();
           let optimizedImage = await getImage({
             src: image,
             width: 860,
           });
+
+          // Generate alt text: alt prop > title-based > filename > default
+          const filename = imagePath.split('/').pop()?.replace(/\.[^/.]+$/, '') || '';
+          const imageNumber = index + 1;
+          const imageName = filename || 'Image ' + imageNumber;
+          const baseTitle = title ? String(title).replace(/<[^>]*>/g, '').trim() : '';
+          const altText = alt
+            ? alt + ' - ' + imageName
+            : baseTitle
+              ? baseTitle + ' - ' + imageName
+              : imageName;
 
           return (
             <swiper-slide>
@@ -65,11 +77,13 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
                 data-pswp-width={optimizedImage.attributes.width}
                 data-pswp-height={optimizedImage.attributes.height}
                 target="_blank"
+                title={altText}
                 class="group overflow-hidden rounded-md border-primary cursor-zoom-in block aspect-square"
               >
                 <AstroImage
                   src={image}
-                  alt={'altText'}
+                  alt={altText}
+                  title={altText}
                   widths={[400, 900]}
                   width={400}
                   sizes="(max-width: 900px) 400px, 900px"

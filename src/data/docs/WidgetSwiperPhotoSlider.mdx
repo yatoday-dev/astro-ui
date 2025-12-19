@@ -11,13 +11,14 @@ import WidgetSwiperPhotoSlider from '~/components/WidgetSwiperPhotoSlider/Widget
 
 <SourceLink name="WidgetSwiperPhotoSlider" />
 
-.
+A photo gallery widget with swiper navigation and PhotoSwipe lightbox integration. Automatically loads all images from a specified folder and displays them in a responsive slider with zoom functionality.
 
 <Demo title="">
   <WidgetSwiperPhotoSlider
     title="More ideas and inspiration"
     subtitle="Embark on a design journey that surpasses pixels, entering a realm of imagination."
     imagesFolder="portfolio_01"
+    alt="Portfolio gallery"
     callToAction={{
       text: 'View all',
       href: '/',
@@ -56,8 +57,10 @@ import { WidgetSwiperPhotoSlider } from '@yatoday/astro-ui/astro';
 ---
 
 <!-- All images in the directory /src/assets/images/folder_01 will be added to the gallery -->
-<WidgetSwiperPhotoSlider 
+<WidgetSwiperPhotoSlider
   imagesFolder="folder_01"
+  title="Gallery title"
+  alt="Custom alt text for images"
   callToAction={{
     text: 'Read all',
     href: '/',
@@ -72,8 +75,9 @@ import { WidgetSwiperPhotoSlider } from '@yatoday/astro-ui/astro';
   | Prop | Type | Default | Description |
   |------------|------------|------------|------------|
   | `imagesFolder` | `string` | - | Path to the folder with images relative to /src/assets/images/`{imagesFolder}` |
+  | `alt` | `string` | - | Custom alt text for images. Priority: `alt` > `title` > filename > "Image N" |
   | `id` | `string` | js random | By default, the `id` is generated automatically. If you decide to specify this parameter yourself, make sure that it is unique on the page |
-  | `title` | `string` | - | `Title` prop in [Headline](/docs/headline) component |
+  | `title` | `string` | - | `Title` prop in [Headline](/docs/headline) component. Also used for image alt/title if `alt` prop is not provided |
   | `subtitle` | `string` | - | `Subtitle` prop in [Headline](/docs/headline) component |
   | `tagline` | `string` | - | `Tagline` prop in [Headline](/docs/headline) component |
   | `asHeader` | `h1` \| `h2` \| `h3` \| `h4` \| `h5` \| `h6` | `h2` | HTML heading tag to use for the title |

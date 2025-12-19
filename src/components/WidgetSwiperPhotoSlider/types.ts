@@ -7,6 +7,7 @@ export type WidgetSwiperPhotoSliderProps = {
   isAfterContent?: boolean;
   withNavigation?: boolean;
   imagesFolder: string;
+  alt?: string;
   classes?: {
     container?: string;
     headline?: Record<string, string>;
