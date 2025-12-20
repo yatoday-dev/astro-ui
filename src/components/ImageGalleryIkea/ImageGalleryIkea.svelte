@@ -70,6 +70,9 @@
 
       Object.assign(mainSwiperEl, {});
       (mainSwiperEl as any)?.initialize();
+
+      // Mark as initialized to show content and hide loader
+      elem.setAttribute('data-initialized', 'true');
     };
 
     init();
@@ -82,9 +85,34 @@
     opacity: 1;
     border: 1px solid #666;
   }
+
+  /* Hide slides before Swiper initializes to prevent FOUC */
+  :global([data-image-gallery-ikea]:not([data-initialized]) swiper-slide) {
+    display: none;
+  }
+  :global([data-image-gallery-ikea]:not([data-initialized]) swiper-slide:first-child) {
+    display: block;
+  }
+
+  /* Hide loader after initialization */
+  :global([data-image-gallery-ikea][data-initialized] .gallery-loader) {
+    display: none;
+  }
+
+  /* Loading spinner animation */
+  @keyframes gallery-spin {
+    to { transform: rotate(360deg); }
+  }
+  .gallery-spinner {
+    animation: gallery-spin 1s linear infinite;
+  }
 </style>
 
 <div bind:this={ref} class={cn('@container relative', containerClass)} data-image-gallery-ikea={id} {...rest}>
+  <!-- Loading skeleton -->
+  <div class="gallery-loader absolute inset-0 z-30 flex items-center justify-center bg-muted/50 rounded-lg">
+    <div class="gallery-spinner size-10 border-4 border-muted-foreground/20 border-t-primary rounded-full"></div>
+  </div>
   <div class="absolute left-0 top-0 z-20 hidden md:block group w-20">
     <!-- Thumb Slider -->
     <button
