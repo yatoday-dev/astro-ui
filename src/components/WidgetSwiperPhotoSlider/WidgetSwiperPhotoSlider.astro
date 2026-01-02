@@ -59,16 +59,18 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
             width: 860,
           });
 
-          // Generate alt text: alt prop > title-based > filename > default
+          // Generate alt text: alt prop > title-based > numbered fallback
+          // Detect UUID filenames (8-4-4-4-12 hex pattern) and treat as meaningless
           const filename = imagePath.split('/').pop()?.replace(/\.[^/.]+$/, '') || '';
+          const isUuidFilename = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(filename);
           const imageNumber = index + 1;
-          const imageName = filename || 'Image ' + imageNumber;
+          const imageName = (filename && !isUuidFilename) ? filename : String(imageNumber);
           const baseTitle = title ? String(title).replace(/<[^>]*>/g, '').trim() : '';
           const altText = alt
             ? alt + ' - ' + imageName
             : baseTitle
               ? baseTitle + ' - ' + imageName
-              : imageName;
+              : 'Image ' + imageName;
 
           return (
             <swiper-slide>
