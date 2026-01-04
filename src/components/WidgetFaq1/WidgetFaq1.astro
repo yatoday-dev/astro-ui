@@ -21,7 +21,28 @@ const {
   classes = {},
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
+
+// Build Schema.org FAQPage structured data
+const faqSchema =
+  items && items.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: items
+          .filter((item) => item.title && item.description)
+          .map((item) => ({
+            '@type': 'Question',
+            name: item.title,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: item.description,
+            },
+          })),
+      }
+    : null;
 ---
+
+{faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
 
 <WidgetWrapper
   id={id}
