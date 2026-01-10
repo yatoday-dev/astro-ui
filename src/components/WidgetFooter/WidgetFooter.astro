@@ -62,11 +62,11 @@ const homeHref = `/${currentLocale}/`;
                 {links.map(({ text, href, ariaLabel, icon }) => (
                   <li class="mb-2">
                     <a
-                      class="text-muted-foreground hover:text-foreground hover:underline transition duration-150 ease-in-out inline-flex items-center gap-1.5"
+                      class="text-muted-foreground hover:text-foreground hover:underline transition duration-150 ease-in-out inline-flex items-start gap-1.5"
                       href={href}
                       aria-label={ariaLabel}
                     >
-                      {icon && <Icon name={icon} class="w-4 h-4 flex-shrink-0" />}
+                      {icon && <Icon name={icon} class="size-4 flex-shrink-0 mt-0.5" />}
                       <Fragment set:html={text} />
                     </a>
                   </li>
