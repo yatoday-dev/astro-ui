@@ -21,6 +21,7 @@ export type ConsentCategories = {
  */
 export type ConsentPayload = {
   consent_id: string;
+  organisation_suid?: string;
   status: 'accepted' | 'denied';
   consent_version: string;
   categories: ConsentCategories;
@@ -83,6 +84,12 @@ export type CookieConsentProps = {
    * @example "https://app.yatoday.es/api/consent"
    */
   apiEndpoint?: string;
+
+  /**
+   * Organisation SUID for multi-tenant consent tracking
+   * @example "org_34c7Pnb1WLgPqRLcz7OlpdP9hIS"
+   */
+  organisationSuid?: string;
 
   /**
    * Google Analytics Measurement ID (for Consent Mode)

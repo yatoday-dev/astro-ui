@@ -12,6 +12,7 @@ const {
   position = 'bottom',
   consentVersion = '1.0',
   apiEndpoint = '',
+  organisationSuid = '',
   googleAnalyticsId = '',
   classes = {},
   infoDialog = {},
@@ -53,6 +54,7 @@ const positionClasses = {
   data-cookie-expire-days={cookieExpireDays}
   data-consent-version={consentVersion}
   data-api-endpoint={apiEndpoint}
+  data-organisation-suid={organisationSuid}
   data-ga-id={googleAnalyticsId}
   data-consent-date-label={consentDateLabel}
   data-consent-id-label={consentIdLabel}
@@ -203,6 +205,7 @@ const positionClasses = {
     cookieExpireDays: parseInt(banner.dataset.cookieExpireDays || '365', 10),
     consentVersion: banner.dataset.consentVersion || '1.0',
     apiEndpoint: banner.dataset.apiEndpoint || '',
+    organisationSuid: banner.dataset.organisationSuid || '',
     gaId: banner.dataset.gaId || ''
   };
 
@@ -283,6 +286,7 @@ const positionClasses = {
 
     const payload = {
       consent_id: consentId,
+      organisation_suid: config.organisationSuid || undefined,
       status: status,
       consent_version: config.consentVersion,
       categories: categories,
