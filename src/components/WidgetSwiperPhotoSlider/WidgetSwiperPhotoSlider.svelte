@@ -56,7 +56,7 @@
               widths={[400, 900]}
               width={400}
               sizes="(max-width: 900px) 400px, 900px"
-              class="object-cover object-top w-full md:h-full group-hover:scale-105 transition duration-300"
+              class={cn("object-cover object-top w-full md:h-full group-hover:scale-105 transition duration-300", classes?.image)}
             />
           </a>
         </swiper-slide>

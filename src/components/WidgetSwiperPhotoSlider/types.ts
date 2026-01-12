@@ -11,6 +11,7 @@ export type WidgetSwiperPhotoSliderProps = {
   classes?: {
     container?: string;
     headline?: Record<string, string>;
+    image?: string;
   };
   callToAction?: ToAction;
   asHeader?: HeadlineProps['as'];

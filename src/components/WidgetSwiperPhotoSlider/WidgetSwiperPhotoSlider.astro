@@ -5,6 +5,7 @@ import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
 import SwiperSlider from '../SwiperSlider/SwiperSlider.astro';
 import { Image as AstroImage, getImage } from 'astro:assets';
 import { fetchLocalImages } from '../../utils/images';
+import { cn } from '../../utils';
 import Button from "../Button/Button.astro";
 
 const {
@@ -89,7 +90,7 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
                   widths={[400, 900]}
                   width={400}
                   sizes="(max-width: 900px) 400px, 900px"
-                  class="object-cover object-top w-full md:h-full group-hover:scale-105 transition duration-300"
+                  class={cn("object-cover object-top w-full md:h-full group-hover:scale-105 transition duration-300", classes?.image)}
                 />
               </a>
             </swiper-slide>
