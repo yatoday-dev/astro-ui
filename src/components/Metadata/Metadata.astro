@@ -39,18 +39,19 @@ const locale = urlParts[0] && supportedLocales.includes(urlParts[0]) ? urlParts[
 // Build alternate locale links for hreflang (including self-reference)
 // Use alternateUrls if provided (for blog posts with different slugs per language)
 // Otherwise, use path-based replacement for static pages
+// When alternateUrls is provided, ONLY include languages that have a URL (no fallback)
 const alternateLocales = alternateUrls
   ? supportedLocales
+      .filter((lang) => alternateUrls[lang]) // Only include languages with actual URLs
       .map((lang) => ({
         locale: lang,
-        url: alternateUrls[lang] || String(new URL(pathname.replace(`/${locale}/`, `/${lang}/`), Astro.site)),
+        url: alternateUrls[lang],
       }))
-      .concat([
-        {
-          locale: 'x-default',
-          url: alternateUrls[defaultLocale] || String(new URL(pathname.replace(`/${locale}/`, `/${defaultLocale}/`), Astro.site)),
-        },
-      ])
+      .concat(
+        alternateUrls[defaultLocale]
+          ? [{ locale: 'x-default', url: alternateUrls[defaultLocale] }]
+          : []
+      )
   : supportedLocales
       .map((lang) => {
         // Replace current locale with target locale and ensure trailing slash
