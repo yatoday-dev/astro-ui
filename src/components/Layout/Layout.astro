@@ -14,7 +14,9 @@ const { language, textDirection, locales, defaultLocale } = I18N;
 const currentLang = Astro.currentLocale || language;
 
 // Build i18n config for Metadata component (for hreflang generation)
-const i18nConfig = locales?.length ? { locales, defaultLocale: defaultLocale || language } : undefined;
+// Allow page-level override via metadata.i18n for single-language pages
+const globalI18nConfig = locales?.length ? { locales, defaultLocale: defaultLocale || language } : undefined;
+const i18nConfig = metadata.i18n || globalI18nConfig;
 ---
 
 <!doctype html>
