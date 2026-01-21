@@ -8,6 +8,7 @@ export type WidgetNavbarProps = {
   isSticky?: boolean;
   isDark?: boolean;
   showToggleTheme?: boolean;
+  initialMode?: 'light' | 'dark' | 'system' | 'light:only' | 'dark:only';
   position?: 'center' | 'left' | 'right';
   classes?: Record<string, string>;
   scrollOffset?: number;
