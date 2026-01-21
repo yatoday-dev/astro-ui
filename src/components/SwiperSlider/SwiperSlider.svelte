@@ -23,6 +23,10 @@
     space-between="10"
     centered-slides="true"
     slides-per-view="1.2"
+    prevent-clicks="true"
+    prevent-clicks-propagation="true"
+    threshold="10"
+    touch-start-prevent-default="false"
     navigation={withNavigation
       ? JSON.stringify({
           nextEl: `#btn-next-${id}`,
