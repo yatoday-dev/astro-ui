@@ -88,6 +88,19 @@ const {
   }
 </div>
 
+<style>
+  /* Prevent iOS from triggering link clicks during horizontal swipe */
+  swiper-container {
+    touch-action: pan-y pinch-zoom;
+  }
+  swiper-slide {
+    touch-action: pan-y pinch-zoom;
+  }
+  swiper-slide a {
+    touch-action: pan-y pinch-zoom;
+  }
+</style>
+
 <script>
   import { addClasses, removeClasses } from '../../utils';
 
