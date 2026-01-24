@@ -118,19 +118,21 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
   <!-- Content -->
   <div class={twMerge('px-6 space-y-6')}>
     <div>
-      <WrapperHeaderTag class={twMerge('text-xl font-bold', titleClass)}>
-        {
-          url || callToAction?.href ? (
-            <a href={url || callToAction?.href || '/'} class="after:content-[''] after:inset-0 after:absolute">
-              {title}
-            </a>
-          ) : (
-            title
-          )
-        }
-      </WrapperHeaderTag>
+      {title && (
+        <WrapperHeaderTag class={twMerge('text-xl font-bold', titleClass)}>
+          {
+            url || callToAction?.href ? (
+              <a href={url || callToAction?.href || '/'} class="after:content-[''] after:inset-0 after:absolute">
+                {title}
+              </a>
+            ) : (
+              title
+            )
+          }
+        </WrapperHeaderTag>
+      )}
 
-      <div class={twMerge('mt-2', contentClass)}>
+      <div class={twMerge(title ? 'mt-2' : '', contentClass)}>
         <slot />
         {description}
       </div>

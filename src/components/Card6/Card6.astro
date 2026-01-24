@@ -86,12 +86,14 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
         </div>
       )}
 
-      <WrapperHeaderTag
-        class={cn('font-bold text-lg @lg:text-xl @2xl:text-2xl ', urlForImage && 'group-hover:underline', titleClass)}>
-        {title}
-      </WrapperHeaderTag>
+      {title && (
+        <WrapperHeaderTag
+          class={cn('font-bold text-lg @lg:text-xl @2xl:text-2xl ', urlForImage && 'group-hover:underline', titleClass)}>
+          {title}
+        </WrapperHeaderTag>
+      )}
 
-      <div class={cn('text-sm @lg:text-base @2xl:text-lg mt-2 ', descriptionClass)}>
+      <div class={cn('text-sm @lg:text-base @2xl:text-lg', title ? 'mt-2' : '', descriptionClass)}>
         <slot/>
         {description}
       </div>

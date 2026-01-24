@@ -145,11 +145,13 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
 
   <div class="flex items-start gap-2">
     <div>
-      <WrapperHeaderTag class={cn('text-lg md:text-xl font-bold', titleClass)}>
-        {title}
-      </WrapperHeaderTag>
+      {title && (
+        <WrapperHeaderTag class={cn('text-lg md:text-xl font-bold', titleClass)}>
+          {title}
+        </WrapperHeaderTag>
+      )}
 
-      <div class={cn('mt-2 text-sm md:text-base leading-5 md:leading-6', descriptionClass)}>
+      <div class={cn(title ? 'mt-2' : '', 'text-sm md:text-base leading-5 md:leading-6', descriptionClass)}>
         <slot />
         {description}
       </div>
