@@ -78,10 +78,12 @@ const {
     right: var(--swiper-pagination-right, 1.5rem);
     top: var(--swiper-pagination-top, auto);
     bottom: var(--swiper-pagination-bottom, 1.5rem);
+    pointer-events: none;
   }
 
   swiper-container::part(bullet),
   swiper-container::part(bullet-active) {
+    pointer-events: auto;
     width: var(--swiper-pagination-bullet-size, 8px);
     height: var(--swiper-pagination-bullet-size, 8px);
     display: inline-block;
@@ -107,6 +109,14 @@ const {
       --swiper-pagination-bottom: theme(spacing.4);
       --swiper-pagination-right: theme(spacing.6);
     }
+  }
+
+  /* Prevent iOS from triggering link clicks during horizontal swipe */
+  swiper-container {
+    touch-action: pan-y pinch-zoom;
+  }
+  swiper-slide {
+    touch-action: pan-y pinch-zoom;
   }
 </style>
 
@@ -187,7 +197,7 @@ const {
     }
 
     <!-- Loading indicator -->
-    <div class={cn('absolute top-0 left-0 w-full h-full flex items-center justify-center', `${classes?.loading}`)}>
+    <div class={cn('absolute top-0 left-0 w-full h-full flex items-center justify-center pointer-events-none', `${classes?.loading}`)}>
       <svg class="animate-spin h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
         <path
