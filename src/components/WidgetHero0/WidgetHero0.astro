@@ -30,6 +30,7 @@ const { container: containerClass = '', bg: bgClass = '' } = classes;
   <div class={cn('relative z-30', Astro.slots.has('default') && 'grid grid-cols-3 gap-6')}>
     <div class={cn(Astro.slots.has('default') && 'col-span-2')}>
       <Headline
+        position={position}
         title={title}
         subtitle={subtitle}
         tagline={tagline}
