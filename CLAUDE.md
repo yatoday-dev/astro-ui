@@ -275,6 +275,10 @@ The project uses GitHub Actions for automated publishing:
 
 **Important**: The `dist/` directory is the build output for NPM. Never manually edit files in `dist/`.
 
+### npm Publishing Auth
+
+Publishing uses **Trusted Publisher (OIDC)** — no npm access token. The `id-token: write` permission + `registry-url` in `actions/setup-node` + npm 11.x handle auth automatically via GitHub's OIDC token. The bundled npm with Node 22 is 10.x, which does **not** support Trusted Publisher auth — that's why the workflow explicitly installs npm 11.x. Do not remove the `npm install -g npm@<version>` step, and do not add `NODE_AUTH_TOKEN`.
+
 ## Code Quality
 
 - **ESLint**: Flat config supporting Astro, TypeScript, and Svelte
