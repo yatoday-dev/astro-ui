@@ -13,13 +13,11 @@ jobs:
   publish-npm:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org/
-      - name: Update npm for OIDC support
-        run: npm install -g npm@latest
       - run: npm install
       - run: npm run build:package
       - run: cd dist && npm publish --access public
