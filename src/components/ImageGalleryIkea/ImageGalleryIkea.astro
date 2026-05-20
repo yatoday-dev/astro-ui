@@ -190,12 +190,15 @@ const { container: containerClass = '', swiper: swiperClass = '', swiperThumb: s
       const thumbSwiperEl = document.getElementById(`swiper-thumb-${id}`);
       if (!mainSwiperEl || !thumbSwiperEl) return;
 
-      mainSwiperEl.addEventListener('swiperafterinit', () => {
-        (thumbSwiperEl as any)?.swiper.slides.forEach((slide: HTMLElement, index: number) => {
-          slide.addEventListener('mouseenter', () => {
-            (mainSwiperEl as any)?.swiper.slideTo(index);
-          });
-        });
+      // Wire up thumb hover + click → main slide navigation.
+      // Attach to light-DOM swiper-slide elements directly so this does not
+      // depend on the swiperafterinit lifecycle event (which can be flaky with
+      // dynamically registered swiper-element + init="false").
+      const thumbSlides = thumbSwiperEl.querySelectorAll('swiper-slide');
+      thumbSlides.forEach((slide, index) => {
+        const goTo = () => (mainSwiperEl as any)?.swiper?.slideTo(index);
+        slide.addEventListener('mouseenter', goTo);
+        slide.addEventListener('click', goTo);
       });
 
       // Thumb Slider navigation buttons
