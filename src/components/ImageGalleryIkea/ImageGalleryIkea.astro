@@ -235,6 +235,23 @@ const { container: containerClass = '', swiper: swiperClass = '', swiperThumb: s
 
       // Mark as initialized to show content and hide loader
       elem.setAttribute('data-initialized', 'true');
+
+      // Force Swiper to re-measure once layout settles and again as images
+      // resolve. Without this, Swiper can measure slides while their
+      // <img> children still have no intrinsic size (loading="lazy" /
+      // cache-cold) and then lock itself via watchOverflow — silently
+      // swallowing every slideTo() and click handler on user machines
+      // where the images aren't already cached.
+      const scheduleUpdate = () => {
+        const s = (mainSwiperEl as any)?.swiper;
+        if (s && !s.destroyed) s.update();
+      };
+      requestAnimationFrame(scheduleUpdate);
+      mainSwiperEl.querySelectorAll('img').forEach((img) => {
+        if (img.complete && img.naturalWidth > 0) return;
+        img.addEventListener('load', scheduleUpdate, { once: true });
+        img.addEventListener('error', scheduleUpdate, { once: true });
+      });
     });
   };
 
