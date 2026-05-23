@@ -1,0 +1,37 @@
+stages:
+  - deploy
+
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - node_modules/
+
+# Deploys the documentation / demo site (astro-ui.dev.yatoday.es) to
+# Cloudflare Pages. The npm package itself is built and published from
+# GitHub Actions on release — see .github/workflows/publish.yml.
+#
+# This pipeline assumes GitLab pulls from GitHub via repository mirroring,
+# so $CI_COMMIT_BRANCH is whatever the upstream default branch is.
+deploy_prod:
+  stage: deploy
+  image: node:22-alpine
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+  before_script:
+    # Alpine doesn't ship with git; `astro check` and some build steps
+    # touch git metadata, so install it up front.
+    - apk add --no-cache git
+  script:
+    - npm ci --cache .npm --prefer-offline
+    # `npm run build` runs `astro check && astro build`; output goes to
+    # dist-doc/ (configured via `outDir` in astro.config.ts), distinct
+    # from dist/ which is the npm package build.
+    - npm run build
+    - echo "Deploying to Cloudflare Pages..."
+    - npx wrangler pages project create astro-ui --production-branch=main 2>/dev/null || true
+    - npx wrangler pages deploy dist-doc --project-name=astro-ui --branch=$CI_COMMIT_REF_NAME
+  variables:
+    CLOUDFLARE_API_TOKEN: $CLOUDFLARE_API_TOKEN
+    CLOUDFLARE_ACCOUNT_ID: $CLOUDFLARE_ACCOUNT_ID
