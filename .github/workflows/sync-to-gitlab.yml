@@ -1,0 +1,28 @@
+name: Sync to GitLab
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Mirror to GitLab
+        run: |
+          GITLAB_REPO="gitlab.dev.decmedia.net/k3s/yatoday/astro-ui.git"
+          # GitHub's `master` is mirrored as `main` on GitLab so the GitLab
+          # project follows its default-branch convention. Tags pass through
+          # unchanged. We don't `--prune` since we only push one branch +
+          # tags, so there's nothing to prune.
+          git push https://oauth2:${{ secrets.GITLAB_TOKEN }}@$GITLAB_REPO \
+            +refs/remotes/origin/master:refs/heads/main \
+            +refs/tags/*:refs/tags/*
