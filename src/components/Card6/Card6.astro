@@ -122,9 +122,9 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
       3/4: pb-[133%]
       9/16: pb-[177%]
     -->
-    <div class={cn("relative w-full h-auto", aspectClass)}>
+    <div class={cn("relative w-full h-auto min-h-full", aspectClass)}>
       {image && (
-        <Fragment>
+        <div class="absolute inset-0">
           {isHtmlImage ? (
             <Fragment set:html={image}/>
           ) : (
@@ -139,7 +139,7 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
               hoverEffect={false}
             />
           )}
-        </Fragment>
+        </div>
       )}
     </div>
   </div>
