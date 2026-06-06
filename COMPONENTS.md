@@ -587,7 +587,7 @@ Card slider widget with Swiper.
 ---
 
 #### WidgetSwiperPhotoSlider
-Photo slider widget.
+Photo slider widget with a PhotoSwipe lightbox.
 
 ```astro
 <WidgetSwiperPhotoSlider
@@ -596,6 +596,21 @@ Photo slider widget.
   withNavigation
 />
 ```
+
+> **⚠️ Dev-server gotcha — add `photoswipe` to `optimizeDeps.include`.**
+> This widget loads the lightbox core via a lazy `() => import('photoswipe')`
+> that only fires on the first thumbnail click. Vite's boot-time dep scan never
+> walks that branch, so it discovers `photoswipe` mid-session, re-optimizes, and
+> the already-initialized lightbox then 504s on `photoswipe.js?v=<stale>`
+> ("Outdated Optimize Dep") — the gallery zoom breaks until a dev-server restart.
+> In any site that renders this widget, add to `astro.config.ts`:
+> ```ts
+> vite: {
+>   optimizeDeps: { include: ['photoswipe', 'photoswipe/lightbox'] },
+> }
+> ```
+> If you `npm link` this library (so its deps nest instead of hoisting), also add
+> `"photoswipe"` as a direct dependency of the site so the specifier resolves.
 
 ---
 
