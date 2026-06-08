@@ -1,0 +1,237 @@
+---
+title: WidgetNavbarFlyout
+category: Widget
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import WidgetNavbarFlyout from '~/components/WidgetNavbarFlyout/WidgetNavbarFlyout.astro';
+import Button from '~/components/Button/Button.astro';
+
+export const demoActions = [{ text: 'Action', href: '/', variant: 'outline' }];
+export const demoLinks = [
+  {
+    text: "Products",
+    mega: true,
+    links: [
+      {
+        text: "Windows",
+        href: "/",
+        icon: "tabler:window",
+        links: [
+          { text: "PVC Windows", href: "/", icon: "tabler:window", description: "Best price-to-insulation ratio" },
+          { text: "Aluminum Windows", href: "/", icon: "tabler:window-maximize", description: "Slim frames, more glass" },
+          { text: "Soundproof Windows", href: "/", icon: "tabler:ear", description: "Acoustic glazing for busy streets" }
+        ]
+      },
+      {
+        text: "Doors",
+        href: "/",
+        icon: "tabler:door",
+        links: [
+          { text: "Entrance Doors", href: "/", icon: "tabler:door", description: "Secure, insulated front doors" },
+          { text: "Sliding Doors", href: "/", icon: "tabler:arrows-horizontal", description: "Smooth, space-saving glazing" },
+          { text: "Folding Doors", href: "/", icon: "tabler:fold", description: "Open up the whole wall" }
+        ]
+      }
+    ]
+  },
+  {
+    text: "Brands",
+    links: [
+      { text: "REHAU", href: "/" },
+      { text: "Kömmerling", href: "/" },
+      { text: "Cortizo", href: "/" },
+      { text: "VEKA", href: "/" }
+    ]
+  },
+  { text: "Pricing", href: "/" },
+  { text: "Docs", href: "/" }
+];
+
+# WidgetNavbarFlyout
+
+<SourceLink name="WidgetNavbarFlyout" />
+
+A navbar whose dropdowns share a single, persistent flyout panel that stays open
+and smoothly **morphs** (width, height, and horizontal position) as the cursor
+moves between top-level items — the Stripe "one container that resizes" pattern —
+instead of each menu abruptly closing and the next one opening.
+
+It is a drop-in replacement for [WidgetNavbar](/docs/widget-navbar): the props,
+slots, and `links` shape are identical. Any top-level item with `links` becomes a
+flyout panel. Items flagged `mega: true` render multi-column Stripe-style rows
+(icon tile + title + `description`); plain items render a single-column list.
+
+Hover the items below and move across them to see the panel persist and resize.
+
+<Demo title="">
+  <WidgetNavbarFlyout
+    links={demoLinks}
+    position="right"
+  />
+</Demo>
+
+```astro
+---
+import { WidgetNavbarFlyout } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetNavbarFlyout
+  position="right"
+  links={[
+    {
+      text: "Products",
+      mega: true,
+      links: [
+        {
+          text: "Windows",
+          href: "/windows",
+          icon: "tabler:window",
+          links: [
+            { text: "PVC Windows", href: "/windows/pvc", icon: "tabler:window", description: "Best price-to-insulation ratio" },
+            { text: "Aluminum Windows", href: "/windows/aluminum", icon: "tabler:window-maximize", description: "Slim frames, more glass" },
+            { text: "Soundproof Windows", href: "/windows/soundproof", icon: "tabler:ear", description: "Acoustic glazing for busy streets" }
+          ]
+        },
+        {
+          text: "Doors",
+          href: "/doors",
+          icon: "tabler:door",
+          links: [
+            { text: "Entrance Doors", href: "/doors/entrance", icon: "tabler:door", description: "Secure, insulated front doors" },
+            { text: "Sliding Doors", href: "/doors/sliding", icon: "tabler:arrows-horizontal", description: "Smooth, space-saving glazing" }
+          ]
+        }
+      ]
+    },
+    {
+      text: "Brands",
+      links: [
+        { text: "REHAU", href: "/brands/rehau" },
+        { text: "Kömmerling", href: "/brands/kommerling" },
+        { text: "Cortizo", href: "/brands/cortizo" }
+      ]
+    },
+    { text: "Pricing", href: "/pricing" },
+    { text: "Docs", href: "/docs" }
+  ]}
+/>
+```
+
+## Mega panels vs. simple dropdowns
+
+A top-level item becomes a **mega panel** when it sets `mega: true`. Its direct
+children are rendered as columns: each column's `text`/`href`/`icon` is the column
+heading, and its nested `links` are the leaf rows. Add a `description` (and
+optionally an `icon`) to a leaf to get the Stripe-style row — an icon tile, a bold
+title, and a muted subtitle.
+
+Without `mega`, an item with `links` renders as a compact single-column list — so
+moving from a wide mega panel to a narrow list is what produces the visible
+resize.
+
+```astro
+{
+  text: "Products",
+  mega: true,           // multi-column Stripe-style panel
+  links: [
+    {
+      text: "Windows",  // column heading
+      href: "/windows",
+      icon: "tabler:window",
+      links: [
+        // leaf row: icon tile + title + description
+        { text: "PVC Windows", href: "/windows/pvc", icon: "tabler:window", description: "Best price-to-insulation ratio" }
+      ]
+    }
+  ]
+}
+```
+
+## Sticky, theme toggle & slots
+
+Like [WidgetNavbar](/docs/widget-navbar), it supports `isSticky`,
+`showToggleTheme`, and the `logo` / `actions` slots.
+
+<Demo title="Sticky & ToggleTheme" class="bg-stripe h-[900px]">
+  <WidgetNavbarFlyout
+    isSticky={true}
+    showToggleTheme={true}
+    scrollOffset={1200}
+    classes={{
+      container: "mx-auto max-w-6xl text-foreground",
+      pinned: "bg-background",
+      unpinned: "",
+    }}
+    links={demoLinks}
+    actions={demoActions}
+  >
+    <Fragment slot="logo">LOGO</Fragment>
+    <Fragment slot="actions">
+      <Button variant="outline" class="ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto">
+        Create Account
+      </Button>
+    </Fragment>
+  </WidgetNavbarFlyout>
+</Demo>
+
+```astro
+---
+import { WidgetNavbarFlyout } from '@yatoday/astro-ui/astro';
+import { Button } from '@yatoday/astro-ui/astro';
+---
+
+<WidgetNavbarFlyout
+  isSticky={true}
+  showToggleTheme={true}
+  classes={{ container: "mx-auto max-w-6xl bg-background text-foreground" }}
+  links={[ /* … */ ]}
+  actions={[{ text: 'Action', href: '/', variant: 'outline' }]}
+>
+  <Fragment slot="logo">LOGO</Fragment>
+  <Fragment slot="actions">
+    <Button variant="outline" class="ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto">
+      Create Account
+    </Button>
+  </Fragment>
+</WidgetNavbarFlyout>
+```
+
+## Behavior & accessibility
+
+- **Desktop** interaction is JS-driven: hover or focus a trigger to open; moving
+  between triggers keeps the panel open and morphs it; a short close delay lets
+  the cursor cross the gap between a trigger and the panel without flicker.
+- **Keyboard**: triggers are focusable buttons with `aria-haspopup` /
+  `aria-expanded`; <kbd>Escape</kbd> and an outside click close the panel.
+- **Mobile** (`< md`) falls back to an always-expanded accordion and needs no JS.
+- Honors `prefers-reduced-motion` by collapsing the transitions.
+
+> Because the desktop panel animates open via script, the flyout requires
+> JavaScript on desktop. The mobile accordion works without it.
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------|------|---------|---------|
+    | `position` | `center` \| `left` \| `right` | `center` | - |
+    | `links` | `Array` | `[]` | Array of [Link](/docs/types#link) items. A top-level item with `links` opens a flyout panel; add `mega: true` for multi-column Stripe rows. Leaf items accept `icon` and `description`. |
+    | `actions` | `Array` | `[]` | Array of [ToAction](/docs/types#toaction) components |
+    | `isSticky` | `boolean` | `false` | - |
+    | `isDark` | `boolean` | `false` | Adds the `dark` CSS class to the [WidgetWrapper](/docs/feature-widget-wrapper) |
+    | `showToggleTheme` | `boolean` | `false` | - |
+    | `scrollOffset` | `number` | `60` | How much do you need to scroll the page to apply `pinned` classes |
+    | `classes.header` | `string` | `` | CSS classes for the wrapper header container |
+    | `classes.container` | `string` | `max-w-7xl 2xl:max-w-[96rem] md:mx-auto` | CSS classes for the container |
+    | `classes.links` | `string` | `hover:text-link dark:hover:text-white` | Top-level link/trigger classes |
+    | `classes.dropdownLinks` | `string` | `hover:bg-black/10 hover:text-link dark:hover:text-white dark:hover:bg-white/10` | Leaf row hover classes |
+    | `classes.megaMenu` | `string` | `bg-background text-foreground md:shadow-lg` | The morphing flyout background |
+    | `classes.megaHeading` | `string` | `text-foreground/50` | Column headings |
+    | `classes.darkModeIcon` | `string` | - | - |
+    | `classes.pinned` | `string` | `bg-background md:bg-background/90 md:backdrop-blur-md` | Classes that will be applied when scrolling the page |
+    | `classes.unpinned` | `string` | - | Classes applied by default |
+  </div>
+</div>

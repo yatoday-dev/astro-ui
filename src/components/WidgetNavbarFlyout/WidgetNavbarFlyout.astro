@@ -1,0 +1,576 @@
+---
+/**
+ * WidgetNavbarFlyout
+ *
+ * A navbar whose dropdowns share a single, persistent flyout panel that stays
+ * open and smoothly morphs (width / height / horizontal position) as the cursor
+ * moves between top-level items — the Stripe "one container that resizes"
+ * pattern — instead of each menu abruptly closing and the next one opening.
+ *
+ * Any top-level item with `links` becomes a flyout panel. Items flagged `mega`
+ * render multi-column Stripe-style rows (icon tile + title + description);
+ * plain items render a single-column list. Desktop interaction is JS-driven
+ * (hover with open/close delays, keyboard + Escape, outside-click). Mobile keeps
+ * an always-expanded accordion and needs no JS.
+ *
+ * Drop-in compatible with WidgetNavbar's props and slots.
+ */
+import type { WidgetNavbarProps as Props } from '../WidgetNavbar/types';
+
+import { SITE } from 'vendor:config';
+import { Icon } from 'astro-icon/components';
+import DarkMode from '../DarkMode/DarkMode.astro';
+import ToggleMenu from '../WidgetNavbar/ToggleMenu.astro';
+import Button from '../Button/Button.astro';
+import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
+import { cn, trimSlash } from '../../utils';
+import { twMerge } from 'tailwind-merge';
+
+const {
+  links = [],
+  actions = [],
+  isSticky = false,
+  isDark = false,
+  showToggleTheme = false,
+  initialMode = 'system',
+  position = 'center',
+  classes = {},
+  scrollOffset = 60,
+  as = 'header',
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+
+const {
+  header: headerClass = '',
+  container: containerClass = 'max-w-7xl 2xl:max-w-[96rem] md:mx-auto',
+  links: linksClass = 'hover:text-link dark:hover:text-white',
+  dropdownLinks: dropdownLinksClass = 'hover:bg-black/10 hover:text-link dark:hover:text-white dark:hover:bg-white/10',
+  megaMenu: megaMenuClass = 'bg-background text-foreground md:shadow-lg',
+  megaHeading: megaHeadingClass = 'text-foreground/50',
+  darkModeIcon: darkModeIconClass = '',
+  pinned: pinnedClasses = 'bg-background md:bg-background/90 md:backdrop-blur-md',
+  unpinned: unpinnedClasses = '',
+} = classes;
+
+const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
+
+// Top-level items that get a shared flyout panel (anything with children).
+const panelItems = links.map((link, index) => ({ link, index })).filter(({ link }) => link.links?.length);
+---
+
+<WidgetWrapper
+  id="header"
+  isDark={isDark}
+  bg={bg}
+  as={as}
+  class={cn(
+    { sticky: isSticky, relative: !isSticky, dark: isDark },
+    '-top-[1px] z-40 flex-none w-full transition-[opacity] ease-in-out',
+    headerClass,
+    unpinnedClasses
+  )}
+  containerClass={twMerge('py-0 md:py-0 lg:py-0', containerClass)}
+  {...isSticky ? { 'data-yt-sticky-header': true } : {}}
+  data-scroll-offset={scrollOffset}
+  data-pinned-classes={pinnedClasses}
+  data-unpinned-classes={unpinnedClasses}
+  data-yt-flyout-header
+>
+  <div
+    class={cn(
+      'relative text-default py-3 mx-auto w-full',
+      { 'md:flex md:justify-between': position !== 'center' },
+      { 'md:grid md:grid-cols-3 md:items-center': position === 'center' }
+    )}
+  >
+    <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between items-center']}>
+      <!-- Logo -->
+      <slot name="logo">
+        <span>{SITE.name || 'Logo'}</span>
+      </slot>
+      <div class="flex items-center md:hidden">
+        <slot name="toggle-menu">
+          <ToggleMenu />
+        </slot>
+      </div>
+    </div>
+
+    <nav
+      class="items-center w-full md:w-auto hidden md:flex md:mx-5 text-default overflow-y-auto overflow-x-hidden md:overflow-y-visible md:overflow-x-auto md:justify-self-center"
+      aria-label="Main navigation"
+      data-yt-flyout-nav
+    >
+      <ul
+        class="flex flex-col md:flex-row md:self-center w-full md:w-auto text-xl md:text-[0.9375rem] tracking-[0.01rem] font-medium md:justify-center"
+      >
+        {
+          links.map((item, index) => {
+            const hasPanel = !!item.links?.length;
+            return (
+              <li class="md:static">
+                {/* Desktop trigger / link */}
+                {hasPanel ? (
+                  <button
+                    type="button"
+                    data-flyout-trigger
+                    data-flyout-key={index}
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    class={cn('hidden md:flex px-4 py-3 items-center whitespace-nowrap cursor-pointer', linksClass)}
+                  >
+                    {item.text}{' '}
+                    <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5" />
+                  </button>
+                ) : (
+                  <a
+                    href={item.href}
+                    data-flyout-dismiss
+                    class={cn(
+                      'hidden md:flex px-4 py-3 items-center gap-1.5 whitespace-nowrap',
+                      { 'link-active': item.href === currentPath },
+                      linksClass
+                    )}
+                  >
+                    {item.icon && <Icon name={item.icon} class="w-4 h-4" />}
+                    {item.text}
+                  </a>
+                )}
+
+                {/* Mobile accordion (always expanded, no JS required) */}
+                <div class="md:hidden">
+                  {hasPanel ? (
+                    <>
+                      <span class={cn('block px-4 py-3 text-base font-semibold uppercase tracking-wider', megaHeadingClass)}>
+                        {item.text}
+                      </span>
+                      <ul class="flex flex-col pb-2">
+                        {item.mega
+                          ? item.links?.flatMap((column) =>
+                              (column.links ?? []).map((leaf) => (
+                                <li>
+                                  <a
+                                    href={leaf.href}
+                                    class={cn(
+                                      'block rounded-sm py-2 px-6 text-base',
+                                      { 'link-active': leaf.href === currentPath },
+                                      dropdownLinksClass
+                                    )}
+                                  >
+                                    {leaf.text}
+                                  </a>
+                                </li>
+                              ))
+                            )
+                          : item.links?.map((leaf) => (
+                              <li>
+                                <a
+                                  href={leaf.href}
+                                  class={cn(
+                                    'block rounded-sm py-2 px-6 text-base',
+                                    { 'link-active': leaf.href === currentPath },
+                                    dropdownLinksClass
+                                  )}
+                                >
+                                  {leaf.text}
+                                </a>
+                              </li>
+                            ))}
+                      </ul>
+                    </>
+                  ) : (
+                    <a
+                      href={item.href}
+                      class={cn('block px-4 py-3 text-xl', { 'link-active': item.href === currentPath })}
+                    >
+                      {item.text}
+                    </a>
+                  )}
+                </div>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+
+    {/* Shared morphing flyout (desktop only) */}
+    {
+      panelItems.length > 0 && (
+        <div
+          class="flyout hidden md:block absolute left-0 right-0 top-full z-40"
+          data-flyout
+          role="region"
+          aria-label="Menu details"
+        >
+          <div class={cn('flyout-bg relative overflow-hidden rounded-xl border border-border', megaMenuClass)} data-flyout-bg>
+            {panelItems.map(({ link, index }) => (
+              <div class="flyout-panel absolute top-0 left-0" data-flyout-panel data-flyout-key={index}>
+                {link.mega ? (
+                  <div class="flex gap-8 p-8">
+                    {link.links?.map((column) => (
+                      <div class="min-w-[12rem]">
+                        {column.href ? (
+                          <a
+                            href={column.href}
+                            class={cn(
+                              'flex items-center gap-1.5 mb-2 text-xs font-semibold uppercase tracking-wider hover:text-link',
+                              megaHeadingClass
+                            )}
+                          >
+                            {column.icon && <Icon name={column.icon} class="w-4 h-4" />}
+                            {column.text}
+                          </a>
+                        ) : (
+                          <span
+                            class={cn(
+                              'flex items-center gap-1.5 mb-2 text-xs font-semibold uppercase tracking-wider',
+                              megaHeadingClass
+                            )}
+                          >
+                            {column.icon && <Icon name={column.icon} class="w-4 h-4" />}
+                            {column.text}
+                          </span>
+                        )}
+                        <ul class="flex flex-col">
+                          {column.links?.map((leaf) => (
+                            <li>
+                              <a
+                                href={leaf.href}
+                                class={cn(
+                                  'group flex items-start gap-3 rounded-md py-2 px-2 -mx-2',
+                                  { 'link-active': leaf.href === currentPath },
+                                  dropdownLinksClass
+                                )}
+                              >
+                                {leaf.icon && (
+                                  <span class="flex-none mt-0.5 flex items-center justify-center w-8 h-8 rounded-md bg-foreground/[0.06] text-foreground/70 group-hover:bg-foreground/10">
+                                    <Icon name={leaf.icon} class="w-4.5 h-4.5" />
+                                  </span>
+                                )}
+                                <span class="flex flex-col">
+                                  <span class="font-medium leading-tight whitespace-nowrap">{leaf.text}</span>
+                                  {leaf.description && (
+                                    <span class="mt-0.5 text-xs font-normal text-muted-foreground leading-snug normal-case whitespace-nowrap">
+                                      {leaf.description}
+                                    </span>
+                                  )}
+                                </span>
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <ul class="flex flex-col p-3 min-w-[14rem]">
+                    {link.links?.map((leaf) => (
+                      <li>
+                        <a
+                          href={leaf.href}
+                          class={cn(
+                            'flex items-center gap-2 rounded-md py-2 px-3 whitespace-nowrap',
+                            { 'link-active': leaf.href === currentPath },
+                            dropdownLinksClass
+                          )}
+                        >
+                          {leaf.icon && <Icon name={leaf.icon} class="w-4 h-4 opacity-70" />}
+                          {leaf.text}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )
+    }
+
+    <div
+      class:list={[
+        { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
+        'hidden md:self-center md:flex items-center md:mb-0 fixed w-full md:w-auto md:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-3 md:p-0 md:justify-self-end',
+      ]}
+      data-yt-actions
+    >
+      <div class="items-center flex justify-between w-full md:w-auto">
+        <div class="flex">
+          {showToggleTheme && (
+            <DarkMode initialMode={initialMode} iconClass={cn('w-6 h-6 md:w-5 md:h-5 md:inline-block', darkModeIconClass)} />
+          )}
+        </div>
+
+        <!-- Actions Buttons -->
+        <slot name="actions">
+          {
+            actions?.length ? (
+              <span class="ml-4 rtl:ml-0 rtl:mr-4">
+                {actions.map(({ class: actionClass, ...btnProps }) => (
+                  <Button
+                    {...btnProps}
+                    class={cn('ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto', actionClass)}
+                  />
+                ))}
+              </span>
+            ) : (
+              ''
+            )
+          }
+        </slot>
+      </div>
+    </div>
+  </div>
+</WidgetWrapper>
+
+<style>
+  #header.expanded nav {
+    position: fixed;
+    top: 100px;
+    left: 0;
+    right: 0;
+    bottom: 70px !important;
+    padding: 0 5px;
+  }
+
+  /* Flyout wrapper: fades + slides in, hidden (not just transparent) when closed
+     so it never intercepts clicks. */
+  .flyout {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition:
+      opacity 0.18s ease,
+      transform 0.18s ease,
+      visibility 0s linear 0.18s;
+  }
+  .flyout.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition:
+      opacity 0.18s ease,
+      transform 0.18s ease;
+  }
+
+  /* The visible box that morphs between panels. JS sets width/height/translateX. */
+  .flyout-bg {
+    width: 0;
+    height: 0;
+    transition:
+      width 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+      height 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: width, height, transform;
+  }
+  /* Suppress the size transition on first open so it doesn't grow from 0. */
+  .flyout.no-anim .flyout-bg {
+    transition: none;
+  }
+
+  /* Panels stack in the same spot and cross-fade. */
+  .flyout-panel {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.16s ease;
+  }
+  .flyout-panel.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flyout,
+    .flyout-bg,
+    .flyout-panel {
+      transition-duration: 0.01ms;
+    }
+  }
+</style>
+
+<script>
+  import { attachEvent, toggleClasses, addClasses, removeClasses } from '../../utils/DOMUtils';
+
+  // ---- Sticky header pin/unpin on scroll + mobile menu toggle (parity with WidgetNavbar) ----
+  let headerBound = false;
+  const addHeaderListeners = () => {
+    if (headerBound) return;
+    const header = document.querySelector('[data-yt-sticky-header]') as HTMLElement;
+    if (!header) return;
+    headerBound = true;
+
+    const scrollOffset = Number(header.dataset.scrollOffset) || 0;
+    const pinnedClasses = header.dataset.pinnedClasses || '';
+    const unpinnedClasses = header.dataset.unpinnedClasses || '';
+
+    let lastKnownScrollPosition = window.scrollY;
+    let ticking = true;
+
+    attachEvent('[data-yt-toggle-menu]', 'click', (_: Event, elem: HTMLElement) => {
+      requestAnimationFrame(() => {
+        toggleClasses(elem, 'expanded');
+        toggleClasses(document.body, 'overflow-hidden');
+        toggleClasses(document.getElementById('header'), 'h-screen', 'expanded');
+        toggleClasses('[data-yt-flyout-nav]', 'hidden');
+        toggleClasses('[data-yt-actions]', 'hidden');
+      });
+    });
+
+    attachEvent('[data-yt-flyout-nav]', 'click', () => hiddenNav());
+    attachEvent([window.matchMedia('(max-width: 767px)')], 'change', () => hiddenNav());
+
+    function hiddenNav() {
+      requestAnimationFrame(() => {
+        removeClasses('[data-yt-toggle-menu]', 'expanded');
+        removeClasses(document.body, 'overflow-hidden');
+        removeClasses(document.getElementById('header'), 'h-screen', 'expanded');
+        addClasses('[data-yt-flyout-nav]', 'hidden');
+        addClasses('[data-yt-actions]', 'hidden');
+      });
+    }
+
+    function applyHeaderStylesOnScroll() {
+      if (lastKnownScrollPosition > scrollOffset && !header.classList.contains('scroll')) {
+        addClasses(header, 'scroll', ...pinnedClasses.split(' '));
+        removeClasses(header, ...unpinnedClasses.split(' '));
+      } else if (lastKnownScrollPosition <= scrollOffset && header.classList.contains('scroll')) {
+        removeClasses(header, 'scroll', ...pinnedClasses.split(' '));
+        addClasses(header, ...unpinnedClasses.split(' '));
+      }
+      ticking = false;
+    }
+    applyHeaderStylesOnScroll();
+
+    attachEvent([document], 'scroll', function () {
+      lastKnownScrollPosition = window.scrollY;
+      if (!ticking) {
+        window.requestAnimationFrame(applyHeaderStylesOnScroll);
+        ticking = true;
+      }
+    });
+  };
+
+  // ---- Persistent morphing flyout ----
+  const initFlyout = (header: HTMLElement) => {
+    if (header.dataset.flyoutBound === 'true') return;
+    const positioner = header.querySelector('.relative') as HTMLElement | null;
+    const flyout = header.querySelector('[data-flyout]') as HTMLElement | null;
+    const bgEl = header.querySelector('[data-flyout-bg]') as HTMLElement | null;
+    if (!positioner || !flyout || !bgEl) return;
+    header.dataset.flyoutBound = 'true';
+
+    const triggers = Array.from(header.querySelectorAll<HTMLElement>('[data-flyout-trigger]'));
+    const panels = new Map<string, HTMLElement>();
+    flyout.querySelectorAll<HTMLElement>('[data-flyout-panel]').forEach((p) => {
+      panels.set(p.dataset.flyoutKey!, p);
+    });
+
+    let open = false;
+    let currentKey: string | null = null;
+    let closeTimer: number | undefined;
+
+    const triggerByKey = (key: string) => triggers.find((t) => t.dataset.flyoutKey === key) || null;
+
+    const sizeTo = (key: string) => {
+      const panel = panels.get(key);
+      const trigger = triggerByKey(key);
+      if (!panel) return;
+      const contWidth = positioner.clientWidth;
+      const w = Math.min(panel.offsetWidth, contWidth);
+      const h = panel.offsetHeight;
+      let x = 0;
+      if (trigger) {
+        const cont = positioner.getBoundingClientRect();
+        x = Math.max(0, Math.min(trigger.getBoundingClientRect().left - cont.left, contWidth - w));
+      }
+      bgEl.style.width = `${w}px`;
+      bgEl.style.height = `${h}px`;
+      bgEl.style.transform = `translateX(${x}px)`;
+      panels.forEach((p, k) => p.classList.toggle('is-active', k === key));
+      triggers.forEach((t) => t.setAttribute('aria-expanded', String(t.dataset.flyoutKey === key)));
+      currentKey = key;
+    };
+
+    const openTo = (key: string) => {
+      cancelClose();
+      if (key === currentKey && open) return;
+      if (!open) {
+        // First open: set the target size with no transition so it doesn't grow from 0.
+        flyout.classList.add('no-anim');
+        sizeTo(key);
+        void bgEl.offsetWidth; // force reflow
+        flyout.classList.remove('no-anim');
+        flyout.classList.add('is-open');
+        open = true;
+      } else {
+        sizeTo(key); // morph
+      }
+    };
+
+    const close = () => {
+      cancelClose();
+      if (!open) return;
+      flyout.classList.remove('is-open');
+      panels.forEach((p) => p.classList.remove('is-active'));
+      triggers.forEach((t) => t.setAttribute('aria-expanded', 'false'));
+      open = false;
+      currentKey = null;
+    };
+
+    const scheduleClose = () => {
+      cancelClose();
+      closeTimer = window.setTimeout(close, 140);
+    };
+    const cancelClose = () => {
+      if (closeTimer) {
+        clearTimeout(closeTimer);
+        closeTimer = undefined;
+      }
+    };
+
+    triggers.forEach((trigger) => {
+      const key = trigger.dataset.flyoutKey!;
+      trigger.addEventListener('mouseenter', () => openTo(key));
+      trigger.addEventListener('focus', () => openTo(key));
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        open && key === currentKey ? close() : openTo(key);
+      });
+    });
+
+    // Hovering a plain (non-dropdown) top-level link closes the flyout.
+    header.querySelectorAll<HTMLElement>('[data-flyout-dismiss]').forEach((el) => {
+      el.addEventListener('mouseenter', scheduleClose);
+    });
+
+    // Keep open while over the panel; close shortly after leaving panel or nav.
+    flyout.addEventListener('mouseenter', cancelClose);
+    flyout.addEventListener('mouseleave', scheduleClose);
+    const nav = header.querySelector('[data-yt-flyout-nav]');
+    nav?.addEventListener('mouseleave', scheduleClose);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
+    });
+    document.addEventListener('click', (e) => {
+      if (open && !flyout.contains(e.target as Node) && !nav?.contains(e.target as Node)) close();
+    });
+    window.addEventListener('resize', () => {
+      if (open && currentKey) {
+        flyout.classList.add('no-anim');
+        sizeTo(currentKey);
+        void bgEl.offsetWidth;
+        flyout.classList.remove('no-anim');
+      }
+    });
+  };
+
+  const init = () => {
+    addHeaderListeners();
+    document.querySelectorAll<HTMLElement>('[data-yt-flyout-header]').forEach(initFlyout);
+  };
+
+  init();
+  document.addEventListener('astro:after-swap', init);
+</script>
