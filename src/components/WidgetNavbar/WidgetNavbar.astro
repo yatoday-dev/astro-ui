@@ -30,6 +30,8 @@ const {
   links: linksClass = 'hover:text-link dark:hover:text-white',
   dropdown: dropdownClass = 'bg-background text-foreground md:shadow-lg',
   dropdownLinks: dropdownLinksClass = 'hover:bg-black/10 hover:text-link dark:hover:text-white dark:hover:bg-white/10',
+  megaMenu: megaMenuClass = 'bg-background text-foreground md:shadow-lg',
+  megaHeading: megaHeadingClass = 'text-foreground/50',
   darkModeIcon: darkModeIconClass = '',
   pinned: pinnedClasses = 'bg-background md:bg-background/90 md:backdrop-blur-md',
   unpinned: unpinnedClasses = '',
@@ -81,9 +83,82 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
         class="flex flex-col md:flex-row md:self-center w-full md:w-auto text-xl md:text-[0.9375rem] tracking-[0.01rem] font-medium md:justify-center"
       >
         {
-          links.map(({ text, href, links }) => (
+          links.map(({ text, href, links, mega, icon }) => (
             <li class={links?.length ? 'dropdown' : ''}>
-              {links?.length ? (
+              {links?.length && mega ? (
+                <>
+                  <button
+                    type="button"
+                    class={cn('px-4 py-3 flex items-center whitespace-nowrap cursor-pointer', linksClass)}
+                  >
+                    {text}{' '}
+                    <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden md:inline" />
+                  </button>
+                  <div
+                    class={cn(
+                      'dropdown-menu rounded-sm md:absolute md:left-0 md:right-0 md:top-full pl-4 md:pl-0 pb-1 md:pb-0 md:hidden font-medium',
+                      megaMenuClass
+                    )}
+                  >
+                    <div class="mega-grid md:grid md:gap-x-8 md:gap-y-4 md:p-8" style={`--mega-cols: ${links.length}`}>
+                      {links.map((column) => (
+                        <div class="py-2 md:py-0">
+                          {column.href ? (
+                            <a
+                              href={column.href}
+                              class={cn(
+                                'flex items-center gap-1.5 mb-2 text-xs font-semibold uppercase tracking-wider hover:text-link',
+                                megaHeadingClass
+                              )}
+                            >
+                              {column.icon && <Icon name={column.icon} class="w-4 h-4" />}
+                              {column.text}
+                            </a>
+                          ) : (
+                            <span
+                              class={cn(
+                                'flex items-center gap-1.5 mb-2 text-xs font-semibold uppercase tracking-wider',
+                                megaHeadingClass
+                              )}
+                            >
+                              {column.icon && <Icon name={column.icon} class="w-4 h-4" />}
+                              {column.text}
+                            </span>
+                          )}
+                          <ul class="flex flex-col">
+                            {column.links?.map(({ text: text2, href: href2, icon: icon2, description }) => (
+                              <li>
+                                <a
+                                  class={cn(
+                                    'group flex items-start gap-3 rounded-md py-2 px-3 -mx-3 md:px-2 md:-mx-2',
+                                    { 'link-active': href2 === currentPath },
+                                    dropdownLinksClass
+                                  )}
+                                  href={href2}
+                                >
+                                  {icon2 && (
+                                    <span class="flex-none mt-0.5 flex items-center justify-center w-8 h-8 rounded-md bg-foreground/[0.06] text-foreground/70 group-hover:bg-foreground/10">
+                                      <Icon name={icon2} class="w-4.5 h-4.5" />
+                                    </span>
+                                  )}
+                                  <span class="flex flex-col">
+                                    <span class="font-medium leading-tight">{text2}</span>
+                                    {description && (
+                                      <span class="mt-0.5 text-xs font-normal text-muted-foreground leading-snug normal-case">
+                                        {description}
+                                      </span>
+                                    )}
+                                  </span>
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              ) : links?.length ? (
                 <>
                   <button
                     type="button"
@@ -117,12 +192,13 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
               ) : (
                 <a
                   class={cn([
-                    'px-4 py-3 flex items-center whitespace-nowrap',
+                    'px-4 py-3 flex items-center gap-1.5 whitespace-nowrap',
                     { 'link-active': href === currentPath },
                     linksClass,
                   ])}
                   href={href}
                 >
+                  {icon && <Icon name={icon} class="w-4 h-4" />}
                   {text}
                 </a>
               )}
@@ -140,7 +216,14 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     >
       <div class="items-center flex justify-between w-full md:w-auto">
         <div class="flex">
-          {showToggleTheme && <DarkMode initialMode={initialMode} iconClass={cn('w-6 h-6 md:w-5 md:h-5 md:inline-block', darkModeIconClass)} />}
+          {
+            showToggleTheme && (
+              <DarkMode
+                initialMode={initialMode}
+                iconClass={cn('w-6 h-6 md:w-5 md:h-5 md:inline-block', darkModeIconClass)}
+              />
+            )
+          }
         </div>
 
         <!-- Actions Buttons -->
@@ -149,7 +232,10 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
             actions?.length ? (
               <span class="ml-4 rtl:ml-0 rtl:mr-4">
                 {actions.map(({ class: actionClass, ...btnProps }) => (
-                  <Button {...btnProps} class={cn('ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto', actionClass)} />
+                  <Button
+                    {...btnProps}
+                    class={cn('ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto', actionClass)}
+                  />
                 ))}
               </span>
             ) : (
@@ -176,6 +262,12 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
   .dropdown:focus-within .dropdown-menu,
   .dropdown:hover .dropdown-menu {
     display: block;
+  }
+
+  @media (min-width: 768px) {
+    .mega-grid {
+      grid-template-columns: repeat(var(--mega-cols, 3), minmax(0, 1fr));
+    }
   }
 </style>
 
