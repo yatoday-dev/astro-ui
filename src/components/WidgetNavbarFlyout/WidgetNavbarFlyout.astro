@@ -344,6 +344,12 @@ const panelItems = links.map((link, index) => ({ link, index })).filter(({ link 
       opacity 0.18s ease,
       transform 0.18s ease,
       visibility 0s linear 0.18s;
+    /* Wrapper is full-width; only the visible box should catch clicks so a click
+       to the side of the panel falls through to the page (and closes the menu). */
+    pointer-events: none;
+  }
+  .flyout-bg {
+    pointer-events: auto;
   }
   .flyout.is-open {
     opacity: 1;
@@ -533,9 +539,11 @@ const panelItems = links.map((link, index) => ({ link, index })).filter(({ link 
       const key = trigger.dataset.flyoutKey!;
       trigger.addEventListener('mouseenter', () => openTo(key));
       trigger.addEventListener('focus', () => openTo(key));
+      // Clicking a trigger only ever opens (never toggles closed) so a click that
+      // races the open animation can't dismiss the menu the user just summoned.
       trigger.addEventListener('click', (e) => {
         e.preventDefault();
-        open && key === currentKey ? close() : openTo(key);
+        openTo(key);
       });
     });
 
@@ -553,8 +561,11 @@ const panelItems = links.map((link, index) => ({ link, index })).filter(({ link 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') close();
     });
+    // Close on any click outside the *visible* box (bgEl) or the nav. The flyout
+    // wrapper spans the full width, so clicking to the side of the panel must not
+    // count as "inside" — otherwise the menu would stay stuck open.
     document.addEventListener('click', (e) => {
-      if (open && !flyout.contains(e.target as Node) && !nav?.contains(e.target as Node)) close();
+      if (open && !bgEl.contains(e.target as Node) && !nav?.contains(e.target as Node)) close();
     });
     window.addEventListener('resize', () => {
       if (open && currentKey) {
