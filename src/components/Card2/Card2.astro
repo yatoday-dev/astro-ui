@@ -77,18 +77,14 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
               {(Astro.slots.has('badgeBottomRight') || badgeBottomRight) && (
                 <Fragment slot="badgeBottomRight">
                   <div class={twMerge('', classes?.badgeBottomRight)}>
-                    <slot name="badgeBottomRight">
-                      {badgeBottomRight && <span set:html={badgeBottomRight}/>}
-                    </slot>
+                    <slot name="badgeBottomRight">{badgeBottomRight && <span set:html={badgeBottomRight} />}</slot>
                   </div>
                 </Fragment>
               )}
               {(Astro.slots.has('badgeBottomLeft') || badgeBottomLeft) && (
                 <Fragment slot="badgeBottomLeft">
                   <div class={twMerge('', classes?.badgeBottomLeft)}>
-                    <slot name="badgeBottomLeft">
-                      {badgeBottomLeft && <span set:html={badgeBottomLeft}/>}
-                    </slot>
+                    <slot name="badgeBottomLeft">{badgeBottomLeft && <span set:html={badgeBottomLeft} />}</slot>
                   </div>
                 </Fragment>
               )}
@@ -118,19 +114,19 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
   <!-- Content -->
   <div class={twMerge('px-6 space-y-6')}>
     <div>
-      {title && (
-        <WrapperHeaderTag class={twMerge('text-xl font-bold', titleClass)}>
-          {
-            url || callToAction?.href ? (
+      {
+        title && (
+          <WrapperHeaderTag class={twMerge('text-xl font-bold', titleClass)}>
+            {url || callToAction?.href ? (
               <a href={url || callToAction?.href || '/'} class="after:content-[''] after:inset-0 after:absolute">
                 {title}
               </a>
             ) : (
               title
-            )
-          }
-        </WrapperHeaderTag>
-      )}
+            )}
+          </WrapperHeaderTag>
+        )
+      }
 
       <div class={twMerge(title ? 'mt-2' : '', contentClass)}>
         <slot />

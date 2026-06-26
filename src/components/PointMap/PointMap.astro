@@ -1,56 +1,60 @@
 ---
-import type {PointMapProps as Props} from './types';
-import {cn, id} from "../../utils";
+import type { PointMapProps as Props } from './types';
+import { cn, id } from '../../utils';
 import Card7 from '../Card7/Card7.astro';
 
 const {
   via = Card7,
   items = [],
   pointsDisplayMode = 'always', // default to always visible
-  classes = {}
+  classes = {},
 } = Astro.props;
 
 const mapId = `map-${id()}`;
 
-const {
-  container: containerClass = '',
-  popup: popupClass = '',
-} = classes;
+const { container: containerClass = '', popup: popupClass = '' } = classes;
 
 const Component = via;
 ---
 
 <div id={mapId} class={cn(`map-picker relative h-full w-full points-${pointsDisplayMode}`, containerClass)}>
-  {items.map((point, i) => (
-    <>
-      <!-- Hotspot point -->
-      <button
-        class="hotspot-point cursor-pointer"
-        style={`left: ${point.x}%; top: ${point.y}%; width: 24px; height: 24px; transform: translate(-50%, -50%);`}
-        data-index={i}
-        data-map-id={mapId}
-        aria-label={point.title}
-        {...(point.isPopupOpen ? { 'data-initially-open': '' } : {})}
-      >
-      </button>
-
-      <!-- Popup content (hidden by default) -->
-      <div
-        class={cn("popup-content absolute rounded-md shadow-lg z-10 max-w-xs hidden", popupClass)}
-        style={`left: ${point.x}%; top: ${point.y}%; transform: translate(${point.x > 50 ? '-100%' : '0'}, ${point.y > 50 ? '-100%' : '0'});`}
-        data-popup={i}
-        data-map-id={mapId}
-      >
-        <Component 
-          {...point}
-          classes={Object.assign({container: 'border-transparent dark:border-input'}, classes?.card || {}, point?.classes || {}) as Record<string, string>}
+  {
+    items.map((point, i) => (
+      <>
+        {/* Hotspot point */}
+        <button
+          class="hotspot-point cursor-pointer"
+          style={`left: ${point.x}%; top: ${point.y}%; width: 24px; height: 24px; transform: translate(-50%, -50%);`}
+          data-index={i}
+          data-map-id={mapId}
+          aria-label={point.title}
+          {...(point.isPopupOpen ? { 'data-initially-open': '' } : {})}
         />
-      </div>
-    </>
-  ))}
+
+        {/* Popup content (hidden by default) */}
+        <div
+          class={cn('popup-content absolute rounded-md shadow-lg z-10 max-w-xs hidden', popupClass)}
+          style={`left: ${point.x}%; top: ${point.y}%; transform: translate(${point.x > 50 ? '-100%' : '0'}, ${point.y > 50 ? '-100%' : '0'});`}
+          data-popup={i}
+          data-map-id={mapId}
+        >
+          <Component
+            {...point}
+            classes={
+              Object.assign(
+                { container: 'border-transparent dark:border-input' },
+                classes?.card || {},
+                point?.classes || {}
+              ) as Record<string, string>
+            }
+          />
+        </div>
+      </>
+    ))
+  }
 
   <div class="w-full h-full">
-    <slot/>
+    <slot />
   </div>
 </div>
 
@@ -70,7 +74,9 @@ const Component = via;
   .points-hover .hotspot-point {
     opacity: 0;
     visibility: hidden;
-    transition: opacity 250ms ease-in-out, visibility 250ms ease-in-out;
+    transition:
+      opacity 250ms ease-in-out,
+      visibility 250ms ease-in-out;
   }
 
   .points-hover:hover .hotspot-point,
@@ -81,7 +87,10 @@ const Component = via;
 
   .hotspot-point {
     box-sizing: border-box;
-    transition: border-color 250ms ease-in-out, opacity 250ms ease-in-out, visibility 250ms ease-in-out;
+    transition:
+      border-color 250ms ease-in-out,
+      opacity 250ms ease-in-out,
+      visibility 250ms ease-in-out;
     transform: translateX(-1rem) translateY(-1rem) scale(0.999);
     padding: 0;
     width: 2rem;
@@ -91,14 +100,14 @@ const Component = via;
     position: absolute;
     background-color: rgba(17, 17, 17, 0.75);
     border-radius: 64px;
-    line-height: .5;
+    line-height: 0.5;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .hotspot-point::before {
-    content: "";
+    content: '';
     position: absolute;
     top: -0.5rem;
     left: -0.5rem;
@@ -108,18 +117,19 @@ const Component = via;
   }
 
   .hotspot-point::after {
-    content: "";
+    content: '';
     position: relative;
     display: block;
     background: rgb(255, 255, 255);
     box-shadow: 0 1px 4px rgba(17, 17, 17, 0.55);
-    width: .75rem;
-    height: .75rem;
+    width: 0.75rem;
+    height: 0.75rem;
     border-radius: 64px;
     transition: transform 250ms ease-in-out;
   }
 
-  .hotspot-point:active, .hotspot-point:hover {
+  .hotspot-point:active,
+  .hotspot-point:hover {
     background-color: rgba(17, 17, 17, 0.9);
   }
 
@@ -139,13 +149,15 @@ const Component = via;
     const MAP_ID_ATTRIBUTE = 'data-map-id';
 
     // Initialize each map component separately
-    document.querySelectorAll('.map-picker').forEach(mapContainer => {
+    document.querySelectorAll('.map-picker').forEach((mapContainer) => {
       const mapId = mapContainer.id;
       if (!mapId) return;
 
       // Get all hotspot points and popups for this specific map
       const hotspotPoints = document.querySelectorAll(`.hotspot-point[${MAP_ID_ATTRIBUTE}="${mapId}"]`);
-      const popups = document.querySelectorAll(`.popup-content[${MAP_ID_ATTRIBUTE}="${mapId}"]`) as NodeListOf<HTMLElement>;
+      const popups = document.querySelectorAll(
+        `.popup-content[${MAP_ID_ATTRIBUTE}="${mapId}"]`
+      ) as NodeListOf<HTMLElement>;
 
       if (!hotspotPoints.length || !popups.length) return;
 
@@ -196,7 +208,9 @@ const Component = via;
                 return;
               }
 
-              const point = document.querySelector(`.hotspot-point[data-index="${popupIndex}"][${MAP_ID_ATTRIBUTE}="${mapId}"]`) as HTMLElement;
+              const point = document.querySelector(
+                `.hotspot-point[data-index="${popupIndex}"][${MAP_ID_ATTRIBUTE}="${mapId}"]`
+              ) as HTMLElement;
               if (!point) return;
               const coordinates = getPointCoordinates(point);
               const translateX = coordinates.x > 50 ? '-100%' : '0';
@@ -214,7 +228,7 @@ const Component = via;
       function getPointCoordinates(pointElement: HTMLElement): PointCoordinates {
         return {
           x: parseFloat(pointElement.style.left) || 0,
-          y: parseFloat(pointElement.style.top) || 0
+          y: parseFloat(pointElement.style.top) || 0,
         };
       }
 
@@ -258,13 +272,13 @@ const Component = via;
 
       // Hide all popups (including initially open ones)
       function hideAllPopups() {
-        popups.forEach(popup => {
+        popups.forEach((popup) => {
           popup.classList.add('hidden');
         });
       }
 
       // Add event listeners to hotspot points
-      hotspotPoints.forEach(point => {
+      hotspotPoints.forEach((point) => {
         const index = getPointIndex(point);
         if (index === null) return;
 

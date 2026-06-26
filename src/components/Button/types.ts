@@ -10,7 +10,8 @@ export type ButtonProps = {
   icon?: string;
   class?: string;
   type?: 'button' | 'submit' | 'reset';
-} & Partial<HTMLAttributes<'a'>> & Partial<HTMLAttributes<'button'>>;
+} & Partial<HTMLAttributes<'a'>> &
+  Partial<HTMLAttributes<'button'>>;
 
 export type SvelteButtonProps = WithElementRef<HTMLButtonAttributes> &
   WithElementRef<HTMLAnchorAttributes> & {

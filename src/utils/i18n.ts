@@ -4,8 +4,8 @@
  */
 
 // Dynamic imports to handle case when i18n is not enabled
-let i18nConfig: { locales?: unknown[]; defaultLocale?: string } | null = null;
-let toCodesFunction: ((locales: unknown[]) => string[]) | null = null;
+const i18nConfig: { locales?: unknown[]; defaultLocale?: string } | null = null;
+const toCodesFunction: ((locales: unknown[]) => string[]) | null = null;
 
 // Try to load i18n modules - they may not be available if i18n is not configured
 try {

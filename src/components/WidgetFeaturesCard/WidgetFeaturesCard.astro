@@ -49,7 +49,7 @@ const ComponentGrid = viaGrid;
     as={asHeader}
     asSubtitle={asSubtitle}
   />
-  
+
   {
     image && (
       <div aria-hidden="true" class={cn('aspect-w-16 aspect-h-7 mb-6')}>
@@ -79,6 +79,14 @@ const ComponentGrid = viaGrid;
   <slot />
 
   <ComponentGrid columns={columns} class={classes?.grid && ''}>
-    {items && items.map((item) => <Component {...item} classes={Object.assign({}, classes?.card || {}, item?.classes || {}) as Record<string, string>}/>)}
+    {
+      items &&
+        items.map((item) => (
+          <Component
+            {...item}
+            classes={Object.assign({}, classes?.card || {}, item?.classes || {}) as Record<string, string>}
+          />
+        ))
+    }
   </ComponentGrid>
 </WidgetWrapper>

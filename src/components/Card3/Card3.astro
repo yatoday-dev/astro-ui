@@ -63,7 +63,10 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
     {
       image && (
         <div
-          class={twMerge('relative w-full aspect-square overflow-hidden rounded-lg bg-gray-400 dark:bg-zinc-700', imageClass)}
+          class={twMerge(
+            'relative w-full aspect-square overflow-hidden rounded-lg bg-gray-400 dark:bg-zinc-700',
+            imageClass
+          )}
         >
           {urlForImage ? (
             <a href={urlForImage} class="group block w-full h-full">
@@ -83,18 +86,14 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
                   {(Astro.slots.has('badgeBottomRight') || badgeBottomRight) && (
                     <Fragment slot="badgeBottomRight">
                       <div class={twMerge('', classes?.badgeBottomRight)}>
-                        <slot name="badgeBottomRight">
-                          {badgeBottomRight && <span set:html={badgeBottomRight}/>}
-                        </slot>
+                        <slot name="badgeBottomRight">{badgeBottomRight && <span set:html={badgeBottomRight} />}</slot>
                       </div>
                     </Fragment>
                   )}
                   {(Astro.slots.has('badgeBottomLeft') || badgeBottomLeft) && (
                     <Fragment slot="badgeBottomLeft">
                       <div class={twMerge('', classes?.badgeBottomLeft)}>
-                        <slot name="badgeBottomLeft">
-                          {badgeBottomLeft && <span set:html={badgeBottomLeft}/>}
-                        </slot>
+                        <slot name="badgeBottomLeft">{badgeBottomLeft && <span set:html={badgeBottomLeft} />}</slot>
                       </div>
                     </Fragment>
                   )}
@@ -119,18 +118,14 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
                   {(Astro.slots.has('badgeBottomRight') || badgeBottomRight) && (
                     <Fragment slot="badgeBottomRight">
                       <div class={twMerge('', classes?.badgeBottomRight)}>
-                        <slot name="badgeBottomRight">
-                          {badgeBottomRight && <span set:html={badgeBottomRight}/>}
-                        </slot>
+                        <slot name="badgeBottomRight">{badgeBottomRight && <span set:html={badgeBottomRight} />}</slot>
                       </div>
                     </Fragment>
                   )}
                   {(Astro.slots.has('badgeBottomLeft') || badgeBottomLeft) && (
                     <Fragment slot="badgeBottomLeft">
                       <div class={twMerge('', classes?.badgeBottomLeft)}>
-                        <slot name="badgeBottomLeft">
-                          {badgeBottomLeft && <span set:html={badgeBottomLeft}/>}
-                        </slot>
+                        <slot name="badgeBottomLeft">{badgeBottomLeft && <span set:html={badgeBottomLeft} />}</slot>
                       </div>
                     </Fragment>
                   )}
@@ -145,11 +140,7 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
 
   <div class="flex items-start gap-2">
     <div>
-      {title && (
-        <WrapperHeaderTag class={cn('text-lg md:text-xl font-bold', titleClass)}>
-          {title}
-        </WrapperHeaderTag>
-      )}
+      {title && <WrapperHeaderTag class={cn('text-lg md:text-xl font-bold', titleClass)}>{title}</WrapperHeaderTag>}
 
       <div class={cn(title ? 'mt-2' : '', 'text-sm md:text-base leading-5 md:leading-6', descriptionClass)}>
         <slot />
@@ -166,7 +157,11 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
             <div class={cn('flex gap-2', actionClass)}>
               {callToAction.map((action) => (
                 <Fragment>
-                  {typeof action === 'string' ? <Fragment set:html={action} /> : <Button {...(action as any || {})} />}
+                  {typeof action === 'string' ? (
+                    <Fragment set:html={action} />
+                  ) : (
+                    <Button {...((action as any) || {})} />
+                  )}
                 </Fragment>
               ))}
             </div>
@@ -176,7 +171,7 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
                 <Fragment set:html={callToAction} />
               ) : (
                 <div class={cn('', actionClass)}>
-                  <Button {...(callToAction as Object)} />
+                  <Button {...(callToAction as object)} />
                 </div>
               )}
             </Fragment>

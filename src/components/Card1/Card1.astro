@@ -85,18 +85,14 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
                   {(Astro.slots.has('badgeBottomRight') || badgeBottomRight) && (
                     <Fragment slot="badgeBottomRight">
                       <div class={twMerge('', classes?.badgeBottomRight)}>
-                        <slot name="badgeBottomRight">
-                          {badgeBottomRight && <span set:html={badgeBottomRight}/>}
-                        </slot>
+                        <slot name="badgeBottomRight">{badgeBottomRight && <span set:html={badgeBottomRight} />}</slot>
                       </div>
                     </Fragment>
                   )}
                   {(Astro.slots.has('badgeBottomLeft') || badgeBottomLeft) && (
                     <Fragment slot="badgeBottomLeft">
                       <div class={twMerge('', classes?.badgeBottomLeft)}>
-                        <slot name="badgeBottomLeft">
-                          {badgeBottomLeft && <span set:html={badgeBottomLeft}/>}
-                        </slot>
+                        <slot name="badgeBottomLeft">{badgeBottomLeft && <span set:html={badgeBottomLeft} />}</slot>
                       </div>
                     </Fragment>
                   )}
@@ -121,18 +117,14 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
                   {(Astro.slots.has('badgeBottomRight') || badgeBottomRight) && (
                     <Fragment slot="badgeBottomRight">
                       <div class={twMerge('', classes?.badgeBottomRight)}>
-                        <slot name="badgeBottomRight">
-                          {badgeBottomRight && <span set:html={badgeBottomRight}/>}
-                        </slot>
+                        <slot name="badgeBottomRight">{badgeBottomRight && <span set:html={badgeBottomRight} />}</slot>
                       </div>
                     </Fragment>
                   )}
                   {(Astro.slots.has('badgeBottomLeft') || badgeBottomLeft) && (
                     <Fragment slot="badgeBottomLeft">
                       <div class={twMerge('', classes?.badgeBottomLeft)}>
-                        <slot name="badgeBottomLeft">
-                          {badgeBottomLeft && <span set:html={badgeBottomLeft}/>}
-                        </slot>
+                        <slot name="badgeBottomLeft">{badgeBottomLeft && <span set:html={badgeBottomLeft} />}</slot>
                       </div>
                     </Fragment>
                   )}
@@ -156,11 +148,11 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
   <div class={twMerge('px-6 space-y-6')}>
     <!-- Title & Description -->
     <div>
-      {title && (
-        <WrapperHeaderTag class={twMerge('text-base/5 md:text-xl font-bold', titleClass)}>
-          {title}
-        </WrapperHeaderTag>
-      )}
+      {
+        title && (
+          <WrapperHeaderTag class={twMerge('text-base/5 md:text-xl font-bold', titleClass)}>{title}</WrapperHeaderTag>
+        )
+      }
 
       <div class={twMerge(title ? 'mt-1' : '', descriptionClass)}>
         <slot />
@@ -203,7 +195,7 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
           <div class={cn('flex gap-2', actionClass)}>
             {callToAction.map((action) => (
               <Fragment>
-                {typeof action === 'string' ? <Fragment set:html={action} /> : <Button {...(action as any || {})} />}
+                {typeof action === 'string' ? <Fragment set:html={action} /> : <Button {...((action as any) || {})} />}
               </Fragment>
             ))}
           </div>
@@ -213,7 +205,7 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
               <Fragment set:html={callToAction} />
             ) : (
               <div class={cn('', actionClass)}>
-                <Button {...(callToAction as Object)} />
+                <Button {...(callToAction as object)} />
               </div>
             )}
           </Fragment>

@@ -6,7 +6,7 @@ import SwiperSlider from '../SwiperSlider/SwiperSlider.astro';
 import { Image as AstroImage, getImage } from 'astro:assets';
 import { fetchLocalImages } from '../../utils/images';
 import { cn } from '../../utils';
-import Button from "../Button/Button.astro";
+import Button from '../Button/Button.astro';
 
 const {
   title = await Astro.slots.render('title'),
@@ -28,7 +28,7 @@ const {
   ...rest
 } = Astro.props;
 
-const images = await fetchLocalImages() as Record<string, () => any>;
+const images = (await fetchLocalImages()) as Record<string, () => any>;
 const imagePaths = Object.keys(images).filter((imagePath) => {
   return imagePath.startsWith(`/src/assets/images/${imagesFolder}/`);
 });
@@ -62,11 +62,19 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
 
           // Generate alt text: alt prop > title-based > numbered fallback
           // Detect UUID filenames (8-4-4-4-12 hex pattern) and treat as meaningless
-          const filename = imagePath.split('/').pop()?.replace(/\.[^/.]+$/, '') || '';
+          const filename =
+            imagePath
+              .split('/')
+              .pop()
+              ?.replace(/\.[^/.]+$/, '') || '';
           const isUuidFilename = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(filename);
           const imageNumber = index + 1;
-          const imageName = (filename && !isUuidFilename) ? filename : String(imageNumber);
-          const baseTitle = title ? String(title).replace(/<[^>]*>/g, '').trim() : '';
+          const imageName = filename && !isUuidFilename ? filename : String(imageNumber);
+          const baseTitle = title
+            ? String(title)
+                .replace(/<[^>]*>/g, '')
+                .trim()
+            : '';
           const altText = alt
             ? alt + ' - ' + imageName
             : baseTitle
@@ -90,7 +98,10 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
                   widths={[400, 900]}
                   width={400}
                   sizes="(max-width: 900px) 400px, 900px"
-                  class={cn("object-cover object-top w-full md:h-full group-hover:scale-105 transition duration-300", classes?.image)}
+                  class={cn(
+                    'object-cover object-top w-full md:h-full group-hover:scale-105 transition duration-300',
+                    classes?.image
+                  )}
                 />
               </a>
             </swiper-slide>
@@ -107,7 +118,7 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
       </div>
     )
   }
-  
+
   <slot />
 </WidgetWrapper>
 

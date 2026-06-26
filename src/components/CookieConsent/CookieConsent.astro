@@ -45,11 +45,7 @@ const positionClasses = {
 <!-- Cookie Consent Banner -->
 <div
   id="cookie-consent-banner"
-  class={cn(
-    'fixed z-[9999] hidden',
-    positionClasses[position],
-    containerClass
-  )}
+  class={cn('fixed z-[9999] hidden', positionClasses[position], containerClass)}
   data-cookie-name={cookieName}
   data-cookie-expire-days={cookieExpireDays}
   data-consent-version={consentVersion}
@@ -71,19 +67,9 @@ const positionClasses = {
   >
     <div class="container mx-auto px-4 py-6">
       <div class="flex flex-col gap-4">
-        {title && (
-          <div
-            class={cn('text-lg font-semibold text-foreground', titleClass)}
-            set:html={title}
-          />
-        )}
+        {title && <div class={cn('text-lg font-semibold text-foreground', titleClass)} set:html={title} />}
 
-        {description && (
-          <p
-            class={cn('text-sm text-muted-foreground', descriptionClass)}
-            set:html={description}
-          />
-        )}
+        {description && <p class={cn('text-sm text-muted-foreground', descriptionClass)} set:html={description} />}
 
         <div class={cn('flex flex-wrap gap-3', actionsClass)}>
           <button
@@ -127,7 +113,16 @@ const positionClasses = {
   aria-label="Cookie settings"
   title="Cookie settings"
 >
-  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="w-6 h-6 mx-auto"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
     <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path>
     <path d="M8.5 8.5v.01"></path>
     <path d="M16 15.5v.01"></path>
@@ -152,7 +147,12 @@ const positionClasses = {
     <!-- Consent ID -->
     <div class="text-sm">
       <span class="text-muted-foreground" id="cookie-info-id-label">{consentIdLabel}</span>
-      <div class="font-mono text-xs text-foreground mt-1 break-all bg-muted rounded px-2 py-1" id="cookie-info-id-value">—</div>
+      <div
+        class="font-mono text-xs text-foreground mt-1 break-all bg-muted rounded px-2 py-1"
+        id="cookie-info-id-value"
+      >
+        —
+      </div>
     </div>
 
     <!-- Actions -->
@@ -179,351 +179,366 @@ const positionClasses = {
 <script is:inline>
   // Initialize dataLayer and gtag
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag() {
+    dataLayer.push(arguments);
+  }
 
   // Set default consent state to denied (GDPR requirement)
   // This MUST run before Google Analytics loads
   gtag('consent', 'default', {
-    'analytics_storage': 'denied',
-    'ad_storage': 'denied',
-    'ad_user_data': 'denied',
-    'ad_personalization': 'denied',
-    'wait_for_update': 500  // Wait 500ms for consent update
+    analytics_storage: 'denied',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    wait_for_update: 500, // Wait 500ms for consent update
   });
 </script>
 
 <script is:inline>
-(function() {
-  const banner = document.getElementById('cookie-consent-banner');
-  const fab = document.getElementById('cookie-consent-fab');
-  const infoDialog = document.getElementById('cookie-consent-info-dialog');
-  if (!banner) return;
+  (function () {
+    const banner = document.getElementById('cookie-consent-banner');
+    const fab = document.getElementById('cookie-consent-fab');
+    const infoDialog = document.getElementById('cookie-consent-info-dialog');
+    if (!banner) return;
 
-  // Configuration from data attributes
-  const config = {
-    cookieName: banner.dataset.cookieName || 'cookie_consent_id',
-    cookieExpireDays: parseInt(banner.dataset.cookieExpireDays || '365', 10),
-    consentVersion: banner.dataset.consentVersion || '1.0',
-    apiEndpoint: banner.dataset.apiEndpoint || '',
-    organisationSuid: banner.dataset.organisationSuid || '',
-    gaId: banner.dataset.gaId || ''
-  };
-
-  // Generate UUID v4
-  function generateUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      const r = Math.random() * 16 | 0;
-      const v = c === 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-  }
-
-  // Get or create consent ID
-  function getConsentId() {
-    const value = document.cookie
-      .split('; ')
-      .find(row => row.startsWith(config.cookieName + '='));
-    if (value) {
-      return value.split('=')[1];
-    }
-    return null;
-  }
-
-  // Get consent status from localStorage (faster than API call)
-  function getConsentStatus() {
-    try {
-      const data = localStorage.getItem('cookie_consent_status');
-      return data ? JSON.parse(data) : null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  // Save consent status to localStorage
-  function saveConsentStatus(status, categories) {
-    try {
-      localStorage.setItem('cookie_consent_status', JSON.stringify({
-        status: status,
-        categories: categories,
-        timestamp: new Date().toISOString()
-      }));
-    } catch (e) {
-      // Ignore localStorage errors
-    }
-  }
-
-  // Set consent ID cookie
-  function setConsentIdCookie(consentId) {
-    const date = new Date();
-    date.setTime(date.getTime() + (config.cookieExpireDays * 24 * 60 * 60 * 1000));
-    document.cookie = config.cookieName + '=' + consentId + ';expires=' + date.toUTCString() + ';path=/;SameSite=Lax';
-  }
-
-  // Update Google Consent Mode
-  function updateGoogleConsent(granted) {
-    if (typeof gtag !== 'function') return;
-
-    const consentState = granted ? 'granted' : 'denied';
-
-    gtag('consent', 'update', {
-      'analytics_storage': consentState,
-      'ad_storage': consentState,
-      'ad_user_data': consentState,
-      'ad_personalization': consentState
-    });
-
-    gtag('event', `consent_${consentState}`);
-
-    console.log('[CookieConsent] Google Consent Mode updated:', consentState);
-  }
-
-  // Send consent to backend API
-  async function sendConsentToBackend(consentId, status, categories) {
-    if (!config.apiEndpoint) {
-      console.log('[CookieConsent] No API endpoint configured, skipping backend call');
-      return;
-    }
-
-    const payload = {
-      consent_id: consentId,
-      organisation_suid: config.organisationSuid || undefined,
-      status: status,
-      consent_version: config.consentVersion,
-      categories: categories,
-      page_url: window.location.href,
-      locale: document.documentElement.lang || 'en',
-      user_agent: navigator.userAgent
+    // Configuration from data attributes
+    const config = {
+      cookieName: banner.dataset.cookieName || 'cookie_consent_id',
+      cookieExpireDays: parseInt(banner.dataset.cookieExpireDays || '365', 10),
+      consentVersion: banner.dataset.consentVersion || '1.0',
+      apiEndpoint: banner.dataset.apiEndpoint || '',
+      organisationSuid: banner.dataset.organisationSuid || '',
+      gaId: banner.dataset.gaId || '',
     };
 
-    try {
-      const response = await fetch(config.apiEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload)
+    // Generate UUID v4
+    function generateUUID() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = (Math.random() * 16) | 0;
+        const v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
       });
-
-      if (!response.ok) {
-        throw new Error('API response: ' + response.status);
-      }
-
-      console.log('[CookieConsent] Consent saved to backend');
-    } catch (error) {
-      console.error('[CookieConsent] Failed to save consent to backend:', error);
     }
-  }
-
-  // Show/hide banner, FAB, and info dialog
-  function showBanner() {
-    banner.classList.remove('hidden');
-    if (fab) fab.classList.add('hidden');
-    if (infoDialog) infoDialog.classList.add('hidden');
-  }
-
-  function hideBanner() {
-    banner.classList.add('hidden');
-    if (fab) fab.classList.remove('hidden');
-  }
-
-  function showFab() {
-    if (fab) fab.classList.remove('hidden');
-  }
-
-  function hideFab() {
-    if (fab) fab.classList.add('hidden');
-  }
-
-  function showInfoDialog() {
-    if (!infoDialog) return;
-
-    // Populate dialog with current consent info
-    const consentId = getConsentId();
-    const savedConsent = getConsentStatus();
-
-    const dateValueEl = document.getElementById('cookie-info-date-value');
-    const idValueEl = document.getElementById('cookie-info-id-value');
-
-    if (dateValueEl && savedConsent && savedConsent.timestamp) {
-      try {
-        const date = new Date(savedConsent.timestamp);
-        dateValueEl.textContent = date.toLocaleDateString(document.documentElement.lang || 'en', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
-        });
-      } catch (e) {
-        dateValueEl.textContent = savedConsent.timestamp;
-      }
-    }
-
-    if (idValueEl && consentId) {
-      idValueEl.textContent = consentId;
-    }
-
-    infoDialog.classList.remove('hidden');
-  }
-
-  function hideInfoDialog() {
-    if (infoDialog) infoDialog.classList.add('hidden');
-  }
-
-  // Handle consent
-  function handleConsent(accepted) {
-    const status = accepted ? 'accepted' : 'denied';
 
     // Get or create consent ID
-    let consentId = getConsentId();
-    if (!consentId) {
-      consentId = generateUUID();
-      setConsentIdCookie(consentId);
+    function getConsentId() {
+      const value = document.cookie.split('; ').find((row) => row.startsWith(config.cookieName + '='));
+      if (value) {
+        return value.split('=')[1];
+      }
+      return null;
     }
 
-    // Define categories based on acceptance
-    const categories = {
-      analytics_storage: accepted,
-      ad_storage: accepted,
-      ad_user_data: accepted,
-      ad_personalization: accepted
-    };
+    // Get consent status from localStorage (faster than API call)
+    function getConsentStatus() {
+      try {
+        const data = localStorage.getItem('cookie_consent_status');
+        return data ? JSON.parse(data) : null;
+      } catch (e) {
+        return null;
+      }
+    }
 
-    // Save to localStorage for quick access
-    saveConsentStatus(status, categories);
+    // Save consent status to localStorage
+    function saveConsentStatus(status, categories) {
+      try {
+        localStorage.setItem(
+          'cookie_consent_status',
+          JSON.stringify({
+            status: status,
+            categories: categories,
+            timestamp: new Date().toISOString(),
+          })
+        );
+      } catch (e) {
+        // Ignore localStorage errors
+      }
+    }
+
+    // Set consent ID cookie
+    function setConsentIdCookie(consentId) {
+      const date = new Date();
+      date.setTime(date.getTime() + config.cookieExpireDays * 24 * 60 * 60 * 1000);
+      document.cookie = config.cookieName + '=' + consentId + ';expires=' + date.toUTCString() + ';path=/;SameSite=Lax';
+    }
 
     // Update Google Consent Mode
-    updateGoogleConsent(accepted);
+    function updateGoogleConsent(granted) {
+      if (typeof gtag !== 'function') return;
 
-    // Send to backend
-    sendConsentToBackend(consentId, status, categories);
+      const consentState = granted ? 'granted' : 'denied';
 
-    // Hide banner, show FAB
-    hideBanner();
+      gtag('consent', 'update', {
+        analytics_storage: consentState,
+        ad_storage: consentState,
+        ad_user_data: consentState,
+        ad_personalization: consentState,
+      });
 
-    // Dispatch custom events
-    const eventName = accepted ? 'cookie-consent-accepted' : 'cookie-consent-denied';
-    window.dispatchEvent(new CustomEvent(eventName, {
-      detail: { status, consentId, categories }
-    }));
+      gtag('event', `consent_${consentState}`);
 
-    window.dispatchEvent(new CustomEvent('cookie-consent-changed', {
-      detail: { status, accepted, consentId, categories }
-    }));
-
-    // If accepted, enable analytics
-    if (accepted) {
-      window.dispatchEvent(new CustomEvent('cookie-consent-analytics-enabled', {
-        detail: { consentId }
-      }));
+      console.log('[CookieConsent] Google Consent Mode updated:', consentState);
     }
-  }
 
-  // Initialize on page load
-  function init() {
-    const consentId = getConsentId();
-    const savedConsent = getConsentStatus();
-
-    if (consentId && savedConsent) {
-      // User has already made a choice - show FAB, hide banner
-      console.log('[CookieConsent] Existing consent found:', savedConsent.status);
-      showFab();
-
-      // Apply saved consent to Google
-      updateGoogleConsent(savedConsent.status === 'accepted');
-
-      // Re-dispatch event for SPA navigation
-      if (savedConsent.status === 'accepted') {
-        window.dispatchEvent(new CustomEvent('cookie-consent-analytics-enabled', {
-          detail: { consentId }
-        }));
+    // Send consent to backend API
+    async function sendConsentToBackend(consentId, status, categories) {
+      if (!config.apiEndpoint) {
+        console.log('[CookieConsent] No API endpoint configured, skipping backend call');
+        return;
       }
-    } else {
-      // No consent yet - show banner, hide FAB
-      showBanner();
+
+      const payload = {
+        consent_id: consentId,
+        organisation_suid: config.organisationSuid || undefined,
+        status: status,
+        consent_version: config.consentVersion,
+        categories: categories,
+        page_url: window.location.href,
+        locale: document.documentElement.lang || 'en',
+        user_agent: navigator.userAgent,
+      };
+
+      try {
+        const response = await fetch(config.apiEndpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          throw new Error('API response: ' + response.status);
+        }
+
+        console.log('[CookieConsent] Consent saved to backend');
+      } catch (error) {
+        console.error('[CookieConsent] Failed to save consent to backend:', error);
+      }
     }
-  }
 
-  // Event listeners for buttons
-  const denyBtn = document.getElementById('cookie-consent-deny');
-  const allowBtn = document.getElementById('cookie-consent-allow');
+    // Show/hide banner, FAB, and info dialog
+    function showBanner() {
+      banner.classList.remove('hidden');
+      if (fab) fab.classList.add('hidden');
+      if (infoDialog) infoDialog.classList.add('hidden');
+    }
 
-  if (denyBtn) {
-    denyBtn.addEventListener('click', function() {
-      handleConsent(false);
-    });
-  }
+    function hideBanner() {
+      banner.classList.add('hidden');
+      if (fab) fab.classList.remove('hidden');
+    }
 
-  if (allowBtn) {
-    allowBtn.addEventListener('click', function() {
-      handleConsent(true);
-    });
-  }
+    function showFab() {
+      if (fab) fab.classList.remove('hidden');
+    }
 
-  // FAB click - show info dialog (not banner directly)
-  if (fab) {
-    fab.addEventListener('click', function() {
-      showInfoDialog();
-    });
-  }
+    function hideFab() {
+      if (fab) fab.classList.add('hidden');
+    }
 
-  // Info dialog buttons
-  const infoChangeBtn = document.getElementById('cookie-info-change-btn');
-  const infoCloseBtn = document.getElementById('cookie-info-close-btn');
+    function showInfoDialog() {
+      if (!infoDialog) return;
 
-  if (infoChangeBtn) {
-    infoChangeBtn.addEventListener('click', function() {
-      hideInfoDialog();
-      showBanner();
-    });
-  }
+      // Populate dialog with current consent info
+      const consentId = getConsentId();
+      const savedConsent = getConsentStatus();
 
-  if (infoCloseBtn) {
-    infoCloseBtn.addEventListener('click', function() {
-      hideInfoDialog();
-    });
-  }
+      const dateValueEl = document.getElementById('cookie-info-date-value');
+      const idValueEl = document.getElementById('cookie-info-id-value');
 
-  // Close info dialog when clicking outside
-  document.addEventListener('click', function(e) {
-    if (infoDialog && !infoDialog.classList.contains('hidden')) {
-      const target = e.target;
-      if (!infoDialog.contains(target) && target !== fab && !fab.contains(target)) {
+      if (dateValueEl && savedConsent && savedConsent.timestamp) {
+        try {
+          const date = new Date(savedConsent.timestamp);
+          dateValueEl.textContent = date.toLocaleDateString(document.documentElement.lang || 'en', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+          });
+        } catch (e) {
+          dateValueEl.textContent = savedConsent.timestamp;
+        }
+      }
+
+      if (idValueEl && consentId) {
+        idValueEl.textContent = consentId;
+      }
+
+      infoDialog.classList.remove('hidden');
+    }
+
+    function hideInfoDialog() {
+      if (infoDialog) infoDialog.classList.add('hidden');
+    }
+
+    // Handle consent
+    function handleConsent(accepted) {
+      const status = accepted ? 'accepted' : 'denied';
+
+      // Get or create consent ID
+      let consentId = getConsentId();
+      if (!consentId) {
+        consentId = generateUUID();
+        setConsentIdCookie(consentId);
+      }
+
+      // Define categories based on acceptance
+      const categories = {
+        analytics_storage: accepted,
+        ad_storage: accepted,
+        ad_user_data: accepted,
+        ad_personalization: accepted,
+      };
+
+      // Save to localStorage for quick access
+      saveConsentStatus(status, categories);
+
+      // Update Google Consent Mode
+      updateGoogleConsent(accepted);
+
+      // Send to backend
+      sendConsentToBackend(consentId, status, categories);
+
+      // Hide banner, show FAB
+      hideBanner();
+
+      // Dispatch custom events
+      const eventName = accepted ? 'cookie-consent-accepted' : 'cookie-consent-denied';
+      window.dispatchEvent(
+        new CustomEvent(eventName, {
+          detail: { status, consentId, categories },
+        })
+      );
+
+      window.dispatchEvent(
+        new CustomEvent('cookie-consent-changed', {
+          detail: { status, accepted, consentId, categories },
+        })
+      );
+
+      // If accepted, enable analytics
+      if (accepted) {
+        window.dispatchEvent(
+          new CustomEvent('cookie-consent-analytics-enabled', {
+            detail: { consentId },
+          })
+        );
+      }
+    }
+
+    // Initialize on page load
+    function init() {
+      const consentId = getConsentId();
+      const savedConsent = getConsentStatus();
+
+      if (consentId && savedConsent) {
+        // User has already made a choice - show FAB, hide banner
+        console.log('[CookieConsent] Existing consent found:', savedConsent.status);
+        showFab();
+
+        // Apply saved consent to Google
+        updateGoogleConsent(savedConsent.status === 'accepted');
+
+        // Re-dispatch event for SPA navigation
+        if (savedConsent.status === 'accepted') {
+          window.dispatchEvent(
+            new CustomEvent('cookie-consent-analytics-enabled', {
+              detail: { consentId },
+            })
+          );
+        }
+      } else {
+        // No consent yet - show banner, hide FAB
+        showBanner();
+      }
+    }
+
+    // Event listeners for buttons
+    const denyBtn = document.getElementById('cookie-consent-deny');
+    const allowBtn = document.getElementById('cookie-consent-allow');
+
+    if (denyBtn) {
+      denyBtn.addEventListener('click', function () {
+        handleConsent(false);
+      });
+    }
+
+    if (allowBtn) {
+      allowBtn.addEventListener('click', function () {
+        handleConsent(true);
+      });
+    }
+
+    // FAB click - show info dialog (not banner directly)
+    if (fab) {
+      fab.addEventListener('click', function () {
+        showInfoDialog();
+      });
+    }
+
+    // Info dialog buttons
+    const infoChangeBtn = document.getElementById('cookie-info-change-btn');
+    const infoCloseBtn = document.getElementById('cookie-info-close-btn');
+
+    if (infoChangeBtn) {
+      infoChangeBtn.addEventListener('click', function () {
         hideInfoDialog();
+        showBanner();
+      });
+    }
+
+    if (infoCloseBtn) {
+      infoCloseBtn.addEventListener('click', function () {
+        hideInfoDialog();
+      });
+    }
+
+    // Close info dialog when clicking outside
+    document.addEventListener('click', function (e) {
+      if (infoDialog && !infoDialog.classList.contains('hidden')) {
+        const target = e.target;
+        if (!infoDialog.contains(target) && target !== fab && !fab.contains(target)) {
+          hideInfoDialog();
+        }
       }
-    }
-  });
+    });
 
-  // Expose API for external use
-  window.CookieConsent = {
-    getConsentId: getConsentId,
-    getStatus: getConsentStatus,
-    show: showBanner,
-    hide: hideBanner,
-    showInfo: showInfoDialog,
-    hideInfo: hideInfoDialog,
-    accept: function() { handleConsent(true); },
-    deny: function() { handleConsent(false); },
-    reset: function() {
-      // Clear cookie
-      document.cookie = config.cookieName + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
-      // Clear localStorage
-      localStorage.removeItem('cookie_consent_status');
-      // Reset Google consent to denied
-      updateGoogleConsent(false);
-      // Hide info dialog if open
-      hideInfoDialog();
-      // Show banner, hide FAB
-      showBanner();
-      console.log('[CookieConsent] Consent reset');
-    },
-    // For footer "Manage cookies" button - now shows info dialog first
-    manage: function() {
-      showInfoDialog();
-    }
-  };
+    // Expose API for external use
+    window.CookieConsent = {
+      getConsentId: getConsentId,
+      getStatus: getConsentStatus,
+      show: showBanner,
+      hide: hideBanner,
+      showInfo: showInfoDialog,
+      hideInfo: hideInfoDialog,
+      accept: function () {
+        handleConsent(true);
+      },
+      deny: function () {
+        handleConsent(false);
+      },
+      reset: function () {
+        // Clear cookie
+        document.cookie = config.cookieName + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+        // Clear localStorage
+        localStorage.removeItem('cookie_consent_status');
+        // Reset Google consent to denied
+        updateGoogleConsent(false);
+        // Hide info dialog if open
+        hideInfoDialog();
+        // Show banner, hide FAB
+        showBanner();
+        console.log('[CookieConsent] Consent reset');
+      },
+      // For footer "Manage cookies" button - now shows info dialog first
+      manage: function () {
+        showInfoDialog();
+      },
+    };
 
-  // Initialize
-  init();
-})();
+    // Initialize
+    init();
+  })();
 </script>

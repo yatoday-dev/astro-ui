@@ -38,7 +38,9 @@ const { container: containerClass = '', swiper: swiperClass = '', swiperThumb: s
 
   /* Loading spinner animation */
   @keyframes gallery-spin {
-    to { transform: rotate(360deg); }
+    to {
+      transform: rotate(360deg);
+    }
   }
   .gallery-spinner {
     animation: gallery-spin 1s linear infinite;
@@ -83,7 +85,6 @@ const { container: containerClass = '', swiper: swiperClass = '', swiperThumb: s
             prevEl: `#btn-prev-${id}`,
           })
         : false}
-      })}
     >
       {
         images &&

@@ -93,6 +93,13 @@ const {
       </div>
     </div>
 
-    {callToAction && (typeof callToAction === 'string' ? <Fragment set:html={callToAction} /> : <Button {...(callToAction as any)} />)}
+    {
+      callToAction &&
+        (typeof callToAction === 'string' ? (
+          <Fragment set:html={callToAction} />
+        ) : (
+          <Button {...(callToAction as any)} />
+        ))
+    }
   </div>
 </Card0>

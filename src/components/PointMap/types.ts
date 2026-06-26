@@ -1,4 +1,4 @@
-import type {HotspotPoint} from "../../types";
+import type { HotspotPoint } from '../../types';
 import type { Snippet } from 'svelte';
 
 export type PointMapProps = {
@@ -6,7 +6,7 @@ export type PointMapProps = {
   items: HotspotPoint[];
   pointsDisplayMode?: 'always' | 'hover' | undefined; // controls visibility of hotspot points
   classes?: Record<string, string>;
-}
+};
 
 export type SveltePointMapProps = {
   via?: any;
@@ -14,4 +14,4 @@ export type SveltePointMapProps = {
   pointsDisplayMode?: 'always' | 'hover' | undefined;
   classes?: Record<string, string>;
   children?: Snippet;
-}
+};

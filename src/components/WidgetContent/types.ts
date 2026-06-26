@@ -1,4 +1,4 @@
-import type {Item, HotspotPoint, ToAction} from '../../types';
+import type { Item, HotspotPoint, ToAction } from '../../types';
 import type { WidgetWrapperProps, SvelteWidgetWrapperProps } from '../WidgetWrapper/types';
 import type { HeadlineProps } from '../Headline/types.ts';
 import type { Snippet } from 'svelte';

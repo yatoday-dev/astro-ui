@@ -1,10 +1,10 @@
 ---
-import type {Card6Props as Props} from './types';
-import {Icon} from "astro-icon/components";
-import {twMerge} from 'tailwind-merge';
+import type { Card6Props as Props } from './types';
+import { Icon } from 'astro-icon/components';
+import { twMerge } from 'tailwind-merge';
 import Card0 from '../Card0/Card0.astro';
 import ImageGallery from '../ImageGallery/ImageGallery.astro';
-import {cn} from '../../utils';
+import { cn } from '../../utils';
 
 const {
   title = await Astro.slots.render('title'),
@@ -20,7 +20,7 @@ const {
   badgeBottomLeft = await Astro.slots.render('badgeBottomLeft'),
   widths = [800, 1600],
   size = 800,
-  sizes = '(max-width: 1600px) 800px, 1600px'
+  sizes = '(max-width: 1600px) 800px, 1600px',
 } = Astro.props;
 
 const WrapperHeaderTag = asHeader;
@@ -59,60 +59,75 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
   badgeBottomRight={badgeBottomRight}
   badgeBottomLeft={badgeBottomLeft}
   classes={{
-    container: cn('relative h-full bg-gray-200 dark:bg-zinc-700 border-transparent text-inherit justify-start py-0 @container', containerClass),
+    container: cn(
+      'relative h-full bg-gray-200 dark:bg-zinc-700 border-transparent text-inherit justify-start py-0 @container',
+      containerClass
+    ),
     badge: badgeClass,
     badgeTopRight: classes?.badgeTopRight,
   }}
 >
   <!-- Content & link -->
-  <LinkWrapperTag href={urlForImage} class={cn("flex flex-col gap-y-2 absolute top-0 right-0 bottom-0 left-0 z-10", image ? 'justify-end' : 'justify-center')}>
-    <div class={cn("p-6 @2xl:p-10 pt-8 @2xl:pt-12", contentClass, !image && 'bg-transparent')}>
-      {badge && (
-        <div class="" set:html={badge}></div>)}
+  <LinkWrapperTag
+    href={urlForImage}
+    class={cn(
+      'flex flex-col gap-y-2 absolute top-0 right-0 bottom-0 left-0 z-10',
+      image ? 'justify-end' : 'justify-center'
+    )}
+  >
+    <div class={cn('p-6 @2xl:p-10 pt-8 @2xl:pt-12', contentClass, !image && 'bg-transparent')}>
+      {badge && <div class="" set:html={badge} />}
 
-      {(Astro.slots.has('badgeBottomRight') || badgeBottomRight) && (
-        <div class={twMerge('absolute z-10 bottom-2 right-2', classes?.badgeBottomRight)}>
-          <slot name="badgeBottomRight">
-            {badgeBottomRight && <span set:html={badgeBottomRight}/>}
-          </slot>
-        </div>
-      )}
+      {
+        (Astro.slots.has('badgeBottomRight') || badgeBottomRight) && (
+          <div class={twMerge('absolute z-10 bottom-2 right-2', classes?.badgeBottomRight)}>
+            <slot name="badgeBottomRight">{badgeBottomRight && <span set:html={badgeBottomRight} />}</slot>
+          </div>
+        )
+      }
 
-      {(Astro.slots.has('badgeBottomLeft') || badgeBottomLeft) && (
-        <div class={twMerge('absolute z-10 bottom-2 left-2', classes?.badgeBottomLeft)}>
-          <slot name="badgeBottomLeft">
-            {badgeBottomLeft && <span set:html={badgeBottomLeft}/>}
-          </slot>
-        </div>
-      )}
+      {
+        (Astro.slots.has('badgeBottomLeft') || badgeBottomLeft) && (
+          <div class={twMerge('absolute z-10 bottom-2 left-2', classes?.badgeBottomLeft)}>
+            <slot name="badgeBottomLeft">{badgeBottomLeft && <span set:html={badgeBottomLeft} />}</slot>
+          </div>
+        )
+      }
 
-      {title && (
-        <WrapperHeaderTag
-          class={cn('font-bold text-lg @lg:text-xl @2xl:text-2xl ', urlForImage && 'group-hover:underline', titleClass)}>
-          {title}
-        </WrapperHeaderTag>
-      )}
+      {
+        title && (
+          <WrapperHeaderTag
+            class={cn(
+              'font-bold text-lg @lg:text-xl @2xl:text-2xl ',
+              urlForImage && 'group-hover:underline',
+              titleClass
+            )}
+          >
+            {title}
+          </WrapperHeaderTag>
+        )
+      }
 
       <div class={cn('text-sm @lg:text-base @2xl:text-lg', title ? 'mt-2' : '', descriptionClass)}>
-        <slot/>
+        <slot />
         {description}
       </div>
 
-      {urlForImage && (
-        <div class="size-6 overflow-hidden mt-4 ">
-          <div
-            class="grid grid-cols-2 w-12 gap-2 duration-400 transition-transform -translate-x-7 group-hover:translate-x-0">
-            <Icon name="tabler:arrow-right" class="size-6"/>
-            <Icon name="tabler:arrow-right" class="size-6"/>
+      {
+        urlForImage && (
+          <div class="size-6 overflow-hidden mt-4 ">
+            <div class="grid grid-cols-2 w-12 gap-2 duration-400 transition-transform -translate-x-7 group-hover:translate-x-0">
+              <Icon name="tabler:arrow-right" class="size-6" />
+              <Icon name="tabler:arrow-right" class="size-6" />
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
     </div>
   </LinkWrapperTag>
 
   <!-- Image -->
   <div class="relative flex w-full h-full overflow-hidden">
-
     <!--
       16/9: pb-[56%]
       4/3: pb-[75%]
@@ -122,25 +137,27 @@ const isHtmlImage = typeof image === 'string' && !Array.isArray(image);
       3/4: pb-[133%]
       9/16: pb-[177%]
     -->
-    <div class={cn("relative w-full h-auto min-h-full", aspectClass)}>
-      {image && (
-        <div class="absolute inset-0">
-          {isHtmlImage ? (
-            <Fragment set:html={image}/>
-          ) : (
-            <ImageGallery
-              image={image}
-              imageClass={cn('absolute left-0 top-0 p-0', imageClass)}
-              imageLayout={imageLayout}
-              widths={widths}
-              width={size}
-              height={size}
-              sizes={sizes}
-              hoverEffect={false}
-            />
-          )}
-        </div>
-      )}
+    <div class={cn('relative w-full h-auto min-h-full', aspectClass)}>
+      {
+        image && (
+          <div class="absolute inset-0">
+            {isHtmlImage ? (
+              <Fragment set:html={image} />
+            ) : (
+              <ImageGallery
+                image={image}
+                imageClass={cn('absolute left-0 top-0 p-0', imageClass)}
+                imageLayout={imageLayout}
+                widths={widths}
+                width={size}
+                height={size}
+                sizes={sizes}
+                hoverEffect={false}
+              />
+            )}
+          </div>
+        )
+      }
     </div>
   </div>
 </Card0>

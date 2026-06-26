@@ -47,11 +47,7 @@ const alternateLocales = alternateUrls
         locale: lang,
         url: alternateUrls[lang],
       }))
-      .concat(
-        alternateUrls[defaultLocale]
-          ? [{ locale: 'x-default', url: alternateUrls[defaultLocale] }]
-          : []
-      )
+      .concat(alternateUrls[defaultLocale] ? [{ locale: 'x-default', url: alternateUrls[defaultLocale] }] : [])
   : supportedLocales
       .map((lang) => {
         // Replace current locale with target locale and ensure trailing slash

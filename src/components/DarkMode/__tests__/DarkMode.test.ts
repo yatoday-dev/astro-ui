@@ -14,10 +14,10 @@ describe('DarkMode Component', () => {
           add: vi.fn(),
           remove: vi.fn(),
           toggle: vi.fn(),
-          contains: vi.fn().mockReturnValue(true)
-        }
+          contains: vi.fn().mockReturnValue(true),
+        },
       },
-      writable: true
+      writable: true,
     });
 
     // Mock localStorage
@@ -25,14 +25,14 @@ describe('DarkMode Component', () => {
       value: {
         theme: null,
         getItem: vi.fn(),
-        setItem: vi.fn()
+        setItem: vi.fn(),
       },
-      writable: true
+      writable: true,
     });
 
     // Mock matchMedia
     Object.defineProperty(window, 'matchMedia', {
-      value: vi.fn().mockImplementation(query => ({
+      value: vi.fn().mockImplementation((query) => ({
         matches: false,
         media: query,
         onchange: null,
@@ -42,7 +42,7 @@ describe('DarkMode Component', () => {
         removeEventListener: vi.fn(),
         dispatchEvent: vi.fn(),
       })),
-      writable: true
+      writable: true,
     });
 
     // Reset darkModeInitialized
@@ -52,7 +52,7 @@ describe('DarkMode Component', () => {
   // Test toggle functionality
   it('toggles dark mode correctly', () => {
     const root = document.documentElement;
-    
+
     // Simulate toggle
     root.classList.toggle('dark');
     localStorage.theme = root.classList.contains('dark') ? 'dark' : 'light';

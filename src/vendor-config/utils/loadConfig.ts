@@ -18,25 +18,22 @@ import fs from 'node:fs';
  * // Returns: 'https://example.com'
  */
 const interpolateEnvVars = (content: string): string => {
-  return content.replace(
-    /\$\{([A-Z_][A-Z0-9_]*):?([^}]*)\}/g,
-    (match, varName, defaultValue) => {
-      const envValue = process.env[varName];
+  return content.replace(/\$\{([A-Z_][A-Z0-9_]*):?([^}]*)\}/g, (match, varName, defaultValue) => {
+    const envValue = process.env[varName];
 
-      // If env var exists, use it
-      if (envValue !== undefined) {
-        return envValue;
-      }
-
-      // If default value provided, use it
-      if (defaultValue !== '') {
-        return defaultValue;
-      }
-
-      // Otherwise, keep the original placeholder
-      return match;
+    // If env var exists, use it
+    if (envValue !== undefined) {
+      return envValue;
     }
-  );
+
+    // If default value provided, use it
+    if (defaultValue !== '') {
+      return defaultValue;
+    }
+
+    // Otherwise, keep the original placeholder
+    return match;
+  });
 };
 
 const loadConfig = async (configPathOrData: string | object) => {

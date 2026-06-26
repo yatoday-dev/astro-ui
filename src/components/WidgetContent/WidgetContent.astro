@@ -50,7 +50,7 @@ const {
   />
 
   <div class={`md:flex ${isReversed ? 'md:flex-row-reverse' : ''} md:gap-16`}>
-    <div class={cn("md:basis-1/2 self-center", classes?.start ?? '')}>
+    <div class={cn('md:basis-1/2 self-center', classes?.start ?? '')}>
       <slot />
       {content && <div class={cn('mb-12 text-lg', classes?.content ?? '')} set:html={content} />}
 
@@ -70,21 +70,34 @@ const {
                 icon={defaultIcon}
                 {...item}
                 classes={{
-                  container: cn('gap-0 border-0 py-0 justify-start', (classes?.items as Record<string, string>)?.container),
-                  title: cn('text-lg font-medium leading-6 dark:text-white ml-2 rtl:ml-0 rtl:mr-2', (classes?.items as Record<string, string>)?.title),
+                  container: cn(
+                    'gap-0 border-0 py-0 justify-start',
+                    (classes?.items as Record<string, string>)?.container
+                  ),
+                  title: cn(
+                    'text-lg font-medium leading-6 dark:text-white ml-2 rtl:ml-0 rtl:mr-2',
+                    (classes?.items as Record<string, string>)?.title
+                  ),
                   description: cn('ml-2 rtl:ml-0 rtl:mr-2', (classes?.items as Record<string, string>)?.description),
-                  icon: cn('flex h-7 w-7 items-center justify-center rounded-full bg-green-600 dark:bg-green-700 text-gray-50 p-1', (classes?.items as Record<string, string>)?.icon),
+                  icon: cn(
+                    'flex h-7 w-7 items-center justify-center rounded-full bg-green-600 dark:bg-green-700 text-gray-50 p-1',
+                    (classes?.items as Record<string, string>)?.icon
+                  ),
                 }}
               />
             ))
         }
       </ItemGrid0>
     </div>
-    <div aria-hidden="true" class={cn("mt-10 md:mt-0 md:basis-1/2", classes?.end ?? '')}>
+    <div aria-hidden="true" class={cn('mt-10 md:mt-0 md:basis-1/2', classes?.end ?? '')}>
       {
         image && (
-            <div class={cn('relative m-auto max-w-4xl', classes?.image ?? '')}>
-              <PointMap items={points} pointsDisplayMode={pointsDisplayMode} classes={{...((classes?.points as object) ?? {})}}>
+          <div class={cn('relative m-auto max-w-4xl', classes?.image ?? '')}>
+            <PointMap
+              items={points}
+              pointsDisplayMode={pointsDisplayMode}
+              classes={{ ...((classes?.points as object) ?? {}) }}
+            >
               {typeof image === 'string' ? (
                 <Fragment set:html={image} />
               ) : (
@@ -97,8 +110,8 @@ const {
                   {...image}
                 />
               )}
-              </PointMap>
-            </div>
+            </PointMap>
+          </div>
         )
       }
     </div>

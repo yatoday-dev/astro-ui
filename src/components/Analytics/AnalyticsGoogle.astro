@@ -86,7 +86,9 @@ const attrs = partytown ? { type: 'text/partytown' } : {};
           const consent = JSON.parse(data);
           return consent.status === 'accepted';
         }
-      } catch (e) {}
+      } catch {
+        // Ignore malformed or inaccessible consent data
+      }
       return false;
     }
 

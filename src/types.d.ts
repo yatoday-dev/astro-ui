@@ -1,6 +1,6 @@
 // Utility Types
-import type {HTMLAttributes} from "astro/types";
-import type {ImageMetadata} from "astro";
+import type { HTMLAttributes } from 'astro/types';
+import type { ImageMetadata } from 'astro';
 
 export type ClassValue = ClassArray | ClassDictionary | string | number | bigint | null | boolean | undefined;
 export type ClassDictionary = Record<string, any>;
@@ -33,7 +33,7 @@ export type HotspotPoint = {
   isPopupOpen?: boolean; // whether the popup is open on initialization
   classes?: Record<string, string>;
   callToAction?: CallToAction;
-}
+};
 
 export type Item = {
   title?: string;
@@ -51,23 +51,23 @@ export type Image = {
   aspectRatio?: string;
   class?: string;
 } & Omit<HTMLAttributes<'img'>, 'src'> & {
-  src?: string | ImageMetadata | null;
-  width?: string | number | null;
-  height?: string | number | null;
-  alt?: string | null;
-  loading?: 'eager' | 'lazy' | null;
-  decoding?: 'sync' | 'async' | 'auto' | null;
-  class?: string;
-  style?: string;
-  srcset?: string | null;
-  sizes?: string | null;
-  fetchpriority?: 'high' | 'low' | 'auto' | null;
-  layout?: Layout;
-  widths?: number[] | null;
-  aspectRatio?: string | number | null;
-  objectPosition?: string;
-  format?: string;
-};
+    src?: string | ImageMetadata | null;
+    width?: string | number | null;
+    height?: string | number | null;
+    alt?: string | null;
+    loading?: 'eager' | 'lazy' | null;
+    decoding?: 'sync' | 'async' | 'auto' | null;
+    class?: string;
+    style?: string;
+    srcset?: string | null;
+    sizes?: string | null;
+    fetchpriority?: 'high' | 'low' | 'auto' | null;
+    layout?: Layout;
+    widths?: number[] | null;
+    aspectRatio?: string | number | null;
+    objectPosition?: string;
+    format?: string;
+  };
 
 export type Testimonial = {
   title?: string;

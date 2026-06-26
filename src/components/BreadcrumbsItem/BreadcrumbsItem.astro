@@ -1,7 +1,14 @@
 ---
 import type { BreadcrumbsItemProps as Props } from './types';
 
-const { href = '#', label = 'Breadcrumb', currentPage = false, hasIcon = false, class: classNames, position } = Astro.props;
+const {
+  href = '#',
+  label = 'Breadcrumb',
+  currentPage = false,
+  hasIcon = false,
+  class: classNames,
+  position,
+} = Astro.props;
 ---
 
 <li class:list={['item', classNames]} itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">

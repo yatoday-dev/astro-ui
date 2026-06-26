@@ -1,16 +1,9 @@
 ---
 import type { CopyToClipboardProps as Props } from './types';
-import Button from "../Button/Button.astro";
+import Button from '../Button/Button.astro';
 import { Icon } from 'astro-icon/components';
 
-const {
-  variant = 'outline',
-  size = 'icon',
-  text = '',
-  class: className = '',
-  type = 'button',
-  ...rest
-} = Astro.props;
+const { variant = 'outline', size = 'icon', text = '', class: className = '', type = 'button', ...rest } = Astro.props;
 ---
 
 <Button
@@ -19,7 +12,7 @@ const {
   class={className}
   variant={variant}
   size={size}
-  {...(rest as any)}
+  {...rest as any}
 >
   <span class="copy-icon">
     <Icon name="tabler:copy" />
@@ -31,7 +24,7 @@ const {
 
 <script>
   import { on, get } from '../../utils';
-  import copyToClipboard from "./copy";
+  import copyToClipboard from './copy';
 
   declare global {
     interface Window {
@@ -54,8 +47,8 @@ const {
   const addCopyListeners = (btn: HTMLElement) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      
-      if(btn.dataset.ytCopyToClipboard) {
+
+      if (btn.dataset.ytCopyToClipboard) {
         copyToClipboard(btn.dataset.ytCopyToClipboard);
 
         // Show check icon
@@ -72,7 +65,6 @@ const {
             checkIcon.style.display = 'none';
           }, 3000);
         }
-
       }
     });
   };

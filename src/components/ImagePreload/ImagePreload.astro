@@ -13,7 +13,12 @@
  * />
  */
 import { findImage } from '../../utils/images';
-import { astroAsseetsOptimizer, getImagesOptimized, isUnpicCompatible, unpicOptimizer } from '../../utils/images-optimization';
+import {
+  astroAsseetsOptimizer,
+  getImagesOptimized,
+  isUnpicCompatible,
+  unpicOptimizer,
+} from '../../utils/images-optimization';
 import type { ImageProps } from '../../utils/images-optimization';
 
 interface Props {
@@ -31,7 +36,7 @@ const {
   widths = [400, 600],
   width = 600,
   height = 400,
-  fetchpriority = 'high'
+  fetchpriority = 'high',
 } = Astro.props;
 
 const _image = await findImage(src);
@@ -62,25 +67,22 @@ if (_image) {
 
   if (image) {
     imageSrc = image.src;
-    imageSrcset = image.attributes.srcset as string || '';
+    imageSrcset = (image.attributes.srcset as string) || '';
   }
 }
 ---
 
-{imageSrcset ? (
-  <link
-    rel="preload"
-    as="image"
-    href={imageSrc}
-    imagesrcset={imageSrcset}
-    imagesizes={sizes}
-    fetchpriority={fetchpriority}
-  />
-) : imageSrc ? (
-  <link
-    rel="preload"
-    as="image"
-    href={imageSrc}
-    fetchpriority={fetchpriority}
-  />
-) : null}
+{
+  imageSrcset ? (
+    <link
+      rel="preload"
+      as="image"
+      href={imageSrc}
+      imagesrcset={imageSrcset}
+      imagesizes={sizes}
+      fetchpriority={fetchpriority}
+    />
+  ) : imageSrc ? (
+    <link rel="preload" as="image" href={imageSrc} fetchpriority={fetchpriority} />
+  ) : null
+}

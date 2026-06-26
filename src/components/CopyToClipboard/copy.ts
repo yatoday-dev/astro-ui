@@ -17,7 +17,7 @@ function unsecuredCopyToClipboard(text: string) {
  * Check if using HTTPS and navigator.clipboard is available
  * Then uses standard clipboard API, otherwise uses fallback
  */
-export default async function copyToClipboard (value: string) {
+export default async function copyToClipboard(value: string) {
   if (window.isSecureContext && navigator.clipboard) {
     await navigator.clipboard.writeText(value);
   } else {

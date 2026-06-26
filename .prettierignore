@@ -1,7 +1,13 @@
 dist
+dist-doc
 node_modules
 .github
 .changeset
 *.js
 *.md
 *.mdx
+
+# prettier-plugin-astro@0.14.x cannot parse the `is:inline` analytics snippets
+# (object literals like `{'gtm.start': ...}`) embedded in these components.
+src/components/Analytics/AnalyticsGTM.astro
+src/components/Analytics/AnalyticsGoogle.astro

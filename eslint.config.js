@@ -51,6 +51,27 @@ export default [
     },
   },
   {
-    ignores: ['dist', 'node_modules', '.github', 'types.generated.d.ts', '.astro', './src/assets', 'scripts'],
+    // Apply the project's relaxed rules to `.astro` files as well, without
+    // overriding the Astro parser configured above (rules-only block).
+    files: ['**/*.astro'],
+    rules: {
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'off',
+    },
+  },
+  {
+    ignores: [
+      'dist',
+      'dist-doc',
+      'node_modules',
+      '.github',
+      'types.generated.d.ts',
+      '.astro',
+      './src/assets',
+      'scripts',
+    ],
   },
 ];

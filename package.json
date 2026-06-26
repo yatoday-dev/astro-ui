@@ -1,7 +1,7 @@
 {
   "name": "@yatoday/astro-ui",
   "type": "module",
-  "version": "0.18.2",
+  "version": "0.18.3",
   "scripts": {
     "prepare": "husky",
     "pre-commit": "lint-staged",
@@ -32,7 +32,7 @@
     "unpic": "^3.22.0"
   },
   "peerDependencies": {
-    "astro": "^5.10.1 || ^6.0.0"
+    "astro": "^5.10.1 || ^6.0.0 || ^7.0.0"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.4",

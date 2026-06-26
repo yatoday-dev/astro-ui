@@ -39,14 +39,9 @@ const WrapperHeaderTag = asHeader;
 const WrapperDescriptionTag = asDescription;
 ---
 
-<div
-  class={cn(
-    'overflow-hidden bg-zinc-700 text-zinc-200 dark:bg-card dark:text-card-foreground',
-    containerClass
-  )}
->
+<div class={cn('overflow-hidden bg-zinc-700 text-zinc-200 dark:bg-card dark:text-card-foreground', containerClass)}>
   <div class="flex flex-col-reverse justify-between md:flex-row h-full">
-    <div class={cn("flex items-center justify-center", startClass)}>
+    <div class={cn('flex items-center justify-center', startClass)}>
       <div class={cn('p-6 w-full h-full md:h-auto', contentClass)}>
         {
           title && description && (
@@ -57,7 +52,9 @@ const WrapperDescriptionTag = asDescription;
                 >
                   {title}
                 </WrapperHeaderTag>
-                <WrapperDescriptionTag class={cn('text-sm md:text-base xl:text-lg', descriptionClass)}>{description}</WrapperDescriptionTag>
+                <WrapperDescriptionTag class={cn('text-sm md:text-base xl:text-lg', descriptionClass)}>
+                  {description}
+                </WrapperDescriptionTag>
               </div>
 
               {callToAction && (
@@ -77,7 +74,7 @@ const WrapperDescriptionTag = asDescription;
                       {typeof callToAction === 'string' ? (
                         <Fragment set:html={callToAction} />
                       ) : (
-                        <Button {...(callToAction as Object)} class="w-full sm:mb-0" />
+                        <Button {...(callToAction as object)} class="w-full sm:mb-0" />
                       )}
                     </Fragment>
                   )}
@@ -90,7 +87,7 @@ const WrapperDescriptionTag = asDescription;
         <slot />
       </div>
     </div>
-    <div class={cn("md:h-auto", endClass)}>
+    <div class={cn('md:h-auto', endClass)}>
       {
         image && (
           <Fragment>
@@ -106,9 +103,9 @@ const WrapperDescriptionTag = asDescription;
                     height={1080}
                     sizes="(max-width: 768px) 100vw, 60vw"
                     layout="cover"
-                    loading={isFirstSlide ? "eager" : "lazy"}
-                    fetchpriority={isFirstSlide ? "high" : undefined}
-                    decoding={isFirstSlide ? "sync" : "async"}
+                    loading={isFirstSlide ? 'eager' : 'lazy'}
+                    fetchpriority={isFirstSlide ? 'high' : undefined}
+                    decoding={isFirstSlide ? 'sync' : 'async'}
                     {...image}
                   />
                 )}
@@ -125,9 +122,9 @@ const WrapperDescriptionTag = asDescription;
                     height={1080}
                     sizes="(max-width: 768px) 100vw, 60vw"
                     layout="cover"
-                    loading={isFirstSlide ? "eager" : "lazy"}
-                    fetchpriority={isFirstSlide ? "high" : undefined}
-                    decoding={isFirstSlide ? "sync" : "async"}
+                    loading={isFirstSlide ? 'eager' : 'lazy'}
+                    fetchpriority={isFirstSlide ? 'high' : undefined}
+                    decoding={isFirstSlide ? 'sync' : 'async'}
                     {...image}
                   />
                 )}
