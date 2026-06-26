@@ -7,6 +7,15 @@ on:
     tags:
       - 'v*'
 
+# Releasing a new version pushes the `master` commit and the `vX.Y.Z` tag
+# together, which fires this workflow twice at once. Both runs push the same
+# refspecs (main + all tags), so without serialization they race and one fails
+# with "cannot lock ref" / "reference already exists". Serialize them: the
+# first run does the full sync, the second becomes an idempotent no-op.
+concurrency:
+  group: sync-to-gitlab
+  cancel-in-progress: false
+
 jobs:
   sync:
     runs-on: ubuntu-latest
