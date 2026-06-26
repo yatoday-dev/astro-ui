@@ -16,6 +16,11 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
 // https://astro.build/config
 export default defineConfig({
   outDir: 'dist-doc',
+  // Astro 7 enforces a remote-image allowlist by default (SSRF hardening).
+  // The documentation demos pull sample images from swiperjs.com.
+  image: {
+    domains: ['swiperjs.com'],
+  },
   integrations: [
     mdx(),
     icon({
