@@ -35,7 +35,11 @@ export default defineConfig({
       })
     ),
     compress({
-      CSS: true,
+      // CSS minification is handled by Astro/Vite (esbuild). astro-compress runs
+      // `csso` as a second pass, and csso 5.0.5 silently DROPS modern media-query
+      // range syntax (e.g. Tailwind 4.3.x `@media (width>=48rem)`), wiping every
+      // responsive `md:`/`lg:` rule. Leave CSS to the (correct) Vite pass.
+      CSS: false,
       HTML: {
         'html-minifier-terser': {
           removeAttributeQuotes: false,
