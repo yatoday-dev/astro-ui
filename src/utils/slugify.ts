@@ -74,11 +74,4 @@ replace.extend = (customMap: CharMap): void => {
   Object.assign(charMap, customMap);
 };
 
-// Export as a module
 export default replace;
-
-// For CommonJS compatibility (as in the original code)
-if (typeof exports === 'object') {
-  module.exports = replace;
-  module.exports.default = replace;
-}
