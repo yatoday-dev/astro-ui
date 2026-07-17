@@ -1,0 +1,75 @@
+---
+title: ImageGalleryThumbs
+category: W.Feature
+---
+
+import SourceLink from '~/playground/components/SourceLink.astro';
+import Demo from '~/playground/components/Demo.astro';
+import ImageGalleryThumbs from '~/components/ImageGalleryThumbs/ImageGalleryThumbs.astro';
+
+# ImageGalleryThumbs
+
+<SourceLink name="ImageGalleryThumbs" />
+
+Product-page style photo gallery: a main slider with hover-revealed navigation arrows and a fraction
+counter, a synced thumbnails strip below (auto-scrolls to the active slide), touch/swipe support and a fullscreen
+mode reusing the same slider, so all animations and gestures keep working.
+
+This component uses [Swiper Element (WebComponent)](https://swiperjs.com/element)
+
+<div className="space-y-12">
+  <Demo title="">
+    <div className="max-w-[600px]">
+      <ImageGalleryThumbs
+        images={[
+          {src: 'https://swiperjs.com/demos/images/nature-1.jpg', alt: '1'},
+          {src: 'https://swiperjs.com/demos/images/nature-2.jpg', alt: '2'},
+          {src: 'https://swiperjs.com/demos/images/nature-3.jpg', alt: '3'},
+          {src: 'https://swiperjs.com/demos/images/nature-4.jpg', alt: '4'},
+          {src: 'https://swiperjs.com/demos/images/nature-5.jpg', alt: '5'},
+          {src: 'https://swiperjs.com/demos/images/nature-6.jpg', alt: '6'},
+          {src: 'https://swiperjs.com/demos/images/nature-7.jpg', alt: '7'},
+          {src: 'https://swiperjs.com/demos/images/nature-8.jpg', alt: '8'},
+        ]}
+      />
+    </div>
+  </Demo>
+</div>
+
+```astro
+---
+import { ImageGalleryThumbs } from '@yatoday/astro-ui/astro';
+---
+
+<ImageGalleryThumbs
+  images={[
+    {src: 'https://swiperjs.com/demos/images/nature-1.jpg', alt: '1'},
+    {src: 'https://swiperjs.com/demos/images/nature-2.jpg', alt: '2'},
+    {src: 'https://swiperjs.com/demos/images/nature-3.jpg', alt: '3'},
+    {src: 'https://swiperjs.com/demos/images/nature-4.jpg', alt: '4'},
+    {src: 'https://swiperjs.com/demos/images/nature-5.jpg', alt: '5'},
+    {src: 'https://swiperjs.com/demos/images/nature-6.jpg', alt: '6'},
+    {src: 'https://swiperjs.com/demos/images/nature-7.jpg', alt: '7'},
+    {src: 'https://swiperjs.com/demos/images/nature-8.jpg', alt: '8'},
+  ]}
+/>
+```
+
+## Props
+
+<div className="overflow-x-auto">
+  <div className="min-w-xl">
+    | Prop | Type | Default | Description |
+    |------|------|---------|-------------|
+    | `id` | `string` | random | By default, the `id` is generated automatically. If you decide to specify this parameter yourself, make sure that it is unique on the page |
+    | `images` | `Image[]` | `[]` | Images to show in the gallery |
+    | `height` | `string` | - | Extra classes for the main slider size, e.g. `max-h-[30rem]`. The default stage is `aspect-[3/2] max-h-[20rem]` |
+    | `withNavigation` | `boolean` | `true` | Show prev/next arrows on hover (desktop) |
+    | `withFullscreen` | `boolean` | `true` | Show the fullscreen button; clicking a photo also opens fullscreen. `Esc` or the close button exits |
+    | `withCounter` | `boolean` | `true` | Show the `1/8` fraction counter |
+    | `classes.container` | `string` | - | Additional CSS classes to apply to the container |
+    | `classes.swiper` | `string` | - | Additional CSS classes for the main slider |
+    | `classes.swiperThumb` | `string` | - | Additional CSS classes for the thumbnails slider |
+    | `classes.image` | `string` | - | Additional CSS classes for the main slide images, e.g. `object-cover` |
+  </div>
+</div>
