@@ -71,23 +71,30 @@
         btnNext.disabled = false;
       });
 
-      Object.assign(mainSwiperEl, {});
+      // Link thumbs by passing the live Swiper instance as an element property.
+      // A `thumbs-swiper` selector attribute is resolved by Swiper via a
+      // requestAnimationFrame loop, which never runs in background/occluded
+      // tabs — the gallery would come up unlinked and locked there.
+      (thumbSwiperEl as any).initialize?.();
+      (mainSwiperEl as any).thumbs = { swiper: (thumbSwiperEl as any).swiper };
       (mainSwiperEl as any)?.initialize();
 
       // Mark as initialized to show content and hide loader
       elem.setAttribute('data-initialized', 'true');
 
-      // Force Swiper to re-measure once layout settles and again as images
+      // Force Swiper to re-measure now that all slides are visible (the FOUC
+      // guard hid all but the first during init), and again as images
       // resolve. Without this, Swiper can measure slides while their
       // <img> children still have no intrinsic size (loading="lazy" /
       // cache-cold) and then lock itself via watchOverflow — silently
       // swallowing every slideTo() and click handler on user machines
-      // where the images aren't already cached.
+      // where the images aren't already cached. No rAF here: it does not
+      // fire in background/occluded tabs.
       const scheduleUpdate = () => {
         const s = (mainSwiperEl as any)?.swiper;
         if (s && !s.destroyed) s.update();
       };
-      requestAnimationFrame(scheduleUpdate);
+      scheduleUpdate();
       mainSwiperEl.querySelectorAll('img').forEach((img) => {
         if (img.complete && img.naturalWidth > 0) return;
         img.addEventListener('load', scheduleUpdate, { once: true });
@@ -191,7 +198,6 @@
         id={`swiper-main-${id}`}
         init="false"
         class={cn('', swiperClass, height)}
-        thumbs-swiper={`#swiper-thumb-${id}`}
         speed="250"
         space-between="10"
         centered-slides="true"
