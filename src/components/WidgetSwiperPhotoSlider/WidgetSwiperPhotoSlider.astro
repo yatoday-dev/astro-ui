@@ -34,24 +34,27 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
 });
 ---
 
-<WidgetWrapper
-  id={id}
-  isDark={isDark}
-  bg={bg}
-  containerClass={`gallery ${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container}`}
->
-  <Headline
-    title={title}
-    subtitle={subtitle}
-    tagline={tagline}
-    classes={classes?.headline as Record<string, string>}
-    position={position}
-    as={asHeader}
-    asSubtitle={asSubtitle}
-  />
+{
+  /* No matching images (e.g. the folder is populated by a CI sync that hasn't run yet) — skip the whole section instead of rendering a headline with an empty slider. */
+}
+{
+  imagePaths.length > 0 && (
+    <WidgetWrapper
+      id={id}
+      isDark={isDark}
+      bg={bg}
+      containerClass={`gallery ${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container}`}
+    >
+      <Headline
+        title={title}
+        subtitle={subtitle}
+        tagline={tagline}
+        classes={classes?.headline as Record<string, string>}
+        position={position}
+        as={asHeader}
+        asSubtitle={asSubtitle}
+      />
 
-  {
-    imagePaths && (
       <SwiperSlider id={id} withNavigation={withNavigation} {...rest}>
         {imagePaths.map(async (imagePath, index) => {
           let image = images[imagePath]();
@@ -108,19 +111,17 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
           );
         })}
       </SwiperSlider>
-    )
-  }
 
-  {
-    callToAction && (
-      <div class="flex justify-center mx-auto w-fit mt-8 md:mt-12 font-medium">
-        <Button {...(callToAction as any)} />
-      </div>
-    )
-  }
+      {callToAction && (
+        <div class="flex justify-center mx-auto w-fit mt-8 md:mt-12 font-medium">
+          <Button {...(callToAction as any)} />
+        </div>
+      )}
 
-  <slot />
-</WidgetWrapper>
+      <slot />
+    </WidgetWrapper>
+  )
+}
 
 <script>
   import PhotoSwipeLightbox from 'photoswipe/lightbox';
