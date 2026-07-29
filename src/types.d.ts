@@ -78,25 +78,5 @@ export type Testimonial = {
   callToAction?: ToAction;
 };
 
-declare module '@yatoday/astro-ui' {
-  // DOMUtils.ts
-  export const id: () => string;
-  export const cn: (...inputs: ClassValue[]) => string;
-  export const get: (selector: string, all?: boolean) => Element | NodeListOf<Element> | null;
-  export const on: (selector: string | HTMLElement | Document, event: string, callback: any, all?: boolean) => void;
-  export const attachEvent: (selector: string | NodeListOf<Element>, event: string, callback: any) => void;
-  export const toggleClasses: (el: HTMLElement | string, ...cls: string[]) => void;
-  export const removeClasses: (el: HTMLElement | string, ...cls: string[]) => void;
-  export const addClasses: (el: HTMLElement | string, ...cls: string[]) => void;
-
-  // utils.ts
-  export const getFormattedDate = (date: Date, locale: string = 'en') => string;
-  export const trim = (str: string, ch?: string) => string;
-  export const toUiAmount = (amount: number) => string;
-
-  // URLUtils.ts
-  export const trimSlash = (s: number) => string;
-  export const createPath = (...params: string[]) => string;
-  export const cleanSlug = (text: string) => string;
-  export const getCanonical = (path: string) => string | URL;
-}
+// The util re-exports are appended at build time from src/utils/, mirroring the
+// runtime barrel in dist/index.js — see scripts/build.js.

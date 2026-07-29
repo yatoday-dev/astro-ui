@@ -11,7 +11,6 @@ const folders = {
 };
 
 const files = {
-  'src/types.d.ts': 'dist/index.d.ts',
   'README.md': 'dist/README.md',
   LICENSE: 'dist/LICENSE',
   'package.json': 'dist/package.json',
@@ -50,6 +49,12 @@ Object.keys(files).forEach((key) => {
 fs.writeFileSync('dist/astro.js', buildImports('astro'));
 fs.writeFileSync('dist/svelte.js', buildImports('svelte'));
 fs.writeFileSync('dist/index.js', buildUtilImports());
+// Shared types plus the same util barrel index.js exports, so the runtime and
+// type surfaces of '@yatoday/astro-ui' can never drift apart.
+fs.writeFileSync(
+  'dist/index.d.ts',
+  `${fs.readFileSync('src/types.d.ts', 'utf-8').trimEnd()}\n\n${buildUtilImports()}\n`
+);
 fs.writeFileSync('dist/astro.d.ts', buildTypes('astro'));
 fs.writeFileSync('dist/svelte.d.ts', buildTypes('svelte'));
 
