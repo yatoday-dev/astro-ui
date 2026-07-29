@@ -93,12 +93,12 @@ import { Breadcrumbs, BreadcrumbsItem } from '@yatoday/astro-ui/astro';
   <BreadcrumbsItem label="Current Page" currentPage={true} position={3} />
 </Breadcrumbs>
 
-<!-- Array props -->
+<!-- Array props (position defaults to the array index) -->
 <Breadcrumbs
   items={[
-    { href: '/', icon: 'tabler:home', position: 1 },
-    { href: '/products', label: 'Products', position: 2 },
-    { href: '/products', label: 'Current Page', currentPage: true, position: 3 },
+    { href: '/', label: 'Home', icon: 'tabler:home' },
+    { href: '/products', label: 'Products' },
+    { label: 'Current Page', currentPage: true },
   ]}
 />
 ```
@@ -113,6 +113,7 @@ import { Breadcrumbs, BreadcrumbsItem } from '@yatoday/astro-ui/astro';
     |------------|------------|------------|------------| 
     | `class` | `string` | - | Additional CSS classes to apply to the breadcrumbs wrapper | 
     | `ariaLabel` | `string` | `Breadcrumbs` | The label for the breadcrumbs navigation |
+    | `items` | `BreadcrumbsItemData[]` | `[]` | Renders the trail from an array instead of `<BreadcrumbsItem>` children. Accepts every `BreadcrumbsItem` prop plus `icon` (icon name); `position` defaults to the array index + 1. Children are ignored when `items` is non-empty. |
   </div>
 </div>
 

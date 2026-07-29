@@ -26,7 +26,7 @@
 >
   <meta itemprop="position" content={position.toString()} />
   {#if currentPage}
-    <span aria-current="page" class:has-icon={hasIcon}>
+    <span aria-current="page" class:has-icon={hasIcon} itemprop="name">
       {#if hasIcon}
         {#if icon}
           {@render icon()}
@@ -37,15 +37,17 @@
       {/if}
     </span>
   {:else}
-    <a {href} class:has-icon={hasIcon}>
-      {#if hasIcon}
-        {#if icon}
-          {@render icon()}
+    <a {href} class:has-icon={hasIcon} itemprop="item">
+      <span itemprop="name">
+        {#if hasIcon}
+          {#if icon}
+            {@render icon()}
+          {/if}
+          <span class="sr-only">{label}</span>
+        {:else}
+          {label}
         {/if}
-        <span class="sr-only">{label}</span>
-      {:else}
-        {label}
-      {/if}
+      </span>
     </a>
   {/if}
 
