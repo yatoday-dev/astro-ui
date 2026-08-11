@@ -859,12 +859,13 @@ Responsive grid layouts.
 ### Slider Components
 
 #### SwiperSlider
-Generic Swiper slider wrapper.
+Generic Swiper slider wrapper. Slides must be `<swiper-slide>` elements (the
+Swiper web component ignores `<div class="swiper-slide">`).
 
 ```astro
 <SwiperSlider id="my-slider" withNavigation>
-  <div class="swiper-slide">Slide 1</div>
-  <div class="swiper-slide">Slide 2</div>
+  <swiper-slide>Slide 1</swiper-slide>
+  <swiper-slide>Slide 2</swiper-slide>
 </SwiperSlider>
 ```
 
