@@ -14,6 +14,7 @@ const {
   tagline = await Astro.slots.render('tagline'),
   imagesFolder,
   alt,
+  alts = {},
   position = 'center',
   asHeader = 'h2',
   asSubtitle = 'p',
@@ -43,7 +44,7 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
       id={id}
       isDark={isDark}
       bg={bg}
-      containerClass={`gallery ${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container}`}
+      containerClass={cn('gallery', isAfterContent && 'pt-0 md:pt-0 lg:pt-0', classes?.container)}
     >
       <Headline
         title={title}
@@ -63,13 +64,10 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
             width: 860,
           });
 
-          // Generate alt text: alt prop > title-based > numbered fallback
+          // Generate alt text: per-file `alts` entry > alt prop > title-based > numbered fallback
           // Detect UUID filenames (8-4-4-4-12 hex pattern) and treat as meaningless
-          const filename =
-            imagePath
-              .split('/')
-              .pop()
-              ?.replace(/\.[^/.]+$/, '') || '';
+          const basename = imagePath.split('/').pop() || '';
+          const filename = basename.replace(/\.[^/.]+$/, '');
           const isUuidFilename = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(filename);
           const imageNumber = index + 1;
           const imageName = filename && !isUuidFilename ? filename : String(imageNumber);
@@ -78,11 +76,14 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
                 .replace(/<[^>]*>/g, '')
                 .trim()
             : '';
-          const altText = alt
-            ? alt + ' - ' + imageName
-            : baseTitle
-              ? baseTitle + ' - ' + imageName
-              : 'Image ' + imageName;
+          const customAlt = alts?.[basename] ?? alts?.[filename];
+          const altText = customAlt
+            ? customAlt
+            : alt
+              ? alt + ' - ' + imageName
+              : baseTitle
+                ? baseTitle + ' - ' + imageName
+                : 'Image ' + imageName;
 
           return (
             <swiper-slide>
@@ -92,7 +93,10 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
                 data-pswp-height={optimizedImage.attributes.height}
                 target="_blank"
                 title={altText}
-                class="group overflow-hidden rounded-md border-primary cursor-zoom-in block aspect-square"
+                class={cn(
+                  'group overflow-hidden rounded-md border-primary cursor-zoom-in block aspect-square',
+                  classes?.link
+                )}
               >
                 <AstroImage
                   src={image}

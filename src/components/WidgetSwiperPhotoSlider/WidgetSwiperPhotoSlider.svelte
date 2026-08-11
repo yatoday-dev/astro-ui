@@ -48,7 +48,7 @@
           <a
             href={image.src}
             target="_blank"
-            class="group overflow-hidden rounded-md border-primary cursor-zoom-in block aspect-square"
+            class={cn('group overflow-hidden rounded-md border-primary cursor-zoom-in block aspect-square', classes?.link)}
           >
             <Image
               src={image.src}
