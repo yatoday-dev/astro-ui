@@ -22,6 +22,36 @@ if (!fs.existsSync('dist')) {
   fs.mkdirSync('dist');
 }
 
+/**
+ * Clears the previous build before copying the new one.
+ *
+ * Copying over the top leaves anything since deleted from `src` sitting in
+ * `dist` forever, and `npm run pub` publishes straight out of `dist` — so a
+ * component removed from source keeps shipping to every consumer, indefinitely
+ * and invisibly. That is not hypothetical: this step was added after finding
+ * `CookieConsent/AnalyticsWithConsent.astro` in the publishable output — a file
+ * git has never tracked in any branch, so a build picked it up out of the
+ * working tree and dist has carried it ever since.
+ *
+ * Only what this script writes is removed. `dist/node_modules` is deliberately
+ * left alone: the build never creates it — it comes from `cd dist && npm link`
+ * — and deleting it would silently break the local link workflow. Likewise
+ * `dist/styles/styles.css`, which the `build:styles` step regenerates
+ * immediately after this one.
+ */
+const generated = [
+  'dist/astro.js',
+  'dist/svelte.js',
+  'dist/index.js',
+  'dist/index.d.ts',
+  'dist/astro.d.ts',
+  'dist/svelte.d.ts',
+];
+
+for (const target of [...Object.values(folders), ...Object.values(files), ...generated]) {
+  fs.rmSync(target, { recursive: true, force: true });
+}
+
 Object.keys(folders).forEach((key) => {
   fs.cp(key, folders[key], { recursive: true }, (error) => {
     if (error) {
