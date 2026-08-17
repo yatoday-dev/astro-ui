@@ -46,6 +46,14 @@ export interface MetaDataTwitter {
   handle?: string;
   site?: string;
   cardType?: string;
+  /** Defaults to the OpenGraph title. */
+  title?: string;
+  /** Defaults to the OpenGraph description. */
+  description?: string;
+  /** Defaults to the first OpenGraph image. */
+  image?: string;
+  /** Defaults to the first OpenGraph image's alt text. */
+  imageAlt?: string;
 }
 
 export type AstroSeoProps = {
@@ -147,6 +155,14 @@ export interface Twitter {
   handle?: string;
   site?: string;
   cardType?: string;
+  /** Defaults to the OpenGraph title, then the page title. */
+  title?: string;
+  /** Defaults to the OpenGraph description, then the page description. */
+  description?: string;
+  /** Defaults to the first OpenGraph image. */
+  image?: string;
+  /** Defaults to the first OpenGraph image's alt text. */
+  imageAlt?: string;
 }
 
 interface MobileAlternate {

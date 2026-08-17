@@ -643,6 +643,21 @@ SEO metadata components.
 />
 ```
 
+The Twitter card is derived from the OpenGraph data, so `twitter:title`,
+`twitter:description`, `twitter:image` and `twitter:image:alt` need no
+configuration. Override any of them — or set the handles and card type — through
+`twitter`, either as a prop or under `metadata.twitter` in `config.yaml`:
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `cardType` | `string` | `twitter:card`; defaults to `summary_large_image` when an OG image exists, otherwise `summary` |
+| `site` | `string` | `twitter:site`, e.g. `@yatoday` |
+| `handle` | `string` | `twitter:creator` |
+| `title` | `string` | Defaults to the OpenGraph title |
+| `description` | `string` | Defaults to the OpenGraph description |
+| `image` | `string` | Defaults to the first OpenGraph image |
+| `imageAlt` | `string` | Defaults to the first OpenGraph image's alt text |
+
 ---
 
 #### Analytics

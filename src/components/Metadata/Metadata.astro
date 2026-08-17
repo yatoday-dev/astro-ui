@@ -1,5 +1,5 @@
 ---
-import type { MetadataProps as Props } from './types';
+import type { MetadataProps as Props, MetaDataTwitter } from './types';
 import SEO from '../SEO/SEO.astro';
 import type { SEOProps } from '../SEO/SEO.astro';
 import { adaptOpenGraphImages } from '../../utils/images';
@@ -99,14 +99,23 @@ const finalOpenGraph = {
   siteName: SITE?.name,
 };
 
-// Build final Twitter props
-const finalTwitter = merge(
-  {
-    card: ogImage ? 'summary_large_image' : 'summary',
-  },
-  METADATA?.twitter || {},
-  twitter || {}
-);
+// Build final Twitter props.
+// The config/prop shape (`cardType`, `handle`) differs from the one SEO.astro
+// consumes (`card`, `creator`), so map it field by field — merging the two
+// shapes silently drops every option the names disagree on.
+// Card text and image default to the resolved OpenGraph values, otherwise a
+// card would only ever carry `twitter:card` and nothing to render with it.
+const twitterConfig: MetaDataTwitter = merge({}, METADATA?.twitter || {}, twitter || {});
+
+const finalTwitter = {
+  card: twitterConfig.cardType || (ogImage ? 'summary_large_image' : 'summary'),
+  site: twitterConfig.site,
+  creator: twitterConfig.handle,
+  title: twitterConfig.title || finalOpenGraph.title,
+  description: twitterConfig.description || finalOpenGraph.description,
+  image: twitterConfig.image || ogImage?.url,
+  imageAlt: twitterConfig.imageAlt || ogImage?.alt,
+};
 
 const seoProps: SEOProps = {
   title: finalTitle,

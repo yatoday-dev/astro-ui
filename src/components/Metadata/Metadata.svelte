@@ -22,6 +22,14 @@
     title ? (titleTemplate ? titleTemplate.replace('%s', title) : title) : undefined
   );
 
+  // Card text and image fall back to the OpenGraph values, otherwise a card
+  // would only ever carry `twitter:card` and nothing to render with it.
+  let openGraphImage = $derived(openGraph?.images?.[0]);
+  let twitterTitle = $derived(twitter?.title || openGraph?.title || formattedTitle);
+  let twitterDescription = $derived(twitter?.description || openGraph?.description || description);
+  let twitterImage = $derived(twitter?.image || openGraphImage?.url);
+  let twitterImageAlt = $derived(twitter?.imageAlt || openGraphImage?.alt);
+
   let robotsContent = $derived(() => {
     const content: string[] = [];
     if (typeof noindex !== 'undefined') {
@@ -145,6 +153,18 @@
     {/if}
     {#if twitter.handle}
       <meta name="twitter:creator" content={twitter.handle} />
+    {/if}
+    {#if twitterTitle}
+      <meta name="twitter:title" content={twitterTitle} />
+    {/if}
+    {#if twitterDescription}
+      <meta name="twitter:description" content={twitterDescription} />
+    {/if}
+    {#if twitterImage}
+      <meta name="twitter:image" content={twitterImage} />
+    {/if}
+    {#if twitterImageAlt}
+      <meta name="twitter:image:alt" content={twitterImageAlt} />
     {/if}
   {/if}
 

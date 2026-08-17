@@ -324,6 +324,30 @@ export const buildTags = (config: AstroSeoProps): string => {
         })
       );
     }
+
+    // Card text and image fall back to the OpenGraph values, otherwise a card
+    // would only ever carry `twitter:card` and nothing to render with it.
+    const twitterTitle = config.twitter.title || config.openGraph?.title || config.title;
+    if (twitterTitle) {
+      addTag(createMetaTag({ name: 'twitter:title', content: twitterTitle }));
+    }
+
+    const twitterDescription = config.twitter.description || config.openGraph?.description || config.description;
+    if (twitterDescription) {
+      addTag(createMetaTag({ name: 'twitter:description', content: twitterDescription }));
+    }
+
+    const openGraphImage = config.openGraph?.images?.[0];
+
+    const twitterImage = config.twitter.image || openGraphImage?.url;
+    if (twitterImage) {
+      addTag(createMetaTag({ name: 'twitter:image', content: twitterImage }));
+    }
+
+    const twitterImageAlt = config.twitter.imageAlt || openGraphImage?.alt;
+    if (twitterImageAlt) {
+      addTag(createMetaTag({ name: 'twitter:image:alt', content: twitterImageAlt }));
+    }
   }
 
   // Additional Meta Tags
