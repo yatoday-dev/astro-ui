@@ -2,20 +2,23 @@
 /**
  * Google Analytics 4 Component
  *
- * Works with CookieConsent component for GDPR compliance:
- * - CookieConsent sets default consent state to 'denied'
- * - This component loads gtag.js (which respects consent state)
- * - When user accepts, CookieConsent updates consent to 'granted'
+ * Works with the CookieConsent component for GDPR compliance.
+ *
+ * By default (`requireConsent`) gtag.js is not fetched at all until the visitor
+ * accepts, so someone who refuses is never disclosed to Google. Setting
+ * `requireConsent={false}` falls back to Consent Mode alone: the script loads up
+ * front and Google is trusted to honour the `denied` default that CookieConsent
+ * set before it — which still means a request carrying the visitor's IP.
  *
  * Usage:
  * <AnalyticsGoogle id="G-XXXXXXXXXX" />
  *
- * With consent requirement (deferred loading):
- * <AnalyticsGoogle id="G-XXXXXXXXXX" requireConsent />
+ * Consent Mode only, script loads up front:
+ * <AnalyticsGoogle id="G-XXXXXXXXXX" requireConsent={false} />
  */
 import type { AnalyticsGoogleProps as Props } from './types';
 
-const { id = 'GA_MEASUREMENT_ID', partytown = false, requireConsent = false } = Astro.props;
+const { id = 'GA_MEASUREMENT_ID', partytown = false, requireConsent = true } = Astro.props;
 const attrs = partytown ? { type: 'text/partytown' } : {};
 ---
 

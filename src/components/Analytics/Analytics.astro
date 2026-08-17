@@ -11,6 +11,7 @@ import { ANALYTICS } from 'vendor:config';
     <AnalyticsGoogleProvider
       id={String(ANALYTICS.vendors.googleAnalytics.id)}
       partytown={ANALYTICS?.vendors?.googleAnalytics?.partytown}
+      requireConsent={ANALYTICS?.vendors?.googleAnalytics?.requireConsent ?? true}
     />
   ) : null
 }
@@ -20,6 +21,7 @@ import { ANALYTICS } from 'vendor:config';
     <AnalyticsGTMProvider
       id={String(ANALYTICS.vendors.googleTagManager.id)}
       defer={ANALYTICS?.vendors?.googleTagManager?.defer}
+      requireConsent={ANALYTICS?.vendors?.googleTagManager?.requireConsent ?? true}
     />
   ) : null
 }

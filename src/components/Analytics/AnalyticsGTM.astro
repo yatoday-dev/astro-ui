@@ -1,26 +1,26 @@
 ---
+/**
+ * Google Tag Manager loader.
+ *
+ * Three mutually exclusive modes, in order of precedence:
+ *
+ * 1. `requireConsent` (the default) — nothing is requested from Google until the
+ *    visitor accepts. This is stricter than Consent Mode alone: Consent Mode
+ *    still fetches `gtm.js` and relies on Google to honour `denied`, whereas
+ *    this never makes the request, so a visitor who refuses is not disclosed to
+ *    Google even by their IP address.
+ * 2. `defer` — loads after the first interaction, or 5s, whichever comes first.
+ *    A performance option, not a privacy one, so `requireConsent` supersedes it:
+ *    waiting for a consent decision already defers the load.
+ * 3. Neither — loads immediately.
+ */
 import type { AnalyticsGTMProps as Props } from './types';
 
-const { id = 'GTM-XXXXXXX', defer = false } = Astro.props;
+const { id = 'GTM-XXXXXXX', defer = false, requireConsent = true } = Astro.props;
 ---
 
-{/* Immediate loading (default) */}
-{!defer && (
-  <>
-    {/* Google Tag Manager */}
-    <script is:inline define:vars={{ id }}>
-      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});const f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer',id);
-    </script>
-    {/* End Google Tag Manager */}
-  </>
-)}
-
-{/* Deferred loading - loads after user interaction */}
-{defer && (
+{/* Consent-gated (default): no request to Google until the visitor accepts. */}
+{requireConsent && (
   <script is:inline define:vars={{ id }}>
     (function() {
       let gtmLoaded = false;
@@ -29,13 +29,6 @@ const { id = 'GTM-XXXXXXX', defer = false } = Astro.props;
         if (gtmLoaded) return;
         gtmLoaded = true;
 
-        // Remove event listeners
-        document.removeEventListener('scroll', loadGTM);
-        document.removeEventListener('click', loadGTM);
-        document.removeEventListener('touchstart', loadGTM);
-        document.removeEventListener('keydown', loadGTM);
-
-        // Load GTM
         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});const f=d.getElementsByTagName(s)[0],
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -43,14 +36,67 @@ const { id = 'GTM-XXXXXXX', defer = false } = Astro.props;
         })(window,document,'script','dataLayer',id);
       }
 
-      // Load on any user interaction
+      /*
+       * A returning visitor who already accepted must not have to accept again,
+       * so the stored decision is honoured on load as well as the live event.
+       */
+      function alreadyAccepted() {
+        try {
+          const data = localStorage.getItem('cookie_consent_status');
+          return data ? JSON.parse(data).status === 'accepted' : false;
+        } catch {
+          return false;
+        }
+      }
+
+      if (alreadyAccepted()) {
+        loadGTM();
+      }
+
+      window.addEventListener('cookie-consent-analytics-enabled', loadGTM);
+    })();
+  </script>
+)}
+
+{/* Deferred: a performance option. Loads whether or not consent was given. */}
+{!requireConsent && defer && (
+  <script is:inline define:vars={{ id }}>
+    (function() {
+      let gtmLoaded = false;
+
+      function loadGTM() {
+        if (gtmLoaded) return;
+        gtmLoaded = true;
+
+        document.removeEventListener('scroll', loadGTM);
+        document.removeEventListener('click', loadGTM);
+        document.removeEventListener('touchstart', loadGTM);
+        document.removeEventListener('keydown', loadGTM);
+
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});const f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer',id);
+      }
+
       document.addEventListener('scroll', loadGTM, { once: true, passive: true });
       document.addEventListener('click', loadGTM, { once: true });
       document.addEventListener('touchstart', loadGTM, { once: true, passive: true });
       document.addEventListener('keydown', loadGTM, { once: true });
 
-      // Also load after 5 seconds as fallback (for users who don't interact)
       setTimeout(loadGTM, 5000);
     })();
+  </script>
+)}
+
+{/* Immediate. */}
+{!requireConsent && !defer && (
+  <script is:inline define:vars={{ id }}>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});const f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer',id);
   </script>
 )}
