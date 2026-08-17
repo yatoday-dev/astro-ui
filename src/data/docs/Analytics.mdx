@@ -80,18 +80,29 @@ Integrates Google Tag Manager.
 
 ```astro
 ---
-import { AnalyticsGTM, AnalyticsGTMBody } from '@yatoday/astro-ui/astro';
+import { AnalyticsGTM } from '@yatoday/astro-ui/astro';
 ---
 
 <head>
   <AnalyticsGTM id="GTM-XXXXXXX" />
 </head>
-
-<body>
-  <AnalyticsGTMBody id="GTM-XXXXXXX" />
-  <!-- rest of body -->
-</body>
 ```
+
+### No `<noscript>` snippet
+
+Google's install instructions pair the head script with a `<noscript>` iframe to
+`googletagmanager.com/ns.html`. This library deliberately omits it.
+
+That iframe exists so GTM can fire image-pixel tags when JavaScript is disabled.
+It cannot run a JavaScript tag, and **GA4 is a JavaScript tag** — so on a container
+whose purpose is analytics it fires nothing at all. What it does do is request
+`googletagmanager.com` on every page load for a JS-disabled visitor, outside any
+consent gate: Consent Mode is itself JavaScript, so with JS off the `denied`
+default never runs and the visitor has no way to refuse.
+
+A container that genuinely needs a no-JavaScript pixel can add the snippet back in
+the consuming site's own layout — but it should come with an answer for how that
+visitor refuses it.
 
 ### Props
 

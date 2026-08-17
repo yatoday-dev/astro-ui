@@ -2,7 +2,6 @@
 import SeoMetadata from '../Metadata/Metadata.astro';
 import SeoSiteVerification from '../SiteVerification/SiteVerification.astro';
 import SeoAnalytics from '../Analytics/Analytics.astro';
-import SeoAnalyticsGTMBody from '../Analytics/AnalyticsGTMBody.astro';
 import type { LayoutProps as Props } from './types';
 
 import { I18N } from 'vendor:config';
@@ -35,8 +34,6 @@ const i18nConfig = metadata.i18n || globalI18nConfig;
   </head>
 
   <body class="antialiased bg-background text-foreground tracking-tight">
-    <SeoAnalyticsGTMBody />
-
     <slot />
 
     <slot name="scripts" />
