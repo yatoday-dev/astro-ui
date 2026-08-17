@@ -14,6 +14,7 @@ const {
   apiEndpoint = '',
   organisationSuid = '',
   googleAnalyticsId = '',
+  purposes = ['analytics'],
   classes = {},
   infoDialog = {},
 } = Astro.props;
@@ -52,6 +53,7 @@ const positionClasses = {
   data-api-endpoint={apiEndpoint}
   data-organisation-suid={organisationSuid}
   data-ga-id={googleAnalyticsId}
+  data-purposes={purposes.join(',')}
   data-consent-date-label={consentDateLabel}
   data-consent-id-label={consentIdLabel}
   data-change-consent-text={changeConsentText}
@@ -209,7 +211,36 @@ const positionClasses = {
       apiEndpoint: banner.dataset.apiEndpoint || '',
       organisationSuid: banner.dataset.organisationSuid || '',
       gaId: banner.dataset.gaId || '',
+      purposes: (banner.dataset.purposes || 'analytics')
+        .split(',')
+        .map(function (purpose) {
+          return purpose.trim();
+        })
+        .filter(Boolean),
     };
+
+    /**
+     * Which Consent Mode signals each declared purpose is allowed to unlock.
+     * A signal absent from every declared purpose is never granted, so a site
+     * that only measures usage can never hand Google advertising consent.
+     */
+    const PURPOSE_SIGNALS = {
+      analytics: ['analytics_storage'],
+      advertising: ['ad_storage', 'ad_user_data', 'ad_personalization'],
+    };
+
+    const ALL_SIGNALS = ['analytics_storage', 'ad_storage', 'ad_user_data', 'ad_personalization'];
+
+    function hasPurpose(purpose) {
+      return config.purposes.indexOf(purpose) !== -1;
+    }
+
+    /** The signals this site is entitled to ask for, given its declared purposes. */
+    function grantableSignals() {
+      return config.purposes.reduce(function (signals, purpose) {
+        return signals.concat(PURPOSE_SIGNALS[purpose] || []);
+      }, []);
+    }
 
     // Generate UUID v4
     function generateUUID() {
@@ -262,22 +293,28 @@ const positionClasses = {
       document.cookie = config.cookieName + '=' + consentId + ';expires=' + date.toUTCString() + ';path=/;SameSite=Lax';
     }
 
-    // Update Google Consent Mode
+    /**
+     * Update Google Consent Mode.
+     *
+     * Every signal is sent on every update, but only the ones covered by a
+     * declared purpose can carry `granted`. Sending the rest as an explicit
+     * `denied` — rather than omitting them — means an accepting visitor cannot
+     * end up with an advertising grant left over from a stale default.
+     */
     function updateGoogleConsent(granted) {
       if (typeof gtag !== 'function') return;
 
-      const consentState = granted ? 'granted' : 'denied';
+      const grantable = granted ? grantableSignals() : [];
+      const update = {};
 
-      gtag('consent', 'update', {
-        analytics_storage: consentState,
-        ad_storage: consentState,
-        ad_user_data: consentState,
-        ad_personalization: consentState,
+      ALL_SIGNALS.forEach(function (signal) {
+        update[signal] = grantable.indexOf(signal) !== -1 ? 'granted' : 'denied';
       });
 
-      gtag('event', `consent_${consentState}`);
+      gtag('consent', 'update', update);
+      gtag('event', granted ? 'consent_granted' : 'consent_denied');
 
-      console.log('[CookieConsent] Google Consent Mode updated:', consentState);
+      console.log('[CookieConsent] Google Consent Mode updated:', update);
     }
 
     // Send consent to backend API
@@ -384,12 +421,13 @@ const positionClasses = {
         setConsentIdCookie(consentId);
       }
 
-      // Define categories based on acceptance
+      // The record uses the consent API's category names, and marks a category
+      // true only where the site declared that purpose — so what is stored as
+      // proof of consent matches what the visitor was actually asked for.
       const categories = {
-        analytics_storage: accepted,
-        ad_storage: accepted,
-        ad_user_data: accepted,
-        ad_personalization: accepted,
+        necessary: true,
+        analytics: accepted && hasPurpose('analytics'),
+        marketing: accepted && hasPurpose('advertising'),
       };
 
       // Save to localStorage for quick access
@@ -418,8 +456,8 @@ const positionClasses = {
         })
       );
 
-      // If accepted, enable analytics
-      if (accepted) {
+      // Only load analytics if analytics is a purpose this site declared.
+      if (categories.analytics) {
         window.dispatchEvent(
           new CustomEvent('cookie-consent-analytics-enabled', {
             detail: { consentId },
@@ -442,7 +480,7 @@ const positionClasses = {
         updateGoogleConsent(savedConsent.status === 'accepted');
 
         // Re-dispatch event for SPA navigation
-        if (savedConsent.status === 'accepted') {
+        if (savedConsent.status === 'accepted' && hasPurpose('analytics')) {
           window.dispatchEvent(
             new CustomEvent('cookie-consent-analytics-enabled', {
               detail: { consentId },

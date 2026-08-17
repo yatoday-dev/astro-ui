@@ -3,17 +3,30 @@ import type { WithElementRef } from 'bits-ui';
 import type { HTMLAttributes } from 'svelte/elements';
 
 /**
- * Google Consent Mode v2 categories
+ * A purpose the site actually pursues with non-essential storage.
+ *
+ * Consent has to be specific to a purpose (GDPR art. 6.1.a and 7.2), so a site
+ * must ask for exactly what it uses and nothing more. Declaring the purposes
+ * per site is what keeps the banner, the stored record and the published cookie
+ * policy describing the same thing.
+ */
+export type ConsentPurpose = 'analytics' | 'advertising';
+
+/**
+ * Consent categories as the consent API stores them.
+ *
+ * These are the category names, not Google Consent Mode signal names: one
+ * category can map to several signals (`advertising` covers `ad_storage`,
+ * `ad_user_data` and `ad_personalization`), and the record has to stay readable
+ * independently of any one vendor's tagging scheme.
  */
 export type ConsentCategories = {
-  /** Enables storage for analytics (e.g., visit duration) */
-  analytics_storage?: boolean;
-  /** Enables storage for advertising purposes */
-  ad_storage?: boolean;
-  /** Sets consent for sending user data to Google for advertising */
-  ad_user_data?: boolean;
-  /** Sets consent for personalized advertising */
-  ad_personalization?: boolean;
+  /** Strictly necessary storage. Always true — it is never consent-based. */
+  necessary: true;
+  /** Measurement of site usage. */
+  analytics: boolean;
+  /** Advertising, remarketing and conversion attribution. */
+  marketing: boolean;
 };
 
 /**
@@ -96,6 +109,24 @@ export type CookieConsentProps = {
    * @example "G-XXXXXXXXXX"
    */
   googleAnalyticsId?: string;
+
+  /**
+   * The non-essential purposes this site actually pursues.
+   *
+   * Only the declared purposes are asked for, recorded and granted; every other
+   * Consent Mode signal is pinned to `denied` for the lifetime of the page. The
+   * default is analytics only, because that is what a site gets by wiring up
+   * GA4 — a site that adds advertising tags has to say so here, and update its
+   * cookie policy in the same change.
+   *
+   * A single non-essential purpose is what makes a two-button
+   * accept-all / reject-all banner sufficient under the AEPD cookie guide.
+   * Declaring more than one purpose means the banner owes the visitor a
+   * per-purpose choice, which this component does not yet offer.
+   *
+   * @default ["analytics"]
+   */
+  purposes?: ConsentPurpose[];
 
   /**
    * CSS classes for customization
