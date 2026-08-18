@@ -21,7 +21,14 @@ export const buildImports = (extension) => {
 };
 
 export const buildUtilImports = () => {
-  const utils = fs.readdirSync('src/utils');
+  // Only real util modules. `readdirSync` also returns directories — `__tests__`
+  // among them — and a directory in the barrel makes `import '@yatoday/astro-ui'`
+  // resolve to a folder, dragging the test runner's imports into every consumer
+  // that touches a util.
+  const utils = fs
+    .readdirSync('src/utils', { withFileTypes: true })
+    .filter((entry) => entry.isFile() && entry.name.endsWith('.ts') && !entry.name.endsWith('.test.ts'))
+    .map((entry) => entry.name);
 
   return utils.map((util) => `export * from './utils/${util}'`).join('\n');
 };

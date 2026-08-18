@@ -52,8 +52,16 @@ for (const target of [...Object.values(folders), ...Object.values(files), ...gen
   fs.rmSync(target, { recursive: true, force: true });
 }
 
+/**
+ * Test suites live next to the code they cover, so a plain recursive copy puts
+ * them in the published package — where they are dead weight at best, and at
+ * worst reachable from a generated barrel. Nothing under a `__tests__` folder
+ * is part of the package's surface, so none of it is copied.
+ */
+const isTestPath = (source) => source.split(/[\\/]/).includes('__tests__');
+
 Object.keys(folders).forEach((key) => {
-  fs.cp(key, folders[key], { recursive: true }, (error) => {
+  fs.cp(key, folders[key], { recursive: true, filter: (source) => !isTestPath(source) }, (error) => {
     if (error) {
       console.error('Error copying directory', error);
     }
