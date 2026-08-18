@@ -3,7 +3,7 @@ import type { MetadataProps as Props, MetaDataTwitter } from './types';
 import SEO from '../SEO/SEO.astro';
 import type { SEOProps } from '../SEO/SEO.astro';
 import { adaptOpenGraphImages } from '../../utils/images';
-import { getLocales, getDefaultLocale } from '../../utils/i18n';
+import { getLocales, getDefaultLocale, resolvePageLocale } from '../../utils/i18n';
 
 import merge from 'lodash.merge';
 import { METADATA, SITE } from 'vendor:config';
@@ -32,9 +32,9 @@ const canonical = propCanonical || String(new URL(pathname, Astro.site));
 const supportedLocales = getLocales(i18n);
 const defaultLocale = getDefaultLocale(i18n);
 
-// Get language from URL path (e.g., /ru/, /en/, /es/)
-const urlParts = pathname.split('/').filter(Boolean);
-const locale = urlParts[0] && supportedLocales.includes(urlParts[0]) ? urlParts[0] : defaultLocale;
+// Get language from URL path (e.g., /ru/, /en/, /es/) — shared with Layout, so
+// `og:locale` and `<html lang>` are always the same answer to the same question
+const locale = resolvePageLocale(pathname, i18n);
 
 // Build alternate locale links for hreflang (including self-reference)
 // Use alternateUrls if provided (for blog posts with different slugs per language)

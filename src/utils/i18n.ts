@@ -66,3 +66,38 @@ export function getDefaultLocale(config?: { defaultLocale?: string }): string {
   // Fallback for when i18n is not configured
   return 'en';
 }
+
+export interface PageLocaleConfig {
+  locales?: unknown[];
+  defaultLocale?: string;
+  /** Site language from config, used when no locale set is configured at all. */
+  language?: string;
+}
+
+/**
+ * Work out which language a page is actually written in.
+ *
+ * The answer is the leading path segment when it names one of the page's
+ * locales (`/ru/prices/` is Russian), and the default locale otherwise. That
+ * "otherwise" is the interesting half: a page served outside the per-locale
+ * tree — legal documents filed in one language at `/legal/…`, say — carries no
+ * prefix to read, so it falls back to the default of *its own* locale config.
+ * Passing such a page a single-locale config (`{ locales: ['es'] }`, the same
+ * override that keeps its hreflang tags honest) is therefore enough to have it
+ * announced as Spanish rather than as the site default.
+ *
+ * Every consumer of "what language is this page?" must go through here. Layout
+ * previously answered it from `Astro.currentLocale`, which knows nothing about
+ * a page-level override, so a single-language page ended up declaring one
+ * language in `<html lang>` and another in `og:locale`.
+ *
+ * @param pathname - Page pathname, with or without a trailing slash
+ * @param config - Locale config in effect for this page
+ */
+export function resolvePageLocale(pathname: string, config?: PageLocaleConfig): string {
+  const [firstSegment] = pathname.split('/').filter(Boolean);
+  if (firstSegment && getLocales(config).includes(firstSegment)) {
+    return firstSegment;
+  }
+  return config?.defaultLocale || config?.language || getDefaultLocale(config);
+}
