@@ -70,6 +70,21 @@ const alternateLocales = alternateUrls
 
 // Merge metadata from config with props
 const finalTitle = title || METADATA?.title?.default || '';
+
+/**
+ * `metadata.title.template` in the site config ("%s — Site name") frames a
+ * page's own title in the browser tab, so every page does not have to repeat
+ * the site name in its `title` prop. It applies only to a title the page
+ * supplied: `metadata.title.default` is already written as a whole title and
+ * would come out with the site name twice. A page whose title already names the
+ * site — a home page, typically — opts out with `ignoreTitleTemplate`.
+ *
+ * Only the `<title>` tag is framed. The OpenGraph and Twitter titles below stay
+ * on the bare page title, which is what a social card wants next to the site
+ * name it already shows.
+ */
+const titleTemplate = ignoreTitleTemplate ? undefined : METADATA?.title?.template;
+const documentTitle = title && titleTemplate ? titleTemplate.replace('%s', title) : finalTitle;
 const finalDescription = description || METADATA?.description || '';
 const finalRobots = {
   index: typeof robots?.index !== 'undefined' ? robots.index : METADATA?.robots?.index !== false,
@@ -118,7 +133,7 @@ const finalTwitter = {
 };
 
 const seoProps: SEOProps = {
-  title: finalTitle,
+  title: documentTitle,
   description: finalDescription,
   canonical,
   locale,
