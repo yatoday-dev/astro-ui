@@ -17,6 +17,7 @@
     classes = {},
     scrollOffset = 60,
     as = 'header',
+    toggleMenuLabel = 'Toggle Menu',
     bg,
     logo,
     toggleMenu,
@@ -182,10 +183,10 @@
           <button
             type="button"
             class="flex flex-col h-12 w-12 rounded-sm justify-center items-center cursor-pointer group"
-            aria-label="Toggle Menu"
+            aria-label={toggleMenuLabel}
             data-yt-toggle-menu
           >
-            <span class="sr-only">Toggle Menu</span>
+            <span class="sr-only">{toggleMenuLabel}</span>
             <span
               aria-hidden="true"
               class="h-0.5 w-6 my-1 rounded-full bg-black dark:bg-white transition ease transform duration-200 opacity-80 group-[.expanded]:rotate-45 group-[.expanded]:translate-y-2.5"

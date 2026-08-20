@@ -13,6 +13,8 @@ export type WidgetNavbarProps = {
   classes?: Record<string, string>;
   scrollOffset?: number;
   pinnedClasses?: string;
+  /** Accessible label of the burger button, so it can speak the page's language. */
+  toggleMenuLabel?: string;
 } & WidgetWrapperProps;
 
 export interface ILink {
@@ -49,6 +51,8 @@ export type SvelteWidgetNavbarProps = {
   classes?: Record<string, string>;
   scrollOffset?: number;
   pinnedClasses?: string;
+  /** Accessible label of the burger button, so it can speak the page's language. */
+  toggleMenuLabel?: string;
   logo?: Snippet;
   toggleMenu?: Snippet;
   actionsSlot?: Snippet;

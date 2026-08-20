@@ -21,6 +21,7 @@ const {
   classes = {},
   scrollOffset = 60,
   as = 'header',
+  toggleMenuLabel = 'Toggle Menu',
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
 
@@ -71,7 +72,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       </slot>
       <div class="flex items-center md:hidden">
         <slot name="toggle-menu">
-          <ToggleMenu />
+          <ToggleMenu label={toggleMenuLabel} />
         </slot>
       </div>
     </div>
