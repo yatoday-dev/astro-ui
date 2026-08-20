@@ -3,6 +3,7 @@ dist
 dist-doc
 build
 astro.config.mjs.timestamp*
+.idea
 
 # generated types
 .astro/
