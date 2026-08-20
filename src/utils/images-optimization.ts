@@ -90,7 +90,15 @@ const parseAspectRatio = (aspectRatio: number | string | null | undefined): numb
 };
 
 /**
- * Gets the `sizes` attribute for an image, based on the layout and width
+ * Derives the `sizes` attribute from the layout, where the layout alone is
+ * enough to know how wide the image will render.
+ *
+ * `cover`, `responsive` and `contained` size to whatever their container is,
+ * which nothing here can see, so they deliberately return `undefined` rather
+ * than a guess. The browser then falls back to assuming `100vw` and picks a
+ * candidate for the full viewport, which over-fetches badly for an image that
+ * only occupies part of it. Pass `sizes` explicitly at the call site for those
+ * layouts — {@link getImagesOptimized} warns when it is missing.
  */
 export const getSizes = (width?: number, layout?: Layout): string | undefined => {
   if (!width || !layout) {
@@ -186,33 +194,59 @@ const getStyle = ({
     .join(' ');
 };
 
+/**
+ * Drops any breakpoint wider than the source image.
+ *
+ * Asking the optimizer for a width the source cannot supply does not produce a
+ * bigger image, it re-encodes the same pixels: every step past the intrinsic
+ * width comes back byte-identical, so the build writes several copies of one
+ * file and the srcset offers the browser several candidates that only differ
+ * by their `w` descriptor. A 1024px source run against the default ladder
+ * emitted eleven identical 1024px variants.
+ *
+ * The source width itself is appended so the largest candidate is still the
+ * full-resolution image. `sourceWidth` is only known for local images
+ * (`ImageMetadata`); for a remote URL the ladder is returned untouched.
+ */
+const clampToSource = (breakpoints: number[], sourceWidth?: number): number[] =>
+  sourceWidth ? [...breakpoints.filter((w) => w < sourceWidth), sourceWidth] : breakpoints;
+
 const getBreakpoints = ({
   width,
   breakpoints,
   layout,
+  sourceWidth,
 }: {
   width?: number;
   breakpoints?: number[];
   layout: Layout;
+  sourceWidth?: number;
 }): number[] => {
+  const ladder = breakpoints || config.deviceSizes;
+
+  // These layouts size to their container, which is not knowable here, so the
+  // whole ladder is a candidate and only the source width bounds it.
   if (layout === 'fullWidth' || layout === 'cover' || layout === 'responsive' || layout === 'contained') {
-    return breakpoints || config.deviceSizes;
+    return clampToSource(ladder, sourceWidth);
   }
   if (!width) {
     return [];
   }
   const doubleWidth = width * 2;
   if (layout === 'fixed') {
-    return [width, doubleWidth];
+    return clampToSource([width, doubleWidth], sourceWidth);
   }
   if (layout === 'constrained') {
-    return [
-      // Always include the image at 1x and 2x the specified width
-      width,
-      doubleWidth,
-      // Filter out any resolutions that are larger than the double-res image
-      ...(breakpoints || config.deviceSizes).filter((w) => w < doubleWidth),
-    ];
+    return clampToSource(
+      [
+        // Always include the image at 1x and 2x the specified width
+        width,
+        doubleWidth,
+        // Filter out any resolutions that are larger than the double-res image
+        ...ladder.filter((w) => w < doubleWidth),
+      ],
+      sourceWidth
+    );
   }
 
   return [];
@@ -278,6 +312,29 @@ export const unpicOptimizer: ImagesOptimizer = async (image, breakpoints, width,
   );
 };
 
+// A container-relative layout cannot derive its own `sizes`, and without one
+// the browser assumes the image spans the viewport. Surfaced at build time so
+// it is caught here rather than in a Lighthouse report. Reported once per
+// image so a component used on every page does not flood the log.
+const CONTAINER_RELATIVE_LAYOUTS: ReadonlySet<Layout> = new Set(['cover', 'responsive', 'contained']);
+const warnedSizes = new Set<string>();
+
+const warnIfSizesMissing = (image: ImageMetadata | string, layout: Layout, sizes?: string | null): void => {
+  if (sizes || !CONTAINER_RELATIVE_LAYOUTS.has(layout)) {
+    return;
+  }
+  const src = typeof image === 'string' ? image : image.src;
+  if (warnedSizes.has(src)) {
+    return;
+  }
+  warnedSizes.add(src);
+  console.warn(
+    `[astro-ui] <Image layout="${layout}"> has no \`sizes\`, so the browser will assume it spans ` +
+      `the full viewport and download a candidate sized for that. Pass \`sizes\` describing the ` +
+      `container, e.g. sizes="(min-width: 1024px) 50vw, 100vw". Image: ${src}`
+  );
+};
+
 /* ** */
 export async function getImagesOptimized(
   image: ImageMetadata | string,
@@ -297,6 +354,10 @@ export async function getImagesOptimized(
   }: ImageProps,
   transform: ImagesOptimizer = () => Promise.resolve([])
 ): Promise<{ src: string; attributes: HTMLAttributes<'img'> }> {
+  // Captured before `width` is defaulted below: `width` may be a caller's
+  // desired render width, while this is what the file can actually supply.
+  const sourceWidth = typeof image === 'string' ? undefined : Number(image.width) || undefined;
+
   if (typeof image !== 'string') {
     width ||= Number(image.width) || undefined;
     height ||= typeof width === 'number' ? computeHeight(width, image.width / image.height) : undefined;
@@ -307,6 +368,7 @@ export async function getImagesOptimized(
 
   widths ||= config.deviceSizes;
   sizes ||= getSizes(Number(width) || undefined, layout);
+  warnIfSizesMissing(image, layout, sizes);
   aspectRatio = parseAspectRatio(aspectRatio);
 
   // Calculate dimensions from aspect ratio
@@ -332,7 +394,7 @@ export async function getImagesOptimized(
     console.error('Image', image);
   }
 
-  let breakpoints = getBreakpoints({ width, breakpoints: widths, layout });
+  let breakpoints = getBreakpoints({ width, breakpoints: widths, layout, sourceWidth });
   breakpoints = [...new Set(breakpoints)].sort((a, b) => a - b);
 
   const srcset = (await transform(image, breakpoints, Number(width) || undefined, Number(height) || undefined, format))

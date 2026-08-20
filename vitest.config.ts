@@ -14,6 +14,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '~': path.resolve(__dirname, './src'),
+      // Virtual module supplied by the Astro build, which vitest does not run.
+      'astro:assets': path.resolve(__dirname, './src/utils/__tests__/__stubs__/astro-assets.ts'),
     },
   },
 });
