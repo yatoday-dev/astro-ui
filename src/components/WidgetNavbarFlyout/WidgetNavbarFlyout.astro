@@ -54,6 +54,9 @@ const {
 
 const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 
+/** The menu the burger button shows and hides on small screens (its `aria-controls`). */
+const menuId = 'header-menu';
+
 // Top-level items that get a shared flyout panel (anything with children).
 const panelItems = links.map((link, index) => ({ link, index })).filter(({ link }) => link.links?.length);
 ---
@@ -90,12 +93,13 @@ const panelItems = links.map((link, index) => ({ link, index })).filter(({ link 
       </slot>
       <div class="flex items-center md:hidden">
         <slot name="toggle-menu">
-          <ToggleMenu />
+          <ToggleMenu controls={menuId} />
         </slot>
       </div>
     </div>
 
     <nav
+      id={menuId}
       class="items-center w-full md:w-auto hidden md:flex md:mx-5 text-default overflow-y-auto overflow-x-hidden md:overflow-y-visible md:overflow-x-auto md:justify-self-center"
       aria-label="Main navigation"
       data-yt-flyout-nav
@@ -405,7 +409,7 @@ const panelItems = links.map((link, index) => ({ link, index })).filter(({ link 
 </style>
 
 <script>
-  import { attachEvent, toggleClasses, addClasses, removeClasses } from '../../utils/DOMUtils';
+  import { attachEvent, toggleClasses, addClasses, removeClasses, setMenuToggleExpanded } from '../../utils/DOMUtils';
 
   // ---- Sticky header pin/unpin on scroll + mobile menu toggle (parity with WidgetNavbar) ----
   let headerBound = false;
@@ -424,7 +428,7 @@ const panelItems = links.map((link, index) => ({ link, index })).filter(({ link 
 
     attachEvent('[data-yt-toggle-menu]', 'click', (_: Event, elem: HTMLElement) => {
       requestAnimationFrame(() => {
-        toggleClasses(elem, 'expanded');
+        setMenuToggleExpanded(elem, !elem.classList.contains('expanded'));
         toggleClasses(document.body, 'overflow-hidden');
         toggleClasses(document.getElementById('header'), 'h-screen', 'expanded');
         toggleClasses('[data-yt-flyout-nav]', 'hidden');
@@ -437,7 +441,7 @@ const panelItems = links.map((link, index) => ({ link, index })).filter(({ link 
 
     function hiddenNav() {
       requestAnimationFrame(() => {
-        removeClasses('[data-yt-toggle-menu]', 'expanded');
+        setMenuToggleExpanded('[data-yt-toggle-menu]', false);
         removeClasses(document.body, 'overflow-hidden');
         removeClasses(document.getElementById('header'), 'h-screen', 'expanded');
         addClasses('[data-yt-flyout-nav]', 'hidden');

@@ -39,6 +39,9 @@ const {
 } = classes;
 
 const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
+
+/** The menu the burger button shows and hides on small screens (its `aria-controls`). */
+const menuId = 'header-menu';
 ---
 
 <WidgetWrapper
@@ -72,11 +75,12 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       </slot>
       <div class="flex items-center md:hidden">
         <slot name="toggle-menu">
-          <ToggleMenu label={toggleMenuLabel} />
+          <ToggleMenu label={toggleMenuLabel} controls={menuId} />
         </slot>
       </div>
     </div>
     <nav
+      id={menuId}
       class="items-center w-full md:w-auto hidden md:flex md:mx-5 text-default overflow-y-auto overflow-x-hidden md:overflow-y-visible md:overflow-x-auto md:justify-self-center"
       aria-label="Main navigation"
     >
@@ -273,7 +277,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 </style>
 
 <script>
-  import { attachEvent, toggleClasses, addClasses, removeClasses } from '../../utils/DOMUtils';
+  import { attachEvent, toggleClasses, addClasses, removeClasses, setMenuToggleExpanded } from '../../utils/DOMUtils';
 
   const addEventListeners = () => {
     const header = document.querySelector('[data-yt-sticky-header]') as HTMLElement;
@@ -289,7 +293,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     attachEvent('[data-yt-toggle-menu]', 'click', (_: Event, elem: HTMLElement) => {
       // Batch DOM updates to prevent forced reflow
       requestAnimationFrame(() => {
-        toggleClasses(elem, 'expanded');
+        setMenuToggleExpanded(elem, !elem.classList.contains('expanded'));
         toggleClasses(document.body, 'overflow-hidden');
         toggleClasses(document.getElementById('header'), 'h-screen', 'expanded');
         toggleClasses('[data-yt-sticky-header] nav', 'hidden');
@@ -308,7 +312,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     function hiddenNav() {
       // Batch DOM updates to prevent forced reflow
       requestAnimationFrame(() => {
-        removeClasses('[data-yt-toggle-menu]', 'expanded');
+        setMenuToggleExpanded('[data-yt-toggle-menu]', false);
         removeClasses(document.body, 'overflow-hidden');
         removeClasses(document.getElementById('header'), 'h-screen', 'expanded');
         addClasses('[data-yt-sticky-header] nav', 'hidden');

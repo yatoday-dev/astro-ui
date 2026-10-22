@@ -117,3 +117,21 @@ export const addClasses = (el: Element | string | null, ...cls: string[]): void 
   cls.map((cl) => cl && element.classList.add(cl));
   return;
 };
+
+/**
+ * Marks a menu toggle open or closed: the `expanded` class its icon is drawn by
+ * and `aria-expanded`, which tells assistive technology whether the menu it
+ * controls is shown (WCAG 2.1, 4.1.2). Every element the selector matches is
+ * set, so a toggle passed through a slot is kept in step as well.
+ *
+ * @param {Element | string | null} el - The toggle, or a selector of the toggles.
+ * @param {boolean} expanded - Whether the menu is now shown.
+ */
+export const setMenuToggleExpanded = (el: Element | string | null, expanded: boolean): void => {
+  const elements = typeof el === 'string' ? Array.from(document.querySelectorAll(el)) : el ? [el] : [];
+
+  elements.forEach((element) => {
+    element.classList.toggle('expanded', expanded);
+    element.setAttribute('aria-expanded', String(expanded));
+  });
+};

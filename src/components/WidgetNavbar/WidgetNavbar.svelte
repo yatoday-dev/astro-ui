@@ -4,7 +4,7 @@
   import DarkMode from '../DarkMode/DarkMode.svelte';
   import Button from '../Button/Button.svelte';
   import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.svelte';
-  import { cn, trimSlash } from '../../utils';
+  import { cn, trimSlash, setMenuToggleExpanded } from '../../utils';
   import { twMerge } from 'tailwind-merge';
 
   let {
@@ -79,7 +79,7 @@
 
     const handleToggleMenu = (e: Event) => {
       const elem = e.currentTarget as HTMLElement;
-      toggleClasses(elem, 'expanded');
+      setMenuToggleExpanded(elem, !elem.classList.contains('expanded'));
       toggleClasses(document.body, 'overflow-hidden');
       toggleClasses(document.getElementById('header'), 'h-screen', 'expanded');
       toggleClasses('[data-yt-sticky-header] nav' as any, 'hidden');
@@ -87,7 +87,7 @@
     };
 
     const hiddenNav = () => {
-      removeClasses('[data-yt-toggle-menu]', 'expanded');
+      setMenuToggleExpanded('[data-yt-toggle-menu]', false);
       removeClasses(document.body, 'overflow-hidden');
       removeClasses(document.getElementById('header'), 'h-screen', 'expanded');
       addClasses('[data-yt-sticky-header] nav', 'hidden');
@@ -184,6 +184,8 @@
             type="button"
             class="flex flex-col h-12 w-12 rounded-sm justify-center items-center cursor-pointer group"
             aria-label={toggleMenuLabel}
+            aria-expanded="false"
+            aria-controls="header-menu"
             data-yt-toggle-menu
           >
             <span class="sr-only">{toggleMenuLabel}</span>
@@ -204,6 +206,7 @@
       </div>
     </div>
     <nav
+      id="header-menu"
       class="items-center w-full md:w-auto hidden md:flex md:mx-5 text-default overflow-y-auto overflow-x-hidden md:overflow-y-visible md:overflow-x-auto md:justify-self-center"
       aria-label="Main navigation"
     >
