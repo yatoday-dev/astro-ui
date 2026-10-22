@@ -129,12 +129,37 @@ const imagePaths = Object.keys(images).filter((imagePath) => {
 
 <script>
   import PhotoSwipeLightbox from 'photoswipe/lightbox';
-  import 'photoswipe/style.css';
+  import photoSwipeStylesheet from 'photoswipe/style.css?url';
+
+  /**
+   * Adds PhotoSwipe's stylesheet to the page, once, and resolves when it has loaded.
+   *
+   * It is linked here, when a lightbox opens, and never imported as CSS: Astro
+   * attaches the CSS a component script imports (statically or dynamically) to
+   * every page whose module graph reaches the component, and
+   * `@yatoday/astro-ui/astro` re-exports every component, so an import put these
+   * ~4.5 KB on every page of a site, with a photo slider or not.
+   */
+  function loadPhotoSwipeStylesheet(): Promise<void> {
+    if (document.querySelector(`link[href="${photoSwipeStylesheet}"]`)) {
+      return Promise.resolve();
+    }
+
+    return new Promise((resolve) => {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = photoSwipeStylesheet;
+      link.addEventListener('load', () => resolve(), { once: true });
+      link.addEventListener('error', () => resolve(), { once: true });
+      document.head.append(link);
+    });
+  }
 
   const lightbox = new PhotoSwipeLightbox({
     gallery: '.gallery',
     children: 'swiper-slide a',
-    pswpModule: () => import('photoswipe'),
+    pswpModule: () =>
+      Promise.all([import('photoswipe'), loadPhotoSwipeStylesheet()]).then(([photoSwipe]) => photoSwipe),
   });
 
   lightbox.init();
