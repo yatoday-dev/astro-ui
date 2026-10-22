@@ -32,6 +32,8 @@ export interface MetaDataImage {
   url: string;
   width?: number;
   height?: number;
+  /** Written as `og:image:alt` (and `twitter:image:alt` unless the Twitter config sets its own). */
+  alt?: string;
 }
 
 export interface MetaDataOpenGraph {

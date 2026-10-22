@@ -1,6 +1,6 @@
 import { astroAsseetsOptimizer, isUnpicCompatible, unpicOptimizer } from './images-optimization';
 
-import type { OpenGraph } from '../components/Metadata/types';
+import type { OpenGraph, OpenGraphMedia } from '../components/Metadata/types';
 import type { ImageMetadata } from 'astro';
 
 const load = async function () {
@@ -51,7 +51,23 @@ export const findImage = async (
     : null;
 };
 
-/** */
+/**
+ * Prepares the OpenGraph images of a page for their meta tags.
+ *
+ * Only an image of the site's own `~/assets/images` goes through `astro:assets`
+ * — the build has the file, so it can be resized and re-encoded for a social
+ * card. An image given by its URL is already published: an absolute URL on a
+ * CDN unpic knows is resized by that CDN's own URL parameters, and any other
+ * URL (absolute, or a path under `public/`) is used as it is, with the width,
+ * height and alt the caller gave. `getImage` cannot take such an image:
+ * a path under `public/` has no dimensions for it to read (MissingImageDimension),
+ * a host outside `image.domains` is refused (RemoteImageNotAllowed), and a
+ * host inside it would be downloaded on every build only to be re-encoded.
+ *
+ * An image that cannot be resolved — a `~/assets/images` file that does not
+ * exist — is left out, rather than kept with an empty URL that the page would
+ * turn into its site's address.
+ */
 export const adaptOpenGraphImages = async (
   openGraph: OpenGraph = {},
   astroSite: URL | undefined = new URL('')
@@ -60,60 +76,66 @@ export const adaptOpenGraphImages = async (
     return openGraph;
   }
 
-  const images = openGraph.images;
   const defaultWidth = 1200;
   const defaultHeight = 626;
 
-  const adaptedImages = await Promise.all(
-    images.map(async (image) => {
-      if (image?.url) {
-        const resolvedImage = (await findImage(image.url)) as ImageMetadata | string | undefined;
-        if (!resolvedImage) {
-          return {
-            url: '',
-          };
-        }
+  /** The optimizers' result carries a height when they know it; their type only promises the width. */
+  const heightOf = (optimized: { src: string; width: number }): number | undefined =>
+    'height' in optimized && typeof optimized.height === 'number' ? optimized.height : undefined;
 
-        let _image;
+  const adaptImage = async (image: OpenGraphMedia): Promise<OpenGraphMedia | undefined> => {
+    if (!image?.url) {
+      return undefined;
+    }
 
-        if (
-          typeof resolvedImage === 'string' &&
-          (resolvedImage.startsWith('http://') || resolvedImage.startsWith('https://')) &&
-          isUnpicCompatible(resolvedImage)
-        ) {
-          _image = (await unpicOptimizer(resolvedImage, [defaultWidth], defaultWidth, defaultHeight, 'jpg'))[0];
-        } else if (resolvedImage) {
-          const dimensions =
-            typeof resolvedImage !== 'string' && resolvedImage?.width <= defaultWidth
-              ? [resolvedImage?.width, resolvedImage?.height]
-              : [defaultWidth, defaultHeight];
-          _image = (
-            await astroAsseetsOptimizer(resolvedImage, [dimensions[0]], dimensions[0], dimensions[1], 'jpg')
-          )[0];
-        }
+    const resolvedImage = (await findImage(image.url)) as ImageMetadata | string | null | undefined;
+    if (!resolvedImage) {
+      return undefined;
+    }
 
-        if (typeof _image === 'object') {
-          return {
-            url: 'src' in _image && typeof _image.src === 'string' ? String(new URL(_image.src, astroSite)) : '',
-            width: 'width' in _image && typeof _image.width === 'number' ? _image.width : undefined,
-            height: 'height' in _image && typeof _image.height === 'number' ? _image.height : undefined,
-            // The optimizer only reworks the file; the description of what is
-            // in the picture survives as the caller wrote it.
-            alt: image.alt,
-          };
-        }
+    if (typeof resolvedImage === 'string') {
+      const isRemote = resolvedImage.startsWith('http://') || resolvedImage.startsWith('https://');
+      if (isRemote && isUnpicCompatible(resolvedImage)) {
+        const [resized] = await unpicOptimizer(resolvedImage, [defaultWidth], defaultWidth, defaultHeight, 'jpg');
+
         return {
-          url: '',
+          url: String(new URL(resized.src, astroSite)),
+          width: resized.width,
+          height: heightOf(resized),
+          alt: image.alt,
         };
       }
 
       return {
-        url: '',
+        url: String(new URL(resolvedImage, astroSite)),
+        width: image.width,
+        height: image.height,
+        alt: image.alt,
       };
-    })
+    }
+
+    const [width, height] =
+      resolvedImage.width <= defaultWidth ? [resolvedImage.width, resolvedImage.height] : [defaultWidth, defaultHeight];
+    const [optimized] = await astroAsseetsOptimizer(resolvedImage, [width], width, height, 'jpg');
+    if (!optimized?.src) {
+      return undefined;
+    }
+
+    return {
+      url: String(new URL(optimized.src, astroSite)),
+      width: optimized.width,
+      height: heightOf(optimized),
+      // The optimizer only reworks the file; the description of what is
+      // in the picture survives as the caller wrote it.
+      alt: image.alt,
+    };
+  };
+
+  const adaptedImages = (await Promise.all(openGraph.images.map(adaptImage))).filter(
+    (image): image is OpenGraphMedia => image !== undefined
   );
 
-  return { ...openGraph, ...(adaptedImages ? { images: adaptedImages } : {}) };
+  return { ...openGraph, images: adaptedImages };
 };
 
 export const createImageSrcBySize = (src: string, size: number, format: string = ''): string | undefined => {
