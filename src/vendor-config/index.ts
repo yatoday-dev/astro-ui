@@ -5,7 +5,7 @@ import type { AstroConfig, AstroIntegration } from 'astro';
 import fs from 'node:fs';
 import os from 'node:os';
 
-export default ({ config: _themeConfig = 'src/config.yaml' } = {}): AstroIntegration => {
+export default ({ config: _themeConfig = 'src/config.yaml' }: { config?: string | Config } = {}): AstroIntegration => {
   let cfg: AstroConfig;
   return {
     name: 'vendor-integration',
