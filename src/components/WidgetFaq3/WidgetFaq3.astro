@@ -1,0 +1,194 @@
+---
+import type { WidgetFaq3Props as Props } from './types';
+import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
+import Headline from '../Headline/Headline.astro';
+import { cn } from '../../utils';
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline = await Astro.slots.render('tagline'),
+  items = [],
+  isAfterContent = false,
+  position = 'left',
+  asHeader = 'h2',
+  asSubtitle = 'p',
+  openFirstItem = false,
+  openAllItems = false,
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+
+const {
+  headline: headlineClasses = {},
+  list: listClass = '',
+  item: itemClass = '',
+  trigger: triggerClass = '',
+  title: titleClass = '',
+  icon: iconClass = '',
+  content: contentClass = '',
+  description: descriptionClass = '',
+} = classes as Record<string, any>;
+
+/** Large editorial headline; every key stays overridable through `classes.headline`. */
+const headline = {
+  ...headlineClasses,
+  container: cn('mb-10 md:mb-16', headlineClasses.container),
+  tagline: cn('mb-3 font-normal text-foreground tracking-wider', headlineClasses.tagline),
+  title: cn(
+    'font-normal tracking-tight leading-[1.1] text-foreground text-3xl md:text-5xl lg:text-6xl',
+    headlineClasses.title
+  ),
+};
+
+/** Prefix for the trigger/panel ids that tie each `aria-controls` to its answer. */
+const uid = `yt-faq3-${id ?? (Math.random() + 1).toString(36).substring(7)}`;
+
+// Build Schema.org FAQPage structured data
+const faqSchema =
+  items && items.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: items
+          .filter((item) => item.title && item.description)
+          .map((item) => ({
+            '@type': 'Question',
+            name: item.title,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: item.description,
+            },
+          })),
+      }
+    : null;
+---
+
+{faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+
+<WidgetWrapper
+  id={id}
+  isDark={isDark}
+  containerClass={`${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${classes?.container ?? ''}`}
+  bg={bg}
+>
+  <Headline
+    title={title}
+    subtitle={subtitle}
+    tagline={tagline}
+    classes={headline}
+    position={position}
+    as={asHeader}
+    asSubtitle={asSubtitle}
+  />
+
+  <div class={cn('border-t border-border', listClass)}>
+    {
+      items &&
+        items.map((item, index) => {
+          const isOpen = openAllItems || (openFirstItem && index === 0);
+          const triggerId = `${uid}-trigger-${index}`;
+          const contentId = `${uid}-content-${index}`;
+          return (
+            <div
+              class={cn(
+                'group border-b border-border transition-colors duration-300 data-[yt-faq3-open=true]:border-foreground',
+                itemClass
+              )}
+              data-yt-faq3-item
+              data-yt-faq3-open={isOpen ? 'true' : 'false'}
+            >
+              <button
+                type="button"
+                id={triggerId}
+                class={cn(
+                  'flex w-full cursor-pointer items-center justify-between gap-6 py-7 md:py-10 text-left text-foreground',
+                  triggerClass
+                )}
+                aria-expanded={isOpen ? 'true' : 'false'}
+                aria-controls={contentId}
+                data-yt-faq3-trigger
+              >
+                <span class={cn('text-xl/snug md:text-3xl/snug font-normal', titleClass)}>{item.title}</span>
+                <span class={cn('relative size-4 md:size-5 shrink-0', iconClass)} aria-hidden="true">
+                  <span class="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-current" />
+                  <span class="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-current transition-transform duration-300 motion-reduce:transition-none group-data-[yt-faq3-open=true]:scale-y-0" />
+                </span>
+              </button>
+              <div
+                id={contentId}
+                role="region"
+                aria-labelledby={triggerId}
+                class={cn(
+                  'overflow-hidden transition-[height] duration-300 ease-out motion-reduce:transition-none',
+                  contentClass
+                )}
+                data-yt-faq3-content
+                style={isOpen ? '' : 'height: 0px;'}
+                inert={!isOpen}
+              >
+                <div
+                  class={cn('max-w-4xl pb-8 md:pb-12 text-base/relaxed md:text-lg/relaxed', descriptionClass)}
+                  set:html={item.description}
+                />
+              </div>
+            </div>
+          );
+        })
+    }
+  </div>
+</WidgetWrapper>
+
+<script>
+  const isAnimated = (element: HTMLElement) => parseFloat(getComputedStyle(element).transitionDuration) > 0;
+
+  const initFaqWidget = () => {
+    const triggers = document.querySelectorAll('[data-yt-faq3-trigger]') as NodeListOf<HTMLElement>;
+
+    triggers.forEach((trigger) => {
+      // Skip if already initialized
+      if (trigger.dataset.ytFaq3Initialized) return;
+      trigger.dataset.ytFaq3Initialized = 'true';
+
+      trigger.addEventListener('click', () => {
+        const item = trigger.closest('[data-yt-faq3-item]') as HTMLElement;
+        const content = item?.querySelector('[data-yt-faq3-content]') as HTMLElement;
+
+        if (!item || !content) return;
+
+        const isOpen = item.dataset.ytFaq3Open === 'true';
+
+        item.dataset.ytFaq3Open = isOpen ? 'false' : 'true';
+        trigger.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+        content.inert = isOpen;
+
+        if (isOpen) {
+          // Close: pin the current height, force a reflow, then animate to 0
+          content.style.height = content.scrollHeight + 'px';
+          void content.offsetHeight;
+          content.style.height = '0px';
+        } else {
+          // Open: animate to the content height, then release it so the answer can reflow
+          content.style.height = content.scrollHeight + 'px';
+
+          if (!isAnimated(content)) {
+            content.style.height = '';
+            return;
+          }
+
+          const onTransitionEnd = (event: TransitionEvent) => {
+            if (event.target !== content) return;
+            if (item.dataset.ytFaq3Open === 'true') content.style.height = '';
+            content.removeEventListener('transitionend', onTransitionEnd);
+          };
+          content.addEventListener('transitionend', onTransitionEnd);
+        }
+      });
+    });
+  };
+
+  initFaqWidget();
+  document.addEventListener('astro:after-swap', initFaqWidget);
+</script>

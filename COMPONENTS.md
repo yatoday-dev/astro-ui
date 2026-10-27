@@ -481,16 +481,16 @@ Features section with card grid.
 
 ---
 
-#### WidgetFaq1 / WidgetFaq2
-FAQ sections - card grid (Faq1) or accordion (Faq2).
+#### WidgetFaq1 / WidgetFaq2 / WidgetFaq3
+FAQ sections - card grid (Faq1), compact accordion (Faq2) or full-width editorial accordion with large type and plus/minus toggle (Faq3).
 
 ```astro
 <WidgetFaq2
   title="FAQ"
   openFirstItem
   items={[
-    { question: 'Question 1?', answer: 'Answer 1' },
-    { question: 'Question 2?', answer: 'Answer 2' }
+    { title: 'Question 1?', description: 'Answer 1' },
+    { title: 'Question 2?', description: 'Answer 2' }
   ]}
 />
 ```
@@ -1032,6 +1032,7 @@ npm run test:coverage # Coverage report
 | `WidgetContent` | Content sections with image |
 | `WidgetFeaturesCard` | Feature grids |
 | `WidgetFaq2` | FAQ accordion |
+| `WidgetFaq3` | Full-width FAQ accordion |
 | `Image` | Optimized images |
 | `Headline` | Section headers |
 
