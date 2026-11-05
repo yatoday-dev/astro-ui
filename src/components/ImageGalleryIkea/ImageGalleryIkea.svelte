@@ -57,19 +57,22 @@
         btnThumbNext.disabled = false;
       });
 
-      // Main Slider navigation buttons
-      const btnPrev = get(`#btn-main-prev-${id}`) as HTMLButtonElement;
-      const btnNext = get(`#btn-main-next-${id}`) as HTMLButtonElement;
-      mainSwiperEl.addEventListener('swiperreachend', () => {
-        btnNext.disabled = true;
-      });
-      mainSwiperEl.addEventListener('swiperreachbeginning', () => {
-        btnPrev.disabled = true;
-      });
-      mainSwiperEl.addEventListener('swiperfromedge', () => {
-        btnPrev.disabled = false;
-        btnNext.disabled = false;
-      });
+      // Main Slider navigation buttons — rendered only with `withNavigation`
+      // (a single-image gallery has none).
+      if (withNavigation) {
+        const btnPrev = get(`#btn-main-prev-${id}`) as HTMLButtonElement;
+        const btnNext = get(`#btn-main-next-${id}`) as HTMLButtonElement;
+        mainSwiperEl.addEventListener('swiperreachend', () => {
+          btnNext.disabled = true;
+        });
+        mainSwiperEl.addEventListener('swiperreachbeginning', () => {
+          btnPrev.disabled = true;
+        });
+        mainSwiperEl.addEventListener('swiperfromedge', () => {
+          btnPrev.disabled = false;
+          btnNext.disabled = false;
+        });
+      }
 
       // Link thumbs by passing the live Swiper instance as an element property.
       // A `thumbs-swiper` selector attribute is resolved by Swiper via a
