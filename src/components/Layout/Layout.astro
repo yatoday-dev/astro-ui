@@ -1,4 +1,6 @@
 ---
+import { twMerge } from 'tailwind-merge';
+
 import SeoMetadata from '../Metadata/Metadata.astro';
 import SeoSiteVerification from '../SiteVerification/SiteVerification.astro';
 import SeoAnalytics from '../Analytics/Analytics.astro';
@@ -7,7 +9,7 @@ import type { LayoutProps as Props } from './types';
 import { I18N } from 'vendor:config';
 import { resolvePageLocale } from '../../utils/i18n';
 
-const { metadata = {}, class: className } = Astro.props;
+const { metadata = {}, class: className, bodyClass } = Astro.props;
 const { language, textDirection, locales, defaultLocale, ogLocales } = I18N;
 
 // Build i18n config for Metadata component (for hreflang generation)
@@ -39,7 +41,7 @@ const currentLang = resolvePageLocale(Astro.url.pathname, { ...i18nConfig, langu
     <SeoAnalytics />
   </head>
 
-  <body class="antialiased bg-background text-foreground tracking-tight">
+  <body class={twMerge('antialiased bg-background text-foreground tracking-tight', bodyClass)}>
     <slot />
 
     <slot name="scripts" />

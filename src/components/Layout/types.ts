@@ -13,7 +13,14 @@ export type LayoutProps = {
   openGraph?: MetaDataOpenGraph;
   twitter?: MetaDataTwitter;
   metadata?: MetaData;
+  /** Classes for `<html>`. */
   class?: string;
+  /**
+   * Classes for `<body>`, merged over the defaults
+   * (`antialiased bg-background text-foreground tracking-tight`): a conflicting
+   * class replaces its default, e.g. `tracking-normal` replaces `tracking-tight`.
+   */
+  bodyClass?: string;
 };
 
 export type SvelteLayoutProps = WithElementRef<HTMLAttributes<HTMLDivElement>> &

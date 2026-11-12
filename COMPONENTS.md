@@ -629,6 +629,11 @@ Page layout wrapper with metadata support.
 </Layout>
 ```
 
+`class` goes on `<html>`. `bodyClass` is merged over the `<body>` defaults
+(`antialiased bg-background text-foreground tracking-tight`) with `tailwind-merge`,
+so a conflicting class replaces its default: `bodyClass="tracking-normal"` keeps
+the face's own letter spacing.
+
 ---
 
 #### Metadata / SEO
