@@ -205,6 +205,10 @@ metadata:
 i18n:
   language: string
   textDirection: string
+  locales: string[]       # optional; enables hreflang between /{locale}/… pages
+  defaultLocale: string   # optional; the x-default language
+  ogLocales:              # optional; og:locale territory where CLDR's default is not wanted
+    en: en_GB             # without an entry: uk -> uk_UA, en -> en_US, pt -> pt_BR
 
 apps:
   blog:

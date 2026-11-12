@@ -643,6 +643,17 @@ SEO metadata components.
 />
 ```
 
+Language tags follow the `i18n` block of `config.yaml`:
+
+- `og:locale` is `language_TERRITORY` for every language (`uk` → `uk_UA`), the
+  territory being CLDR's likely one unless `i18n.ogLocales` names another
+  (`{ en: en_GB }`); the page's other languages are listed as `og:locale:alternate`.
+- hreflang is derived by swapping the leading `/{locale}/` segment. A path
+  without one (a 404, `/legal/…`) gets no hreflang unless its locale config has a
+  single language, and `alternateUrls` overrides the derivation.
+- A page with `robots.index: false` gets no canonical (unless the `canonical`
+  prop is passed) and no hreflang.
+
 The Twitter card is derived from the OpenGraph data, so `twitter:title`,
 `twitter:description`, `twitter:image` and `twitter:image:alt` need no
 configuration. Override any of them — or set the handles and card type — through

@@ -21,6 +21,12 @@ export interface MetaData {
 export interface MetaDataI18n {
   locales?: string[];
   defaultLocale?: string;
+  /**
+   * `og:locale` per locale where the CLDR default territory is not the one
+   * wanted, e.g. `{ en: 'en_GB' }`. Without an entry a locale gets its likely
+   * territory (`uk` → `uk_UA`, `en` → `en_US`).
+   */
+  ogLocales?: Record<string, string>;
 }
 
 export interface MetaDataRobots {

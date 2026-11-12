@@ -3,7 +3,7 @@ import type { MetadataProps as Props, MetaDataTwitter } from './types';
 import SEO from '../SEO/SEO.astro';
 import type { SEOProps } from '../SEO/SEO.astro';
 import { adaptOpenGraphImages } from '../../utils/images';
-import { getLocales, getDefaultLocale, resolvePageLocale } from '../../utils/i18n';
+import { buildAlternateLocales, resolvePageLocale, toOgLocale } from '../../utils/i18n';
 
 import merge from 'lodash.merge';
 import { METADATA, SITE } from 'vendor:config';
@@ -20,53 +20,15 @@ const {
   i18n,
 } = Astro.props;
 
-// Build canonical URL using Astro.site
 // Ensure pathname has trailing slash for proper URL structure
 let pathname = Astro.url.pathname;
 if (!pathname.endsWith('/')) {
   pathname += '/';
 }
-const canonical = propCanonical || String(new URL(pathname, Astro.site));
-
-// Get supported locales from props or fallback to defaults
-const supportedLocales = getLocales(i18n);
-const defaultLocale = getDefaultLocale(i18n);
 
 // Get language from URL path (e.g., /ru/, /en/, /es/) — shared with Layout, so
 // `og:locale` and `<html lang>` are always the same answer to the same question
 const locale = resolvePageLocale(pathname, i18n);
-
-// Build alternate locale links for hreflang (including self-reference)
-// Use alternateUrls if provided (for blog posts with different slugs per language)
-// Otherwise, use path-based replacement for static pages
-// When alternateUrls is provided, ONLY include languages that have a URL (no fallback)
-const alternateLocales = alternateUrls
-  ? supportedLocales
-      .filter((lang) => alternateUrls[lang]) // Only include languages with actual URLs
-      .map((lang) => ({
-        locale: lang,
-        url: alternateUrls[lang],
-      }))
-      .concat(alternateUrls[defaultLocale] ? [{ locale: 'x-default', url: alternateUrls[defaultLocale] }] : [])
-  : supportedLocales
-      .map((lang) => {
-        // Replace current locale with target locale and ensure trailing slash
-        let altPath = pathname.replace(`/${locale}/`, `/${lang}/`);
-        if (!altPath.endsWith('/')) {
-          altPath += '/';
-        }
-        return {
-          locale: lang,
-          url: String(new URL(altPath, Astro.site)),
-        };
-      })
-      .concat([
-        {
-          locale: 'x-default',
-          // x-default points to the default locale configured in Astro i18n
-          url: String(new URL(pathname.replace(`/${locale}/`, `/${defaultLocale}/`), Astro.site)),
-        },
-      ]);
 
 // Merge metadata from config with props
 const finalTitle = title || METADATA?.title?.default || '';
@@ -91,6 +53,26 @@ const finalRobots = {
   follow: typeof robots?.follow !== 'undefined' ? robots.follow : METADATA?.robots?.follow !== false,
 };
 
+/**
+ * A page kept out of the index gets neither a canonical URL nor hreflang:
+ * search engines read a canonical on a noindex page as a conflicting signal and
+ * ignore hreflang on it, and a page served outside the per-locale tree (a 404,
+ * say) would otherwise name its own address as every language's version. A
+ * canonical passed explicitly as a prop is still written.
+ */
+const indexable = finalRobots.index;
+const canonical = propCanonical || (indexable ? String(new URL(pathname, Astro.site)) : undefined);
+
+// Build alternate locale links for hreflang (including self-reference)
+const alternateLocales = indexable ? buildAlternateLocales(pathname, Astro.site, i18n, alternateUrls) : [];
+
+// OpenGraph locales: the page's own, and the other languages it is listed in
+const ogLocale = toOgLocale(locale, i18n?.ogLocales);
+const ogLocaleAlternates = alternateLocales
+  .map(({ locale: alt }) => alt)
+  .filter((alt) => alt !== 'x-default' && alt !== locale)
+  .map((alt) => toOgLocale(alt, i18n?.ogLocales));
+
 // Process OpenGraph images
 const mergedOpenGraph = merge({}, METADATA?.openGraph || {}, openGraph);
 const processedOpenGraph = await adaptOpenGraphImages(mergedOpenGraph, Astro.site);
@@ -109,6 +91,8 @@ const finalOpenGraph = {
   title: processedOpenGraph?.title || finalTitle,
   description: processedOpenGraph?.description || finalDescription,
   url: canonical,
+  locale: ogLocale,
+  localeAlternates: ogLocaleAlternates,
   type: (processedOpenGraph?.type as string) || 'website',
   image: ogImage,
   siteName: SITE?.name,
@@ -136,7 +120,6 @@ const seoProps: SEOProps = {
   title: documentTitle,
   description: finalDescription,
   canonical,
-  locale,
   alternateLocales,
   robots: finalRobots,
   openGraph: finalOpenGraph,

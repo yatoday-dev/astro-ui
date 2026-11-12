@@ -1,4 +1,6 @@
 ---
+import { toOgLocale } from '../../utils/i18n';
+
 /**
  * SEO Component - Proper multilingual SEO meta tags without hacks
  * Handles canonical URLs, OpenGraph, Twitter Cards, and i18n correctly
@@ -18,6 +20,10 @@ export interface SEOProps {
     title?: string;
     description?: string;
     url?: string;
+    /** `og:locale` as written (`uk_UA`); derived from `locale` when absent. */
+    locale?: string;
+    /** `og:locale:alternate`, one per other language of the page, as written. */
+    localeAlternates?: string[];
     type?: string;
     image?: {
       url: string;
@@ -55,15 +61,7 @@ const robotsContent = [
   robots.follow !== false ? 'follow' : 'nofollow',
 ].join(',');
 
-// Determine OpenGraph locale format (e.g., en_US, ru_RU, es_ES)
-const getOGLocale = (loc: string): string => {
-  const localeMap: Record<string, string> = {
-    en: 'en_US',
-    ru: 'ru_RU',
-    es: 'es_ES',
-  };
-  return localeMap[loc] || loc;
-};
+const ogLocale = openGraph?.locale ?? toOgLocale(locale);
 ---
 
 <!-- Primary Meta Tags -->{title && <title>{title}</title>}
@@ -87,7 +85,10 @@ const getOGLocale = (loc: string): string => {
           {openGraph.image.alt && <meta property="og:image:alt" content={openGraph.image.alt} />}
         </>
       )}
-      <meta property="og:locale" content={getOGLocale(locale)} />
+      <meta property="og:locale" content={ogLocale} />
+      {openGraph.localeAlternates?.map((alt) => (
+        <meta property="og:locale:alternate" content={alt} />
+      ))}
       {openGraph.siteName && <meta property="og:site_name" content={openGraph.siteName} />}
     </>
   )

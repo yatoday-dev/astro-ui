@@ -8,12 +8,13 @@ import { I18N } from 'vendor:config';
 import { resolvePageLocale } from '../../utils/i18n';
 
 const { metadata = {}, class: className } = Astro.props;
-const { language, textDirection, locales, defaultLocale } = I18N;
+const { language, textDirection, locales, defaultLocale, ogLocales } = I18N;
 
 // Build i18n config for Metadata component (for hreflang generation)
-// Allow page-level override via metadata.i18n for single-language pages
-const globalI18nConfig = locales?.length ? { locales, defaultLocale: defaultLocale || language } : undefined;
-const i18nConfig = metadata.i18n || globalI18nConfig;
+// Allow page-level override via metadata.i18n for single-language pages; the
+// site's `og:locale` territories apply to an overriding page too.
+const globalI18nConfig = locales?.length ? { locales, defaultLocale: defaultLocale || language, ogLocales } : undefined;
+const i18nConfig = metadata.i18n ? { ogLocales, ...metadata.i18n } : globalI18nConfig;
 
 // `<html lang>` is resolved from the same config the SEO tags are built from,
 // so the document can never announce one language in the markup and another in

@@ -33,6 +33,8 @@ export interface I18NConfig {
   dateFormatter?: Intl.DateTimeFormat;
   locales?: string[];
   defaultLocale?: string;
+  /** `og:locale` per locale where the CLDR default territory is not wanted, e.g. `{ en: 'en_GB' }`. */
+  ogLocales?: Record<string, string>;
 }
 
 export interface AppBlogConfig {

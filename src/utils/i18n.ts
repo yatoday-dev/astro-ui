@@ -101,3 +101,84 @@ export function resolvePageLocale(pathname: string, config?: PageLocaleConfig): 
   }
   return config?.defaultLocale || config?.language || getDefaultLocale(config);
 }
+
+/**
+ * The `og:locale` form of a locale code: language and territory joined by an
+ * underscore (`uk_UA`), which is the only form OpenGraph consumers read.
+ *
+ * A site that wants a particular territory names it in `overrides`
+ * (`i18n.ogLocales` in config.yaml, e.g. `{ en: 'en_GB' }`). A code that already
+ * carries a territory (`en-GB`, `pt_BR`) keeps it. Otherwise the territory is
+ * the language's likely one from CLDR (`Intl.Locale#maximize`), so every
+ * language gets a valid tag, not only those someone thought to list.
+ */
+export function toOgLocale(locale: string, overrides?: Record<string, string>): string {
+  const override = overrides?.[locale];
+  if (override) {
+    return override;
+  }
+  let parsed: Intl.Locale;
+  try {
+    parsed = new Intl.Locale(locale.replace('_', '-'));
+  } catch {
+    throw new Error(`"${locale}" is not a locale code; og:locale cannot be built from it.`);
+  }
+  const region = parsed.region ?? parsed.maximize().region;
+  return region ? `${parsed.language}_${region}` : parsed.language;
+}
+
+export interface AlternateLocale {
+  /** A locale code, or `x-default`. */
+  locale: string;
+  url: string;
+}
+
+/**
+ * The hreflang set of a page.
+ *
+ * `alternateUrls` (a page whose translations live at different slugs, such as
+ * a blog post) is taken as given: only the languages that have a URL are listed.
+ *
+ * Otherwise the set is derived from the path, and only a path that carries its
+ * language (`/ru/prices/`) can be translated by swapping that segment. A path
+ * outside the per-locale tree (`/404/`, `/legal/privacy/`) says nothing about
+ * where its other languages live; swapping a segment it does not have would
+ * claim every language at the page's own address. Such a page is listed as
+ * itself when its locale config has a single language (the single-language page
+ * override), and gets no hreflang otherwise.
+ */
+export function buildAlternateLocales(
+  pathname: string,
+  site: URL | string | undefined,
+  config?: PageLocaleConfig,
+  alternateUrls?: Record<string, string>
+): AlternateLocale[] {
+  const locales = getLocales(config);
+  const defaultLocale = getDefaultLocale(config);
+
+  if (alternateUrls) {
+    return locales
+      .filter((lang) => alternateUrls[lang])
+      .map((lang) => ({ locale: lang, url: alternateUrls[lang] }))
+      .concat(alternateUrls[defaultLocale] ? [{ locale: 'x-default', url: alternateUrls[defaultLocale] }] : []);
+  }
+
+  const path = pathname.endsWith('/') ? pathname : `${pathname}/`;
+  const [firstSegment] = path.split('/').filter(Boolean);
+
+  if (!firstSegment || !locales.includes(firstSegment)) {
+    if (locales.length !== 1) {
+      return [];
+    }
+    const self = String(new URL(path, site));
+    return [
+      { locale: locales[0], url: self },
+      { locale: 'x-default', url: self },
+    ];
+  }
+
+  const urlFor = (lang: string) => String(new URL(path.replace(`/${firstSegment}/`, `/${lang}/`), site));
+  return locales
+    .map((lang) => ({ locale: lang, url: urlFor(lang) }))
+    .concat([{ locale: 'x-default', url: urlFor(defaultLocale) }]);
+}
