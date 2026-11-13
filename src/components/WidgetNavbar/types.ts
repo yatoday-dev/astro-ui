@@ -1,6 +1,7 @@
 import type { ToAction } from '../../types';
 import type { WidgetWrapperProps, SvelteWidgetWrapperProps } from '../WidgetWrapper/types.ts';
 import type { Snippet } from 'svelte';
+import type { NavbarBreakpoint } from './breakpoints';
 
 export type WidgetNavbarProps = {
   links?: IMenuLink[];
@@ -10,6 +11,11 @@ export type WidgetNavbarProps = {
   showToggleTheme?: boolean;
   initialMode?: 'light' | 'dark' | 'system' | 'light:only' | 'dark:only';
   position?: 'center' | 'left' | 'right';
+  /**
+   * The width from which the links are laid out in a row; below it they fold into the
+   * burger menu. Defaults to `md`. A site with many links takes a wider one, e.g. `lg`.
+   */
+  breakpoint?: NavbarBreakpoint;
   classes?: Record<string, string>;
   scrollOffset?: number;
   pinnedClasses?: string;
@@ -48,6 +54,11 @@ export type SvelteWidgetNavbarProps = {
   isDark?: boolean;
   showToggleTheme?: boolean;
   position?: 'center' | 'left' | 'right';
+  /**
+   * The width from which the links are laid out in a row; below it they fold into the
+   * burger menu. Defaults to `md`. A site with many links takes a wider one, e.g. `lg`.
+   */
+  breakpoint?: NavbarBreakpoint;
   classes?: Record<string, string>;
   scrollOffset?: number;
   pinnedClasses?: string;

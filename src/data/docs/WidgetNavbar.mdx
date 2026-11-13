@@ -231,6 +231,29 @@ You can add custom CSS classes to action buttons using the `class` property. The
 />
 ```
 
+## Breakpoint
+
+`breakpoint` is the width from which the links are laid out in a row; below it they fold into the burger menu.
+It is `md` by default. A navbar with many links takes a wider one, so that they never run out of room:
+the layout classes, the menu script and the mega panel's grid all follow it.
+
+<Demo title="Folds below lg">
+  <WidgetNavbar
+    breakpoint="lg"
+    classes={{
+      container: "mx-auto max-w-6xl bg-background text-foreground",
+    }}
+    links={demoLinks}
+    actions={demoActions}
+  >
+    <Fragment slot="logo">LOGO</Fragment>
+  </WidgetNavbar>
+</Demo>
+
+```astro
+<WidgetNavbar breakpoint="lg" links={[...]} actions={[...]} />
+```
+
 ## Props
 
 <div className="overflow-x-auto">
@@ -238,6 +261,7 @@ You can add custom CSS classes to action buttons using the `class` property. The
     | Prop | Type | Default | Description |
     |------|------|---------|---------|
     | `position` | `center` \| `left` \| `right` | `center` | - |
+    | `breakpoint` | `sm` \| `md` \| `lg` \| `xl` | `md` | The width from which the links are laid out in a row; below it they fold into the burger menu |
     | `links` | `Array` | `[]` | Array of [Link](/docs/types#link) items |
     | `actions` | `Array` | `[]` | Array of [ToAction](/docs/types#toaction) components |
     | `isSticky` | `boolean` | `false` | - |
@@ -247,10 +271,10 @@ You can add custom CSS classes to action buttons using the `class` property. The
     | `classes.header` | `string` | `` | CSS classes for the wrapper header container |
     | `classes.container` | `string` | `max-w-7xl 2xl:max-w-[96rem] md:mx-auto` | CSS classes for the container |
     | `classes.links` | `string` | `hover:text-link dark:hover:text-white` | - |
-    | `classes.dropdown` | `string` | `bg-background text-foreground md:shadow-lg` | - |
+    | `classes.dropdown` | `string` | `bg-background text-foreground md:shadow-lg` | The `md:` follows `breakpoint` |
     | `classes.dropdownLinks` | `string` | `hover:bg-black/10 hover:text-link dark:hover:text-white dark:hover:bg-white/10` | - |
     | `classes.darkModeIcon` | `string` | - | - |
-    | `classes.pinned` | `string` | `bg-background md:bg-background/90 md:backdrop-blur-md` | Classes that will be applied when scrolling the page |
+    | `classes.pinned` | `string` | `bg-background md:bg-background/90 md:backdrop-blur-md` | Classes that will be applied when scrolling the page; the `md:` follows `breakpoint` |
     | `classes.unpinned` | `string` | - | Classes applied by default |
   </div>
 </div>

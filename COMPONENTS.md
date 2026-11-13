@@ -411,6 +411,7 @@ Navigation bar with menu links, actions, and theme toggle.
 | `isSticky` | `boolean` | Sticky header |
 | `isDark` | `boolean` | Dark variant |
 | `showToggleTheme` | `boolean` | Show dark mode toggle |
+| `breakpoint` | `'sm' \| 'md' \| 'lg' \| 'xl'` | Width from which the links are laid out in a row; below it they fold into the burger (default `md`) |
 
 ---
 

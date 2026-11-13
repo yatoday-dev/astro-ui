@@ -5,6 +5,7 @@ import { SITE } from 'vendor:config';
 import { Icon } from 'astro-icon/components';
 import DarkMode from '../DarkMode/DarkMode.astro';
 import ToggleMenu from './ToggleMenu.astro';
+import navbarBreakpoints from './breakpoints';
 import Button from '../Button/Button.astro';
 import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.astro';
 import { cn, trimSlash } from '../../utils';
@@ -18,6 +19,7 @@ const {
   showToggleTheme = false,
   initialMode = 'system',
   position = 'center',
+  breakpoint = 'md',
   classes = {},
   scrollOffset = 60,
   as = 'header',
@@ -25,16 +27,18 @@ const {
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
 
+const bp = navbarBreakpoints[breakpoint];
+
 const {
   header: headerClass = '',
   container: containerClass = 'max-w-7xl 2xl:max-w-[96rem] md:mx-auto',
   links: linksClass = 'hover:text-link dark:hover:text-white',
-  dropdown: dropdownClass = 'bg-background text-foreground md:shadow-lg',
+  dropdown: dropdownClass = bp.dropdownSurface,
   dropdownLinks: dropdownLinksClass = 'hover:bg-black/10 hover:text-link dark:hover:text-white dark:hover:bg-white/10',
-  megaMenu: megaMenuClass = 'bg-background text-foreground md:shadow-lg',
+  megaMenu: megaMenuClass = bp.dropdownSurface,
   megaHeading: megaHeadingClass = 'text-foreground/50',
   darkModeIcon: darkModeIconClass = '',
-  pinned: pinnedClasses = 'bg-background md:bg-background/90 md:backdrop-blur-md',
+  pinned: pinnedClasses = bp.pinned,
   unpinned: unpinnedClasses = '',
 } = classes;
 
@@ -58,35 +62,24 @@ const menuId = 'header-menu';
   containerClass={twMerge('py-0 md:py-0 lg:py-0', containerClass)}
   {...isSticky ? { 'data-yt-sticky-header': true } : {}}
   data-scroll-offset={scrollOffset}
+  data-fold-query={bp.foldQuery}
   data-pinned-classes={pinnedClasses}
   data-unpinned-classes={unpinnedClasses}
 >
-  <div
-    class={cn(
-      'relative text-default py-3 mx-auto w-full',
-      { 'md:flex md:justify-between': position !== 'center' },
-      { 'md:grid md:grid-cols-3 md:items-center': position === 'center' }
-    )}
-  >
+  <div class={cn('relative text-default py-3 mx-auto w-full', position === 'center' ? bp.rowCenter : bp.row)}>
     <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between items-center']}>
       <!-- Logo -->
       <slot name="logo">
         <span>{SITE.name || 'Logo'}</span>
       </slot>
-      <div class="flex items-center md:hidden">
+      <div class={bp.toggle}>
         <slot name="toggle-menu">
           <ToggleMenu label={toggleMenuLabel} controls={menuId} />
         </slot>
       </div>
     </div>
-    <nav
-      id={menuId}
-      class="items-center w-full md:w-auto hidden md:flex md:mx-5 text-default overflow-y-auto overflow-x-hidden md:overflow-y-visible md:overflow-x-auto md:justify-self-center"
-      aria-label="Main navigation"
-    >
-      <ul
-        class="flex flex-col md:flex-row md:self-center w-full md:w-auto text-xl md:text-[0.9375rem] tracking-[0.01rem] font-medium md:justify-center"
-      >
+    <nav id={menuId} class={bp.nav} aria-label="Main navigation">
+      <ul class={bp.list}>
         {
           links.map(({ text, href, links, mega, icon }) => (
             <li class={links?.length ? 'dropdown' : ''}>
@@ -96,18 +89,12 @@ const menuId = 'header-menu';
                     type="button"
                     class={cn('px-4 py-3 flex items-center whitespace-nowrap cursor-pointer', linksClass)}
                   >
-                    {text}{' '}
-                    <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden md:inline" />
+                    {text} <Icon name="tabler:chevron-down" class={bp.chevron} />
                   </button>
-                  <div
-                    class={cn(
-                      'dropdown-menu rounded-sm md:absolute md:left-0 md:right-0 md:top-full pl-4 md:pl-0 pb-1 md:pb-0 md:hidden font-medium',
-                      megaMenuClass
-                    )}
-                  >
-                    <div class="mega-grid md:grid md:gap-x-8 md:gap-y-4 md:p-8" style={`--mega-cols: ${links.length}`}>
+                  <div class={cn(bp.megaPanel, megaMenuClass)}>
+                    <div class={bp.megaGrid} style={`--mega-cols: ${links.length}`}>
                       {links.map((column) => (
-                        <div class="py-2 md:py-0">
+                        <div class={bp.megaColumn}>
                           {column.href ? (
                             <a
                               href={column.href}
@@ -134,11 +121,7 @@ const menuId = 'header-menu';
                             {column.links?.map(({ text: text2, href: href2, icon: icon2, description }) => (
                               <li>
                                 <a
-                                  class={cn(
-                                    'group flex items-start gap-3 rounded-md py-2 px-3 -mx-3 md:px-2 md:-mx-2',
-                                    { 'link-active': href2 === currentPath },
-                                    dropdownLinksClass
-                                  )}
+                                  class={cn(bp.megaLink, { 'link-active': href2 === currentPath }, dropdownLinksClass)}
                                   href={href2}
                                 >
                                   {icon2 && (
@@ -169,15 +152,9 @@ const menuId = 'header-menu';
                     type="button"
                     class={cn('px-4 py-3 flex items-center whitespace-nowrap cursor-pointer', linksClass)}
                   >
-                    {text}{' '}
-                    <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden md:inline" />
+                    {text} <Icon name="tabler:chevron-down" class={bp.chevron} />
                   </button>
-                  <ul
-                    class={cn(
-                      'dropdown-menu rounded-sm md:absolute pl-4 md:pl-0 pb-1 md:hidden font-medium md:min-w-60',
-                      dropdownClass
-                    )}
-                  >
+                  <ul class={cn(bp.dropdown, dropdownClass)}>
                     {links.map(({ text: text2, href: href2 }) => (
                       <li class="px-1">
                         <a
@@ -212,23 +189,10 @@ const menuId = 'header-menu';
         }
       </ul>
     </nav>
-    <div
-      class:list={[
-        { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
-        'hidden md:self-center md:flex items-center md:mb-0 fixed w-full md:w-auto md:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-3 md:p-0 md:justify-self-end',
-      ]}
-      data-yt-actions
-    >
-      <div class="items-center flex justify-between w-full md:w-auto">
+    <div class:list={[{ 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' }, bp.actions]} data-yt-actions>
+      <div class={bp.actionsInner}>
         <div class="flex">
-          {
-            showToggleTheme && (
-              <DarkMode
-                initialMode={initialMode}
-                iconClass={cn('w-6 h-6 md:w-5 md:h-5 md:inline-block', darkModeIconClass)}
-              />
-            )
-          }
+          {showToggleTheme && <DarkMode initialMode={initialMode} iconClass={cn(bp.darkModeIcon, darkModeIconClass)} />}
         </div>
 
         <!-- Actions Buttons -->
@@ -237,10 +201,7 @@ const menuId = 'header-menu';
             actions?.length ? (
               <span class="ml-4 rtl:ml-0 rtl:mr-4">
                 {actions.map(({ class: actionClass, ...btnProps }) => (
-                  <Button
-                    {...btnProps}
-                    class={cn('ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto', actionClass)}
-                  />
+                  <Button {...btnProps} class={cn(bp.action, actionClass)} />
                 ))}
               </span>
             ) : (
@@ -268,12 +229,6 @@ const menuId = 'header-menu';
   .dropdown:hover .dropdown-menu {
     display: block;
   }
-
-  @media (min-width: 768px) {
-    .mega-grid {
-      grid-template-columns: repeat(var(--mega-cols, 3), minmax(0, 1fr));
-    }
-  }
 </style>
 
 <script>
@@ -284,6 +239,7 @@ const menuId = 'header-menu';
     if (!header) return;
 
     const scrollOffset = Number(header.dataset.scrollOffset) || 0;
+    const foldQuery = header.dataset.foldQuery as string;
     const pinnedClasses = header.dataset.pinnedClasses || '';
     const unpinnedClasses = header.dataset.unpinnedClasses || '';
 
@@ -305,7 +261,7 @@ const menuId = 'header-menu';
       hiddenNav();
     });
 
-    attachEvent([window.matchMedia('(max-width: 767px)')], 'change', () => {
+    attachEvent([window.matchMedia(foldQuery)], 'change', () => {
       hiddenNav();
     });
 

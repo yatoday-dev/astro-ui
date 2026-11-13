@@ -4,6 +4,7 @@
   import DarkMode from '../DarkMode/DarkMode.svelte';
   import Button from '../Button/Button.svelte';
   import WidgetWrapper from '../WidgetWrapper/WidgetWrapper.svelte';
+  import navbarBreakpoints from './breakpoints';
   import { cn, trimSlash, setMenuToggleExpanded } from '../../utils';
   import { twMerge } from 'tailwind-merge';
 
@@ -14,6 +15,7 @@
     isDark = false,
     showToggleTheme = false,
     position = 'center',
+    breakpoint = 'md',
     classes = {},
     scrollOffset = 60,
     as = 'header',
@@ -26,14 +28,16 @@
     ...restProps
   }: SvelteWidgetNavbarProps = $props();
 
+  const bp = navbarBreakpoints[breakpoint];
+
   const {
     header: headerClass = '',
     container: containerClass = 'max-w-7xl 2xl:max-w-[96rem] md:mx-auto',
     links: linksClass = 'hover:text-link dark:hover:text-white',
-    dropdown: dropdownClass = 'bg-background text-foreground md:shadow-lg',
+    dropdown: dropdownClass = bp.dropdownSurface,
     dropdownLinks: dropdownLinksClass = 'hover:bg-black/10 hover:text-link dark:hover:text-white dark:hover:bg-white/10',
     darkModeIcon: darkModeIconClass = '',
-    pinned: pinnedClasses = 'bg-background md:bg-background/90 md:backdrop-blur-md',
+    pinned: pinnedClasses = bp.pinned,
     unpinned: unpinnedClasses = '',
   } = classes;
 
@@ -116,7 +120,7 @@
       navEl.addEventListener('click', hiddenNav);
     }
 
-    const mediaQuery = window.matchMedia('(max-width: 767px)');
+    const mediaQuery = window.matchMedia(bp.foldQuery);
     mediaQuery.addEventListener('change', hiddenNav);
 
     const handleScroll = () => {
@@ -159,16 +163,13 @@
   bind:ref={headerElement}
   {...(isSticky ? { 'data-yt-sticky-header': true } : {})}
   data-scroll-offset={scrollOffset}
+  data-fold-query={bp.foldQuery}
   data-pinned-classes={pinnedClasses}
   data-unpinned-classes={unpinnedClasses}
   {...restProps}
 >
   <div
-    class={cn(
-      'relative text-default py-3 mx-auto w-full',
-      { 'md:flex md:justify-between': position !== 'center' },
-      { 'md:grid md:grid-cols-3 md:items-center': position === 'center' }
-    )}
+    class={cn('relative text-default py-3 mx-auto w-full', position === 'center' ? bp.rowCenter : bp.row)}
   >
     <div class={cn({ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between items-center')}>
       {#if logo}
@@ -176,7 +177,7 @@
       {:else}
         <span>Logo</span>
       {/if}
-      <div class="flex items-center md:hidden">
+      <div class={bp.toggle}>
         {#if toggleMenu}
           {@render toggleMenu()}
         {:else}
@@ -207,12 +208,10 @@
     </div>
     <nav
       id="header-menu"
-      class="items-center w-full md:w-auto hidden md:flex md:mx-5 text-default overflow-y-auto overflow-x-hidden md:overflow-y-visible md:overflow-x-auto md:justify-self-center"
+      class={bp.nav}
       aria-label="Main navigation"
     >
-      <ul
-        class="flex flex-col md:flex-row md:self-center w-full md:w-auto text-xl md:text-[0.9375rem] tracking-[0.01rem] font-medium md:justify-center"
-      >
+      <ul class={bp.list}>
         {#each links as { text, href, links: subLinks }}
           <li class={subLinks?.length ? 'dropdown' : ''}>
             {#if subLinks?.length}
@@ -221,13 +220,10 @@
                 class={cn('px-4 py-3 flex items-center whitespace-nowrap cursor-pointer', linksClass)}
               >
                 {text}
-                <span class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden md:inline">▼</span>
+                <span class={bp.chevron}>▼</span>
               </button>
               <ul
-                class={cn(
-                  'dropdown-menu rounded-sm md:absolute pl-4 md:pl-0 pb-1 md:hidden font-medium md:min-w-60',
-                  dropdownClass
-                )}
+                class={cn(bp.dropdown, dropdownClass)}
               >
                 {#each subLinks as { text: text2, href: href2 }}
                   <li class="px-1">
@@ -259,14 +255,14 @@
     <div
       class={cn(
         { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
-        'hidden md:self-center md:flex items-center md:mb-0 fixed w-full md:w-auto md:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-3 md:p-0 md:justify-self-end'
+        bp.actions
       )}
       data-yt-actions
     >
-      <div class="items-center flex justify-between w-full md:w-auto">
+      <div class={bp.actionsInner}>
         <div class="flex">
           {#if showToggleTheme}
-            <DarkMode iconClass={cn('w-6 h-6 md:w-5 md:h-5 md:inline-block', darkModeIconClass)} />
+            <DarkMode iconClass={cn(bp.darkModeIcon, darkModeIconClass)} />
           {/if}
         </div>
 
@@ -275,7 +271,7 @@
         {:else if actions?.length}
           <span class="ml-4 rtl:ml-0 rtl:mr-4">
             {#each actions as btnProps}
-              <Button {...btnProps} class="ml-2 py-2.5 px-5.5 md:px-6 font-semibold shadow-none text-sm w-auto" />
+              <Button {...btnProps} class={bp.action} />
             {/each}
           </span>
         {/if}
